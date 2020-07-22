@@ -22,4 +22,4 @@ FRONT:
     ALLEGRO:
     
     
-    https://prod.liveshare.vsengsaas.visualstudio.com/join?4FD1D2187F99E9D88032B72290AA9F71ECCE
+    https://prod.liveshare.vsengsaas.visualstudio.com/join?6E53E33CDBB8C499F42CA6EA25E7F34EB5B3
