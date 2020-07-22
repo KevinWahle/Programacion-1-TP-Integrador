@@ -1,9 +1,10 @@
-BACK:
+BACK: 
     void initNavy();
     
     void initInvaders();
     
     moveNavy(int direction);
+        Param direction: derecha o izquierda.
     
     moveInvaders(int x, int y);
     
@@ -11,7 +12,14 @@ BACK:
         Param x: posición del disparo en eje x.
         Param y: posición del disparo en eje y.
         Param direction: sentido en el que se mueve el disparo.
-        Return: '1' si se impacto algo, '0' si no existió impacto.
+        Return: '1' si se impacto algo, '0' si no existió impacto.   
+        
+    void onCollisionDetected(int isColission);
+        Param isColission: del front, avisa si hubo colision o no
+        La funcion hace lo que deba hacer despues de una colision
+
+ 
+
 
 
 
@@ -20,6 +28,3 @@ FRONT:
     RASPI:
 
     ALLEGRO:
-    
-    
-    https://prod.liveshare.vsengsaas.visualstudio.com/join?6E53E33CDBB8C499F42CA6EA25E7F34EB5B3
