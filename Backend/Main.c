@@ -6,8 +6,8 @@
 
 MENU_ITEM menu_items[] = {  "Play",
                             "Score",
-                            "etc",
-                            "etc"
+                            "etc,",
+                            "etc..."
                             };
 
 int main()
@@ -18,9 +18,9 @@ int main()
     while (playing)
     {
 
-        if (evento = Get_device_status)
+        if (get_device_status==BUSY)
         {
-            EVENT evento;
+            EVENT evento = get_event;
             p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);
         }    
     }
@@ -41,6 +41,10 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, EVENT evento_actual)
     p_tabla_estado_actual = p_tabla_estado_actual -> proximo_estado; // Encuentro próximo estado
     return (p_tabla_estado_actual);    
 }
+
+
+
+
 
 /*TODO: 
         Definir get_Device_Status. DEBE RETORNAR 0 si no se pasa NADA 
