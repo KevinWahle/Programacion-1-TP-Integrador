@@ -12,7 +12,7 @@ typedef struct state_diagram_edge
 STATE estado_pito[] = {         //TODO: considerar otro nombre del estado
     {Evento1, estado_1, rut_acc1},
     {Evento1, estado_1, rut_acc1}, 
-    {Evento1, estado_1, rut_acc1},
+    {Evento1, estado_1, rut_acc1}, 
     {FIN_TABLE, estado_0, rut_acc1}
 };
 
