@@ -1,56 +1,30 @@
 #include <stdio.h>
 #include "../const.h"
 #include "FSM_table.h"
-
-typedef unsigned char EVENT;
-//typedef struct state_diagram_edge STATE;
-
-typedef struct state_diagram_edge
-{
-    EVENT evento;
-    STATE *proximo_estado;
-    void (*p_rut_accion)(void);
-}STATE;
-
-STATE init_state[] = {         
-    {OK_EVENT, splash_state, show_splash},
-    {INIT_FAILURE_EVENT, NULL, exit},
-    {FIN_TABLE, init_state, doNothing}
-}
-STATE splash_state[] = {
-    {PRESS_EVENT, menu_state, show_menu},
-    {FIN_TABLE, splash_state, doNothing}
-}
-STATE menu_state[] = {
-    {SCORE_EVENT, global_score_state, show_global_score}, 
-    {EXIT_EVENT, NULL, exit},
-    {RESTART_EVENT, play_state, restart_game},
-    {CONTINUE_EVENT, play_state, continue_game},
-    {FIN_TABLE, menu_state, doNothing}
-};
-
-STATE play_state[] = {
-    {PAUSE_EVENT, menu_state, pause_game},      //pause_game va a tener adentro a show_menu() 
-    {END_GAME_EVENT, game_score_event, end_game},
-    {FIN_TABLE, play_state, doNothing}
-};
-
-STATE game_score_event[] = {
-    {RETURN_EVENT, menu_state, show_menu}, 
-    {FIN_TABLE, game_score_event, doNothing}
-};
-
-STATE global_score_event[] = {
-    {RETURN_EVENT, menu_state, show_menu}, 
-    {FIN_TABLE, global_score_event, doNothing}
-};
+#include "FSM_routines.h"
 
 
+MENU_ITEM menu_items[] = {  "Play",
+                            "Score",
+                            "etc",
+                            "etc"
+                            };
 
 int main()
 {
-    estado_actual=0;
-    
+    static BOOL playing;
+    STATE* p_tabla_estado_actual = init_state;
+
+    while (playing)
+    {
+
+        if (evento = Get_device_status)
+        {
+            EVENT evento;
+            p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);
+        }    
+    }
+
     return 0;
 }
 
@@ -68,3 +42,6 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, EVENT evento_actual)
     return (p_tabla_estado_actual);    
 }
 
+/*TODO: 
+        Definir get_Device_Status. DEBE RETORNAR 0 si no se pasa NADA 
+*/
