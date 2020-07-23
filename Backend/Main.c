@@ -67,3 +67,4 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, EVENT evento_actual)
     p_tabla_estado_actual = p_tabla_estado_actual -> proximo_estado; // Encuentro próximo estado
     return (p_tabla_estado_actual);    
 }
+
