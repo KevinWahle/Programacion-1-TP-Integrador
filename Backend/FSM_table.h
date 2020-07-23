@@ -1,5 +1,5 @@
 /***************************************************************************/ /**
-  @file     +const.h+
+  @file     +FSM_table.h+
   @brief    +Constantes en comun en todo el programa+
   @author   +Grupo 3+
  ******************************************************************************/
@@ -10,18 +10,7 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-enum EVENTS { 
-	OK_EVENT,
-	PRESS_EVENT,
-	SCORE_EVENT,
-	EXIT_EVENT, 
-	RESTART_EVENT, 
-	CONTINUE_EVENT,
-	PAUSE_EVENT, 
-	RETURN_EVENT,
-	END_GAME_EVENT,
-	FIN_TABLE
-};
+#define 
 
 
 /*******************************************************************************
@@ -43,4 +32,4 @@ enum ERRORES		// Distintos tipos de errores
 /*******************************************************************************
  ******************************************************************************/
 
-#endif // CONST_H
+#endif // FSM_table_H
