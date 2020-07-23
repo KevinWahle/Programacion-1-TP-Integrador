@@ -1,27 +1,71 @@
 BACK: 
-    void vidas(blabla);  
+
+
+    FUNCIONES DEFINIDAS EN EL BACK:
+
+        Main basarse en Advanced Finite State machine!!! 
         
-    void onCollisionDetected(int isColission);
-        Param isColission: es avisada por el front si hubo colision o no.
-        La funcion hace lo que deba hacer despues de una colision
-        Decrementar vida, o sumar puntos si destruyo nave etc.
+        void vidas(int delta);
+            Param delta: El cambio a aplicar a las vidas (1: suma vida, -1 resta vida, 0 mantiene vidas) 
+        
+        void menu (int option);
+            Param option: case restart, case new game, case score, case return game;
 
-    void menu (int option);
-        Param option: case restart, case new game, case score, case return game;
+        void onCollisionDetected(int isColission);        
+            Param isColission: es avisada por el front si hubo colision o no.
+            La funcion hace lo que deba hacer despues de una colision
+            Decrementar vida, o sumar puntos si destruyo nave etc.
+
+        configSpeed( cte rancia? ){
+            speed canon= 5;
+            speed alien= (speed alien + 5)^nivel
+        }
+
+    FUNCIONES QUE LLAMA EL BACK (definición en front):
+
+        
+        int getColission(); // Cambiar int por un tipo de dato que identificque personajes
+            Devuelve si hubo colisión, en caso de haberla, devuelve con qué choco
+
+        int init_all();
+            @brief Inicializa los recursos a emplear.
+            @return Si hubo o no error.
+        
+        void menu_show (MENU_OPTION[], ...);
+            Pantalla inicial con las opciones del menú acordes: Jugar, pausar, reiniciar,score
+        void menu_up()
+        void menu_down()
+        void menu_select()
+
+        input_t getInput();
+
+        killInvader(INVADER_POS);
+
+        destroyCanon();
+
+        nextLevel();
+
+        endGame();
+
+        void destroy();
 
 
-
-https://www.youtube.com/watch?v=bMZj6JFlap8
-https://github.com/mikaelrosquist/Space-Invaders
-https://sourceforge.net/projects/allegrospaceinv/
-https://github.com/Jvrekk/SpaceInvader
-https://github.com/flightcrank/space-invaders
-
-
+        
 FRONT:
     
     RASPI:
 
     ALLEGRO:
+
+    static void destroy_all();
+        @brief Destruye los recursos empleados.
     
-    void init_all();
+
+    static void cargando_all()
+        Refresca pantalla de allegro_wiki
+
+    int getColission();
+        
+    (no se que) queue_all();
+        La cola de eventos ya sea reconocimiento de teclado u otras funciones
+    

@@ -2,3 +2,18 @@ struct bullet
 {
 
 };
+
+struct navy
+{
+
+};
+
+struct invader
+{
+    int points;
+};
+
+struct barrera
+{
+    int impactos; // impactos que ya se le dio a la barrera cobertora del cañon.
+};

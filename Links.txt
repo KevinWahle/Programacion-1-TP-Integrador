@@ -1,0 +1,6 @@
+https://www.youtube.com/watch?v=bMZj6JFlap8
+https://github.com/mikaelrosquist/Space-Invaders
+https://sourceforge.net/projects/allegrospaceinv/
+https://github.com/Jvrekk/SpaceInvader
+https://github.com/flightcrank/space-invaders
+https://github.com/liballeg/allegro_wiki/wiki/Allegro-Vivace
