@@ -10,7 +10,8 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-enum EVENTS { 
+enum EVENTS {
+	INIT_FAILURE_EVENT, 
 	OK_EVENT,
 	PRESS_EVENT,
 	SCORE_EVENT,
