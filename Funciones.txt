@@ -1,18 +1,21 @@
-BACK:
-    void initNavy();
-    
-    void initInvaders();
-    
-    moveNavy(int direction);
-    
-    moveInvaders(int x, int y);
-    
-    int shoot(int x, int y, int direction):
-        Param x: posición del disparo en eje x.
-        Param y: posición del disparo en eje y.
-        Param direction: sentido en el que se mueve el disparo.
-        Return: '1' si se impacto algo, '0' si no existió impacto.
+BACK: 
+    void vidas(blabla);  
+        
+    void onCollisionDetected(int isColission);
+        Param isColission: es avisada por el front si hubo colision o no.
+        La funcion hace lo que deba hacer despues de una colision
+        Decrementar vida, o sumar puntos si destruyo nave etc.
 
+    void menu (int option);
+        Param option: case restart, case new game, case score, case return game;
+
+
+
+https://www.youtube.com/watch?v=bMZj6JFlap8
+https://github.com/mikaelrosquist/Space-Invaders
+https://sourceforge.net/projects/allegrospaceinv/
+https://github.com/Jvrekk/SpaceInvader
+https://github.com/flightcrank/space-invaders
 
 
 FRONT:
@@ -21,5 +24,4 @@ FRONT:
 
     ALLEGRO:
     
-    
-    https://prod.liveshare.vsengsaas.visualstudio.com/join?4FD1D2187F99E9D88032B72290AA9F71ECCE
+    void init_all();
