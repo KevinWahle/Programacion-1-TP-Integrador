@@ -69,7 +69,7 @@ void pause_game(void){
     //TODO
 }
 
-void continue_game(void){
+void resume_game(void){
     //TODO
 }
 
@@ -85,7 +85,7 @@ void show_global_score(void) {
     //TODO
 }
 
-void exit(void) {
+void quivffdcv(void) {
     //TODO
 }
 

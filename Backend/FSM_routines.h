@@ -50,7 +50,7 @@ void show_menu(void);
 
 void pause_game(void);
 
-void continue_game(void);
+void resume_game(void);
 
 void restart_game(void);
 
@@ -58,7 +58,7 @@ void end_game(void);
 
 void show_global_score(void);
 
-void exit(void);
+void quit_game(void);
 
 void doNothing(void);
 

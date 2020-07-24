@@ -23,21 +23,20 @@ BACK:
 
     FUNCIONES QUE LLAMA EL BACK (definición en front):
 
-        
-        int getColission(); // Cambiar int por un tipo de dato que identificque personajes
-            Devuelve si hubo colisión, en caso de haberla, devuelve con qué choco
 
         int init_all();
             @brief Inicializa los recursos a emplear.
             @return Si hubo o no error.
         
-        void menu_show (MENU_OPTION[], ...);
-            Pantalla inicial con las opciones del menú acordes: Jugar, pausar, reiniciar,score
-        void menu_up()
-        void menu_down()
-        void menu_select()
+        MENU_OPTION* menu_show (MENU_OPTION[]);
+            Se muestra el menú con las opciones pasadas.
+            El front bloquea el programa en el menú hasta que se seleccione una opción
+            Devuelve la opcion seleccionada como puntero a MENU_ITEM
 
         input_t getInput();
+        
+        int getColission(); // Cambiar int por un tipo de dato que identificque personajes
+            Devuelve si hubo colisión, en caso de haberla, devuelve con qué choco
 
         killInvader(INVADER_POS);
 

@@ -1,0 +1,11 @@
+TODO: 
+
+    BACK-END:
+
+    *Para el back-end necesitamos una funcion get_event que indique
+    si acontecio algun evento, ya sea eventos de hardware (click de 
+    mouse, se apreto enter, es apretó ESC) como eventos de software
+    (en el menu de inicio se apretó tal o cual cosa). 
+
+
+    FRONT-END:
