@@ -46,7 +46,7 @@ extern STATE game_score_state[];
 extern STATE global_score_state[];
 
 STATE splash_state []= {
-	{CLICK_BTN, menu_state, show_menu},
+	{CLICK_BTN, menu_state, my_menu},
     {FIN_TABLE, splash_state, doNothing}
 };
 

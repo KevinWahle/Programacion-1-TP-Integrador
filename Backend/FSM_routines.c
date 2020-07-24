@@ -76,9 +76,9 @@ void show_splash(void){
 }
 
 void my_menu(){
-    mi_var= show_menu (main_menu, 5);
+    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), 0);  //Comienza pasando el menu, resaltando la primera opcion
 }
-
+/*
 void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
  
     //Debe mostrar en el front que sea el menú
@@ -90,31 +90,8 @@ void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
     else{
         show_essentials_menu(menu_to_show);
     }
-/*
-  
-    
-    show_menu(main menu); //def en front
-    #include "front.h"
-
-    menu_manager()
-    if () 
-
-
-
-*/
-    //return ESSENTIAL;
-
-    /*
-    MENU ITEM* selectedItem = menu(main_menu);
-    switch (selectedItem -> ID) {
-        case PLAY:
-            break;
-        case EXIT:
-            break;
-    }
-    */
 }
-
+*/
 void pause_game(void){
     //TODO
 }

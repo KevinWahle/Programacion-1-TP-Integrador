@@ -54,9 +54,11 @@ BACK:
 FRONT:
 
 
-    Para mostrar el menu desde el front crear una funcion que 
+    1) Para mostrar el menu desde el front crear una funcion que 
     use como prototipo de función:
-    "void show_menu(MENU_ITEM *menu_to_show, int menu_size)"
+
+    "void show_menu(MENU_ITEM *menu_to_show, int menu_size, int highlight_item)"
+
     donde menu_to_show es una estructura que tiene todas las opciones del
     menu a mostrar y menu_size la cantidad de opciones a mostrar.
     La estructura MENU_ITEM tiene un campo que es essential, si ese 
@@ -64,7 +66,8 @@ FRONT:
     front, si es FALSE debe mostrarse solo si la plataforma lo permite. 
     Con una constante llamada ONLY_ESSENTIAL (la crean ustedes) que se define en 
     funcion de la plataforma, determinan si la plataforma puede mostrar las
-    opciones no essencial o no. 
+    opciones no essencial o no. El parametro highlight_item resalta cual es el
+    la opción actual.
 
 
     RASPI:
