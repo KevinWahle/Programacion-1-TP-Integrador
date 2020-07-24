@@ -71,20 +71,24 @@ static MENU_ITEM pause_menu[] = {
  ******************************************************************************/
 
 void show_splash(void){
+    splash_front();
     //TODO
 }
-/*
-1
-evento = espero_evento_front()
-interprete(
-    menu()
-    evento=PLAY
-)
-goto: 1
-*/
 
 
 void show_menu(void){
+/* 
+    Debe mostrar en el front que sea el menú
+    DEBE RETORNAR SI SE MOSTRARON solo los realmentes esenciales (1) o no (0).
+    if (ESSENTIAL==TRUE){
+        showall();
+    }
+    else{
+        show_essentials();
+    }
+
+    return ESSENTIAL;
+*/
     MENU ITEM* selectedItem = menu(main_menu);
     switch (selectedItem -> ID) {
         case PLAY:
@@ -119,7 +123,7 @@ void quit_game(void) {
 }
 
 void doNothing(void) {
-    return;
+//* DO NOTHING*//
 }
 
 /*******************************************************************************

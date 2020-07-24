@@ -16,7 +16,7 @@ enum { PC, RASPI };
 
 int main()
 {
-    static BOOL playing;
+    static BOOL running;
     STATE* p_tabla_estado_actual = splash_state;
 
     if (init_all())             
@@ -24,8 +24,9 @@ int main()
         return -1;          //init_front inicializa el front sea cual sea la plataforma,
     }                       //Debe estar definida en cada front y returnar !=0 si hay error.
     
+    show_splash();
 
-    while (playing)
+    while (running)
     {
 
         if (get_device_status==BUSY)
@@ -52,7 +53,7 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, EVENT evento_actual)
     return (p_tabla_estado_actual);    
 }
 /*
-splash ---------------> menu
+splash -------toca tecla----show menu {menu}----> menu
         show_menu()
             menu()
 
