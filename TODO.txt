@@ -7,5 +7,7 @@ TODO:
     mouse, se apreto enter, es apretó ESC) como eventos de software
     (en el menu de inicio se apretó tal o cual cosa). 
 
+       if (ESSENTIAL==FALSE){           //ESENTIAL ES UNA CONSTANTE QUE ESTA DEFINIDA EN EL FRONT (depende de si es raspi o allegro). 
+                                       //si ESSENTIAL==FALSE, las opciones se restringen 
 
     FRONT-END:

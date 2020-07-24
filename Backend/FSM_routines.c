@@ -77,10 +77,11 @@ void show_splash(void){
 
 
 void show_menu(void){
-/* 
-    Debe mostrar en el front que sea el menú
-    DEBE RETORNAR SI SE MOSTRARON solo los realmentes esenciales (1) o no (0).
-    if (ESSENTIAL==TRUE){
+ 
+    //Debe mostrar en el front que sea el menú
+    //DEBE RETORNAR SI SE MOSTRARON solo los realmentes esenciales (1) o no (0).
+    
+    if (ESSENTIAL==TRUE){           //ESENTIAL ES UNA CONSTANTE QUE  ESTA DEFINIDA EN EL FRONT. SI ESSENTIAL==FALSE, las opciones se restringen 
         showall();
     }
     else{
@@ -88,7 +89,8 @@ void show_menu(void){
     }
 
     return ESSENTIAL;
-*/
+
+    /*
     MENU ITEM* selectedItem = menu(main_menu);
     switch (selectedItem -> ID) {
         case PLAY:
@@ -96,6 +98,7 @@ void show_menu(void){
         case EXIT:
             break;
     }
+    */
 }
 
 void pause_game(void){
