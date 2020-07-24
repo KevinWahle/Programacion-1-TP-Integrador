@@ -132,7 +132,8 @@ void down_menu(){
 
 void click_menu()
 {
-        
+
+// TODO: Inserte fucion para agregar evento a la cola  
 }
 /*
 void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
