@@ -13,7 +13,13 @@ MENU_ITEM menu_items[] = {  "Play",
 int main()
 {
     static BOOL playing;
-    STATE* p_tabla_estado_actual = init_state;
+    STATE* p_tabla_estado_actual = splash_state;
+
+    if (init_front)             
+    {
+        return -1;          //init_front inicializa el front sea cual sea la plataforma,
+    }                       //Debe estar definida en cada front y returnar !=0 si hay error.
+    
 
     while (playing)
     {
@@ -34,7 +40,7 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, EVENT evento_actual)
     printf(" >>%c<<\n ",evento_actual); // Para debuggear
     #endif  //DEBUG
 
-    while (p_tabla_estado_actual -> evento != evento_actual && p_tabla_estado_actual -> evento !=FIN_TABLE)
+    while (p_tabla_estado_actual -> evento_actual != evento_actual && p_tabla_estado_actual -> evento !=FIN_TABLE)
     ++p_tabla_estado_actual;
     
     (*p_tabla_estado_actual -> p_rut_accion) (); // Ejecuta Rutina de accion correspondiente

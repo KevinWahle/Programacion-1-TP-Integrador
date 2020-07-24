@@ -1,25 +1,20 @@
-/*
-    * Mov up
-    * Mov down
-    * Mov left
-    * Mov right
-    * Click
-    * Pause/exit
-*/
-
-enum CONTROLS {
-    MOVE_UP,
-    MOVE_DOWN,
-    MOVE_LEFT,
-    MOVE_RIGHT,
-    CLICK_BTN,  // Botón de click, shoot o aceptar
-    PAUSE_BTN
-};
-
-
 int get_device_status()
 {
 
 }
 
+ok_event(EVENT evento)
+{
+    switch (evento)
+}
 
+switch (event) {
+    case EVENT1:
+    case EVENT1:
+    case EVENT1:
+    case EVENT1:
+    case EVENT1:
+        return true;
+    default:
+        return false;
+}

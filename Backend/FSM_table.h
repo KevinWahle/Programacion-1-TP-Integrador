@@ -12,6 +12,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "../const.h"
+#include "event.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -25,9 +26,8 @@
 typedef unsigned char EVENT;
 typedef struct state_diagram_edge
 {
-    BOOL (*passEvent)(EVENT event);	
-	// La función passEvent devuelve true si el evento event pasado debe activar la
-	//	rutina de acción.
+    EVENT eventArray[MAX_EVENTS];
+	// Arreglo con todos los eventos admitidos que activan la rutina de acción
     
     struct state_diagram_edge *proximo_estado;
     // Puntero que apunta al estado al que hay que ir en caso
@@ -38,15 +38,9 @@ typedef struct state_diagram_edge
 
 } STATE;
 
-STATE init_state[] = {         
-    {OK_EVENT, splash_state, show_splash},
-    {INIT_FAILURE_EVENT, NULL, exit},
-    {FIN_TABLE, init_state, doNothing}  // Fin tabla siempre representa 1.
-};
-
 STATE splash_state[] = {
-    {PRESS_EVENT, menu_state, show_menu},
-    {FIN_TABLE, splash_state, doNothing}
+	{PRESS_EVENT, menu_state, show_menu},
+    {[FIN_TABLE, END_OF_ARRAY], splash_state, doNothing}
 };
 
 STATE menu_state[] = {
@@ -54,29 +48,26 @@ STATE menu_state[] = {
     {EXIT_EVENT, NULL, exit},
     {RESTART_EVENT, play_state, restart_game},
     {CONTINUE_EVENT, play_state, continue_game},
-    {FIN_TABLE, menu_state, doNothing}
+    {[FIN_TABLE, END_OF_ARRAY], menu_state, doNothing}
 };
 
 STATE play_state[] = {
     {PAUSE_EVENT, menu_state, pause_game},      //pause_game va a tener adentro a show_menu() 
     {END_GAME_EVENT, game_score_event, end_game},
-    {FIN_TABLE, play_state, doNothing}
+    {[FIN_TABLE, END_OF_ARRAY], play_state, doNothing}
 };
 
 STATE game_score_event[] = {
     {RETURN_EVENT, menu_state, show_menu}, 
-    {FIN_TABLE, game_score_event, doNothing}
+    {[FIN_TABLE, END_OF_ARRAY], game_score_event, doNothing}
 };
 
 STATE global_score_event[] = {
     {RETURN_EVENT, menu_state, show_menu}, 
-    {FIN_TABLE, global_score_event, doNothing}
+    {[FIN_TABLE, END_OF_ARRAY], global_score_event, doNothing}
 };
 
 /*******************************************************************************
  ******************************************************************************/
 
 #endif // FSM_table_H
-
-
- 
