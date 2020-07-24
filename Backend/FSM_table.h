@@ -41,6 +41,7 @@ struct state_diagram_edge{
 
 extern STATE splash_state[];
 extern STATE menu_state[];
+extern STATE click_state [];
 extern STATE play_state[];
 extern STATE game_score_state[];
 extern STATE global_score_state[];

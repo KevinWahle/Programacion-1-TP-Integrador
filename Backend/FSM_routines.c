@@ -88,52 +88,63 @@ void show_splash(void){
 }
 
 void my_menu(){
-    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);  //Comienza pasando el menu, resaltando la primera opcion
-    
+    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);  //Actualizo el menu, resaltando la opcion actualizada.  
 }
 
 void up_menu(){
-    if (ESSENTIAL){
-        do{
-           if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){
-                actual_option++;            
-           }
+if (ONLY_ESSENTIAL){                                                    
+        do{                                                                
+           if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){                     // Si el front solo permite mostrar las opciones esenciales:
+                actual_option++;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
+           }                                                                            //y cuando haya una arriba.
         } while ((main_menu[actual_option]).essential=FALSE && sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option);
-
-        show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
     }
     
-    else{
-        if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){
-            actual_option++;
-            show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
+    else{                                                               // Si el front permite mostrar las opciones no esenciales:
+        if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){        
+        actual_option++;                                                //subimos en el menú hasta la siguiente opcion
         }
     }
+    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front.
 }
 
 void down_menu(){
-    if (ESSENTIAL){
+    if (ONLY_ESSENTIAL){
         do{
-           if(actual_option>0){
-                actual_option--;            
-           }
+           if(actual_option>0){                                                         // Si el front solo permite mostrar las opciones esenciales:
+                actual_option--;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
+           }                                                                            //y cuando haya una abajo.
         } while ((main_menu[actual_option]).essential=FALSE && actual_option>0);
-
-        show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
     }
     
-    else{
+    else{                                                               // Si el front permite mostrar las opciones no esenciales:
         if(actual_option > 0){
-            actual_option--;
-            show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
+            actual_option--;                                            //bajamos en el menú hasta la siguiente opcion
         }
     }
+    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front.
 }
 
 void click_menu()
 {
+    switch (main_menu[actual_option].ID)
+    {
+        case PLAY_ID:
+            //TODO: Inserte fucion para agregar evento a la cola
+        break;
 
-// TODO: Inserte fucion para agregar evento a la cola  
+        case SCORE_ID:
+            //TODO: Inserte fucion para agregar evento a la cola
+        break;
+
+        case OPTIONS_ID:
+            //TODO: Inserte fucion para agregar evento a la cola
+        break;
+
+        case EXIT_ID:
+            //TODO: Inserte fucion para agregar evento a la cola
+        break;
+    }
 }
 /*
 void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
