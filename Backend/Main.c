@@ -13,18 +13,6 @@ enum { PC, RASPI };
 #include "../Frontend/Raspi/....."
 #endif
 
-MENU_ITEM main_menu[] = {  
-                            {.option = "Play", .essential = TRUE},
-                            {.option = "Score", .essential = FALSE},
-                            {.option = "Options", .essential = FALSE},
-                            {.option = "Exit", .essential = TRUE},
-                        };
-
-MENU_ITEM pause_menu[] = {  
-                            {.option = "Resume", .essential = TRUE},
-                            {.option = "Restart", .essential = TRUE},
-                            {.option = "Exit", .essential = TRUE},
-                        };
 
 int main()
 {
@@ -63,7 +51,18 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, EVENT evento_actual)
     p_tabla_estado_actual = p_tabla_estado_actual -> proximo_estado; // Encuentro próximo estado
     return (p_tabla_estado_actual);    
 }
+/*
+splash ---------------> menu
+        show_menu()
+            menu()
 
+loop()        
+    evento = espero_evento_front()
+    interprete(
+        evento = rutina_menu()
+        
+    )
+*/
 
 
 

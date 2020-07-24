@@ -9,6 +9,7 @@
  ******************************************************************************/
 
 #include "FSM_routines.h"
+#include "const.h"
 
 
 /*******************************************************************************
@@ -50,6 +51,18 @@
 
 // +ej: static int temperaturas_actuales[4];+
 
+static MENU_ITEM main_menu[] = {  
+                            {.option = "Play", .essential = TRUE},
+                            {.option = "Score", .essential = FALSE},
+                            {.option = "Options", .essential = FALSE},
+                            {.option = "Exit", .essential = TRUE},
+                        };
+
+static MENU_ITEM pause_menu[] = {  
+                            {.option = "Resume", .essential = TRUE},
+                            {.option = "Restart", .essential = TRUE},
+                            {.option = "Exit", .essential = TRUE},
+                        };
 
 /*******************************************************************************
  *******************************************************************************
@@ -60,9 +73,25 @@
 void show_splash(void){
     //TODO
 }
+/*
+1
+evento = espero_evento_front()
+interprete(
+    menu()
+    evento=PLAY
+)
+goto: 1
+*/
+
 
 void show_menu(void){
-    //TODO
+    MENU ITEM* selectedItem = menu(main_menu);
+    switch (selectedItem -> ID) {
+        case PLAY:
+            break;
+        case EXIT:
+            break;
+    }
 }
 
 void pause_game(void){
