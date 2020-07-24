@@ -58,7 +58,7 @@ STATE menu_state []= {
 };
 
 STATE click_state []= {
-    {PLAY_EVENT, play_state, up_menu}, 
+    {PLAY_EVENT, play_state, play}, 
     {SCORE_EVENT, global_score_state, show_global_score},
 //    {OPTIONS_EVENT, click_state, doNothing},
     {EXIT_EVENT, NULL, quit_game},
