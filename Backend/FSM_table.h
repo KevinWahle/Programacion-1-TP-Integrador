@@ -51,13 +51,21 @@ STATE splash_state []= {
 };
 
 STATE menu_state []= {
+    {MOVE_UP, global_score_state, show_global_score}, 
+    {MOVE_DOWN, NULL, quit_game},
+    {CLICK_BTN, play_state, restart_game},
+    {FIN_TABLE, menu_state, doNothing}
+};
+
+/*
+STATE menu_state []= {
     {SCORE_EVENT, global_score_state, show_global_score}, 
     {EXIT_EVENT, NULL, quit_game},
     {RESTART_EVENT, play_state, restart_game},
     {RESUME_EVENT, play_state, resume_game},
     {FIN_TABLE, menu_state, doNothing}
 };
-
+*/
 STATE play_state[] = {
     {PAUSE_EVENT, menu_state, pause_game},      //pause_game va a tener adentro a show_menu() 
     {END_GAME_EVENT, game_score_state, end_game},

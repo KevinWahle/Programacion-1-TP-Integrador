@@ -30,6 +30,19 @@
 
 // +ej: unsigned int anio_actual;+
 
+MENU_ITEM main_menu[] = {  
+                            {.option = "Play", .essential = TRUE, .ID = PLAY_ID},
+                            {.option = "Score", .essential = FALSE, .ID = SCORE_ID},
+                            {.option = "Options", .essential = FALSE, .ID = OPTIONS_ID},
+                            {.option = "Exit", .essential = TRUE, .ID = EXIT_ID},
+                        };
+ 
+
+MENU_ITEM pause_menu[] = {  
+                            {.option = "Resume", .essential = TRUE, .ID = RESUME_ID},
+                            {.option = "Restart", .essential = TRUE, .ID = RESTART_ID},
+                            {.option = "Exit", .essential = TRUE, .ID= EXIT_ID} ,
+                        };
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -42,33 +55,51 @@
  * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-// +ej: static const int temperaturas_medias[4] = {23, 26, 24, 29};+
 
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-// +ej: static int temperaturas_actuales[4];+
+static actual_option = 0;
 
-MENU_ITEM main_menu[] = {  
-                            {.option = "Play", .essential = TRUE, .ID = PLAY_ID},
-                            {.option = "Score", .essential = FALSE, .ID = SCORE_ID},
-                            {.option = "Options", .essential = FALSE, .ID = OPTIONS_ID},
-                            {.option = "Exit", .essential = TRUE, .ID = EXIT_ID},
-                        };
 
-MENU_ITEM pause_menu[] = {  
-                            {.option = "Resume", .essential = TRUE, .ID = RESUME_ID},
-                            {.option = "Restart", .essential = TRUE, .ID = RESTART_ID},
-                            {.option = "Exit", .essential = TRUE, .ID= EXIT_ID} ,
-                        };
 
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+int essentials_count (int cant){
+     int cant_essentials=0;
+    for(int i=0; i<cant; i++)
+    {
+        if((main_menu[i]).essential==TRUE)
+        {
+            cant_essentials++ ;             
+        }        
+    }
+    return cant_essentials;
+}
+
+
+int essentials_count [MAX_SIZE](int cant){
+     int cant_essentials=0;
+    for(int i=0; i<cant; i++)
+    {
+        int p=1;
+        
+        if((main_menu[i]).essential==TRUE)
+        {
+            cant_essentials[0]++ ;
+            cant_essentials[p]=i;
+            p++;             
+        }        
+    }
+    return cant_essentials;
+}
+
+
 
 void show_splash(void){
     splash_front();
@@ -76,7 +107,30 @@ void show_splash(void){
 }
 
 void my_menu(){
-    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), 0);  //Comienza pasando el menu, resaltando la primera opcion
+    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);  //Comienza pasando el menu, resaltando la primera opcion
+    
+}
+
+void up(){
+    if (ESSENTIAL){
+        if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option)
+            while ()
+                actual_option++;
+        show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
+    }
+}
+
+void down(){
+    if(actual_option>0){
+        actual_option--;
+    }
+
+    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
+}
+
+void clicked_menu()
+{
+
 }
 /*
 void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){

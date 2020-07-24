@@ -39,9 +39,9 @@ enum CONTROLS {
 
 enum IDS{
 	PLAY_ID,
+	EXIT_ID,
 	SCORE_ID,
 	OPTIONS_ID,
-	EXIT_ID,
 	RESUME_ID,
 	RESTART_ID,
 };
