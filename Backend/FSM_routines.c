@@ -51,17 +51,17 @@
 
 // +ej: static int temperaturas_actuales[4];+
 
-static MENU_ITEM main_menu[] = {  
-                            {.option = "Play", .essential = TRUE},
-                            {.option = "Score", .essential = FALSE},
-                            {.option = "Options", .essential = FALSE},
-                            {.option = "Exit", .essential = TRUE},
+MENU_ITEM main_menu[] = {  
+                            {.option = "Play", .essential = TRUE, .ID = PLAY_ID},
+                            {.option = "Score", .essential = FALSE, .ID = SCORE_ID},
+                            {.option = "Options", .essential = FALSE, .ID = OPTIONS_ID},
+                            {.option = "Exit", .essential = TRUE, .ID = EXIT_ID},
                         };
 
-static MENU_ITEM pause_menu[] = {  
-                            {.option = "Resume", .essential = TRUE},
-                            {.option = "Restart", .essential = TRUE},
-                            {.option = "Exit", .essential = TRUE},
+MENU_ITEM pause_menu[] = {  
+                            {.option = "Resume", .essential = TRUE, .ID = RESUME_ID},
+                            {.option = "Restart", .essential = TRUE, .ID = RESTART_ID},
+                            {.option = "Exit", .essential = TRUE, .ID= EXIT_ID} ,
                         };
 
 /*******************************************************************************
@@ -75,20 +75,34 @@ void show_splash(void){
     //TODO
 }
 
+void my_menu(){
+    mi_var= show_menu (main_menu, 5);
+}
 
-void show_menu(void){
+void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
  
     //Debe mostrar en el front que sea el menú
     //DEBE RETORNAR SI SE MOSTRARON solo los realmentes esenciales (1) o no (0).
     
-    if (ESSENTIAL==TRUE){           //ESENTIAL ES UNA CONSTANTE QUE  ESTA DEFINIDA EN EL FRONT. SI ESSENTIAL==FALSE, las opciones se restringen 
-        showall();
+    if (ONLY_ESSENTIALS==TRUE){           
+        show_all_menu(menu_to_show);
     }
     else{
-        show_essentials();
+        show_essentials_menu(menu_to_show);
     }
+/*
+  
+    
+    show_menu(main menu); //def en front
+    #include "front.h"
 
-    return ESSENTIAL;
+    menu_manager()
+    if () 
+
+
+
+*/
+    //return ESSENTIAL;
 
     /*
     MENU ITEM* selectedItem = menu(main_menu);

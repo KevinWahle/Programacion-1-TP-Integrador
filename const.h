@@ -37,6 +37,15 @@ enum CONTROLS {
 //    FIN_TABLE, // Redefinido en main
 };
 
+enum IDS{
+	PLAY_ID,
+	SCORE_ID,
+	OPTIONS_ID,
+	EXIT_ID,
+	RESUME_ID,
+	RESTART_ID,
+};
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -57,6 +66,7 @@ typedef uint8_t BOOL;
 typedef struct {
 	char* option;
 	BOOL essential;
+	int ID;
 } MENU_ITEM;
 
 

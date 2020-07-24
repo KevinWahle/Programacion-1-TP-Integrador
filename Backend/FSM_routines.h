@@ -46,7 +46,7 @@
 
 void show_splash(void);
 
-void show_menu(void);
+int show_menu(MENU_ITEM menu_to_show);
 
 void pause_game(void);
 
