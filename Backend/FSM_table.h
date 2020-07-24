@@ -45,7 +45,6 @@ extern STATE play_state[];
 extern STATE game_score_state[];
 extern STATE global_score_state[];
 
-
 STATE splash_state []= {
 	{PRESS_EVENT, menu_state, show_menu},
     {FIN_TABLE, splash_state, doNothing}

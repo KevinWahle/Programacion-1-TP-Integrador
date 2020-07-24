@@ -85,7 +85,7 @@ void show_global_score(void) {
     //TODO
 }
 
-void quivffdcv(void) {
+void quit_game(void) {
     //TODO
 }
 

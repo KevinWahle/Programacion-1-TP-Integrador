@@ -5,5 +5,5 @@ enum CONTROLS {
     MOVE_RIGHT,
     CLICK_BTN,  // Botón de click, shoot o aceptar
     PAUSE_BTN,
-//    FIN_TABLE,
+//    FIN_TABLE, // Redefinido en main
 };
