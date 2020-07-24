@@ -51,10 +51,18 @@ STATE splash_state []= {
 };
 
 STATE menu_state []= {
-    {MOVE_UP, global_score_state, show_global_score}, 
-    {MOVE_DOWN, NULL, quit_game},
-    {CLICK_BTN, play_state, restart_game},
+    {MOVE_UP, menu_state, up_menu}, 
+    {MOVE_DOWN, menu_state, down_menu},
+    {CLICK_BTN, click_state, click_menu},
     {FIN_TABLE, menu_state, doNothing}
+};
+
+STATE click_state []= {
+    {PLAY_EVENT, play_state, up_menu}, 
+    {SCORE_EVENT, global_score_state, show_global_score},
+//    {OPTIONS_EVENT, click_state, doNothing},
+    {EXIT_EVENT, NULL, quit_game},
+    {FIN_TABLE, click_state, doNothing}
 };
 
 /*

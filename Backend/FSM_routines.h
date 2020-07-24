@@ -48,6 +48,12 @@ void show_splash(void);
 
 void my_menu();
 
+void up_menu();
+
+void down_menu();
+
+void click_menu();
+
 void pause_game(void);
 
 void resume_game(void);

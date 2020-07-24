@@ -82,25 +82,6 @@ int essentials_count (int cant){
     return cant_essentials;
 }
 
-
-int essentials_count [MAX_SIZE](int cant){
-     int cant_essentials=0;
-    for(int i=0; i<cant; i++)
-    {
-        int p=1;
-        
-        if((main_menu[i]).essential==TRUE)
-        {
-            cant_essentials[0]++ ;
-            cant_essentials[p]=i;
-            p++;             
-        }        
-    }
-    return cant_essentials;
-}
-
-
-
 void show_splash(void){
     splash_front();
     //TODO
@@ -111,26 +92,47 @@ void my_menu(){
     
 }
 
-void up(){
+void up_menu(){
     if (ESSENTIAL){
-        if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option)
-            while ()
-                actual_option++;
+        do{
+           if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){
+                actual_option++;            
+           }
+        } while ((main_menu[actual_option]).essential=FALSE && sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option);
+
         show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
     }
-}
-
-void down(){
-    if(actual_option>0){
-        actual_option--;
+    
+    else{
+        if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){
+            actual_option++;
+            show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
+        }
     }
-
-    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
 }
 
-void clicked_menu()
-{
+void down_menu(){
+    if (ESSENTIAL){
+        do{
+           if(actual_option>0){
+                actual_option--;            
+           }
+        } while ((main_menu[actual_option]).essential=FALSE && actual_option>0);
 
+        show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
+    }
+    
+    else{
+        if(actual_option > 0){
+            actual_option--;
+            show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);
+        }
+    }
+}
+
+void click_menu()
+{
+        
 }
 /*
 void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
