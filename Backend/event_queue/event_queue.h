@@ -13,18 +13,19 @@
 
 #include <stdint.h>
 
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 
+#define MAX_EVENTS  500
 
+#define NULL_EVENT  ((event_t)(-1))
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-typedef uint16_t event_t
+typedef uint16_t event_t;
 
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
@@ -39,17 +40,27 @@ typedef uint16_t event_t
 
 
 /**
- * @brief TODO: Agrega un evento a la lista
+ * @brief Agrega un evento a la lista
  * @param event evento a añadir a la cola
- * @return Descripcion valor que devuelve
+ * @return 1 si se completo, 0 si la cola está llena
 */
 int add_event(event_t event);
 
+/**
+ * @brief Obtiene el próximo evento en la cola
+ * @return El último evento de la cola, NULL_EVENT si la cola está vacía
+*/
 event_t get_next_event(void);
 
-int remove_last_event(size_t index);
+/**
+ * @brief Elimina el último elemento agregado a la cola
+ * @return 1 si se completo, 0 si la cola está llena
+*/
+int remove_last_event(void);
 
+//int remove_eventa_at_index(size_t index);
 
+void empty_queue(void);
 /*******************************************************************************
  ******************************************************************************/
 

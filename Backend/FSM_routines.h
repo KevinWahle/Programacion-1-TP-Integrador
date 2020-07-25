@@ -58,6 +58,8 @@ void pause_game(void);
 
 void resume_game(void);
 
+void start_game(void);
+
 void restart_game(void);
 
 void end_game(void);

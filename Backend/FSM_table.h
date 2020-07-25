@@ -41,7 +41,7 @@ struct state_diagram_edge{
 
 extern STATE splash_state[];
 extern STATE menu_state[];
-extern STATE click_state [];
+extern STATE click_state[];
 extern STATE play_state[];
 extern STATE game_score_state[];
 extern STATE global_score_state[];
@@ -58,23 +58,14 @@ STATE menu_state []= {
     {FIN_TABLE, menu_state, doNothing}
 };
 
-STATE click_state []= {
-    {PLAY_EVENT, play_state, play}, 
+STATE click_state[]= {
+    {PLAY_EVENT, play_state, start_game}, 
     {SCORE_EVENT, global_score_state, show_global_score},
 //    {OPTIONS_EVENT, click_state, doNothing},
     {EXIT_EVENT, NULL, quit_game},
     {FIN_TABLE, click_state, doNothing}
 };
 
-/*
-STATE menu_state []= {
-    {SCORE_EVENT, global_score_state, show_global_score}, 
-    {EXIT_EVENT, NULL, quit_game},
-    {RESTART_EVENT, play_state, restart_game},
-    {RESUME_EVENT, play_state, resume_game},
-    {FIN_TABLE, menu_state, doNothing}
-};
-*/
 STATE play_state[] = {
     {PAUSE_EVENT, menu_state, pause_game},      //pause_game va a tener adentro a show_menu() 
     {END_GAME_EVENT, game_score_state, end_game},
@@ -82,12 +73,12 @@ STATE play_state[] = {
 };
 
 STATE game_score_state[] = {
-    {RETURN_EVENT, menu_state, show_menu}, 
+    {RETURN_EVENT, menu_state, my_menu}, 
     {FIN_TABLE, game_score_state, doNothing}
 };
 
 STATE global_score_state[] = {
-    {RETURN_EVENT, menu_state, show_menu}, 
+    {RETURN_EVENT, menu_state, my_menu}, 
     {FIN_TABLE, global_score_state, doNothing}
 };
 

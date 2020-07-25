@@ -19,12 +19,12 @@ int main()
     static BOOL running;
     STATE* p_tabla_estado_actual = splash_state;
 
-    if (init_all())             
+    if (init_front())             
     {
         return -1;          //init_front inicializa el front sea cual sea la plataforma,
     }                       //Debe estar definida en cada front y returnar !=0 si hay error.
     
-    show_splash();
+    splash_front();
 
     while (running)
     {

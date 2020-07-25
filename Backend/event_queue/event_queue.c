@@ -9,13 +9,11 @@
  ******************************************************************************/
 
 #include "event_queue.h"
-#include <stdlib.h>
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define true    1
-#define false   0
+
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -47,12 +45,9 @@
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-static void* queue;
+static event_t queue[MAX_EVENTS];
 
-static unsigned int el_siz = 0;
-
-static size_t queue_index = 0;
-
+static size_t top_of_queue = 0;
 
 /*******************************************************************************
  *******************************************************************************
@@ -60,10 +55,36 @@ static size_t queue_index = 0;
  *******************************************************************************
  ******************************************************************************/
 
-int init_queue() {
-    
+int add_event(event_t event) {
+    if (top_of_queue < MAX_EVENTS) {        // Si hay lugar en la cola
+        for (int i = 0; i < top_of_queue; i++) {
+            queue[i+1] = queue[i];              // Muevo todos los eventos 1 posición
+        }
+        queue[0] = event;   // Agrego el nuevo evento al inicio
+        top_of_queue++;     // Aumento tamaño de la cola
+        return 0;   // Fin exitoso
+    }    
+    return 1;       // Error, no hay lugar
 }
 
+event_t get_next_event(void) {
+    if (top_of_queue > 0) {     // Si hay eventos en la cola
+        return queue[--top_of_queue];   // Devuelve ultimo evento y lo elimino de la cola
+    }
+    return NULL_EVENT;  // No hay eventos
+}
+
+int remove_last_event(void) {
+    if (top_of_queue > 0) {     // Si hay elementos en la cola
+        top_of_queue--;             // Se elimina el último elemento
+        return 0;       // Fin exitoso
+    }
+    return 1;           // Error, no hay elementos
+}
+
+void empty_queue(void) {
+    top_of_queue = 0;
+}
 
 /*******************************************************************************
  *******************************************************************************
@@ -71,6 +92,3 @@ int init_queue() {
  *******************************************************************************
  ******************************************************************************/
 
-
-
- 

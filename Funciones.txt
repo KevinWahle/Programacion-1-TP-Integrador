@@ -37,15 +37,12 @@ BACK:
         int getColission(); // Cambiar int por un tipo de dato que identificque personajes
             Devuelve si hubo colisión, en caso de haberla, devuelve con qué choco
 
-        killInvader(INVADER_POS);
-
         destroyCanon();
 
         nextLevel();
 
         endGame();
 
-        void destroy();
 
 
 
@@ -69,7 +66,17 @@ FRONT:
     opciones no essencial o no. El parametro highlight_item resalta cual es el
     la opción actual.
 
+    2) void destroy_front(): funcion que dependiendo del front cierra todo para 
+    salir de la aplicación.
 
+    3) int init_front(): funcion que dependiendo del front inicializa todo para 
+    empezar a correr el juego. Devuelve 0 si no hay error, cualquier otra 
+    cosa si hay error.
+
+    4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
+    de ser posible por el front.
+
+    
     RASPI:
 
     ALLEGRO:

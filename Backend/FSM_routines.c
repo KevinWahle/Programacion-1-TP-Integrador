@@ -82,9 +82,8 @@ int essentials_count (int cant){
     return cant_essentials;
 }
 
-void show_splash(void){
-    splash_front();
-    //TODO
+void show_splash(void){     
+    splash_front();         
 }
 
 void my_menu(){
@@ -161,15 +160,20 @@ void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
 }
 */
 void pause_game(void){
-    //TODO
+    show_menu(pause_menu, sizeof(pause_menu)/sizeof(MENU_ITEM), actual_option);
 }
 
 void resume_game(void){
     //TODO
 }
 
+void start_game(void){
+    //TODO:
+    
+}
+
 void restart_game(void){
-    //TODO
+    //TODO:
 }
 
 void end_game(void){
@@ -181,7 +185,7 @@ void show_global_score(void) {
 }
 
 void quit_game(void) {
-    //TODO
+    destroy_front;
 }
 
 void doNothing(void) {
