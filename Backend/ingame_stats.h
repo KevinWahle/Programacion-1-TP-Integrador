@@ -1,12 +1,28 @@
-#define INIT_LIFE 3
+#define INIT_LIFES 3
 
 void reset_lives(void);
 void reset_points(void);
 void increase_points(int cant);
-void decrease_lives(void);
+int decrease_lives(void);
 int get_lives(void);
 int get_points(void);
+void kill_alien(const int tipo_alien);
+void break_shield();
+void level_up();
 
+#define CRAB_POINTS     10
+#define OCTOPUS_POINTS  10
+#define SQUID_POINTS    10
+#define UFO_POINTS      250
 
+#define SHIELDS         5
+#define SHIELD_LIVES    2
+
+enum{
+    CRAB = 0,
+    OCTOPUS,
+    SQUID,
+    UFO,
+};
 
 
