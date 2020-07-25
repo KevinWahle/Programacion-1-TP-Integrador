@@ -29,6 +29,8 @@ int main()
 
     while (running)
     {
+        //NOTA: Agregar funcion redraw.
+        
         event_t evento = get_next_event();
 
         if (evento!= NULL_EVENT)

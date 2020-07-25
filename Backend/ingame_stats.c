@@ -3,10 +3,14 @@
 static int lives;
 static int points;
 static int killed_invaders[3];
+static int shields[SHIELDS][SHIELD_PARTS];
 //Primer elemento scrabs, segundo octopus, tercero squids 
 //y ultimo UFOs.
 
 
+/**********************************************************
+***********************  RESET   **************************
+**********************************************************/
 void reset_lives()
 {
     lives=INIT_LIFES;
@@ -17,7 +21,24 @@ void reset_points()
     points=0;
 }
 
-void increase_points(int cant)
+void reset_shields()
+{
+    for (int i=0; i<SHIELDS; i++)
+        {
+            for (int j = 0; j < SHIELD_PARTS; j++)
+            {
+                shields[i][j]=SHIELD_LIVES;
+            }
+        }
+        
+}
+
+
+/**********************************************************
+******************  INCREASE / DECREASE   *****************
+**********************************************************/
+
+void increase_points(const int cant)
 {
     points += cant;
 }
@@ -26,6 +47,10 @@ int decrease_lives()
 {
     return --lives;
 }
+
+/**********************************************************
+*************************  GET   **************************
+**********************************************************/
 
 int get_lives()
 {
@@ -37,7 +62,18 @@ int get_points()
     return points;
 }
 
+int* get_shields()
+{
+    return shields;
+}
+
+/**********************************************************
+************************  VARIOUS   ***********************
+**********************************************************/
+
 void kill_alien(const int tipo_alien)
+//Sumo al puntaje actual, la cantidad propocional al
+//invader proporcional.   
 {
     switch (tipo_alien)
     /* NOTA: Definir los aliens en algun .h  
@@ -62,8 +98,8 @@ void kill_alien(const int tipo_alien)
         break;            
 
     case UFO:
-        increase_points(UFO_POINTS);
-        break; 
+        increase_points(UFO_POINTS);    
+        break;                         
 
     default:
         return 1;
@@ -71,8 +107,7 @@ void kill_alien(const int tipo_alien)
 
     if (tipo_alien>=0 && tipo_alien<=3)
     {
-        killed_invaders[tipo_alien]++;  // Incremento la cantidad de invaders del tipo
-                                        //del que fue asesinado.
+        killed_invaders[tipo_alien]++;  
     }
     return 0;
 }

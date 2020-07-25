@@ -2,10 +2,14 @@
 
 void reset_lives(void);
 void reset_points(void);
-void increase_points(int cant);
+
+void increase_points(const int cant);
 int decrease_lives(void);
+
 int get_lives(void);
 int get_points(void);
+int* get_shields(void);
+
 void kill_alien(const int tipo_alien);
 void break_shield();
 void level_up();
@@ -16,6 +20,7 @@ void level_up();
 #define UFO_POINTS      250
 
 #define SHIELDS         5
+#define SHIELD_PARTS    2
 #define SHIELD_LIVES    2
 
 enum{
