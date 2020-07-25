@@ -2,7 +2,7 @@ TODO:
 
     BACK-END:
 
-    NOTA: Para el front necesitamos la constante ONLY_ESENTIAL que se 
+    NOTA: Para el front necesitamos la constante ONLY_ESSENTIAL que se 
     pone en 1 si es raspi y en 0 si es allegro.
 
     FRONT-END:
