@@ -14,6 +14,7 @@ void level_up();
 
 #define INIT_LIFES 3
 
+//Puntaje que asingan los aliens.
 #define CRAB_POINTS     10
 #define OCTOPUS_POINTS  20  
 #define SQUID_POINTS    30  
@@ -21,9 +22,10 @@ void level_up();
 #define MIN_RAND        2
 #define MAX_RAND        4
 
+//NOTA: PASA PA'L FRONT.
 #define SHIELDS         5
 #define SHIELD_PARTS    2
-#define SHIELD_LIVES    2
+#define SHIELD_LIFES    2
 
 enum INVADERS{
     CRAB = 0,

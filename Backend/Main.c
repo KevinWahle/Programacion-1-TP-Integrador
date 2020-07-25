@@ -31,11 +31,12 @@ int main()
     {
         //NOTA: Agregar funcion redraw.
         
-        event_t evento = get_next_event();
+        update_front_event();               // Actualizar la lista de eventos que me indica el front.
+        event_t evento = get_next_event();  // Tomo un nuevo evento de la cola de eventos.
 
         if (evento!= NULL_EVENT)
         {
-            p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);
+            p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);  // Actualizo el estado
         }    
     }
 
