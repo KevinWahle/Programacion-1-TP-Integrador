@@ -103,7 +103,7 @@ void kill_alien(const int tipo_alien)       //NOTA: FALTARIA LA POSICION. EN EL 
         srand(time(0)); 
         int temp;
         do {
-            temp= rand()
+            temp= rand();
         }while ( temp>=MIN_RAND && temp<=MAX_RAND);
         increase_points(temp*UFO_POINTS);   
         break;                         
