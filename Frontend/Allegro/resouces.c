@@ -56,6 +56,9 @@ static ALLEGRO_DISPLAY *display = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 // Invaders matrix
 static invader_t invaders[FIL_INVADERS][COL_INVADERS];
+static ALLEGRO_SAMPLE *sample1 = NULL;
+static ALLEGRO_FONT * font1 = NULL;
+
 
 /*******************************************************************************
  *******************************************************************************
@@ -68,34 +71,50 @@ int init_all()       // Inicializo y verifico que no falle
         if (al_init_primitives_addon()) {
 			timer = al_create_timer(1.0 / FPS); //crea el timer pero NO empieza a correr
 			if (timer) {
-				if (al_init_image_addon()) {
-					display = al_create_display(D_WIDTH, D_HEIGHT);
-					if (display) {
-                        if (al_install_keyboard()) {
-					        event_queue = al_create_event_queue();
-							if (event_queue) {
-                                al_register_event_source(event_queue, al_get_display_event_source(display));
-                                al_register_event_source(event_queue, al_get_timer_event_source(timer));
-                                al_register_event_source(event_queue, al_get_keyboard_event_source());
-                                return true;
-							} else
-								fprintf(stderr, "ERROR: failed to create event_queue!\n");
-                            al_uninstall_keyboard();
-                        } else
-                            fprintf(stderr, "ERROR: Failed to install keyboard\n");
-                        al_destroy_display(display);
-                    } else
-						fprintf(stderr, "ERROR: failed to create display!\n");
-					al_shutdown_image_addon();     
-				} else 
+				if (al_init_image_addon()) {    //Imagen
+                    if (al_init_font_addon()) {     //Fuente
+                        if(al_init_ttf_addon()) { // initialize the ttf (True Type Font) addon)    
+                            if (al_install_audio()) {               //INICIALIZACION
+                                if (al_init_acodec_addon()) {       //      DE
+                                    if (al_reserve_samples(1)) {    //     AUDIO
+                                        display = al_create_display(D_WIDTH, D_HEIGHT);
+                                        if (display) {
+                                            if (al_install_keyboard()) {
+                                                event_queue = al_create_event_queue();
+                                                if (event_queue) {
+                                                    al_register_event_source(event_queue, al_get_display_event_source(display));
+                                                    al_register_event_source(event_queue, al_get_timer_event_source(timer));
+                                                    al_register_event_source(event_queue, al_get_keyboard_event_source());
+                                                    return true;
+                                                } else
+                                                    fprintf(stderr, "ERROR: failed to create event_queue!\n");
+                                                al_uninstall_keyboard();
+                                            } else
+                                                fprintf(stderr, "ERROR: failed to install keyboard\n");
+                                            al_destroy_display(display);
+                                        } else
+                                            fprintf(stderr, "ERROR: failed to create display!\n");
+                                    } else 
+                                        fprintf(stderr, "ERROR: failed to reserve samples!\n");
+                                 } else 
+                                    fprintf(stderr, "ERROR: failed to initialize audio codecs!\n");
+                                al_uninstall_audio(); 
+                            } else 
+                                fprintf(stderr, "ERROR: failed to initialize audio!\n"); 
+                        } else            
+                            fprintf(stderr, "ERROR: failed to initialize TTF!\n");
+                        al_shutdown_font_addon();
+                    } else 
+                        fprintf(stderr, "ERROR: failed to initialize fonts!\n");
+                    al_shutdown_image_addon();
+                } else 
 					fprintf(stderr, "ERROR: failed to initialize image addon !\n");
 				al_destroy_timer(timer);
 			} else
 				fprintf(stderr, "ERROR: failed to create timer!\n");
 			al_shutdown_primitives_addon();
 		} else
-			fprintf(stderr, "ERROR: Failed to load primitives addon \n");
-        al_uninstall_system();
+			fprintf(stderr, "ERROR: failed to load primitives addon \n");
     } else
         fprintf(stderr, "ERROR: Failed to initialize allegro system\n");
 	return false;
@@ -114,29 +133,40 @@ int load_all()
 			    if (endImage) {
                     cannon = al_load_bitmap("PNGs/Laser_Cannon.png");
                     if(cannon){
-///////////////////////////////////////
-                        for (int i = 0; i < FIL_INVADERS; i++) {    //revisar como destruir todo esto 
-                            for (int j = 0; j < COL_INVADERS; j++) {          //Cargo el bitmap a todas las invader
-                                invaders[i][j].invadersPointer = al_load_bitmap("Laser_Cannon.png");
-                                    if (!invaders[i][j].invadersPointer) {
-                                    fprintf(stderr, "ERROR: failed to load enemy image !\n");
-                                    return -1;
+                        font1 = al_load_ttf_font("Fonts/SP-font-menu.ttf", 36, 0);
+                        if(font1){
+                            sample1 = al_load_sample("Songs/audio.wav");
+                            if(sample1) {
+//////////////////////////////////////////////////////////////
+                                for (int i = 0; i < FIL_INVADERS; i++) {    //revisar como destruir todo esto 
+                                    for (int j = 0; j < COL_INVADERS; j++) {          //Cargo el bitmap a todas las invader
+                                        invaders[i][j].invadersPointer = al_load_bitmap("Laser_Cannon.png");
+                                            if (!invaders[i][j].invadersPointer) {
+                                            fprintf(stderr, "ERROR: failed to load enemy image !\n");
+                                            al_destroy_sample(sample1);
+                                            return false;
+                                        }
+                                    }
                                 }
-                            }
-                        }
-//////////////////////////////////////
-                        return true;     
+                                return true; 
+///////////////////////////////////////////////////////////////
+                            } else
+                                printf("ERROR: Audio clip sample not loaded!\n");
+                            al_destroy_font(font1);
+                        } else 
+                            fprintf(stderr, "ERROR: Could not load font 1!\n");
+                        al_destroy_bitmap(cannon);
                     } else
-                      fprintf(stderr, "ERROR: failed to load cannon image !\n");
+                      fprintf(stderr, "ERROR: failed to load cannon image!\n");
 			        al_destroy_bitmap(endImage);   
                 } else 
-    			    fprintf(stderr, "ERROR: failed to load endImage !\n");
+    			    fprintf(stderr, "ERROR: failed to load endImage!\n");
 			    al_destroy_bitmap(firstImage);
 			} else 
-				fprintf(stderr, "ERROR: failed to load firstImage !\n");
+				fprintf(stderr, "ERROR: failed to load firstImage!\n");
 			al_destroy_bitmap(menuImage);	
 		} else 
-    		fprintf(stderr, "ERROR: failed to load menuImage !\n");
+    		fprintf(stderr, "ERROR: failed to load menuImage!\n");
     return false;
 }
 
@@ -177,14 +207,16 @@ void destroy_all()
     al_destroy_bitmap(firstImage);
     al_destroy_bitmap(endImage);
     al_destroy_bitmap(cannon);
+    al_destroy_sample(sample1);
+     al_destroy_font(font1);
 
+    al_uninstall_audio();
     al_uninstall_keyboard();
     al_destroy_timer(timer);
     al_destroy_display(display);
     al_shutdown_image_addon();
     al_shutdown_primitives_addon();
     al_destroy_event_queue(event_queue);
-    al_uninstall_system();
     printf("See you next time...\n\n");
 }
 /*******************************************************************************
