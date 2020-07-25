@@ -147,24 +147,12 @@ void click_menu()
     }
     if(add==1)
             {
-            //TODO: Que pasa si no puedo agregar mas?    
+            //DUDA: Que pasa si no puedo agregar mas?    
             }
     actual_option=0;
 }
-/*
-void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
- 
-    //Debe mostrar en el front que sea el menú
-    //DEBE RETORNAR SI SE MOSTRARON solo los realmentes esenciales (1) o no (0).
-    
-    if (ONLY_ESSENTIALS==TRUE){           
-        show_all_menu(menu_to_show);
-    }
-    else{
-        show_essentials_menu(menu_to_show);
-    }
-}
-*/
+
+
 void pause_game(void){
     show_menu(pause_menu, sizeof(pause_menu)/sizeof(MENU_ITEM), actual_option);
 }
@@ -174,20 +162,19 @@ void resume_game(void){
 }
 
 void start_game(void){
-    //TODO:
+    //CONTINUAR:
     reset_points();
     reset_lives();
 
 }
 
 void restart_game(void){
-    //TODO:
+    //CONTINUAR: 
     reset_points();
     reset_lives();
-}
-
-void show_game_score(void){
-    //TODO
+    
+void show_game_score(unsigned long long int score){
+    //DUDA: No deberia ir a front???
 }
 
 void show_global_score(void) {
@@ -196,6 +183,8 @@ void show_global_score(void) {
 
 void quit_game(void) {
     destroy_front();
+    show_game_score();
+    
 }
 
 void doNothing(void) {

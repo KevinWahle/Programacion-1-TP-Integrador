@@ -2,9 +2,7 @@ TODO:
 
     BACK-END:
 
-    *Para el back-end necesitamos una funcion get_event que indique
-    si acontecio algun evento, ya sea eventos de hardware (click de 
-    mouse, se apreto enter, es apretó ESC) como eventos de software
-    (en el menu de inicio se apretó tal o cual cosa). 
+    NOTA: Para el front necesitamos la constante ONLY_ESSENTIAL que se 
+    pone en 1 si es raspi y en 0 si es allegro.
 
     FRONT-END:

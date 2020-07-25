@@ -76,6 +76,8 @@ FRONT:
     4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
     de ser posible por el front.
 
+    5) void show_game_score(unsigned long long int score):
+    Debe mostrar en el front el puntaje de jugador.
     
     RASPI:
 

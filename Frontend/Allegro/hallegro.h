@@ -14,26 +14,59 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_image.h>
-#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h> //manejo de fonts
+#include <allegro5/allegro_ttf.h> //Manejo de ttfs
+#include <allegro5/allegro_audio.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
+#include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
+//Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm. 
 
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
+#define D_WIDTH   800
+#define D_HEIGHT  600
+#define FPS       60.0
 
+#define FIL_INVADERS 5
+#define COL_INVADERS 9
 
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
+typedef unsigned char SHOT_TYPE;
+
+typedef struct 
+{
+    int x;
+    int y;
+    int shotState;
+    SHOT_TYPE type;
+}shot_t;
 
 
+typedef struct 
+{
+    int x;
+    int y;
+    int height;
+    int width;
+}collBoxShot_t;
+
+typedef struct 
+{
+    int x;
+    int y;
+    int invaderState;
+    int invaderType;
+    ALLEGRO_BITMAP *invadersPointer;
+}invader_t;
 
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
@@ -45,14 +78,28 @@
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
+/**
+ * @brief Inicializa los recursos a emplear.
+ * @return Si hubo o no error.
+*/
+int init_all();
 
 /**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Carga la imagenes, fuentes y sonidos.
 */
-// +ej: char lcd_goto (int fil, int col);+
+int load_all();
+
+/**
+ * @brief Muestra imagen de carga.
+*/
+void cargando_ando();
+
+/**
+ * @brief Destruye los recursos empleados.
+ **/
+void destroy_all();
+
+
 
 
 /*******************************************************************************

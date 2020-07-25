@@ -15,8 +15,6 @@ enum { PC, RASPI };
 #endif
 
 
-event_t back_event_queue[MAX_EVENTS];
-
 int main()
 {
     static BOOL running;
@@ -31,7 +29,9 @@ int main()
 
     while (running)
     {
-        event_t evento = get_next_event;
+        //NOTA: Agregar funcion redraw.
+        
+        event_t evento = get_next_event();
 
         if (evento!= NULL_EVENT)
         {

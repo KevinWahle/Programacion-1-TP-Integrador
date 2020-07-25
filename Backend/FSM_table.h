@@ -24,12 +24,11 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  *******************************************************************************/
-//FIXME: typedef unsigned char EVENT;
 typedef struct state_diagram_edge STATE;
 
 struct state_diagram_edge{
     event_t evento;
-	// Arreglo con todos los eventos admitidos que activan la rutina de acción
+	//Evento que activa la rutina de acción
 
     STATE *proximo_estado;
     // Puntero que apunta al estado al que hay que ir en caso
