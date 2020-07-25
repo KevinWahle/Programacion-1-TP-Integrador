@@ -10,8 +10,8 @@
 #include <allegro5/allegro_primitives.h>
 
 #define FPS    60.0 
-#define D_WIDTH 640
-#define D_HEIGHT 480
+#define D_WIDTH 800
+#define D_HEIGHT 600
 #define TASA_DE_CAMBIO 3
 #define TASA_DE_CAMBIO_BALA 2
 
@@ -23,6 +23,11 @@
 
 #define FIL_INVADERS 5
 #define COL_INVADERS 9
+
+// INVADERS POSITION
+#define INVADERS_WIDTH_PERCENT  0.7    // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
+#define INVADERS_HEIGHT_PERCENT  0.3    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
+#define INVADERS_START_HEIGHT_PERCENT  0.1    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
 
 
 #define CANT_INVADERS FIL_INVADERS*COL_INVADERS
@@ -203,7 +208,7 @@ int main(void) {
             getCanonShotCollision();
             
             drawAliveInvaders(invaders);
-            al_draw_bitmap(canonPointer, cannonXpos, 450, 0); //flags(normalmente en cero, ver doc. para rotar etc)
+            al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
             al_flip_display(); 
         }
     }
@@ -268,7 +273,7 @@ void getInvaderShotCollison(void)
     {
 
         collBoxShot_t canonBox = {  .x = cannonXpos ,
-                                    .y = 450,           // TODO: Hacer una estructura o constante
+                                    .y = D_HEIGHT - al_get_bitmap_height(canonPointer),           // TODO: Hacer una estructura o constante
                                     .height = al_get_bitmap_height(canonPointer),
                                     .width = al_get_bitmap_width(canonPointer)
                                  };
@@ -314,7 +319,7 @@ void canonShot(void)
     int ship_height = al_get_bitmap_height( canonPointer );
     
     int x_shot = (ship_width + 2* cannonXpos  )/2;
-    int y_shot = POS_EN_Y_DEL_CANNON;
+    int y_shot = D_HEIGHT - al_get_bitmap_height( canonPointer);
     
     shot_t shot = { .x = x_shot,
                     .y = y_shot,
@@ -402,19 +407,22 @@ void getCanonShotCollision(void)
 
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
 {
-    for (int i = 1; i <= FIL_INVADERS; i++)
+    for (int i = 0; i < FIL_INVADERS; i++)
     {
-        for (int j = 1; j <= COL_INVADERS; j++)
+        for (int j = 0; j < COL_INVADERS; j++)
         {
-            int x_pos =  j * D_WIDTH/(COL_INVADERS + 1);
-            int y_pos = i * al_get_bitmap_height( ptr_to_struct[i-1][j-1].invadersPointer ) + i*30;
-            al_draw_bitmap( ptr_to_struct[i-1][j-1].invadersPointer, x_pos, y_pos, 0 );
-            ptr_to_struct[i-1][j-1].x = x_pos;
-            ptr_to_struct[i-1][j-1].y = y_pos;
-            ptr_to_struct[i-1][j-1].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
+            int inv_width = al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer);
+            int inv_height = al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer);
+            int x_pos =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-inv_width)/(COL_INVADERS-1) + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
+            int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
+            al_draw_bitmap( ptr_to_struct[i][j].invadersPointer, x_pos, y_pos, 0 );
+            ptr_to_struct[i][j].x = x_pos;
+            ptr_to_struct[i][j].y = y_pos;
+            ptr_to_struct[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
         }
     }
 }
+
 static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADERS])
 {
     for (int i = 0; i < FIL_INVADERS; i++)
@@ -517,12 +525,40 @@ static int initAll(void)
 /*############################################
 ############################################*/
 
+/*
 void moveInvaders(int direction)
 {
+    if(direction == LEFT)
+    {
+        if(   )
+        {
 
+        }
+        for(int j = 0; j < COL_INVADERS; j++ )
+        {
+            int i = 0;
+            while( invaderShotList[i][j]  &&  i < FIL_INVADERS )
+            {
+                
+            }
+            if( !invaderShotList[i][j]  )
+            {
+                HAY QUE SEGUIR
+            }
+            else
+            {
+                CHANGE DIRECTION
+            }
+        }
+    }
+    else if(direction == RIGHT)
+    {
+
+    }
 }
 
 int decideWhetherChangeDirectionOrNot()
 {
-    
+
 }
+*/
