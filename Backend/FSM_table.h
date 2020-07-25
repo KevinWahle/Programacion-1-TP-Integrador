@@ -13,7 +13,7 @@
  ******************************************************************************/
 #include "../const.h"
 #include "FSM_routines.h"
-#include "event.h"
+#include "event_queue\event_queue.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -23,12 +23,12 @@
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-typedef unsigned char EVENT;
+ *******************************************************************************/
+//FIXME: typedef unsigned char EVENT;
 typedef struct state_diagram_edge STATE;
 
 struct state_diagram_edge{
-    EVENT evento;
+    event_t evento;
 	// Arreglo con todos los eventos admitidos que activan la rutina de acción
 
     STATE *proximo_estado;
@@ -68,7 +68,7 @@ STATE click_state[]= {
 
 STATE play_state[] = {
     {PAUSE_EVENT, menu_state, pause_game},      //pause_game va a tener adentro a show_menu() 
-    {END_GAME_EVENT, game_score_state, end_game},
+    {END_GAME_EVENT, game_score_state, show_game_score},
     {FIN_TABLE, play_state, doNothing}
 };
 

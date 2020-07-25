@@ -126,24 +126,30 @@ void down_menu(){
 
 void click_menu()
 {
+    int add;
     switch (main_menu[actual_option].ID)
     {
         case PLAY_ID:
-            //TODO: Inserte fucion para agregar evento a la cola
+            add = add_event(PLAY_EVENT);
         break;
 
         case SCORE_ID:
-            //TODO: Inserte fucion para agregar evento a la cola
+            add = add_event(SCORE_EVENT); 
         break;
 
         case OPTIONS_ID:
-            //TODO: Inserte fucion para agregar evento a la cola
+            add = add_event(OPTIONS_EVENT);
         break;
 
         case EXIT_ID:
-            //TODO: Inserte fucion para agregar evento a la cola
+            add = add_event(EXIT_EVENT);
         break;
     }
+    if(add==1)
+            {
+            //TODO: Que pasa si no puedo agregar mas?    
+            }
+    actual_option=0;
 }
 /*
 void show_menu(MENU_ITEM* menu_to_show, int menu_size, int highlight_item){
@@ -169,14 +175,18 @@ void resume_game(void){
 
 void start_game(void){
     //TODO:
-    
+    reset_points();
+    reset_lives();
+
 }
 
 void restart_game(void){
     //TODO:
+    reset_points();
+    reset_lives();
 }
 
-void end_game(void){
+void show_game_score(void){
     //TODO
 }
 
@@ -185,7 +195,7 @@ void show_global_score(void) {
 }
 
 void quit_game(void) {
-    destroy_front;
+    destroy_front();
 }
 
 void doNothing(void) {

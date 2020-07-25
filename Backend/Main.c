@@ -2,6 +2,7 @@
 #include "../const.h"
 #include "FSM_table.h"
 #include "FSM_routines.h"
+#include "event_queue.h"
 
 enum { PC, RASPI };
 #define PLATFORM PC
@@ -13,6 +14,8 @@ enum { PC, RASPI };
 #include "../Frontend/Raspi/....."
 #endif
 
+
+event_t back_event_queue[MAX_EVENTS];
 
 int main()
 {
@@ -28,10 +31,10 @@ int main()
 
     while (running)
     {
+        event_t evento = get_next_event;
 
-        if (get_device_status==BUSY)
+        if (evento!= NULL_EVENT)
         {
-            EVENT evento = get_event;
             p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);
         }    
     }
@@ -39,7 +42,7 @@ int main()
     return 0;
 }
 
-STATE *fsm_interprete(STATE * p_tabla_estado_actual, EVENT evento_actual)
+STATE *fsm_interprete(STATE * p_tabla_estado_actual, event_t evento_actual)
 {
     #ifdef DEBUG
     printf(" >>%c<<\n ",evento_actual); // Para debuggear
@@ -52,22 +55,3 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, EVENT evento_actual)
     p_tabla_estado_actual = p_tabla_estado_actual -> proximo_estado; // Encuentro próximo estado
     return (p_tabla_estado_actual);    
 }
-/*
-splash -------toca tecla----show menu {menu}----> menu
-        show_menu()
-            menu()
-
-loop()        
-    evento = espero_evento_front()
-    interprete(
-        evento = rutina_menu()
-        
-    )
-*/
-
-
-
-
-/*TODO: 
-        Definir get_Device_Status. DEBE RETORNAR 0 si no se pasa NADA 
-*/

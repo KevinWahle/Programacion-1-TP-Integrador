@@ -92,3 +92,27 @@ void empty_queue(void) {
  *******************************************************************************
  ******************************************************************************/
 
+int main() {
+        printArray(queue, 10);
+        add_event(1);
+        printArray(queue, 10);
+        add_event(12;
+        printArray(queue, 10);
+        add_event(3);
+        printArray(queue, 10);
+        add_event(4);
+        printArray(queue, 10);
+        add_event(5);
+        printArray(queue, 10);
+        add_event(6);
+        printArray(queue, 10);
+}
+
+printArray(event_t array, size_t size) {
+    printf("[ ");
+    for (int i = 0l i < size; i++) {
+        printf("%d ", array[i]);
+    }
+    printf("]\n");
+
+}
