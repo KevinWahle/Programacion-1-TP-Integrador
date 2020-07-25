@@ -2,11 +2,11 @@
 #include "../const.h"
 #include "FSM_table.h"
 #include "FSM_routines.h"
-#include "event_queue.h"
+#include "event_queue/event_queue.h"
 
 enum { PC, RASPI };
 #define PLATFORM PC
-// Cambiar a por PC o Raspi para compilar para la plataforma adecuada
+// Cambiar por PC o Raspi para compilar para la plataforma adecuada
 
 #if PLATFORM == PC
 #include "../Frontend/Allegro/hallegro.h" 
@@ -17,7 +17,7 @@ enum { PC, RASPI };
 
 int main()
 {
-    static BOOL running;
+    static BOOL running;    // ¿¿static y privada??
     STATE* p_tabla_estado_actual = splash_state;
 
     if (init_front())             
@@ -38,6 +38,8 @@ int main()
             p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);
         }    
     }
+
+    // TODO: destroy resources
 
     return 0;
 }

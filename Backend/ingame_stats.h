@@ -15,9 +15,9 @@ void break_shield();
 void level_up();
 
 #define CRAB_POINTS     10
-#define OCTOPUS_POINTS  10
-#define SQUID_POINTS    10
-#define UFO_POINTS      250
+#define OCTOPUS_POINTS  10  // 20?
+#define SQUID_POINTS    10  // 30?
+#define UFO_POINTS      250 // Esto eberia ser random (50, 100, 150, 200, 250)
 
 #define SHIELDS         5
 #define SHIELD_PARTS    2

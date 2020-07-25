@@ -126,7 +126,7 @@ void down_menu(){
 
 void click_menu()
 {
-    int add;
+    int add;        // WARNING: Deberia estar inicializada (por las dudas)
     switch (main_menu[actual_option].ID)
     {
         case PLAY_ID:
@@ -147,7 +147,7 @@ void click_menu()
     }
     if(add==1)
             {
-            //DUDA: Que pasa si no puedo agregar mas?    
+            //DUDA: Que pasa si no puedo agregar mas?       Se rompe todo xD   
             }
     actual_option=0;
 }
@@ -184,7 +184,7 @@ void show_global_score(void) {
 void quit_game(void) {
     destroy_front();
     show_game_score();
-    
+
 }
 
 void doNothing(void) {

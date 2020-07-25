@@ -30,7 +30,7 @@ void reset_shields()
                 shields[i][j]=SHIELD_LIVES;
             }
         }
-        
+
 }
 
 
@@ -43,7 +43,7 @@ void increase_points(const int cant)
     points += cant;
 }
 
-int decrease_lives()
+int decrease_lives()        // REVISAR: ¿Chequeo si lives>0?
 {
     return --lives;
 }
@@ -71,7 +71,7 @@ int* get_shields()
 ************************  VARIOUS   ***********************
 **********************************************************/
 
-void kill_alien(const int tipo_alien)
+void kill_alien(const int tipo_alien)       //NOTA: FALTARIA LA POSICION. EN EL FRONT, LOS BICHOS ESTAN EN UNA MATRIZ
 //Sumo al puntaje actual, la cantidad propocional al
 //invader proporcional.   
 {
