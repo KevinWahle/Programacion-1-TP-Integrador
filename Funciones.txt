@@ -37,6 +37,11 @@ BACK:
         int getColission(); // Cambiar int por un tipo de dato que identificque personajes
             Devuelve si hubo colisión, en caso de haberla, devuelve con qué choco
 
+        void redraw(void);
+            Cede el control al front para imprimir en pantalla, detectar colisiones,
+            agregar los eventos a la event_queue, etc, etc...
+            OBS: el main del back NO DEBE SER BLOQUEANTE
+
         destroyCanon();
 
         nextLevel();

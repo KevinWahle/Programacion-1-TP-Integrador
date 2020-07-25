@@ -2,11 +2,11 @@
 #include "../const.h"
 #include "FSM_table.h"
 #include "FSM_routines.h"
-#include "event_queue.h"
+#include "event_queue/event_queue.h"
 
 enum { PC, RASPI };
 #define PLATFORM PC
-// Cambiar a por PC o Raspi para compilar para la plataforma adecuada
+// Cambiar por PC o Raspi para compilar para la plataforma adecuada
 
 #if PLATFORM == PC
 #include "../Frontend/Allegro/hallegro.h" 
@@ -17,7 +17,7 @@ enum { PC, RASPI };
 
 int main()
 {
-    static BOOL running;
+    static BOOL running;    // ¿¿static y privada??
     STATE* p_tabla_estado_actual = splash_state;
 
     if (init_front())             
@@ -31,13 +31,16 @@ int main()
     {
         //NOTA: Agregar funcion redraw.
         
-        event_t evento = get_next_event();
+        update_front_event();               // Actualizar la lista de eventos que me indica el front.
+        event_t evento = get_next_event();  // Tomo un nuevo evento de la cola de eventos.
 
         if (evento!= NULL_EVENT)
         {
-            p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);
+            p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);  // Actualizo el estado
         }    
     }
+
+    // TODO: destroy resources
 
     return 0;
 }

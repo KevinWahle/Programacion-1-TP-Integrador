@@ -14,26 +14,40 @@
  ******************************************************************************/
 
 enum EVENTS {
-	INIT_FAILURE_EVENT, 
+	
+	// Eventos que provienen del back.
+	INIT_FAILURE_EVENT, 					
 //	OK_EVENT,
-//	PRESS_EVENT,	
+//	PRESS_EVENT, 	
 	PLAY_EVENT, 
 	SCORE_EVENT,
 	OPTIONS_EVENT,
-	EXIT_EVENT,
+	EXIT_EVENT,		//Puede ser tanto front como back.
 	RESUME_EVENT,
 	RESTART_EVENT, 
 	PAUSE_EVENT, 
 	RETURN_EVENT,
-	END_GAME_EVENT,
+	FIN_TABLE,
 
+
+	// Eventos que provienen del front y son hardware.
 	MOVE_UP,
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
     CLICK_BTN,  // Botón de click, shoot o aceptar
     PAUSE_BTN,
-	FIN_TABLE
+
+	// Eventos que provienen del front y son sobre el juego.
+	CRAB_COLL_EV,
+	OCTO_COLL_EV,
+	SQUID_COLL_EV,
+	UFO_COLL_EV,
+	SHIELD_COLL_EV,	// Colision a los escuditos.
+	
+	LEVEL_UP_EV,
+	END_GAME_EVENT,
+
 };
 
 
