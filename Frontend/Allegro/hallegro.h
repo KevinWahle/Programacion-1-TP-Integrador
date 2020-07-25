@@ -26,16 +26,44 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define D_WIDTH 800
-#define D_HEIGHT 600
-#define WAIT_TIME 1
+#define D_WIDTH   800
+#define D_HEIGHT  600
+#define FPS       60.0
+
+#define FIL_INVADERS 5
+#define COL_INVADERS 9
 
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
+typedef unsigned char SHOT_TYPE;
+
+typedef struct 
+{
+    int x;
+    int y;
+    int shotState;
+    SHOT_TYPE type;
+}shot_t;
 
 
+typedef struct 
+{
+    int x;
+    int y;
+    int height;
+    int width;
+}collBoxShot_t;
+
+typedef struct 
+{
+    int x;
+    int y;
+    int invaderState;
+    int invaderType;
+    ALLEGRO_BITMAP *invadersPointer;
+}invader_t;
 
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
