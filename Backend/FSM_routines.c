@@ -147,7 +147,7 @@ void click_menu()
     }
     if(add==1)
             {
-            //TODO: Que pasa si no puedo agregar mas?    
+            //DUDA: Que pasa si no puedo agregar mas?    
             }
     actual_option=0;
 }
@@ -174,20 +174,19 @@ void resume_game(void){
 }
 
 void start_game(void){
-    //TODO:
+    //CONTINUAR:
     reset_points();
     reset_lives();
 
 }
 
 void restart_game(void){
-    //TODO:
+    //CONTINUAR: 
     reset_points();
     reset_lives();
-}
-
-void show_game_score(void){
-    //TODO
+    
+void show_game_score(unsigned long long int score){
+    //DUDA: No deberia ir a front???
 }
 
 void show_global_score(void) {

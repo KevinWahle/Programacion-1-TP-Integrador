@@ -24,7 +24,8 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  *******************************************************************************/
-//FIXME: typedef unsigned char EVENT;
+//DUDA: Cómo utilizar el typedef event_t.
+//typedef unsigned char EVENT;
 typedef struct state_diagram_edge STATE;
 
 struct state_diagram_edge{
