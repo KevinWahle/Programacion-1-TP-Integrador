@@ -26,7 +26,9 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-
+#define D_WIDTH 800
+#define D_HEIGHT 600
+#define WAIT_TIME 1
 
 
 /*******************************************************************************
@@ -45,14 +47,28 @@
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
+/**
+ * @brief Inicializa los recursos a emplear.
+ * @return Si hubo o no error.
+*/
+int init_all();
 
 /**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Carga la imagenes, fuentes y sonidos.
 */
-// +ej: char lcd_goto (int fil, int col);+
+int load_all();
+
+/**
+ * @brief Muestra imagen de carga.
+*/
+void cargando_ando();
+
+/**
+ * @brief Destruye los recursos empleados.
+ **/
+void destroy_all();
+
+
 
 
 /*******************************************************************************

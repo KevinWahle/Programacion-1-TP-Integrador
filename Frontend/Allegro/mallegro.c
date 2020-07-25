@@ -8,7 +8,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 
-// +Incluir el header propio (ej: #include "template.h")+
+#include "hallegro.h"
 
 
 /*******************************************************************************
@@ -56,6 +56,22 @@
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+  int main(void)
+  { 
+    if (!init_all())
+    {
+      return -1;
+      destroy_all();
+    }
+    if (!load_all())
+    {
+        return -1;
+    }
+    cargando_ando();    // Loading...
+    al_rest(2);
+    destroy_all();
+    return 0;
+  }
 
 
 
