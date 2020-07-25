@@ -165,7 +165,6 @@ void start_game(void){
     //CONTINUAR:
     reset_points();
     reset_lives();
-
 }
 
 void restart_game(void){

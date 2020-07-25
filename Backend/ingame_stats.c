@@ -1,12 +1,14 @@
 #include "ingame_stats.h"
+#include<time.h> 
+#include <stdlib.h>
 
 static int lives;
 static int points;
 static int killed_invaders[3];
-static int shields[SHIELDS][SHIELD_PARTS];
-//Primer elemento scrabs, segundo octopus, tercero squids 
-//y ultimo UFOs.
+//El contendio quedaría:
+//  killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
 
+static int shields[SHIELDS][SHIELD_PARTS];
 
 /**********************************************************
 ***********************  RESET   **************************
@@ -98,7 +100,12 @@ void kill_alien(const int tipo_alien)       //NOTA: FALTARIA LA POSICION. EN EL 
         break;            
 
     case UFO:
-        increase_points(UFO_POINTS);    
+        srand(time(0)); 
+        int temp;
+        do {
+            temp= rand()
+        }while ( temp>=MIN_RAND && temp<=MAX_RAND);
+        increase_points(temp*UFO_POINTS);   
         break;                         
 
     default:
@@ -112,11 +119,16 @@ void kill_alien(const int tipo_alien)       //NOTA: FALTARIA LA POSICION. EN EL 
     return 0;
 }
 
-void shield_collision()
+void shield_collision(int shield, int parte)
+// Shield va entre 0 y SHIELDS-1
 {
-
+    if (shield>=0 && shield <SHIELDS && parte>=IZQUIERDA && parte<=DERECHA) 
+    shields[shield][parte]--;                
 }
 
 void level_up(){
+
     
 }
+
+
