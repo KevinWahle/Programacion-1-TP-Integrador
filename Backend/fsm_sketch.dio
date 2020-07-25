@@ -1,6 +1,6 @@
-<mxfile host="61d9fe0f-2c73-47df-b959-6207be1fde7e" modified="2020-07-24T20:35:02.115Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.47.2 Chrome/78.0.3904.130 Electron/7.3.2 Safari/537.36" etag="w3mlvFXy7sbBsCM8ukMD" version="13.1.3">
+<mxfile host="b76451bc-c139-42fd-b94e-881ba82346c2" modified="2020-07-25T23:37:26.065Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.47.2 Chrome/78.0.3904.130 Electron/7.3.2 Safari/537.36" etag="ZfpnSVmCVtc2mf9unRKK" version="13.1.3">
     <diagram id="6hGFLwfOUW9BJ-s0fimq" name="Page-1">
-        <mxGraphModel dx="475" dy="629" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="806" dy="480" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -37,17 +37,6 @@
                 <mxCell id="2" value="Menú:&lt;br&gt;Play" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;fontSize=16;" parent="1" vertex="1">
                     <mxGeometry x="381" y="270" width="66" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=16;fontColor=#33FF33;" parent="1" source="3" target="6" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="3" edge="1" target="15">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="660.4117647058824" y="398.52941176470586" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="3" value="Inicialización&lt;br style=&quot;font-size: 16px;&quot;&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;fontSize=16;" parent="1" vertex="1">
-                    <mxGeometry x="361.5" y="30" width="105" height="80" as="geometry"/>
-                </mxCell>
                 <mxCell id="17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=none;labelBorderColor=none;fontColor=#FFFFFF;" parent="1" source="6" target="2" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
@@ -69,13 +58,10 @@
                 <mxCell id="27" value="Return_event&lt;br&gt;show _menu()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="133" y="270" width="115" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="28" value="OK_event&lt;br&gt;show_splash()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="445" y="120" width="40" height="20" as="geometry"/>
-                </mxCell>
                 <mxCell id="29" value="Exit_event&lt;br&gt;exit()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="553" y="384" width="40" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="30" value="Press_event&lt;br&gt;show_menu()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                <mxCell id="30" value="CLICK_BTN&lt;br&gt;show_menu()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="440" y="240" width="40" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;labelBackgroundColor=none;fontSize=16;fontColor=#FFFFFF;" parent="1" source="34" edge="1">
@@ -190,9 +176,6 @@
                 </mxCell>
                 <mxCell id="81" value="LA &lt;br&gt;BIBLIA" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;fillColor=#a0522d;strokeColor=#6D1F00;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="538" y="1192" width="127" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="86" value="INIT_FAILURE_EVENT&lt;br&gt;exit()" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" parent="1" vertex="1">
-                    <mxGeometry x="485" y="42" width="136" height="32" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

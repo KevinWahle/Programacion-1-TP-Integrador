@@ -177,7 +177,10 @@ void show_game_score(unsigned long long int score){
 }
 
 void show_global_score(void) {
-    //TODO
+    SCORE arr[NAME];                     
+    SCORE* pun=arr;
+    lect_score(pun);
+    funcion_bustelo (pun);
 }
 
 void quit_game(void) {

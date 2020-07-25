@@ -1,49 +1,12 @@
 #include <stdio.h>
-#define NAME    6 // Implica que cada nombre tiene que tener 5 letras como máximo
+#include "scoretable.h"    
 #define OFFSET  '0'
 
-
-
-typedef struct          // Estructura que contiene al nombre del usuario con su correspondiente puntaje 
-{
-    char name[NAME];
-    unsigned long int pts;
-} SCORE;
-
-void put_score (char* name, unsigned long int score, int top, SCORE* my_pun); //coloca los nombres y scores en un txt odenados
-//name: string con el nombres
-//score: puntaje asignado al nombre
-//top: cantidad de puntjes a mostrar
-//mypun: puntero a una posicion de memoria donde se almacenaran los datos del score
-
-int lect_score (SCORE* my_pun); // Coloco en memoria los datos del score
-//mypun: puntero a una posicion de memoria donde se almacenaran los datos del score
-
-void only_lect_score (SCORE* mypun); // coloco en memoria los datos del score
-//mypun: puntero a una posicion de memoria donde se almacenaran los datos del score
 
 void BubbleSort(SCORE arr[], int cont); // Ordena los eleementos de mayor a menor
 //arr: arreglo  con los elementos a ordenar
 //cont: cantidad de elementos a ordenar
 
-int main (void){
-    SCORE arr[50];                     //ni lo comento porque esto es un main de prueba
-    SCORE* pun=arr;
-   
-    put_score ("KEVIN", 200, 5, pun);
-    put_score ("PERON", 2104, 5, pun);
-    put_score ("MARTI", 22, 5, pun);
-    put_score ("CAR", 99923, 5, pun);
-    put_score ("SERMA", 10034, 5, pun);
-    put_score ("SCHEM", 5900, 5, pun);
-    put_score ("BUSTE", 4100, 5, pun);
-    
-    put_score ("MESSI", 10395, 5, pun);
-    put_score ("OSO", 44101, 5, pun);
-    put_score ("BORRE", 10395, 5, pun);
-    
-
-    }
 void put_score (char* name, unsigned long int score, int top, SCORE* my_pun)
 {
     FILE* fp;
@@ -116,33 +79,7 @@ int lect_score (SCORE* my_pun)
     return cant;
 }
 
-void only_lect_score (SCORE* my_pun)
-{
-    FILE* fp;
-    char str[NAME];             // Arreglo con el nombre
-    SCORE score_data;           // Tipo de dato que almacena nombre y puntaje
-    char c;                     // Caracter a leer
-    int num;                    // Numero con el puntaje
-    fp=fopen ("score.txt","r");
 
-    do
-    {
-        num=0;
-        fgets (str,NAME,fp);                    // Coloco el nombre en el Arreglo
-        fgetc (fp);                             // Leo el espacio (basura)
-
-        while ((c=fgetc (fp))!=EOF && c!='\n'){ // Mientras que no Lea un enter, o el archivo se termine
-            num=num*10+(c-OFFSET);              // vamos conformando el numero con los caracteres
-        }
-        for (int i=0; i<NAME; i++){
-            score_data.name[i]=str[i];          // Cargamos el nombre a la estructura
-        }
-        score_data.pts=num;                     // Cargamos el puntaje a la estructura
-        *my_pun=score_data;
-        my_pun++;                               // Apuntamos al siguiente nombre y puntaje
-    }while (c!=EOF);                            // Repetimos lo anterior hasta que hayamos leido todo el archivo
-    fclose(fp);                                 // Cerramos el archivo 
-}
 
 void BubbleSort (SCORE arr[], int cont){
 	SCORE temp;
