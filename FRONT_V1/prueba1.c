@@ -35,6 +35,9 @@
 
 #define MAX_INVADERS_SHOT 20
 
+#define MAX_CANON_SHOT 3
+
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -88,6 +91,9 @@ int invaderShot(int i, int j);
 
 void getInvaderShotCollison(void);
 
+void canonShot(void);
+
+void getCanonShotCollision(void);
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -102,7 +108,12 @@ static void drawAliveInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS
 static shot_t invaderShotList[MAX_INVADERS_SHOT];
 // Lista de los disparos de los invaders
 
-static int actualShots; 
+static int actualInvadersShots; 
+static int actualCanonShots;
+
+static shot_t shotCanon;
+
+static shot_t canonShotList[MAX_CANON_SHOT];
 
 /************ALLEGRO VARIABLES DEFINITION***************/
 static ALLEGRO_DISPLAY * display = NULL;
@@ -126,14 +137,14 @@ int main(void) {
 
     bool key_pressed[4] = {false, false, false, false}; //Estado de teclas, true cuando esta apretada
 
+    shot_t shot1 = {0,0,0};
+    collBoxShot_t collBoxShot = {0,0,0,0};
+
     if(initAll())
     {
         return -1;
     }
     
-    shot_t shot1 = {0,0,0};
-    collBoxShot_t collBoxShot = {0,0,0,0};
-
     while (!display_close) {
         ALLEGRO_EVENT ev;
         if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
@@ -178,7 +189,7 @@ int main(void) {
                     key_pressed[KEY_RIGHT] = false;
                     break;
                 case ALLEGRO_KEY_SPACE:
-                    key_pressed[KEY_SPACE] = false;
+                    canonShot();
                 default:
                     break;
                 }
@@ -189,12 +200,12 @@ int main(void) {
 
             al_clear_to_color(al_map_rgb(0, 0, 0));
 
-            if(  !(rand() % 30)  )
+            if(  !(rand() % 60)  )
             {
                 invaderShot(FIL_INVADERS - 1 , rand()  % (COL_INVADERS )  );
             }
 
-            if(key_pressed[KEY_SPACE] && !shot1.shotState) 
+            /*if(key_pressed[KEY_SPACE] && !shot1.shotState) 
             {
                 int ship_width = al_get_bitmap_width(image);
                 int ship_height = al_get_bitmap_height(image);
@@ -241,7 +252,12 @@ int main(void) {
                 {
                     shot1.shotState = 0;
                 }
-            }
+            }*/
+
+
+
+            getCanonShotCollision();
+
 
             getInvaderShotCollison();
             
@@ -386,7 +402,7 @@ int invaderShot(int i, int j)
     }
     if (k < MAX_INVADERS_SHOT) {
         invaderShotList[k] = shot;
-        actualShots++;
+        actualInvadersShots++;
         al_draw_line(x_shot, y_shot, x_shot, y_shot + 15 , al_color_name("white"), 0);
         return 0;       // TODO: Cambiar por codigo OK
     }
@@ -433,7 +449,7 @@ static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADE
 
 void getInvaderShotCollison(void)
 {
-    if(actualShots > 0)
+    if(actualInvadersShots > 0)
     {
 
         collBoxShot_t canonBox = {  .x = cannonXpos ,
@@ -445,7 +461,7 @@ void getInvaderShotCollison(void)
         int i = 0;
         int foundShots = 0;
         int colisionDetected = 0;
-        while (i < MAX_INVADERS_SHOT && foundShots < actualShots) 
+        while (i < MAX_INVADERS_SHOT && foundShots < actualInvadersShots) 
         {
             if (invaderShotList[i].shotState == 1) {
                 foundShots++;
@@ -460,8 +476,6 @@ void getInvaderShotCollison(void)
                                                           .width = SHOT_WIDTH
                                                        };
 
-
-
                 if( isCollision( &collBoxShotFromInvader, &canonBox ) )
                 {
                     invaderShotList[i].shotState = 0;
@@ -471,12 +485,156 @@ void getInvaderShotCollison(void)
                 else if( invaderShotList[i].y > D_HEIGHT )
                 {
                     invaderShotList[i].shotState = 0;
-                    actualShots++;
+                    //actualInvadersShots++;
+                    colisionDetected++;
                 }
             }
             i++;
         }
-        actualShots -= colisionDetected;
-
+        actualInvadersShots -= colisionDetected;
     }
 }
+/*
+void canonShot(void)
+{
+    int ship_width = al_get_bitmap_width(image);
+    int ship_height = al_get_bitmap_height(image);
+    al_draw_line((ship_width + 2*cannonXpos)/2, POS_EN_Y_DEL_CANNON , (ship_width + 2*cannonXpos)/2, COLA_DE_DISPARO, al_color_name("white"), 0);
+
+    shotCanon.x = (ship_width + 2*cannonXpos)/2;   
+    shotCanon.y = POS_EN_Y_DEL_CANNON;
+    shotCanon.type = INVADER_SHOT;                   
+    shotCanon.shotState = 1;                       
+}
+
+void getCanonShotCollision(void)
+{
+            if(shotCanon.shotState)
+            {
+                al_draw_line(shotCanon.x, shotCanon.y , shotCanon.x,  shotCanon.y - 15, al_color_name("white"), 0);
+                shotCanon.y -= TASA_DE_CAMBIO_BALA;
+
+                collBoxShot_t collBoxShotFromCanon = {  .x = shotCanon.x - SHOT_WIDTH/2,
+                                                        .y = shotCanon.y - SHOT_HEIGHT,
+                                                        .width = SHOT_WIDTH,
+                                                        .height = SHOT_HEIGHT
+                                                     };
+
+                for (int i = 0; i < FIL_INVADERS; i++)
+                {
+                    for (int j = 0; j < COL_INVADERS; j++)
+                    {
+                        if( invaders[i][j].invaderState  )
+                        {
+                            collBoxShot_t invaderBox = {.x = invaders[i][j].x,
+                                                        .y = invaders[i][j].y,
+                                                        .height = al_get_bitmap_height(invaders[i][j].invadersPointer),
+                                                        .width = al_get_bitmap_width(invaders[i][j].invadersPointer)};
+                            if( isCollision( &invaderBox, &collBoxShotFromCanon))
+                            {
+                                printf("COLISION!!!!!\n");
+                                shotCanon.shotState = 0;
+                                invaders[i][j].invaderState = 0;
+                            }
+                        }
+                    }
+                }
+
+                //TODO: Chequear colision con escudos
+                if( collBoxShotFromCanon.y <= 0)
+                {
+                    shotCanon.shotState = 0;
+                }
+            }
+}
+*/
+
+void canonShot(void)
+{   
+    int ship_width = al_get_bitmap_width( image );
+    int ship_height = al_get_bitmap_height( image );
+    
+    int x_shot = (ship_width + 2* cannonXpos  )/2;
+    int y_shot = POS_EN_Y_DEL_CANNON;
+    
+    shot_t shot = { .x = x_shot,
+                    .y = y_shot,
+                    .type = INVADER_SHOT,
+                    .shotState = 1
+                  };
+    int k = 0;
+    while (canonShotList[k].shotState != 0 && k < MAX_CANON_SHOT) {
+        k++;        // Busco un lugar en la lista (donde el disparo no este activo)
+    }
+    if (k < MAX_CANON_SHOT) {
+        canonShotList[k] = shot;
+        actualCanonShots++;
+        al_draw_line(x_shot, y_shot, x_shot, y_shot - 15 , al_color_name("white"), 0);
+               // TODO: Cambiar por codigo OK
+    }
+    // ARRAY OVERFLOW
+              // TODO: Cambiar por codigo de error
+}
+
+void getCanonShotCollision(void)
+{
+    if(actualCanonShots > 0)
+    {
+        int iCont = 0;
+        int foundShots = 0;
+        int colisionDetected = 0;
+        while (iCont < MAX_CANON_SHOT && foundShots < actualCanonShots) 
+        {
+            if (canonShotList[iCont].shotState == 1) 
+            {
+                foundShots++;
+
+                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
+                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA;
+
+                collBoxShot_t collBoxShotFromCanon =   {  .x = canonShotList[iCont].x - SHOT_WIDTH/2 ,
+                                                          .y = canonShotList[iCont].y - SHOT_HEIGHT ,
+                                                          .height = SHOT_HEIGHT , 
+                                                          .width = SHOT_WIDTH
+                                                       };
+                if( canonShotList[iCont].y <= 0 )
+                {
+                    canonShotList[iCont].shotState = 0;
+                    colisionDetected++;
+                }
+                else
+                {
+                    for(int i = 0; i < FIL_INVADERS; i++)
+                    {
+                        for (int j = 0; j < COL_INVADERS; j++)
+                        {
+                            if( invaders[i][j].invaderState  )
+                            {
+                                collBoxShot_t invaderBox = {  .x = invaders[i][j].x ,
+                                                              .y = invaders[i][j].y ,           // TODO: Hacer una estructura o constante
+                                                              .height = al_get_bitmap_height(invaders[i][j].invadersPointer),
+                                                              .width = al_get_bitmap_width(invaders[i][j].invadersPointer)
+                                                           };
+
+                                if( isCollision( &collBoxShotFromCanon, &invaderBox ) )
+                                {
+                                    canonShotList[iCont].shotState = 0;
+                                    invaders[i][j].invaderState = 0;
+                                    colisionDetected++;
+                                    printf("ENTRO EL DISPARO\n");
+                                }
+                            }
+
+                        }
+                    }                    
+                }
+                
+            }
+            iCont++;
+        }
+        actualCanonShots -= colisionDetected;
+    }
+}
+
+
+
