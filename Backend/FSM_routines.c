@@ -71,6 +71,8 @@ static actual_option = 0;
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+
+// NOTA: no se usa.
 int essentials_count (int cant){
      int cant_essentials=0;
     for(int i=0; i<cant; i++)
@@ -84,14 +86,18 @@ int essentials_count (int cant){
 }
 
 void show_splash(void){     
-    splash_front();         
+    splash_front();
+    
+    #ifdef DEBUG
+    printf("Muestro el SPLASH. \n");
+    #endif          
 }
 
 void my_menu(){
     actual_option=0;
     show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);  //Actualizo el menu, resaltando la opcion actualizada.  
 
-    #if DEBUG
+    #ifdef DEBUG
         printf("Muestro el menú principal. \n");
     #endif
 
@@ -111,7 +117,16 @@ if (ONLY_ESSENTIAL){
         actual_option++;                                                //subimos en el menú hasta la siguiente opcion
         }
     }
+
+    #ifdef DEBUG
+    printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
+    #endif 
+
     show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front.
+
+    #ifdef DEBUG
+    printf("Se actualizó el menú");
+    #endif 
 }
 
 void down_menu(){
@@ -128,7 +143,16 @@ void down_menu(){
             actual_option--;                                            //bajamos en el menú hasta la siguiente opcion
         }
     }
+    
+    #ifdef DEBUG
+    printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
+    #endif 
+    
     show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front.
+
+    #ifdef DEBUG
+    printf("Se actualizó el menú");
+    #endif 
 }
 
 void click_menu()
@@ -157,6 +181,10 @@ void click_menu()
             //DUDA: Que pasa si no puedo agregar mas?       Se rompe todo xD   
             }
     actual_option=0;
+
+    #ifdef DEBUG
+        printf("Se agregó a la cola de eventos: %d \n", main_menu[actual_option].ID);
+    #endif      
 }
 
 
@@ -164,7 +192,7 @@ void pause_game(void){
     actual_option=0;
     show_menu(pause_menu, sizeof(pause_menu)/sizeof(MENU_ITEM), actual_option);
 
-    #if DEBUG
+    #ifdef DEBUG
         printf("Mostrando menú de pausa. \n");
     #endif
 }
@@ -172,7 +200,7 @@ void pause_game(void){
 void resume_game(void){
     
     
-    #if DEBUG
+    #ifdef DEBUG
         printf("Mostrando menú de pausa. \n");
     #endif
 }
@@ -180,7 +208,7 @@ void resume_game(void){
 void show_game_score(unsigned long long int score){
     //CONTINUAR: funcion_front (cantidad de bichos muertos de cada tipo,...,pts,nivel);
 
-    #if DEBUG
+    #ifdef DEBUG
         printf("Mostrando las estadisticas de la partida. \n");
     #endif
 }
@@ -192,7 +220,7 @@ void start_game(void){
     reset_shields();
     reset_level();
     
-    #if DEBUG
+    #ifdef DEBUG
         printf("Preparo las variables para jugar. \n");
     #endif
 }
@@ -203,7 +231,7 @@ void show_global_score(void) {
     int basura= lect_score(p_leadboard);
     //NOTA: AGREGAR funcion_bustelo (p_leadboard);
 
-    #if DEBUG
+    #ifdef DEBUG
         printf("Mostrando Leadboard. \n");
     #endif
 }
@@ -211,8 +239,9 @@ void show_global_score(void) {
 void quit_game(void) {
     destroy_front();
     show_game_score();
-        
-    #if DEBUG
+    running=0;
+
+    #ifdef DEBUG
         printf("Salgo del juego. \n");
     #endif
 }

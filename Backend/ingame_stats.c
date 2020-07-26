@@ -20,7 +20,7 @@ void reset_lives()
 {
     lives=INIT_LIFES;
     
-    #if DEBUG
+    #ifdef DEBUG
         printf("Renuevo vidas. \n");
     #endif  
 } 
@@ -29,7 +29,7 @@ void reset_points()
 {
     points=0;
     
-    #if DEBUG
+    #ifdef DEBUG
         printf("Renuevo puntos. \n");
     #endif  
 }
@@ -44,7 +44,7 @@ void reset_shields()
             }
         }
 
-    #if DEBUG
+    #ifdef DEBUG
         printf("Renuevo escudos. \n");
         for (int i=0; i<SHIELDS i++){
             for (int j=0; j<SHIELD_PARTS)
@@ -61,7 +61,7 @@ void reset_level()
 {
     level=0;
     
-    #if DEBUG
+    #ifdef DEBUG
         printf("Renuevo vidas. \n");
     #endif  
 }
@@ -79,8 +79,8 @@ int decrease_lives()        // REVISAR: ¿Chequeo si lives>0?
 {
     --lives;
 
-    #if DEBUG
-        printf("Decremento 1 vida. \n");
+    #ifdef DEBUG
+        printf("Decremento 1 vida, quedan %d vidas \n", lives);
     #endif  
 
     return lives;
@@ -165,8 +165,13 @@ void kill_alien(const int tipo_alien)       //NOTA: FALTARIA LA POSICION. EN EL 
         killed_invaders[tipo_alien]++;  
     }
     
-    #if DEBUG
-        printf("Invader asesinado: %d \t Puntos: %d \n", tipo_alien, get_points());
+    #ifdef DEBUG
+        printf("Tipo de invader asesinado: %d \t Puntos: %d \n\n", tipo_alien, get_points());
+    
+        for(int i=0, i=<UFO, i++){
+        printf("Invaders del tipo %d asesinados: %d", tipo_alien, killed_invaders[tipo_alien]);
+        }
+    
     #endif 
     
     return 0;
@@ -178,7 +183,7 @@ void shield_collision(int shield, int parte)
     if (shield>=0 && shield <SHIELDS && parte>=IZQUIERDA && parte<=DERECHA) 
     shields[shield][parte]--; 
 
-    #if DEBUG
+    #ifdef DEBUG
         printf("Rompo escudo %d-%d  \n", shield, parte);
         for (int i=0; i<SHIELDS i++){
             for (int j=0; j<SHIELD_PARTS)
