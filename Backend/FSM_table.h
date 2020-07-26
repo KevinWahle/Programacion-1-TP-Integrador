@@ -70,7 +70,7 @@ STATE click_state[]= {
 STATE play_state[] = {
     {PAUSE_EVENT, menu_state, pause_game},       
     {END_GAME_EVENT, game_score_state, show_game_score},
-    {FIN_TABLE, play_state, doNothing} //NOTA: no debería
+    {FIN_TABLE, play_state, redraw} //NOTA: INCLUIR DONDE ESTE REDRAW
 };
 
 STATE pause_state[] = {

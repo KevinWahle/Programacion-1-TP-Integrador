@@ -110,7 +110,7 @@ void increase_level(){
 
     //CONTINUAR:
     // reset_aliens();
-    // increase_speed(?);
+
 
     #ifdef DEBUG
         printf("Se incremento el nivel, esta en el nivel %d \n", level);
@@ -118,7 +118,12 @@ void increase_level(){
 }
 
 void increase_speed(const int cant){
+    
+    if (speed<(MAX_SPEED-cant)){
     speed+=cant;            // Incremento en cant la velocidad
+    }
+
+    //NOTA: speed_calculator(speed);
 
     #ifdef DEBUG
         printf("Incremento en %d la velocidad, ahora la velocidad es: %d \n", cant, speed);

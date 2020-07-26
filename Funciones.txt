@@ -23,39 +23,6 @@ BACK:
 
     FUNCIONES QUE LLAMA EL BACK (definición en front):
 
-        int init_all();
-            @brief Inicializa los recursos a emplear.
-            @return Si hubo o no error.
-        
-        MENU_ITEM* menu(MENU_ITEM[]);
-            Se muestra el menú con las opciones pasadas.
-            El front bloquea el programa en el menú hasta que se seleccione una opción
-            Devuelve la opcion seleccionada como puntero a MENU_ITEM
-
-        input_t getInput();
-        
-        int getColission(); // Cambiar int por un tipo de dato que identificque personajes
-            Devuelve si hubo colisión, en caso de haberla, devuelve con qué choco
-
-        void redraw(void);
-            Cede el control al front para imprimir en pantalla, detectar colisiones,
-            agregar los eventos a la event_queue, etc, etc...
-            OBS: el main del back NO DEBE SER BLOQUEANTE
-
-        destroyCanon();
-
-        nextLevel();
-
-        endGame();
-
-
-
-
-
-        
-FRONT:
-
-
     1) Para mostrar el menu desde el front crear una funcion que 
     use como prototipo de función:
 
@@ -81,8 +48,8 @@ FRONT:
     4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
     de ser posible por el front.
 
-    5) void show_game_score(unsigned long long int score, ...):
-    Debe mostrar en el front las estadísticas de la partida.
+    5) void game_score_front(unsigned long long int score, ...):
+    Debe mostrar en el front las estadísticas de la partida una vez FINALIZADA.
     
     6) void update_front_event(void) agrega a la lista de eventos todos los 
     eventos que registre el front. 
@@ -90,7 +57,27 @@ FRONT:
     7) void speed_calculator(int speed) Recibe una velocidad relativa que va entre 1 y 100 
     y lo transforma a una velocidad real que depende del front.
 
+    8) reset_front(void) Se llama cada vez que se empieza una partida nueva
 
+    void redraw(void);
+        Cede el control al front para imprimir en pantalla, detectar colisiones,
+        agregar los eventos a la event_queue, etc, etc...
+        OBS: el main del back NO DEBE SER BLOQUEANTE
+
+             
+
+        destroyCanon();
+
+        nextLevel();
+
+        endGame();
+
+
+
+
+
+        
+FRONT:
     RASPI:
 
     ALLEGRO:
