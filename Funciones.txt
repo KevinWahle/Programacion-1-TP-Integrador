@@ -23,7 +23,7 @@ BACK:
 
     FUNCIONES QUE LLAMA EL BACK (definición en front):
 
-    1) Para mostrar el menu desde el front crear una funcion que 
+LISTO    1) Para mostrar el menu desde el front crear una funcion que 
     use como prototipo de función:
 
     "void show_menu(MENU_ITEM *menu_to_show, int menu_size, int highlight_item)"
@@ -38,10 +38,10 @@ BACK:
     opciones no essencial o no. El parametro highlight_item resalta cual es el
     la opción actual.
 
-    2) void destroy_front(): funcion que dependiendo del front cierra todo para 
+LISTO    2) void destroy_front(): funcion que dependiendo del front cierra todo para 
     salir de la aplicación.
 
-    3) int init_front(): funcion que dependiendo del front inicializa todo para 
+LISTO    3) int init_front(): funcion que dependiendo del front inicializa todo para 
     empezar a correr el juego. Devuelve 0 si no hay error, cualquier otra 
     cosa si hay error.
 
@@ -64,14 +64,14 @@ BACK:
         agregar los eventos a la event_queue, etc, etc...
         OBS: el main del back NO DEBE SER BLOQUEANTE
 
-    9) /**
+LISTO    9) /**
  		* @brief Muestra imagen descore y muestra hasta top 10.
  		* @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
  		* @param size Recibe el tamaño actual de la lista de puntaje
 	   */
 		void show_score (SCORE* score ,int size);
 		
-	10) /**
+LISTO	10) /**
  		* @brief Muestra las instrucciones.
 		*/
 		void shows_inst (void);

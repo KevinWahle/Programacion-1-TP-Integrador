@@ -1,9 +1,44 @@
-#include "ingame_stats.h"
-#include "../const.h"
-#include <time.h> 
-#include <stdlib.h>
-#include <stdio.h>
+//TODO: Completar descripciones y ver donde poner los prototipos.
 
+/***************************************************************************//**
+  @file     +ingame_stats.c+
+  @brief    +Estadisticas generales del juego+
+  @author   +Grupo 3+
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
+#include "ingame_stats.h"
+
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+
+
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+
+
+/*******************************************************************************
+ * VARIABLES WITH GLOBAL SCOPE
+ ******************************************************************************/
+
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+
+/*******************************************************************************
+ * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 static int lives;
 static int points;
 static int level;
@@ -12,6 +47,14 @@ static int speed=MIN_SPEED;
 static int killed_invaders[TYPES_INVADERS];
 //El contendio quedaría:
 //  killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
+
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+void kill_alien(const int tipo_alien);
 
 
 /**********************************************************
@@ -47,7 +90,7 @@ void reset_level()
 
 void reset_speed()
 {
-    set_speed(MIN_SPEED);   // Reseteo
+    set_speed(MIN_SPEED);   // Reseteo la velocidad al mínimo.
 
     #ifdef DEBUG
         printf("Reseto la velocidad...");
@@ -188,6 +231,12 @@ void set_level(int new_level)
 ************************  VARIOUS   ***********************
 **********************************************************/
 
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
 void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTAN EN UNA MATRIZ
 //Sumo al puntaje actual, la cantidad propocional al
 //invader proporcional.   
@@ -246,6 +295,8 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
 }
 
 
+
+ 
 
 
 
