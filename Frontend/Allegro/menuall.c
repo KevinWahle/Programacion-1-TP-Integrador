@@ -216,7 +216,7 @@ void showmenu_all (char* texto[], int size)
 /**
  * @brief Recorre el menu coloreando la palabra indicada.
 */
-void menucase_all  (char* texto[] ,int size, int case)
+void menucase_all  (char* texto[] ,int size, int option)
 {
     for(int i=0;i<size;i++) {
         al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
@@ -246,7 +246,7 @@ void showscore_all (SCORE* score ,int size)
         size=10;
 
     for(int i=0;i<size;i++) {
-        position[0] = i+1+CHOFFSET;    
+        position[0] = i+1+NUMOFFSET;    
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), 50, 220+(i*40), ALLEGRO_ALIGN_CENTER, position);
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*40), ALLEGRO_ALIGN_CENTER, score[i].name);
         num=score[i].pts;
