@@ -41,8 +41,8 @@ MENU_ITEM main_menu[] = {
 
 MENU_ITEM pause_menu[] = {  
                             {.option = "Resume", .essential = TRUE, .ID = RESUME_ID},
-                            {.option = "Restart", .essential = TRUE, .ID = RESTART_ID},
-                            {.option = "Exit", .essential = TRUE, .ID= EXIT_ID} ,
+                            {.option = "Restart", .essential = TRUE, .ID = PLAY_ID},
+                            {.option = "Back to menu", .essential = TRUE, .ID= BACK_ID} ,
                         };
 
 /*******************************************************************************
@@ -174,17 +174,43 @@ void click_menu()
 
         case EXIT_ID:
             add = add_event(EXIT_EVENT);
-        break;
+        break;        
     }
-    if(add==1)
-            {
-            //DUDA: Que pasa si no puedo agregar mas?       Se rompe todo xD   
-            }
     actual_option=0;
 
     #ifdef DEBUG
         printf("Se agregó a la cola de eventos: %d \n", main_menu[actual_option].ID);
     #endif      
+}
+
+void click_menu_pause()
+{
+    int add;        // WARNING: Deberia estar inicializada (por las dudas)
+
+    switch (pause_menu[actual_option].ID)
+    {
+        case PLAY_ID:
+            add = add_event(PLAY_EVENT);
+        break;
+
+        case RESUME_ID:
+            add = add_event(RESUME_EVENT);
+        break;
+        
+        case BACK_ID:
+            add = add_event(BACK_EVENT);
+        break;
+    }
+
+    actual_option=0;
+
+    #ifdef DEBUG
+        printf("Se agregó a la cola de eventos: %d \n", main_menu[actual_option].ID);
+
+        if(add==1)
+        printf("No se pudo agregar")
+        
+    #endif 
 }
 
 
@@ -238,7 +264,7 @@ void show_global_score(void) {
 
 void quit_game(void) {
     destroy_front();
-    show_game_score();
+    show_game_score(score); //TODO: crear score
     running=0;
 
     #ifdef DEBUG

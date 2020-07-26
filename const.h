@@ -24,9 +24,8 @@ enum EVENTS {
 	OPTIONS_EVENT,
 	EXIT_EVENT,		//Puede ser tanto front como back.
 	RESUME_EVENT,
-	RESTART_EVENT, 
 	PAUSE_EVENT, 
-	RETURN_EVENT,
+	BACK_EVENT,
 	FIN_TABLE,
 
 
@@ -57,7 +56,7 @@ enum IDS{
 	OPTIONS_ID,
 	EXIT_ID,
 	RESUME_ID,
-	RESTART_ID,
+	BACK_ID,
 };
 
 /*******************************************************************************
