@@ -104,6 +104,8 @@ void moveInvadersDown(void);
 
 int is_invadersOnFloor(void);
 
+void shouldInvaderShot(void);
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -222,6 +224,9 @@ int main(void) {
             //getInvaderShotCollison();
             
             getCanonShotCollision();
+
+            shouldInvaderShot();
+            getInvaderShotCollison();
             
             if( !is_invadersOnFloor()  )
                 proxDir = moveInvaders(proxDir);
@@ -539,32 +544,6 @@ static int initAll(void)
     //void al_draw_bitmap(ALLEGRO_BITMAP *bitmap, float dx, float dy, int flags) 
     al_draw_bitmap(canonPointer, 0, 450, 0); //flags(normalmente en cero, ver doc. para rotar etc)
 
-/*
-    invaders[0][8].invaderState = 0;
-    invaders[1][8].invaderState = 0;
-    invaders[2][8].invaderState = 0;
-    invaders[3][8].invaderState = 0;
-    invaders[4][8].invaderState = 0;
-
-    invaders[0][7].invaderState = 0;
-    invaders[1][7].invaderState = 0;
-    invaders[2][7].invaderState = 0;
-    invaders[3][7].invaderState = 0;
-    invaders[4][7].invaderState = 0;
-
-    invaders[0][1].invaderState = 0;
-    invaders[1][1].invaderState = 0;
-    invaders[2][1].invaderState = 0;
-    invaders[3][1].invaderState = 0;
-    invaders[4][1].invaderState = 1;
-
-    invaders[0][0].invaderState = 0;
-    invaders[1][0].invaderState = 0;
-    invaders[2][0].invaderState = 0;
-    invaders[3][0].invaderState = 0;
-    invaders[4][0].invaderState = 0;
-*/
-
     al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
 
     al_start_timer(timer); //Recien aca EMPIEZA el timer
@@ -675,7 +654,6 @@ void moveInvadersDown(void)
         }
     }
 }
-
 int is_invadersOnFloor(void)
 {
     int i = FIL_INVADERS - 1;
@@ -707,4 +685,21 @@ int is_invadersOnFloor(void)
         }
     }    
     return onFloor;
+}
+
+void shouldInvaderShot(void)
+{
+    for (int j = 0; j < COL_INVADERS; j++)
+    {
+        int i = FIL_INVADERS - 1;
+        while( i >= 0  &&   !invaders[i][j].invaderState )  //mientras esten muertos los invaders
+        {
+            i--;
+        }
+        if( i >= 0)          // entonces se encotnro algun invader vivo
+        {
+            if(  !(rand() % 350) )
+                invaderShot(i, j);
+        }
+    }       
 }
