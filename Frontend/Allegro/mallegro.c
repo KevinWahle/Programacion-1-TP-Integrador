@@ -57,17 +57,17 @@
  ******************************************************************************/
   int main(void)
   { 
-    if (!init_all())
+    if (!init_front())
     {
       return -1;
     }
     if (!load_all())
     {
-      destroy_all();
+      destroy_front();
       return -1; 
     }
     al_rest(4);
-    destroy_all();
+    destroy_front();
     return 0;
   }
 
