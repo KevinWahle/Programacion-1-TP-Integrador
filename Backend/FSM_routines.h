@@ -69,22 +69,6 @@ void doNothing(void);
 
 void click_menu_pause(void);
 
-void crab_coll(void);
-
-void octo_coll(void);
-
-void squid_coll(void);
-
-void ufo_coll(void);
-
-void cannon_coll(void);
-
-
-
-
-
-
-
 /*******************************************************************************
  ******************************************************************************/
 

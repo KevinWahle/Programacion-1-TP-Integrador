@@ -1,7 +1,6 @@
 #define NAME    6 // Implica que cada nombre tiene que tener 5 letras como máximo
 #define LEADERBOARD_SIZE     5
-
-typedef struct     // Estructura que contiene al nombre del usuario con su correspondiente puntaje 
+typedef struct          // Estructura que contiene al nombre del usuario con su correspondiente puntaje 
 {
     char name[NAME];
     unsigned long int pts;

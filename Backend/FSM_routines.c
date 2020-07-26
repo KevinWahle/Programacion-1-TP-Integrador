@@ -9,8 +9,6 @@
  ******************************************************************************/
 
 #include "FSM_routines.h"
-#include "ingame_stats.h"
-#include "event_queue/event_queue.h"
 #include "const.h"
 #include <stdio.h>
 
@@ -74,8 +72,21 @@ static actual_option = 0;
  *******************************************************************************
  ******************************************************************************/
 
+// NOTA: no se usa.
+int essentials_count (int cant){ 
+     int cant_essentials=0;
+    for(int i=0; i<cant; i++)
+    {
+        if((main_menu[i]).essential==TRUE)
+        {
+            cant_essentials++ ;             
+        }        
+    }
+    return cant_essentials;
+}
+
 void show_splash(void){     
-    splash_front(); //NOTA: incluir donde se encuentra splash_front
+    splash_front();
     
     #ifdef DEBUG
     printf("Muestro el SPLASH. \n");
@@ -103,7 +114,7 @@ if (ONLY_ESSENTIAL){
     
     else{                                                               // Si el front permite mostrar las opciones no esenciales:
         if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){        
-            actual_option++;                                                //subimos en el menú hasta la siguiente opcion
+        actual_option++;                                                //subimos en el menú hasta la siguiente opcion
         }
     }
 
@@ -111,7 +122,7 @@ if (ONLY_ESSENTIAL){
     printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
     #endif 
 
-    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front. //NOTA: incluir donde se encuentra show_menu()
+    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front.
 
     #ifdef DEBUG
     printf("Se actualizó el menú");
@@ -137,7 +148,7 @@ void down_menu(){
     printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
     #endif 
     
-    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front. //NOTA: incluir donde se encuentra show_menu
+    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front.
 
     #ifdef DEBUG
     printf("Se actualizó el menú");
@@ -146,23 +157,23 @@ void down_menu(){
 
 void click_menu()
 {
-    int add=0;       
+    int add;        // WARNING: Deberia estar inicializada (por las dudas)
     switch (main_menu[actual_option].ID)
     {
         case PLAY_ID:
-            add = add_event(PLAY_EVENT);        // Añadimos a  la cola de eventos
+            add = add_event(PLAY_EVENT);
         break;
 
         case SCORE_ID:
-            add = add_event(SCORE_EVENT);       // Añadimos a  la cola de eventos
+            add = add_event(SCORE_EVENT); 
         break;
 
         case OPTIONS_ID:
-            add = add_event(OPTIONS_EVENT);     // Añadimos a  la cola de eventos
+            add = add_event(OPTIONS_EVENT);
         break;
 
         case EXIT_ID:
-            add = add_event(EXIT_EVENT);        // Añadimos a  la cola de eventos
+            add = add_event(EXIT_EVENT);
         break;        
     }
     actual_option=0;
@@ -174,20 +185,20 @@ void click_menu()
 
 void click_menu_pause()
 {
-    int add=0;       
+    int add;        // WARNING: Deberia estar inicializada (por las dudas)
 
     switch (pause_menu[actual_option].ID)
     {
         case PLAY_ID:
-            add = add_event(PLAY_EVENT);            // Añadimos a  la cola de eventos
+            add = add_event(PLAY_EVENT);
         break;
 
         case RESUME_ID:
-            add = add_event(RESUME_EVENT);          // Añadimos a  la cola de eventos
+            add = add_event(RESUME_EVENT);
         break;
         
         case BACK_ID:
-            add = add_event(BACK_EVENT);            // Añadimos a  la cola de eventos
+            add = add_event(BACK_EVENT);
         break;
     }
 
@@ -206,8 +217,7 @@ void click_menu_pause()
 void pause_game(void){
     actual_option=0;
     show_menu(pause_menu, sizeof(pause_menu)/sizeof(MENU_ITEM), actual_option);
-    //NOTA: Incluir en donde se encuentra show_menu.
-    
+
     #ifdef DEBUG
         printf("Mostrando menú de pausa. \n");
     #endif
@@ -222,8 +232,7 @@ void resume_game(void){
 }
     
 void show_game_score(unsigned long long int score){
-    //CONTINUAR: game_score_front(cantidad de bichos muertos de cada tipo,...,pts,nivel);
-    //NOTA: Incluir en donde se encuentra game_score_front.
+    //CONTINUAR: funcion_front (cantidad de bichos muertos de cada tipo,...,pts,nivel);
 
     #ifdef DEBUG
         printf("Mostrando las estadisticas de la partida. \n");
@@ -234,9 +243,8 @@ void start_game(void){
     //CONTINUAR:
     reset_lives();
     reset_points();
+    reset_shields();
     reset_level();
-    reset_front();
-    //NOTA: Incluir en donde se encuentra reset_front.
     
     #ifdef DEBUG
         printf("Preparo las variables para jugar. \n");
@@ -248,7 +256,6 @@ void show_global_score(void) {
     SCORE* p_leadboard=leadboard;
     int basura= lect_score(p_leadboard);
     //NOTA: AGREGAR funcion_bustelo (p_leadboard);
-    //Incluir Carpeta en la que este la funcion que muestra el leadboard.
 
     #ifdef DEBUG
         printf("Mostrando Leadboard. \n");
@@ -257,46 +264,12 @@ void show_global_score(void) {
 
 void quit_game(void) {
     destroy_front();
-    //NOTA: Incluir en donde se encuentra destroy_front.
+    show_game_score(score); //TODO: crear score
     running=0;
 
     #ifdef DEBUG
         printf("Salgo del juego. \n");
     #endif
-}
-
-void crab_coll()
-{
-    kill_alien(CRAB);
-}
-
-void octo_coll()
-{
-    kill_alien(OCTOPUS);
-}
-
-void squid_coll()
-{
-    kill_alien(SQUID);
-}
-
-void ufo_coll()
-{
-    kill_alien(UFO);
-}
-
-void cannon_coll()
-{
-    if(decrease_lives()<1)          // Si las vidas llegan a 0,
-    {                               //se considera que el jugador ya perdió.
-        add_event(END_GAME_EVENT);  
-
-        #ifdef DEBUG
-            printf("El jugador se quedó sin vidas");
-        #endif
-    }
-
-    // NOTA: Agregar si se actualizan las cantidad de vidas en pantalla.
 }
 
 void doNothing(void) {

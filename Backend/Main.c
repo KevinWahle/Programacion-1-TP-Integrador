@@ -29,6 +29,7 @@ int main()
 
     while (running)
     {
+        //NOTA: Agregar funcion redraw.
         
         update_front_event();               // Actualizar la lista de eventos que me indica el front.
         event_t evento = get_next_event();  // Tomo un nuevo evento de la cola de eventos.
@@ -44,8 +45,7 @@ int main()
         }    
     }
 
-    // DUDA: iria destroy resources?
-    // NOTA: incluir las respectivas funciones
+    // TODO: destroy resources
 
     return 0;
 }
