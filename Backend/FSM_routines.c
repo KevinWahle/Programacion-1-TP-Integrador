@@ -87,6 +87,7 @@ void show_splash(void){
 }
 
 void my_menu(){
+    actual_option=0;
     show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);  //Actualizo el menu, resaltando la opcion actualizada.  
 }
 
@@ -154,32 +155,24 @@ void click_menu()
 
 
 void pause_game(void){
+    actual_option=0;
     show_menu(pause_menu, sizeof(pause_menu)/sizeof(MENU_ITEM), actual_option);
 }
 
 void resume_game(void){
     //TODO
 }
+    
+void show_game_score(unsigned long long int score){
+    //CONTINUAR: funcion_front (cantidad de bichos muertos de cada tipo,...,pts,nivel);
+}
 
 void start_game(void){
     //CONTINUAR:
-    reset_points();
-    reset_lives();
-}
-
-void restart_game(void){
-    //CONTINUAR: 
-    reset_points();
-    reset_lives();
-    
-void show_game_score(unsigned long long int score){
-    //DUDA: No deberia ir a front???
-}
-
-void restart_game(void){
     reset_lives();
     reset_points();
     reset_shields();
+    reset_level();
 }
 
 void show_global_score(void) {

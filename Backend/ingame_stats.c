@@ -4,11 +4,14 @@
 
 static int lives;
 static int points;
+static int level;
+static int shields[SHIELDS][SHIELD_PARTS];
+static int speed=MIN_SPEED;
+
 static int killed_invaders[3];
 //El contendio quedaría:
 //  killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
 
-static int shields[SHIELDS][SHIELD_PARTS];
 
 /**********************************************************
 ***********************  RESET   **************************
@@ -35,6 +38,10 @@ void reset_shields()
 
 }
 
+void reset_level()
+{
+    level=0;
+}
 
 /**********************************************************
 ******************  INCREASE / DECREASE   *****************
@@ -48,6 +55,10 @@ void increase_points(const int cant)
 int decrease_lives()        // REVISAR: ¿Chequeo si lives>0?
 {
     return --lives;
+}
+
+void increase_level(){
+    level++;
 }
 
 /**********************************************************
@@ -64,11 +75,15 @@ int get_points()
     return points;
 }
 
+int get_level()
+{
+    return level;
+}
+
 int* get_shields()
 {
     return shields;
 }
-
 /**********************************************************
 ************************  VARIOUS   ***********************
 **********************************************************/
