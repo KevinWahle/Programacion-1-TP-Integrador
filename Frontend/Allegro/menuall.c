@@ -207,7 +207,7 @@ void show_menu (char* texto[], int size, int option)
 /**
  * @brief Muestra los mejores puntajes, máximo 10.
 */
-void showscore_all (SCORE* score ,int size) 
+void show_score (SCORE* score ,int size) 
 {
     char chscore[MSCORE]; //Variable temporal para convertir int a char
     int num=0;
@@ -237,7 +237,7 @@ void showscore_all (SCORE* score ,int size)
 /**
  * @brief Muestra las instrucciones.
 */
-void showsinst_all (void) 
+void shows_inst (void) 
 {
     al_draw_scaled_bitmap(instImage,    // Imagen de instrucciones
                             0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),

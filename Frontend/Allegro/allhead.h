@@ -96,14 +96,14 @@ int load_all();
  * @param size Recibe cantidad de palabras a imprimir
  * @param option Recibe un entero indicando que palabra colorear
 */
-void show_menu(char* texto[], int size, int option);
+void show_menu (char* texto[], int size, int option);
 
 /**
  * @brief Muestra imagen descore y muestra hasta top 10.
  * @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
  * @param size Recibe el tamaño actual de la lista de puntaje
 */
-void shows_core (SCORE* score ,int size);
+void show_score (SCORE* score ,int size);
 
 /**
  * @brief Muestra las instrucciones.
