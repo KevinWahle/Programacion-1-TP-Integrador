@@ -216,7 +216,7 @@ int main(void) {
             getInvaderShotCollison();
             getCanonShotCollision();
             
-            //proxDir = moveInvaders(proxDir);
+            proxDir = moveInvaders(proxDir);
 
             drawAliveInvaders(invaders);
             al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
