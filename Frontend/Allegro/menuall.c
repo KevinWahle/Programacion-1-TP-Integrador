@@ -126,7 +126,8 @@ int init_all()       // Inicializo y verifico que no falle
 			fprintf(stderr, "ERROR: failed to load primitives addon \n");
     } else
         fprintf(stderr, "ERROR: Failed to initialize allegro system\n");
-	return false;
+	
+    return false;
 }
 
 
@@ -222,7 +223,7 @@ void menucase_all  (char* texto[] ,int size, int option)
         al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
     }
     al_flip_display();
-    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[pepe]);
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(option*80), ALLEGRO_ALIGN_CENTER, texto[option]);
     al_flip_display();
 }
 
@@ -235,7 +236,7 @@ void showscore_all (SCORE* score ,int size)
     char chscore[MSCORE]; //Variable temporal para convertir int a char
     int num=0;
     char position[2];   //Variable que indica la posición
-    posiion[1]=167; //Es el circulo arriba del número
+    position[1]=167; //Es el circulo arriba del número
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo puntaje
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
