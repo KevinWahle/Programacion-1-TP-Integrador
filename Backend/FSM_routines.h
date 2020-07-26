@@ -62,7 +62,9 @@ void start_game(void);
 
 void restart_game(void);
 
-void show_game_score(void);
+void show_game_score(unsigned long long int score);
+
+void restart_game(void);
 
 void show_global_score(void);
 

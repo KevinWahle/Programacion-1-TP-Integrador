@@ -29,7 +29,7 @@ void reset_shields()
         {
             for (int j = 0; j < SHIELD_PARTS; j++)
             {
-                shields[i][j]=SHIELD_LIVES;
+                shields[i][j]=SHIELD_LIFES;
             }
         }
 

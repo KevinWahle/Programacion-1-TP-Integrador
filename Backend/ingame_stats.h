@@ -1,5 +1,6 @@
 void reset_lives(void);
 void reset_points(void);
+void reset_shields(void);
 
 void increase_points(const int cant);
 int decrease_lives(void);

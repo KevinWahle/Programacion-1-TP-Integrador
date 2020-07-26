@@ -71,6 +71,12 @@ STATE play_state[] = {
     {FIN_TABLE, play_state, doNothing}
 };
 
+STATE pause_state[] = {
+    {RESTART_EVENT, play_state, restart_game},
+    {RESUME_EVENT, play_state, resume_game},
+    {FIN_TABLE, play_state, doNothing}
+};
+
 STATE game_score_state[] = {
     {RETURN_EVENT, menu_state, my_menu}, 
     {FIN_TABLE, game_score_state, doNothing}

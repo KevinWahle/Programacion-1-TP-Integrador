@@ -176,17 +176,22 @@ void show_game_score(unsigned long long int score){
     //DUDA: No deberia ir a front???
 }
 
+void restart_game(void){
+    reset_lives();
+    reset_points();
+    reset_shields();
+}
+
 void show_global_score(void) {
-    SCORE arr[NAME];                     
-    SCORE* pun=arr;
-    lect_score(pun);
-    funcion_bustelo (pun);
+    SCORE leadboard[LEADERBOARD_SIZE];                     
+    SCORE* p_leadboard=leadboard;
+    int basura= lect_score(p_leadboard);
+    //NOTA: AGREGAR funcion_bustelo (p_leadboard);
 }
 
 void quit_game(void) {
     destroy_front();
     show_game_score();
-
 }
 
 void doNothing(void) {
