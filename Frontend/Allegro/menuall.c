@@ -8,7 +8,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 
-#include "hallegro.h"
+#include "allhead.h"
 
 
 /*******************************************************************************
@@ -38,7 +38,7 @@
  * @param num Recibe el numero a transformar.
  * @return Devulve el string ya transformado.
 */
-char intochar(int num);
+void intochar(int num, char chscore[MSCORE]);
 
 
 /*******************************************************************************
@@ -206,9 +206,9 @@ void showmenu_all (char* texto[], int size)
                           0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                           0);
     for(int i=0;i<size;i++) {
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);  //Imprime en pantalla todas las palabras
+        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);  //Imprime en pantalla todas las palabras
     }
-    al_draw_text(font1, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[0]);    //La primera palabra estará coloreada
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220, ALLEGRO_ALIGN_CENTER, texto[0]);    //La primera palabra estará coloreada
     al_flip_display();
 }
 
@@ -216,13 +216,13 @@ void showmenu_all (char* texto[], int size)
 /**
  * @brief Recorre el menu coloreando la palabra indicada.
 */
-void menucase_all  (char* texto[] ,int size, int case)
+void menucase_all  (char* texto[] ,int size, int option)
 {
     for(int i=0;i<size;i++) {
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
+        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
     }
     al_flip_display();
-    al_draw_text(font1, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[pepe]);
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[pepe]);
     al_flip_display();
 }
 
@@ -230,7 +230,7 @@ void menucase_all  (char* texto[] ,int size, int case)
 /**
  * @brief Muestra los mejores puntajes, máximo 10.
 */
-void showscore_all ((SCORE* score[] ,int size) 
+void showscore_all (SCORE* score ,int size) 
 {
     char chscore[MSCORE]; //Variable temporal para convertir int a char
     int num=0;
@@ -246,12 +246,12 @@ void showscore_all ((SCORE* score[] ,int size)
         size=10;
 
     for(int i=0;i<size;i++) {
-        position[0] = i+1+CHOFFSET;    
-        al_draw_text(font1, al_map_rgb(255, 255, 255), 50, 220+(i*40), ALLEGRO_ALIGN_CENTER, position);
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*40), ALLEGRO_ALIGN_CENTER, score.name[i]);
-        num=score.num[i];
+        position[0] = i+1+NUMOFFSET;    
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), 50, 220+(i*40), ALLEGRO_ALIGN_CENTER, position);
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*40), ALLEGRO_ALIGN_CENTER, score[i].name);
+        num=score[i].pts;
         intochar(num,chscore);
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
 
 }

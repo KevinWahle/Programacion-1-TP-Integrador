@@ -25,7 +25,7 @@
 #include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 //Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm. 
 
-#include "../../Backend/scoretable.h"
+#include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura score
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -104,14 +104,14 @@ void showmenu_all(char* texto[], int size);
  * @param size Recibe cantidad de palabras a imprimir
  * @param case Recibe un entero indicando que palabra colorear
 */
-void menucase_all (char* texto[] ,int size, int case);
+void menucase_all (char* texto[] ,int size, int option);
 
 /**
  * @brief Muestra imagen descore y muestra hasta top 10.
  * @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
  * @param size Recibe el tamaño actual de la lista de puntaje
 */
-void showscore_all (char* score[] ,int size);
+void showscore_all (SCORE* score ,int size);
 
 /**
  * @brief Destruye los recursos empleados.
