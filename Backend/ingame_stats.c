@@ -9,7 +9,7 @@ static int points;
 static int level;
 static int speed=MIN_SPEED;
 
-static int killed_invaders[CANT_INVADERS];
+static int killed_invaders[TYPES_INVADERS];
 //El contendio quedaría:
 //  killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
 
