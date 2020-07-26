@@ -25,7 +25,7 @@
 #include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 //Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm. 
 
-#include "../../Backend/scoretable.h"
+#include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura score
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -37,8 +37,7 @@
 #define FIL_INVADERS 5
 #define COL_INVADERS 9
 
-#define NUMOFFSET    48  //Offset de numero entero a char
-#define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -84,7 +83,7 @@ typedef struct
  * @brief Inicializa los recursos a emplear.
  * @return Si hubo o no error.
 */
-int init_all();
+int init_front();
 
 /**
  * @brief Carga la imagenes, fuentes y sonidos.
@@ -95,28 +94,26 @@ int load_all();
  * @brief Muestra imagen del menu y coloca las palabras que reciba.
  * @param texto[] Recibe un puntero a esturctura de strings
  * @param size Recibe cantidad de palabras a imprimir
+ * @param option Recibe un entero indicando que palabra colorear
 */
-void showmenu_all(char* texto[], int size);
-
-/**
- * @brief Muestra imagen del menu colorea el texto del menu recibido por case.
- * @param texto[] Recibe un puntero a esturctura de strings
- * @param size Recibe cantidad de palabras a imprimir
- * @param case Recibe un entero indicando que palabra colorear
-*/
-void menucase_all (char* texto[] ,int size, int case);
+void show_menu (char* texto[], int size, int option);
 
 /**
  * @brief Muestra imagen descore y muestra hasta top 10.
  * @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
  * @param size Recibe el tamaño actual de la lista de puntaje
 */
-void showscore_all (char* score[] ,int size);
+void show_score (SCORE* score ,int size);
+
+/**
+ * @brief Muestra las instrucciones.
+*/
+void shows_inst (void);
 
 /**
  * @brief Destruye los recursos empleados.
  **/
-void destroy_all();
+void destroy_front();
 
 
 /*******************************************************************************

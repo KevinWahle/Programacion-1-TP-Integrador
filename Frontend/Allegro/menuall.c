@@ -7,15 +7,13 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-
-#include "hallegro.h"
-
+#include "allhead.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-
-
+#define NUMOFFSET    48  //Offset de numero entero a char
+#define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -38,15 +36,7 @@
  * @param num Recibe el numero a transformar.
  * @return Devulve el string ya transformado.
 */
-char intochar(int num);
-
-
-/*******************************************************************************
- * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
- ******************************************************************************/
-
-// +ej: static const int temperaturas_medias[4] = {23, 26, 24, 29};+
-
+static void intochar(int num, char chscore[MSCORE]);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -74,7 +64,7 @@ static invader_t invaders[FIL_INVADERS][COL_INVADERS];
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-int init_all()       // Inicializo y verifico que no falle
+int init_front()       // Inicializo y verifico que no falle
 {
     if (al_init()) {
         if (al_init_primitives_addon()) {
@@ -126,7 +116,8 @@ int init_all()       // Inicializo y verifico que no falle
 			fprintf(stderr, "ERROR: failed to load primitives addon \n");
     } else
         fprintf(stderr, "ERROR: Failed to initialize allegro system\n");
-	return false;
+	
+    return false;
 }
 
 
@@ -197,32 +188,18 @@ int load_all()
 
 
 /**
- * @brief Muestra imagen de menu y coloca palabras que recibe.
+ * @brief Muestra imagen de menu y coloca palabras que recibe y colorea la palabra que se indica.
 */
-void showmenu_all (char* texto[], int size)
+void show_menu (char* texto[], int size, int option)
 {
     al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
                           0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                           0);
     for(int i=0;i<size;i++) {
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);  //Imprime en pantalla todas las palabras
+        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);  //Imprime en pantalla todas las palabras
     }
-    al_draw_text(font1, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[0]);    //La primera palabra estará coloreada
-    al_flip_display();
-}
-
-
-/**
- * @brief Recorre el menu coloreando la palabra indicada.
-*/
-void menucase_all  (char* texto[] ,int size, int case)
-{
-    for(int i=0;i<size;i++) {
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
-    }
-    al_flip_display();
-    al_draw_text(font1, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[pepe]);
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(option*80), ALLEGRO_ALIGN_CENTER, texto[option]);
     al_flip_display();
 }
 
@@ -230,12 +207,12 @@ void menucase_all  (char* texto[] ,int size, int case)
 /**
  * @brief Muestra los mejores puntajes, máximo 10.
 */
-void showscore_all ((SCORE* score[] ,int size) 
+void show_score (SCORE* score ,int size) 
 {
     char chscore[MSCORE]; //Variable temporal para convertir int a char
     int num=0;
     char position[2];   //Variable que indica la posición
-    posiion[1]=167; //Es el circulo arriba del número
+    position[1]=167; //Es el circulo arriba del número
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo puntaje
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
@@ -246,12 +223,12 @@ void showscore_all ((SCORE* score[] ,int size)
         size=10;
 
     for(int i=0;i<size;i++) {
-        position[0] = i+1+CHOFFSET;    
-        al_draw_text(font1, al_map_rgb(255, 255, 255), 50, 220+(i*40), ALLEGRO_ALIGN_CENTER, position);
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*40), ALLEGRO_ALIGN_CENTER, score.name[i]);
-        num=score.num[i];
+        position[0] = i+1+NUMOFFSET;    
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), 50, 220+(i*40), ALLEGRO_ALIGN_CENTER, position);
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*40), ALLEGRO_ALIGN_CENTER, score[i].name);
+        num=score[i].pts;
         intochar(num,chscore);
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
 
 }
@@ -260,7 +237,7 @@ void showscore_all ((SCORE* score[] ,int size)
 /**
  * @brief Muestra las instrucciones.
 */
-void showsinst_all (void) 
+void shows_inst (void) 
 {
     al_draw_scaled_bitmap(instImage,    // Imagen de instrucciones
                             0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),
@@ -273,7 +250,7 @@ void showsinst_all (void)
 /**
  * @brief Destruye los recursos empleados.
  **/
-void destroy_all()
+void destroy_front()
 {
     al_draw_scaled_bitmap(endImage,     // Imagen de despedida
                           0, 0, al_get_bitmap_width(endImage), al_get_bitmap_height(endImage),     //imagen de finalizacion
@@ -309,7 +286,7 @@ void destroy_all()
  *******************************************************************************
  ******************************************************************************/
 
-void intochar(int num, char chscore[MSCORE])
+static void intochar(int num, char chscore[MSCORE])
 {
     int a = 0;
     for(int i=MSCORE-1;i>=0;i--) {

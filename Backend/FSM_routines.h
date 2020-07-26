@@ -77,6 +77,10 @@ void squid_coll(void);
 
 void ufo_coll(void);
 
+void cannon_coll(void);
+
+
+
 
 
 
