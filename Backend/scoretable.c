@@ -7,7 +7,7 @@ void BubbleSort(SCORE arr[], int cont); // Ordena los eleementos de mayor a meno
 //arr: arreglo  con los elementos a ordenar
 //cont: cantidad de elementos a ordenar
 
-void put_score (char* name, unsigned long int score, int top, SCORE* my_pun)
+void put_score (char* name, unsigned long int score, const int top, SCORE* my_pun)
 {
     FILE* fp;
     fp= fopen ("score.txt","a+");                   // Abro el archivo con los puntajes

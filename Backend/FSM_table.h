@@ -71,6 +71,14 @@ STATE play_state[] = {
     {FIN_TABLE, play_state, doNothing}
 };
 
+STATE pause_state[] = {
+    {MOVE_UP, menu_state, up_menu},         //REVISAR: crear estado click_state como el del main menu() 
+    {MOVE_DOWN, menu_state, down_menu},     // y hacer el tema de poder subir y bajar en el menú.
+    {RESTART_EVENT, play_state, start_game},
+    {RESUME_EVENT, play_state, resume_game},
+    {FIN_TABLE, play_state, doNothing}
+};
+
 STATE game_score_state[] = {
     {RETURN_EVENT, menu_state, my_menu}, 
     {FIN_TABLE, game_score_state, doNothing}
