@@ -176,6 +176,10 @@ void set_speed(int new_speed){
 void set_level(int new_level)
 {
     level=new_level; 
+
+    #ifdef DEBUG
+        printf("El nivel paso a ser: %d \n", level);
+    #endif 
 }
 
 
