@@ -37,8 +37,8 @@ void reset_points()
 
 void reset_level()
 {
-    level=0;        // Reinicio al nivel 0.
-    
+    set_level(0)        // Reinicio al nivel 0.
+    reset_speed();
     #ifdef DEBUG
         printf("Renuevo vidas. \n");
     #endif  
@@ -46,11 +46,11 @@ void reset_level()
 
 void reset_speed()
 {
-    speed=MIN_SPEED;
-
     #ifdef DEBUG
-        printf("La velocidad volvio a ser: %d \n", speed);
+        printf("Reseto la velocidad...");
     #endif 
+    
+    set_speed(MIN_SPEED);
 }
 
 void reset_killed_aliens()
@@ -86,26 +86,44 @@ int decrease_lives()
     return lives;
 }
 
+void increase_lives()      
+{
+    lives++;                // Incremento la cantidad de vidas en uno.
+
+    #ifdef DEBUG
+        printf("Incremento 1 vida, quedan %d vidas \n", lives);
+    #endif  
+
+}
+
 void increase_level(){
     level++;                // Incremento el nivel en uno.
-    increase_speed(STEP_SPEED);
+    if(lives<=2){
+        lives++;
+    }
 
+    int newspeed = level*STEP_LEVEL_SPEED;
+    set_speed(newspeed);
+    //NOTA: Agregar speed_calculator(speed) y el archivo donde este su prototipo.
+
+ 
     //CONTINUAR:
-    // reset_aliens_matrix(); NOTA: incluir archivo con la funcion reset_aliens_matrix();
-
+    // reset_aliens_matrix(); //NOTA: incluir archivo con la funcion reset_aliens_matrix();
 
     #ifdef DEBUG
         printf("Se incremento el nivel, esta en el nivel %d \n", level);
+        printf("La velocidad de inicio de nivel es: %d", speed);
     #endif  
 }
+
 
 void increase_speed(const int cant){
     
     if (speed<(MAX_SPEED-cant)){
-    speed+=cant;            // Incremento en cant la velocidad
+        speed+=cant;            // Incremento en cant la velocidad
     }
 
-    //NOTA: speed_calculator(speed);
+    //NOTA: Agregar speed_calculator(speed) y el archivo donde este su prototipo.
 
     #ifdef DEBUG
         printf("Incremento en %d la velocidad, ahora la velocidad es: %d \n", cant, speed);
@@ -142,6 +160,25 @@ int get_level()
     
     return level;       // Devuelve el nivel en el que se encuentra
 }
+
+/**********************************************************
+**************************  SET   *************************
+**********************************************************/
+
+void set_speed(int new_speed){              
+    speed=new_speed;
+
+    #ifdef DEBUG
+        printf("La velocidad paso a ser: %d \n", speed);
+    #endif 
+}
+
+void set_level(int new_level)
+{
+    level=new_level; 
+}
+
+
 
 /**********************************************************
 ************************  VARIOUS   ***********************
@@ -203,6 +240,7 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
     
     return 0;
 }
+
 
 
 

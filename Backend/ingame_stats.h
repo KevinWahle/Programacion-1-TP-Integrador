@@ -6,13 +6,16 @@ void reset_aliens_matrix(void);
 
 void increase_points(const int cant);
 int decrease_lives(void);
+void increase_lives(void); 
 void increase_level(void);
-
 void increase_speed(const int cant);
 
 int get_lives(void);
 int get_points(void);
 int get_level(void);
+
+void set_speed(int new_speed);
+void set_level(int new_level);
 
 void kill_alien(const int tipo_alien);
 
@@ -29,9 +32,10 @@ void kill_alien(const int tipo_alien);
 #define MAX_RAND        4
 //DUDA: Las constantes anteriores: a const.h o a ingame.c?
 
-#define MIN_SPEED       1
-#define MAX_SPEED       100
-#define STEP_SPEED      10
+#define MIN_SPEED        1
+#define MAX_SPEED        100
+#define STEP_SPEED       1
+#define STEP_LEVEL_SPEED 10
 
 
 
