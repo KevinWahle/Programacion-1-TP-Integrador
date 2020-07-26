@@ -101,6 +101,9 @@ int moveInvaders(int direction);
 static int decideWhetherChangeDirectionOrNot(int direction);
 
 void moveInvadersDown(void);
+
+int is_invadersOnFloor(void);
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -219,7 +222,9 @@ int main(void) {
             //getInvaderShotCollison();
             
             getCanonShotCollision();
-            proxDir = moveInvaders(proxDir);
+            
+            if( !is_invadersOnFloor()  )
+                proxDir = moveInvaders(proxDir);
 
             drawAliveInvaders(invaders);
             al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
@@ -671,7 +676,35 @@ void moveInvadersDown(void)
     }
 }
 
-int is_invadersOnFloor()
+int is_invadersOnFloor(void)
 {
-    
+    int i = FIL_INVADERS - 1;
+    int state = 0;
+    int onFloor = 0;
+    while( i >= 0 && !state )
+    {
+        int j = 0;
+        while(   j < COL_INVADERS  && !invaders[i][j].invaderState  ) // Busca en la col, mientras esten muertos
+        {
+            j++;
+        }
+        if( j == COL_INVADERS  ) // Entonces estaban todos muertos
+        {
+            i--;
+        }
+        else   //Si no, hay al menos uno vivo
+        {
+            if( invaders[i][j].y > D_HEIGHT*0.6 )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+            {
+                state = 1;
+                onFloor = 1;
+            }
+            else
+            {
+                state = 1;   //Encontraste un vivo tal que todavia no paso la linea => me mantengo en el sentido
+                onFloor = 0;
+            }
+        }
+    }    
+    return onFloor;
 }
