@@ -64,7 +64,18 @@ BACK:
         agregar los eventos a la event_queue, etc, etc...
         OBS: el main del back NO DEBE SER BLOQUEANTE
 
-             
+    9) /**
+ 		* @brief Muestra imagen descore y muestra hasta top 10.
+ 		* @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
+ 		* @param size Recibe el tamaño actual de la lista de puntaje
+	   */
+		void show_score (SCORE* score ,int size);
+		
+	10) /**
+ 		* @brief Muestra las instrucciones.
+		*/
+		void shows_inst (void);
+		
 
         destroyCanon();
 

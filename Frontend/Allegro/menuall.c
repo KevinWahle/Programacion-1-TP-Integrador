@@ -64,7 +64,7 @@ static invader_t invaders[FIL_INVADERS][COL_INVADERS];
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-int init_all()       // Inicializo y verifico que no falle
+int init_front()       // Inicializo y verifico que no falle
 {
     if (al_init()) {
         if (al_init_primitives_addon()) {
@@ -190,7 +190,7 @@ int load_all()
 /**
  * @brief Muestra imagen de menu y coloca palabras que recibe y colorea la palabra que se indica.
 */
-void showmenu_all (char* texto[], int size, int option)
+void show_menu (char* texto[], int size, int option)
 {
     al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
@@ -250,7 +250,7 @@ void showsinst_all (void)
 /**
  * @brief Destruye los recursos empleados.
  **/
-void destroy_all()
+void destroy_front()
 {
     al_draw_scaled_bitmap(endImage,     // Imagen de despedida
                           0, 0, al_get_bitmap_width(endImage), al_get_bitmap_height(endImage),     //imagen de finalizacion

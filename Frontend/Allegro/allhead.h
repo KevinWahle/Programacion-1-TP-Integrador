@@ -83,7 +83,7 @@ typedef struct
  * @brief Inicializa los recursos a emplear.
  * @return Si hubo o no error.
 */
-int init_all();
+int init_front();
 
 /**
  * @brief Carga la imagenes, fuentes y sonidos.
@@ -96,24 +96,24 @@ int load_all();
  * @param size Recibe cantidad de palabras a imprimir
  * @param option Recibe un entero indicando que palabra colorear
 */
-void showmenu_all(char* texto[], int size, int option);
+void show_menu(char* texto[], int size, int option);
 
 /**
  * @brief Muestra imagen descore y muestra hasta top 10.
  * @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
  * @param size Recibe el tamaño actual de la lista de puntaje
 */
-void showscore_all (SCORE* score ,int size);
+void shows_core (SCORE* score ,int size);
 
 /**
  * @brief Muestra las instrucciones.
 */
-void showsinst_all (void);
+void shows_inst (void);
 
 /**
  * @brief Destruye los recursos empleados.
  **/
-void destroy_all();
+void destroy_front();
 
 
 /*******************************************************************************
