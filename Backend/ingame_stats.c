@@ -37,20 +37,22 @@ void reset_points()
 
 void reset_level()
 {
-    set_level(0)        // Reinicio al nivel 0.
+    set_level(0);        // Reinicio al nivel 0.
     reset_speed();
+    
     #ifdef DEBUG
-        printf("Renuevo vidas. \n");
+        printf("Resteo nivel. \n");
     #endif  
 }
 
 void reset_speed()
 {
+    set_speed(MIN_SPEED);   // Reseteo
+
     #ifdef DEBUG
         printf("Reseto la velocidad...");
     #endif 
     
-    set_speed(MIN_SPEED);
 }
 
 void reset_killed_aliens()
@@ -181,8 +183,6 @@ void set_level(int new_level)
         printf("El nivel paso a ser: %d \n", level);
     #endif 
 }
-
-
 
 /**********************************************************
 ************************  VARIOUS   ***********************

@@ -1,7 +1,7 @@
 /***************************************************************************//**
-  @file     +Nombre del archivo (ej: template.h)+
-  @brief    +Descripcion del archivo+
-  @author   +Nombre del autor (ej: Salvador Allende)+
+  @file     +allhead.h+
+  @brief    +header principal de allegro+
+  @author   +Grupo 3+
  ******************************************************************************/
 
 #ifndef HALLEGRO_H_

@@ -1,6 +1,7 @@
 void reset_lives(void);
 void reset_points(void);
 void reset_level(void);
+void reset_speed(void);
 void reset_killed_aliens(void);
 void reset_aliens_matrix(void);
 

@@ -1,6 +1,6 @@
 /***************************************************************************/ /**
-  @file     +resouces.c+
-  @brief    +Archivo principal+
+  @file     +menuall.c+
+  @brief    +Archivo con recursos principales de allegro+
   @author   +Grupo 3+
  ******************************************************************************/
 
@@ -34,6 +34,7 @@
 /**
  * @brief Transforma un entero no signado a un string para luego imprimir.
  * @param num Recibe el numero a transformar.
+ * @param chscore[] Recibe el string dode transformara el numero a char
  * @return Devulve el string ya transformado.
 */
 static void intochar(int num, char chscore[MSCORE]);

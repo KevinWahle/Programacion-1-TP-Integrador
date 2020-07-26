@@ -27,9 +27,12 @@
 
 // INVADERS POSITION
 #define INVADERS_WIDTH_PERCENT  0.7    // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
-#define INVADERS_HEIGHT_PERCENT  0.7 //0.3    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
-#define INVADERS_START_HEIGHT_PERCENT  0.1    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
+#define INVADERS_HEIGHT_PERCENT  0.3 //0.3    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
+#define INVADERS_START_HEIGHT_PERCENT  0.05    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
 
+#define INVADERS_FLOOR D_HEIGHT*0.9
+#define INVADERS_WALL D_WIDTH*0.01
+#define INVADERS_FALL D_HEIGHT*0.05
 
 #define CANT_INVADERS FIL_INVADERS*COL_INVADERS
 
@@ -43,10 +46,10 @@
 
 #define MAX_CANON_SHOT 3
 
-#define CANON_FILE "Laser_Cannon.png"
-#define CRAB_FILE "Crab.png"
-#define SQUID_FILE "Squid.png"
-#define OCTO_FILE "Octopus.png"
+#define CANON_FILE "./PNGs/Laser_Cannon.png"
+#define CRAB_FILE "./PNGs/Crab1.png"
+#define SQUID_FILE "./PNGs/Octopus1.png"
+#define OCTO_FILE "./PNGs/Squid1.png"
 
 
 
@@ -661,7 +664,7 @@ static int decideWhetherChangeDirectionOrNot(int direction)
             }
             else   //Si no, hay al menos uno vivo
             {
-                if( invaders[i][j].x < D_WIDTH*0.05 )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                if( invaders[i][j].x < INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 {
                     nextDirection = RIGHT;
                 }
@@ -688,7 +691,7 @@ static int decideWhetherChangeDirectionOrNot(int direction)
             }
             else   //Si no, hay al menos uno vivo
             {
-                if( invaders[i][j].x + al_get_bitmap_width(invaders[i][j].invadersPointer) > D_WIDTH - D_WIDTH*0.05 )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                if( invaders[i][j].x + al_get_bitmap_width(invaders[i][j].invadersPointer) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 {
                     nextDirection = LEFT;
                 }
@@ -708,7 +711,7 @@ void moveInvadersDown(void)
     {
         for(int j = 0; j < COL_INVADERS; j++)
         {
-            invaders[i][j].y += D_HEIGHT*0.05; 
+            invaders[i][j].y += INVADERS_FALL; 
         }
     }
 }
@@ -730,7 +733,7 @@ int is_invadersOnFloor(void)
         }
         else   //Si no, hay al menos uno vivo
         {
-            if( invaders[i][j].y > D_HEIGHT*0.6 )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+            if( invaders[i][j].y > INVADERS_FLOOR )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
             {
                 state = 1;
                 onFloor = 1;
