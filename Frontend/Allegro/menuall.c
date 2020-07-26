@@ -191,8 +191,8 @@ int load_all()
 */
 void showmenu_all (char* texto[], int size)
 {
-    al_draw_scaled_bitmap(menuImage,    // Imagen de fondo de los LED's
-                          0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),    // Imagen de fondo
+    al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
+                          0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
                           0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                           0);
     for(int i=0;i<size;i++) {
@@ -218,10 +218,10 @@ void menucase_all  (char* texto[] ,int size, int case)
 void showscore_all ((SCORE* score[] ,int size) 
 {
     char chscore[5]; //Variable temporal para convertir int a char
-    char position[2];
+    char position[2];   //Variable que indica la posición
     posiion[1]=167; //Es el circulo arriba del número
-    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los LED's
-                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),    // Imagen de fondo
+    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo puntaje
+                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
     al_flip_display();
@@ -240,8 +240,14 @@ void showscore_all ((SCORE* score[] ,int size)
 
 }
 
-
-
+void showsinst_all (void) 
+{
+    al_draw_scaled_bitmap(instImage,    // Imagen de instrucciones
+                            0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),
+                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0);
+    al_flip_display();
+}
 
 /**
  * @brief Destruye los recursos empleados.
