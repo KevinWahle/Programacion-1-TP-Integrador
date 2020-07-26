@@ -10,6 +10,7 @@
 
 #include "FSM_routines.h"
 #include "const.h"
+#include <stdio.h>
 
 
 /*******************************************************************************
@@ -87,7 +88,13 @@ void show_splash(void){
 }
 
 void my_menu(){
+    actual_option=0;
     show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);  //Actualizo el menu, resaltando la opcion actualizada.  
+
+    #if DEBUG
+        printf("Muestro el menú principal. \n");
+    #endif
+
 }
 
 void up_menu(){
@@ -154,36 +161,60 @@ void click_menu()
 
 
 void pause_game(void){
+    actual_option=0;
     show_menu(pause_menu, sizeof(pause_menu)/sizeof(MENU_ITEM), actual_option);
+
+    #if DEBUG
+        printf("Mostrando menú de pausa. \n");
+    #endif
 }
 
 void resume_game(void){
-    //TODO
+    
+    
+    #if DEBUG
+        printf("Mostrando menú de pausa. \n");
+    #endif
+}
+    
+void show_game_score(unsigned long long int score){
+    //CONTINUAR: funcion_front (cantidad de bichos muertos de cada tipo,...,pts,nivel);
+
+    #if DEBUG
+        printf("Mostrando las estadisticas de la partida. \n");
+    #endif
 }
 
 void start_game(void){
     //CONTINUAR:
-    reset_points();
     reset_lives();
-}
-
-void restart_game(void){
-    //CONTINUAR: 
     reset_points();
-    reset_lives();
+    reset_shields();
+    reset_level();
     
-void show_game_score(unsigned long long int score){
-    //DUDA: No deberia ir a front???
+    #if DEBUG
+        printf("Preparo las variables para jugar. \n");
+    #endif
 }
 
 void show_global_score(void) {
-    //TODO
+    SCORE leadboard[LEADERBOARD_SIZE];                     
+    SCORE* p_leadboard=leadboard;
+    int basura= lect_score(p_leadboard);
+    //NOTA: AGREGAR funcion_bustelo (p_leadboard);
+
+    #if DEBUG
+        printf("Mostrando Leadboard. \n");
+    #endif
 }
 
 void quit_game(void) {
     destroy_front();
     show_game_score();
-
+        
+    #if DEBUG
+        printf("Salgo del juego. \n");
+    #endif
 }
 
 void doNothing(void) {

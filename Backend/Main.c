@@ -34,6 +34,11 @@ int main()
         update_front_event();               // Actualizar la lista de eventos que me indica el front.
         event_t evento = get_next_event();  // Tomo un nuevo evento de la cola de eventos.
 
+        #if DEBUG
+
+        #endif
+
+
         if (evento!= NULL_EVENT)
         {
             p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);  // Actualizo el estado
@@ -48,7 +53,7 @@ int main()
 STATE *fsm_interprete(STATE * p_tabla_estado_actual, event_t evento_actual)
 {
     #ifdef DEBUG
-    printf(" >>%c<<\n ",evento_actual); // Para debuggear
+    printf("Evento: %d. \n", evento_actual); // Para debuggear
     #endif  //DEBUG
 
     while (p_tabla_estado_actual -> evento != evento_actual && p_tabla_estado_actual -> evento !=FIN_TABLE)

@@ -18,25 +18,27 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_color.h>
-#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_image.h> //manejo de imagenes
 #include <allegro5/allegro_font.h> //manejo de fonts
 #include <allegro5/allegro_ttf.h> //Manejo de ttfs
 #include <allegro5/allegro_audio.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 #include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 //Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm. 
 
+#include "../../Backend/scoretable.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define D_WIDTH   800
-#define D_HEIGHT  600
+#define D_WIDTH   800   //Ancho de pantalla
+#define D_HEIGHT  600   //Alto de pantalla
 #define FPS       60.0
 
 #define FIL_INVADERS 5
 #define COL_INVADERS 9
 
-
+#define NUMOFFSET    48  //Offset de numero entero a char
+#define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -90,16 +92,31 @@ int init_all();
 int load_all();
 
 /**
- * @brief Muestra imagen de carga.
+ * @brief Muestra imagen del menu y coloca las palabras que reciba.
+ * @param texto[] Recibe un puntero a esturctura de strings
+ * @param size Recibe cantidad de palabras a imprimir
 */
-void cargando_ando();
+void showmenu_all(char* texto[], int size);
+
+/**
+ * @brief Muestra imagen del menu colorea el texto del menu recibido por case.
+ * @param texto[] Recibe un puntero a esturctura de strings
+ * @param size Recibe cantidad de palabras a imprimir
+ * @param case Recibe un entero indicando que palabra colorear
+*/
+void menucase_all (char* texto[] ,int size, int case);
+
+/**
+ * @brief Muestra imagen descore y muestra hasta top 10.
+ * @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
+ * @param size Recibe el tamaño actual de la lista de puntaje
+*/
+void showscore_all (char* score[] ,int size);
 
 /**
  * @brief Destruye los recursos empleados.
  **/
 void destroy_all();
-
-
 
 
 /*******************************************************************************
