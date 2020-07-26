@@ -43,11 +43,8 @@ enum EVENTS {
 	OCTO_COLL_EV,
 	SQUID_COLL_EV,
 	UFO_COLL_EV,
-	SHIELD_COLL_EV,	// Colision a los escuditos.
-	
-	LEVEL_UP_EV,
-	END_GAME_EVENT,
 
+	END_GAME_EVENT,
 };
 
 
@@ -83,6 +80,12 @@ typedef struct {
 	int ID;
 } MENU_ITEM;
 
+enum INVADERS{
+    CRAB = 0,
+    OCTOPUS,
+    SQUID,
+    UFO,
+};
 
 /*******************************************************************************
  ******************************************************************************/

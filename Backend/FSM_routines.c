@@ -234,7 +234,6 @@ void start_game(void){
     //CONTINUAR:
     reset_lives();
     reset_points();
-    reset_shields();
     reset_level();
     reset_front();
     //NOTA: Incluir en donde se encuentra reset_front.
@@ -288,14 +287,16 @@ void ufo_coll()
 
 void cannon_coll()
 {
-    decrease_lives();
-    // DUDA: decrea
-    // NOTA: Agregar si se actualizan las cantidad de vidas en pantalla
-}
+    if(decrease_lives()<1)          // Si las vidas llegan a 0,
+    {                               //se considera que el jugador ya perdió.
+        add_event(END_GAME_EVENT);  
 
-viod shield_coll()
-{
+        #ifdef DEBUG
+            printf("El jugador se quedó sin vidas");
+        #endif
+    }
 
+    // NOTA: Agregar si se actualizan las cantidad de vidas en pantalla.
 }
 
 void doNothing(void) {
