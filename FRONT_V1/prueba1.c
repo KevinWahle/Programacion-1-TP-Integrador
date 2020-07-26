@@ -216,7 +216,7 @@ int main(void) {
             getInvaderShotCollison();
             getCanonShotCollision();
             
-            proxDir = moveInvaders(proxDir);
+            //proxDir = moveInvaders(proxDir);
 
             drawAliveInvaders(invaders);
             al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
@@ -602,7 +602,7 @@ static int decideWhetherChangeDirectionOrNot(int direction)
             {
                 i++;
             }
-            if( !invaders[i][j].invaderState  ) // Entonces estaban todos muertos
+            if( i == FIL_INVADERS  ) // Entonces estaban todos muertos
             {
                 j++;
             }
@@ -629,7 +629,7 @@ static int decideWhetherChangeDirectionOrNot(int direction)
             {
                 i++;
             }
-            if( !invaders[i][j].invaderState  ) // Entonces estaban todos muertos
+            if( i == FIL_INVADERS ) // Entonces estaban todos muertos
             {
                 j--;
             }
