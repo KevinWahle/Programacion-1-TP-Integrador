@@ -100,6 +100,7 @@ void getCanonShotCollision(void);
 int moveInvaders(int direction);
 static int decideWhetherChangeDirectionOrNot(int direction);
 
+void moveInvadersDown(void);
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -133,12 +134,16 @@ static cannonPosition_t cannonXpos = 0;
 // Invaders matrix
 static invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
+
 static shot_t canonShotList[MAX_CANON_SHOT];
 
 static int proxDir = LEFT;
 
-int main(void) {
 
+static int CONTEOREAL;
+
+int main(void) {
+    
     srand (time(NULL));
 
     bool redraw = false;
@@ -207,15 +212,13 @@ int main(void) {
 
             al_clear_to_color(al_map_rgb(0, 0, 0));
 
-            if(  !(rand() % 60)  )
-            {
-                invaderShot(FIL_INVADERS - 1 , rand()  % (COL_INVADERS )  );
-            }
-
-
-            getInvaderShotCollison();
-            getCanonShotCollision();
+            //if(  !(rand() % 60)  )
+            //{
+            //    invaderShot(FIL_INVADERS - 1 , rand()  % (COL_INVADERS )  );
+            //
+            //getInvaderShotCollison();
             
+            getCanonShotCollision();
             proxDir = moveInvaders(proxDir);
 
             drawAliveInvaders(invaders);
@@ -311,7 +314,6 @@ void getInvaderShotCollison(void)
                 {
                     invaderShotList[i].shotState = 0;
                     colisionDetected++;
-                    printf("COOOOOLLL\n");
                 }
                 else if( invaderShotList[i].y > D_HEIGHT )
                 {
@@ -348,7 +350,7 @@ void canonShot(void)
                // TODO: Cambiar por codigo OK
     }
     // ARRAY OVERFLOW
-              // TODO: Cambiar por codigo de error
+                  // TODO: Cambiar por codigo de error
 }
 void getCanonShotCollision(void)
 {
@@ -395,19 +397,24 @@ void getCanonShotCollision(void)
                                     canonShotList[iCont].shotState = 0;
                                     invaders[i][j].invaderState = 0;
                                     colisionDetected++;
-                                    printf("ENTRO EL DISPARO\n");
                                 }
                             }
-
                         }
                     }                    
                 }
-                
             }
             iCont++;
         }
         actualCanonShots -= colisionDetected;
     }
+
+    actualCanonShots = 0;
+    for (int i = 0; i < MAX_CANON_SHOT; i++)
+    {
+        if( canonShotList[i].shotState  )
+            actualCanonShots++;
+    }
+
 }
 
 /*******************************************************************************
@@ -566,6 +573,10 @@ static int initAll(void)
 int moveInvaders(int direction)
 {
     int nextDirection = decideWhetherChangeDirectionOrNot(direction);
+    if(nextDirection != direction)
+    {
+        moveInvadersDown();
+    }
     if(nextDirection == LEFT )  //VER SI HACER UN UNICO BUCLE
     {
         for (int i = 0; i < FIL_INVADERS; i++)
@@ -598,7 +609,7 @@ static int decideWhetherChangeDirectionOrNot(int direction)
         while(j < COL_INVADERS && nextDirection == ERROR_DIREC )
         {
             int i = 0;
-            while( !invaders[i][j].invaderState  &&  i < FIL_INVADERS ) // Busca en la col, mientras esten muertos
+            while(   i < FIL_INVADERS  && !invaders[i][j].invaderState  ) // Busca en la col, mientras esten muertos
             {
                 i++;
             }
@@ -625,7 +636,7 @@ static int decideWhetherChangeDirectionOrNot(int direction)
         while(j >= 0 && nextDirection == ERROR_DIREC )
         {
             int i = 0;
-            while( !invaders[i][j].invaderState  &&  i < FIL_INVADERS ) // Busca en la col, mientras esten muertos
+            while(  i < FIL_INVADERS   &&  !invaders[i][j].invaderState   ) // Busca en la col, mientras esten muertos
             {
                 i++;
             }
@@ -649,3 +660,18 @@ static int decideWhetherChangeDirectionOrNot(int direction)
     return nextDirection;
 }
 
+void moveInvadersDown(void)
+{
+    for (int i = 0; i < FIL_INVADERS; i++)
+    {
+        for(int j = 0; j < COL_INVADERS; j++)
+        {
+            invaders[i][j].y += D_HEIGHT*0.05; 
+        }
+    }
+}
+
+int is_invadersOnFloor()
+{
+    
+}
