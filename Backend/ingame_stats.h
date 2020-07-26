@@ -2,6 +2,8 @@ void reset_lives(void);
 void reset_points(void);
 void reset_shields(void);
 void reset_level(void);
+void reset_killed_aliens(void);
+void reset_aliens_matrix(void);
 
 void increase_points(const int cant);
 int decrease_lives(void);
@@ -10,12 +12,11 @@ void increase_level(void);
 int get_lives(void);
 int get_points(void);
 int* get_shields(void);
-int get_level();
+int get_level(void);
 
 void kill_alien(const int tipo_alien);
 void shield_collision(int shield, int parte);
-void increase_level();
-void increase_speed(int cant);
+void increase_speed(const int cant);
 
 #define INIT_LIFES 3
 //DUDA: a const.h o a ingame.c?
@@ -30,8 +31,8 @@ void increase_speed(int cant);
 //DUDA: Las constantes anteriores: a const.h o a ingame.c?
 
 #define MIN_SPEED       1
-#define MAX_SPEED       10
-#define STEP_SPEED      1
+#define MAX_SPEED       100
+#define STEP_SPEED      10
 
 //NOTA: PASA PA'L FRONT.
 #define SHIELDS         5

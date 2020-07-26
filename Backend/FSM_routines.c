@@ -227,7 +227,7 @@ void resume_game(void){
     
     
     #ifdef DEBUG
-        printf("Mostrando menú de pausa. \n");
+        printf("Reanudo partida. \n");
     #endif
 }
     

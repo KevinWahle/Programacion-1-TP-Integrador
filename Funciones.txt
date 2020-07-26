@@ -81,11 +81,14 @@ FRONT:
     4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
     de ser posible por el front.
 
-    5) void show_game_score(unsigned long long int score):
-    Debe mostrar en el front el puntaje de jugador.
+    5) void show_game_score(unsigned long long int score, ...):
+    Debe mostrar en el front las estadísticas de la partida.
     
     6) void update_front_event(void) agrega a la lista de eventos todos los 
     eventos que registre el front. 
+
+    7) void speed_calculator(int speed) Recibe una velocidad relativa que va entre 1 y 100 
+    y lo transforma a una velocidad real que depende del front.
 
 
     RASPI:
