@@ -7,15 +7,13 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-
 #include "allhead.h"
-
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-
-
+#define NUMOFFSET    48  //Offset de numero entero a char
+#define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -38,15 +36,7 @@
  * @param num Recibe el numero a transformar.
  * @return Devulve el string ya transformado.
 */
-void intochar(int num, char chscore[MSCORE]);
-
-
-/*******************************************************************************
- * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
- ******************************************************************************/
-
-// +ej: static const int temperaturas_medias[4] = {23, 26, 24, 29};+
-
+static void intochar(int num, char chscore[MSCORE]);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -198,9 +188,9 @@ int load_all()
 
 
 /**
- * @brief Muestra imagen de menu y coloca palabras que recibe.
+ * @brief Muestra imagen de menu y coloca palabras que recibe y colorea la palabra que se indica.
 */
-void showmenu_all (char* texto[], int size)
+void showmenu_all (char* texto[], int size, int option)
 {
     al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
@@ -209,20 +199,6 @@ void showmenu_all (char* texto[], int size)
     for(int i=0;i<size;i++) {
         al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);  //Imprime en pantalla todas las palabras
     }
-    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220, ALLEGRO_ALIGN_CENTER, texto[0]);    //La primera palabra estará coloreada
-    al_flip_display();
-}
-
-
-/**
- * @brief Recorre el menu coloreando la palabra indicada.
-*/
-void menucase_all  (char* texto[] ,int size, int option)
-{
-    for(int i=0;i<size;i++) {
-        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
-    }
-    al_flip_display();
     al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(option*80), ALLEGRO_ALIGN_CENTER, texto[option]);
     al_flip_display();
 }
@@ -310,7 +286,7 @@ void destroy_all()
  *******************************************************************************
  ******************************************************************************/
 
-void intochar(int num, char chscore[MSCORE])
+static void intochar(int num, char chscore[MSCORE])
 {
     int a = 0;
     for(int i=MSCORE-1;i>=0;i--) {

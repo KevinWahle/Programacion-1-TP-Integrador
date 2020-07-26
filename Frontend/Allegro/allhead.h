@@ -37,8 +37,7 @@
 #define FIL_INVADERS 5
 #define COL_INVADERS 9
 
-#define NUMOFFSET    48  //Offset de numero entero a char
-#define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -95,16 +94,9 @@ int load_all();
  * @brief Muestra imagen del menu y coloca las palabras que reciba.
  * @param texto[] Recibe un puntero a esturctura de strings
  * @param size Recibe cantidad de palabras a imprimir
+ * @param option Recibe un entero indicando que palabra colorear
 */
-void showmenu_all(char* texto[], int size);
-
-/**
- * @brief Muestra imagen del menu colorea el texto del menu recibido por case.
- * @param texto[] Recibe un puntero a esturctura de strings
- * @param size Recibe cantidad de palabras a imprimir
- * @param case Recibe un entero indicando que palabra colorear
-*/
-void menucase_all (char* texto[] ,int size, int option);
+void showmenu_all(char* texto[], int size, int option);
 
 /**
  * @brief Muestra imagen descore y muestra hasta top 10.
@@ -112,6 +104,11 @@ void menucase_all (char* texto[] ,int size, int option);
  * @param size Recibe el tamaño actual de la lista de puntaje
 */
 void showscore_all (SCORE* score ,int size);
+
+/**
+ * @brief Muestra las instrucciones.
+*/
+void showsinst_all (void);
 
 /**
  * @brief Destruye los recursos empleados.
