@@ -68,7 +68,7 @@
       return -1; 
     }
     cargando_ando();    // Loading...
-    al_rest(2);
+    al_rest(4);
     destroy_all();
     return 0;
   }

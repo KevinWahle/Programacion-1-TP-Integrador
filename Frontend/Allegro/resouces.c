@@ -51,6 +51,8 @@ static ALLEGRO_TIMER *timer = NULL;
 static ALLEGRO_BITMAP *menuImage = NULL;
 static ALLEGRO_BITMAP *firstImage = NULL;
 static ALLEGRO_BITMAP *endImage = NULL;
+static ALLEGRO_BITMAP *instImage = NULL;
+static ALLEGRO_BITMAP *scoreImage = NULL;
 static ALLEGRO_BITMAP *cannon = NULL;
 static ALLEGRO_DISPLAY *display = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
@@ -125,47 +127,57 @@ int init_all()       // Inicializo y verifico que no falle
 */
 int load_all()
 {
-    menuImage = al_load_bitmap("BMPs/menu1-sp.bmp");
+    menuImage = al_load_bitmap("BMPs/menu-sp.bmp");
 		if (menuImage) {
 			firstImage = al_load_bitmap("BMPs/first-image.bmp");
-			if (firstImage) {
-                endImage = al_load_bitmap("BMPs/bye-image.bmp");
-			    if (endImage) {
-                    cannon = al_load_bitmap("PNGs/Laser_Cannon.png");
-                    if(cannon){
-                        font1 = al_load_ttf_font("Fonts/SP-font-menu.ttf", 36, 0);
-                        if(font1){
-                            sample1 = al_load_sample("Songs/audio.wav");
-                            if(sample1) {
-//////////////////////////////////////////////////////////////
-                                for (int i = 0; i < FIL_INVADERS; i++) {    //revisar como destruir todo esto 
-                                    for (int j = 0; j < COL_INVADERS; j++) {          //Cargo el bitmap a todas las invader
-                                        invaders[i][j].invadersPointer = al_load_bitmap("Laser_Cannon.png");
-                                            if (!invaders[i][j].invadersPointer) {
-                                            fprintf(stderr, "ERROR: failed to load enemy image !\n");
-                                            al_destroy_sample(sample1);
-                                            return false;
-                                        }
-                                    }
-                                }
-                                return true; 
-///////////////////////////////////////////////////////////////
+            if (firstImage) {
+                scoreImage = al_load_bitmap("BMPs/puntaje-sp.bmp");
+                if (scoreImage) {   
+                    instImage = al_load_bitmap("BMPs/instruction-sp.bmp");
+                    if (instImage) {
+                            endImage = al_load_bitmap("BMPs/bye-image.bmp");
+                            if (endImage) {
+                                cannon = al_load_bitmap("PNGs/Laser_Cannon.png");
+                                if(cannon){
+                                    font1 = al_load_ttf_font("Fonts/SP-font-menu.ttf", 50, 0);
+                                    if(font1){
+                                        sample1 = al_load_sample("Songs/audio.wav");
+                                        if(sample1) {
+            //////////////////////////////////////////////////////////////
+                                            for (int i = 0; i < FIL_INVADERS; i++) {    //revisar como destruir todo esto 
+                                                for (int j = 0; j < COL_INVADERS; j++) {          //Cargo el bitmap a todas las invader
+                                                    invaders[i][j].invadersPointer = al_load_bitmap("PNGs/Laser_Cannon.png");
+                                                        if (!invaders[i][j].invadersPointer) {
+                                                        fprintf(stderr, "ERROR: failed to load enemy image !\n");
+                                                        al_destroy_sample(sample1);
+                                                        return false;
+                                                    }
+                                                }
+                                            }
+                                            return true; 
+            ///////////////////////////////////////////////////////////////
+                                    } else
+                                        fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
+                                    al_destroy_font(font1);
+                                } else 
+                                    fprintf(stderr, "ERROR: Could not load font 1!\n");
+                                al_destroy_bitmap(cannon);
                             } else
-                                printf("ERROR: Audio clip sample not loaded!\n");
-                            al_destroy_font(font1);
+                                fprintf(stderr, "ERROR: failed to load cannon image!\n");
+                            al_destroy_bitmap(endImage);   
                         } else 
-                            fprintf(stderr, "ERROR: Could not load font 1!\n");
-                        al_destroy_bitmap(cannon);
-                    } else
-                      fprintf(stderr, "ERROR: failed to load cannon image!\n");
-			        al_destroy_bitmap(endImage);   
+                            fprintf(stderr, "ERROR: failed to load endImage!\n");
+                        al_destroy_bitmap(instImage);
+                    } else 
+                        fprintf(stderr, "ERROR: failed to load instImage!\n");
+                    al_destroy_bitmap(scoreImage);
                 } else 
-    			    fprintf(stderr, "ERROR: failed to load endImage!\n");
-			    al_destroy_bitmap(firstImage);
-			} else 
-				fprintf(stderr, "ERROR: failed to load firstImage!\n");
-			al_destroy_bitmap(menuImage);	
-		} else 
+                    fprintf(stderr, "ERROR: failed to load scoreImage!\n"); 
+                al_destroy_bitmap(firstImage);
+            } else 
+                fprintf(stderr, "ERROR: failed to load firtsImage!\n");            
+            al_destroy_bitmap(menuImage);	
+        } else 
     		fprintf(stderr, "ERROR: failed to load menuImage!\n");
     return false;
 }
@@ -175,6 +187,7 @@ int load_all()
 */
 void cargando_ando()
 {
+    char* texto[]={"JUGAR", "PUNTAJE", "INSTRUCCIONES", "SALIR"};
     srand(time(NULL));
     al_draw_scaled_bitmap(firstImage,    // Imagen de fondo de los LED's
                           0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),    // Imagen de fondo
@@ -187,7 +200,37 @@ void cargando_ando()
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),    // Imagen de fondo
                           0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                           0);
+    for(int i=0;i<4;i++) {
+        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
+    }
+
     al_flip_display();
+
+    for(int i=0;i<4;i++) {
+        al_draw_text(font1,  al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
+            
+        al_flip_display();
+
+        al_rest(2);
+
+        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
+
+    }
+
+    al_draw_scaled_bitmap(instImage,    // Imagen de fondo de los LED's
+            0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),    // Imagen de fondo
+            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+            0);
+            al_flip_display();
+    al_rest(2);
+
+    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los LED's
+            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),    // Imagen de fondo
+            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+            0);
+            al_flip_display();
+    al_rest(2);
+    
 }
 
 
@@ -208,15 +251,19 @@ void destroy_all()
     al_destroy_bitmap(endImage);
     al_destroy_bitmap(cannon);
     al_destroy_sample(sample1);
-     al_destroy_font(font1);
+    al_destroy_font(font1);
+
+    al_destroy_timer(timer);
+    al_destroy_display(display);
+    al_destroy_event_queue(event_queue);
 
     al_uninstall_audio();
     al_uninstall_keyboard();
-    al_destroy_timer(timer);
-    al_destroy_display(display);
+    
+    al_shutdown_font_addon();
     al_shutdown_image_addon();
     al_shutdown_primitives_addon();
-    al_destroy_event_queue(event_queue);
+    
     printf("See you next time...\n\n");
 }
 /*******************************************************************************
