@@ -43,7 +43,7 @@ enum EVENTS {
 	OCTO_COLL_EV,
 	SQUID_COLL_EV,
 	UFO_COLL_EV,
-	SHIELD_COLL_EV,	// Colision a los escuditos.
+	SHIELD_COLL_EV,	// Colision a los escuditos. // Va o se encarga el front?
 	
 	LEVEL_UP_EV,
 	END_GAME_EVENT,

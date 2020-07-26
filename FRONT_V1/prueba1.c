@@ -27,7 +27,7 @@
 
 // INVADERS POSITION
 #define INVADERS_WIDTH_PERCENT  0.7    // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
-#define INVADERS_HEIGHT_PERCENT  0.3    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
+#define INVADERS_HEIGHT_PERCENT  0.7 //0.3    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
 #define INVADERS_START_HEIGHT_PERCENT  0.1    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
 
 
@@ -43,10 +43,18 @@
 
 #define MAX_CANON_SHOT 3
 
+#define CANON_FILE "Laser_Cannon.png"
+#define CRAB_FILE "Crab.png"
+#define SQUID_FILE "Squid.png"
+#define OCTO_FILE "Octopus.png"
+
+
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
+
+enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
 
 enum DIRECTIONS {LEFT, RIGHT, ERROR_DIREC};
 
@@ -144,6 +152,14 @@ static shot_t canonShotList[MAX_CANON_SHOT];
 
 static int proxDir = LEFT;
 
+
+static const int invadersDistribution [FIL_INVADERS] = {
+                                                        OCTO,
+                                                        OCTO,
+                                                        SQUID,
+                                                        CRAB,
+                                                        CRAB,
+                                                       };
 
 static int CONTEOREAL;
 
@@ -433,6 +449,25 @@ void getCanonShotCollision(void)
  *******************************************************************************
  ******************************************************************************/
 
+// static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
+// {
+//     for (int i = 0; i < FIL_INVADERS; i++)
+//     {
+//         for (int j = 0; j < COL_INVADERS; j++)
+//         {
+//             int inv_width = al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer);
+//             int inv_height = al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer);
+//             int x_pos =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-inv_width)/(COL_INVADERS-1) + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
+//             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
+//             al_draw_bitmap( ptr_to_struct[i][j].invadersPointer, x_pos, y_pos, 0 );
+//             ptr_to_struct[i][j].x = x_pos;
+//             ptr_to_struct[i][j].y = y_pos;
+//             ptr_to_struct[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
+//         }
+//     }
+// }
+
+// DEL github:
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
 {
     for (int i = 0; i < FIL_INVADERS; i++)
@@ -450,6 +485,8 @@ static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
         }
     }
 }
+
+
 
 static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADERS])
 {
@@ -509,25 +546,44 @@ static int initAll(void)
         return -1;
     }
 
-    canonPointer = al_load_bitmap("Laser_Cannon.png");
+    canonPointer = al_load_bitmap(CANON_FILE);
     if (!canonPointer) {
         fprintf(stderr, "failed to load image !\n");
         return -1;
     }
-
+   
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for (int j = 0; j < COL_INVADERS; j++)                         //Cargo el bitmap a todas las invaders
         {
-            invaders[i][j].invadersPointer = al_load_bitmap("Laser_Cannon.png");
+            invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo según la fila 
+            const char *file;
+            switch(invaders[i][j].invaderType)
+            {
+                case CRAB:
+                    file = CRAB_FILE;
+                    break;
+                case OCTO:
+                    file = OCTO_FILE;
+                    break;
+                case SQUID:
+                    file = SQUID_FILE;
+                    break;
+                default:
+                    file = NULL;
+                    break;
+            }
+            invaders[i][j].invadersPointer = al_load_bitmap(file);
             if (!invaders[i][j].invadersPointer) {
-                fprintf(stderr, "failed to load image !\n");
+                fprintf(stderr, "failed to load image \"%s\"!\n", file);
                 return -1;
             }
 
-            //TODO: Switch case segun el tipo de invader
         }
     }
+
+
+    // printf("TERMINE DE CARGAR IMAGENES DE INVADERS\n");
 
     display = al_create_display(D_WIDTH, D_HEIGHT); // Intenta crear display de 640x480 de fallar devuelve NULL
     if (!display) {
@@ -540,6 +596,8 @@ static int initAll(void)
     al_register_event_source(event_queue, al_get_keyboard_event_source()); //REGISTRAMOS EL TECLADO
 
     placeInvaders( invaders );
+
+    
 
     //void al_draw_bitmap(ALLEGRO_BITMAP *bitmap, float dx, float dy, int flags) 
     al_draw_bitmap(canonPointer, 0, 450, 0); //flags(normalmente en cero, ver doc. para rotar etc)
