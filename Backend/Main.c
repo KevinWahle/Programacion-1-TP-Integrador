@@ -14,10 +14,10 @@ enum { PC, RASPI };
 #include "../Frontend/Raspi/....."
 #endif
 
+BOOL running;   
 
 int main()
 {
-    static BOOL running;    // ¿¿static y privada??
     STATE* p_tabla_estado_actual = splash_state;
 
     if (init_front())             

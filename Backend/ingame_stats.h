@@ -29,6 +29,9 @@ void increase_speed(int cant);
 #define MAX_RAND        4
 //DUDA: Las constantes anteriores: a const.h o a ingame.c?
 
+#define MIN_SPEED       1
+#define MAX_SPEED       10
+#define STEP_SPEED      1
 
 //NOTA: PASA PA'L FRONT.
 #define SHIELDS         5
