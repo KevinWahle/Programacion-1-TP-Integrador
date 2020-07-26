@@ -1,15 +1,15 @@
 #include "ingame_stats.h"
-#include<time.h> 
+#include "../const.h"
+#include <time.h> 
 #include <stdlib.h>
 #include <stdio.h>
 
 static int lives;
 static int points;
 static int level;
-static int shields[SHIELDS][SHIELD_PARTS];
 static int speed=MIN_SPEED;
 
-static int killed_invaders[3];
+static int killed_invaders[CANT_INVADERS];
 //El contendio quedaría:
 //  killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
 
@@ -33,29 +33,6 @@ void reset_points()
     #ifdef DEBUG
         printf("Renuevo puntos. \n");
     #endif  
-}
-
-void reset_shields()
-{
-    for (int i=0; i<SHIELDS; i++)
-        {
-            for (int j = 0; j < SHIELD_PARTS; j++)
-            {
-                shields[i][j]=SHIELD_LIFES;         // Le devuelvo a todas las partes de todos 
-            }                                       //escudos sus vidas iniciales
-        }
-
-    #ifdef DEBUG
-        printf("Renuevo escudos. \n");
-        for (int i=0; i<SHIELDS i++){
-            for (int j=0; j<SHIELD_PARTS)
-            {
-                printf ("Escudo: %d \t Parte: %d \t Vidas: %d \n", shield, parte, shields[i][j])
-            }
-        }
-        printf("\n");
-    #endif   
-
 }
 
 void reset_level()
@@ -84,10 +61,6 @@ void reset_killed_aliens()
     }
 }
 
-void reset_aliens_matrix()
-{
-    //NOTA: va a front.        
-}
 
 /**********************************************************
 ******************  INCREASE / DECREASE   *****************
@@ -188,20 +161,6 @@ int get_level()
     return level;       // Devuelve el nivel en el que se encuentra
 }
 
-int* get_shields()
-{
-    #ifdef DEBUG
-        for (int i=0; i<SHIELDS; i++){
-            for (int j=0; j<SHIELD_PARTS; j++)
-            {
-                printf ("Escudo: %d \t Parte: %d \t Vidas: %d \n", shield, parte, shields[i][j])
-            }
-        }
-        printf("\n");
-    #endif        
-
-    return shields;     // Devuelve un puntero a los escudos con su estado actual
-}
 /**********************************************************
 **************************  SET   *************************
 **********************************************************/
@@ -282,23 +241,6 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
     return 0;
 }
 
-void shield_collision(int shield, int parte)
-// Shield va entre 0 y SHIELDS-1
-{
-    if (shield>=0 && shield <SHIELDS && parte>=IZQUIERDA && parte<=DERECHA)     // Verificamos lo datos pasados 
-    shields[shield][parte]--;                                                   // Decrementamos la vida util del shield en la parte indicada
-
-    #ifdef DEBUG
-        printf("Rompo escudo %d-%d  \n", shield, parte);
-        for (int i=0; i<SHIELDS; i++){
-            for (int j=0; j<SHIELD_PARTS; j++)
-            {
-                printf ("Escudo: %d \t Parte: %d \t Vidas: %d \n", shield, parte, shields[i][j])
-            }
-        }
-        printf("\n");
-    #endif               
-}
 
 
 
