@@ -3,14 +3,14 @@ LDLIBSOPTIONS =`pkg-config --libs allegro-5` `pkg-config --libs allegro_acodec-5
 OPTIONS = -O2 -g -Wall   # -g for debug, -O2 for optimise and -Wall additional messages
 OBJS = mallegro.o menuall.o ${LDLIBSOPTIONS}
 
-mallegro: mallegro.o menuall.o
+main: mallegro.o menuall.o
 	${CC} ${OPTIONS} ${OBJS} -o main 
 
 mallegro.o: mallegro.c allhead.h
 	${CC} ${OPTIONS} -c mallegro.c 
 
 menuall: menuall.o allhead.h
-	${CC} ${OPTIONS} ${OBJS} -o menuall
+	${CC} ${OPTIONS} ${OBJS} -c menuall
 
 
 clean: 
