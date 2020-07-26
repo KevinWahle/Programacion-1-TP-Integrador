@@ -33,8 +33,12 @@
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-
-// +ej: static void falta_envido (int);+
+/**
+ * @brief Transforma un entero no signado a un string para luego imprimir.
+ * @param num Recibe el numero a transformar.
+ * @return Devulve el string ya transformado.
+*/
+char intochar(int num);
 
 
 /*******************************************************************************
@@ -183,56 +187,67 @@ int load_all()
 }
 
 /**
- * @brief Muestra imagen de carga.
+ * @brief Muestra imagen de menu y coloca palabras que recibe.
 */
-void cargando_ando()
+void showmenu_all (char* texto[], int size)
 {
-    char* texto[]={"JUGAR", "PUNTAJE", "INSTRUCCIONES", "SALIR"};
-    srand(time(NULL));
-    al_draw_scaled_bitmap(firstImage,    // Imagen de fondo de los LED's
-                          0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),    // Imagen de fondo
+    al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
+                          0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
                           0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                           0);
-    al_flip_display();
-    al_rest(((rand()%200)/100.0) +1); // Tiempo de carga random (1-3 seg)
-    
-    al_draw_scaled_bitmap(menuImage,    // Imagen de fondo de los LED's
-                          0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),    // Imagen de fondo
-                          0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
-                          0);
-    for(int i=0;i<4;i++) {
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
+    for(int i=0;i<size;i++) {
+        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);  //Imprime en pantalla todas las palabras
     }
-
+    al_draw_text(font1, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[0]);    //La primera palabra estará coloreada
     al_flip_display();
-
-    for(int i=0;i<4;i++) {
-        al_draw_text(font1,  al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
-            
-        al_flip_display();
-
-        al_rest(2);
-
-        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
-
-    }
-
-    al_draw_scaled_bitmap(instImage,    // Imagen de fondo de los LED's
-            0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),    // Imagen de fondo
-            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
-            0);
-            al_flip_display();
-    al_rest(2);
-
-    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los LED's
-            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),    // Imagen de fondo
-            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
-            0);
-            al_flip_display();
-    al_rest(2);
-    
 }
 
+/**
+ * @brief Recorre el menu coloreando la palabra indicada.
+*/
+void menucase_all  (char* texto[] ,int size, int case)
+{
+    for(int i=0;i<size;i++) {
+        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);
+    }
+    al_flip_display();
+    al_draw_text(font1, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[pepe]);
+    al_flip_display();
+}
+
+void showscore_all ((SCORE* score[] ,int size) 
+{
+    char chscore[5]; //Variable temporal para convertir int a char
+    char position[2];   //Variable que indica la posición
+    posiion[1]=167; //Es el circulo arriba del número
+    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo puntaje
+                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
+                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0);
+    al_flip_display();
+    if (size>9){
+        size=9;
+    }
+    else {
+        for(int i=0;i<size;i++) {
+            position[0] = i+1+CHOFFSET;    
+            al_draw_text(font1, al_map_rgb(255, 255, 255), 50, 220+(i*80), ALLEGRO_ALIGN_CENTER, position);
+            al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, score.name[i]);
+            chscore = intochar();
+            al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*80), ALLEGRO_ALIGN_CENTER, chscore[i]);
+        }
+    }
+
+}
+
+void showsinst_all (void) 
+{
+    al_draw_scaled_bitmap(instImage,    // Imagen de instrucciones
+                            0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),
+                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0);
+    al_flip_display();
+}
 
 /**
  * @brief Destruye los recursos empleados.
@@ -271,3 +286,8 @@ void destroy_all()
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+
+char intochar(int num)
+{
+
+}
