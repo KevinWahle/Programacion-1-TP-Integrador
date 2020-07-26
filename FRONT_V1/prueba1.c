@@ -13,7 +13,8 @@
 #define D_WIDTH 800
 #define D_HEIGHT 600
 #define TASA_DE_CAMBIO 3
-#define TASA_DE_CAMBIO_BALA 2
+#define TASA_DE_CAMBIO_BALA 4
+#define TASA_DE_CAMBIO_INVADERS 1
 
 #define SHOT_HEIGHT 15
 #define SHOT_WIDTH 4
@@ -46,6 +47,8 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
+
+enum DIRECTIONS {LEFT, RIGHT, ERROR_DIREC};
 
 enum SHOT_TYPES {CANON_SHOT, INVADER_SHOT};
 
@@ -93,6 +96,10 @@ void getInvaderShotCollison(void);
 void canonShot(void);
 
 void getCanonShotCollision(void);
+
+int moveInvaders(int direction);
+static int decideWhetherChangeDirectionOrNot(int direction);
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -128,6 +135,7 @@ static invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
 static shot_t canonShotList[MAX_CANON_SHOT];
 
+static int proxDir = LEFT;
 
 int main(void) {
 
@@ -204,9 +212,12 @@ int main(void) {
                 invaderShot(FIL_INVADERS - 1 , rand()  % (COL_INVADERS )  );
             }
 
+
             getInvaderShotCollison();
             getCanonShotCollision();
             
+            proxDir = moveInvaders(proxDir);
+
             drawAliveInvaders(invaders);
             al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
             al_flip_display(); 
@@ -516,6 +527,32 @@ static int initAll(void)
     //void al_draw_bitmap(ALLEGRO_BITMAP *bitmap, float dx, float dy, int flags) 
     al_draw_bitmap(canonPointer, 0, 450, 0); //flags(normalmente en cero, ver doc. para rotar etc)
 
+/*
+    invaders[0][8].invaderState = 0;
+    invaders[1][8].invaderState = 0;
+    invaders[2][8].invaderState = 0;
+    invaders[3][8].invaderState = 0;
+    invaders[4][8].invaderState = 0;
+
+    invaders[0][7].invaderState = 0;
+    invaders[1][7].invaderState = 0;
+    invaders[2][7].invaderState = 0;
+    invaders[3][7].invaderState = 0;
+    invaders[4][7].invaderState = 0;
+
+    invaders[0][1].invaderState = 0;
+    invaders[1][1].invaderState = 0;
+    invaders[2][1].invaderState = 0;
+    invaders[3][1].invaderState = 0;
+    invaders[4][1].invaderState = 1;
+
+    invaders[0][0].invaderState = 0;
+    invaders[1][0].invaderState = 0;
+    invaders[2][0].invaderState = 0;
+    invaders[3][0].invaderState = 0;
+    invaders[4][0].invaderState = 0;
+*/
+
     al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
 
     al_start_timer(timer); //Recien aca EMPIEZA el timer
@@ -525,40 +562,90 @@ static int initAll(void)
 /*############################################
 ############################################*/
 
-/*
-void moveInvaders(int direction)
+
+int moveInvaders(int direction)
 {
+    int nextDirection = decideWhetherChangeDirectionOrNot(direction);
+    if(nextDirection == LEFT )  //VER SI HACER UN UNICO BUCLE
+    {
+        for (int i = 0; i < FIL_INVADERS; i++)
+        {
+            for(int j = 0; j < COL_INVADERS; j++ )
+            {
+                invaders[i][j].x -= TASA_DE_CAMBIO_INVADERS;
+            }
+        }
+    }
+    else if(nextDirection == RIGHT)
+    {
+        for (int i = 0; i < FIL_INVADERS; i++)
+        {
+            for(int j = 0; j < COL_INVADERS; j++ )
+            {
+                invaders[i][j].x += TASA_DE_CAMBIO_INVADERS;
+            }
+        }
+    }
+    return nextDirection;
+}
+
+static int decideWhetherChangeDirectionOrNot(int direction)
+{
+    int nextDirection = ERROR_DIREC;
     if(direction == LEFT)
     {
-        if(   )
-        {
-
-        }
-        for(int j = 0; j < COL_INVADERS; j++ )
+        int j = 0;
+        while(j < COL_INVADERS && nextDirection == ERROR_DIREC )
         {
             int i = 0;
-            while( invaderShotList[i][j]  &&  i < FIL_INVADERS )
+            while( !invaders[i][j].invaderState  &&  i < FIL_INVADERS ) // Busca en la col, mientras esten muertos
             {
-                
+                i++;
             }
-            if( !invaderShotList[i][j]  )
+            if( !invaders[i][j].invaderState  ) // Entonces estaban todos muertos
             {
-                HAY QUE SEGUIR
+                j++;
             }
-            else
+            else   //Si no, hay al menos uno vivo
             {
-                CHANGE DIRECTION
+                if( invaders[i][j].x < D_WIDTH*0.05 )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                {
+                    nextDirection = RIGHT;
+                }
+                else
+                {
+                    nextDirection = LEFT;   //Encontraste un vivo tal que todavia no paso la linea => me mantengo en el sentido
+                }
             }
-        }
+        }    
     }
     else if(direction == RIGHT)
     {
-
+        int j = COL_INVADERS - 1;
+        while(j >= 0 && nextDirection == ERROR_DIREC )
+        {
+            int i = 0;
+            while( !invaders[i][j].invaderState  &&  i < FIL_INVADERS ) // Busca en la col, mientras esten muertos
+            {
+                i++;
+            }
+            if( !invaders[i][j].invaderState  ) // Entonces estaban todos muertos
+            {
+                j--;
+            }
+            else   //Si no, hay al menos uno vivo
+            {
+                if( invaders[i][j].x + al_get_bitmap_width(invaders[i][j].invadersPointer) > D_WIDTH - D_WIDTH*0.05 )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                {
+                    nextDirection = LEFT;
+                }
+                else
+                {
+                    nextDirection = RIGHT;   //Encontraste un vivo tal que todavia no paso la linea => me mantengo en el sentido
+                }
+            }
+        }
     }
+    return nextDirection;
 }
 
-int decideWhetherChangeDirectionOrNot()
-{
-
-}
-*/
