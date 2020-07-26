@@ -73,7 +73,7 @@ static actual_option = 0;
  ******************************************************************************/
 
 // NOTA: no se usa.
-int essentials_count (int cant){
+int essentials_count (int cant){ 
      int cant_essentials=0;
     for(int i=0; i<cant; i++)
     {
