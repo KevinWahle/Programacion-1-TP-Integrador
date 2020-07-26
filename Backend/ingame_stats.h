@@ -15,6 +15,7 @@ int get_level();
 void kill_alien(const int tipo_alien);
 void shield_collision(int shield, int parte);
 void increase_level();
+void increase_speed(int cant);
 
 #define INIT_LIFES 3
 //DUDA: a const.h o a ingame.c?

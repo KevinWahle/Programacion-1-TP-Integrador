@@ -19,11 +19,19 @@ static int killed_invaders[3];
 void reset_lives()
 {
     lives=INIT_LIFES;
+    
+    #if DEBUG
+        printf("Renuevo vidas. \n");
+    #endif  
 } 
 
 void reset_points()
 {
     points=0;
+    
+    #if DEBUG
+        printf("Renuevo puntos. \n");
+    #endif  
 }
 
 void reset_shields()
@@ -36,11 +44,26 @@ void reset_shields()
             }
         }
 
+    #if DEBUG
+        printf("Renuevo escudos. \n");
+        for (int i=0; i<SHIELDS i++){
+            for (int j=0; j<SHIELD_PARTS)
+            {
+                printf ("Escudo: %d \t Parte: %d \t Vidas: %d \n", shield, parte, shields[i][j])
+            }
+        }
+        printf("\n");
+    #endif   
+
 }
 
 void reset_level()
 {
     level=0;
+    
+    #if DEBUG
+        printf("Renuevo vidas. \n");
+    #endif  
 }
 
 /**********************************************************
@@ -54,11 +77,21 @@ void increase_points(const int cant)
 
 int decrease_lives()        // REVISAR: ¿Chequeo si lives>0?
 {
-    return --lives;
+    --lives;
+
+    #if DEBUG
+        printf("Decremento 1 vida. \n");
+    #endif  
+
+    return lives;
 }
 
 void increase_level(){
     level++;
+}
+
+void increase_speed(int cant){
+    speed+=cant;
 }
 
 /**********************************************************
@@ -131,6 +164,11 @@ void kill_alien(const int tipo_alien)       //NOTA: FALTARIA LA POSICION. EN EL 
     {
         killed_invaders[tipo_alien]++;  
     }
+    
+    #if DEBUG
+        printf("Invader asesinado: %d \t Puntos: %d \n", tipo_alien, get_points());
+    #endif 
+    
     return 0;
 }
 
@@ -138,12 +176,25 @@ void shield_collision(int shield, int parte)
 // Shield va entre 0 y SHIELDS-1
 {
     if (shield>=0 && shield <SHIELDS && parte>=IZQUIERDA && parte<=DERECHA) 
-    shields[shield][parte]--;                
+    shields[shield][parte]--; 
+
+    #if DEBUG
+        printf("Rompo escudo %d-%d  \n", shield, parte);
+        for (int i=0; i<SHIELDS i++){
+            for (int j=0; j<SHIELD_PARTS)
+            {
+                printf ("Escudo: %d \t Parte: %d \t Vidas: %d \n", shield, parte, shields[i][j])
+            }
+        }
+        printf("\n");
+
+    #endif               
 }
 
 void level_up(){
-
-    
+// CONTINUAR:
+// reset_aliens();
+// increase_speed(); ?
 }
 
 
