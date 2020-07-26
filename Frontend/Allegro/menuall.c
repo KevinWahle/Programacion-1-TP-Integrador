@@ -51,20 +51,23 @@ char intochar(int num);
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-static ALLEGRO_TIMER *timer = NULL;
 static ALLEGRO_BITMAP *menuImage = NULL;
 static ALLEGRO_BITMAP *firstImage = NULL;
 static ALLEGRO_BITMAP *endImage = NULL;
 static ALLEGRO_BITMAP *instImage = NULL;
 static ALLEGRO_BITMAP *scoreImage = NULL;
 static ALLEGRO_BITMAP *cannon = NULL;
+
+static ALLEGRO_TIMER *timer = NULL;
 static ALLEGRO_DISPLAY *display = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+
+static ALLEGRO_SAMPLE *sample1 = NULL;
+static ALLEGRO_FONT * fontmu = NULL;
+static ALLEGRO_FONT * fontsc = NULL;
+
 // Invaders matrix
 static invader_t invaders[FIL_INVADERS][COL_INVADERS];
-static ALLEGRO_SAMPLE *sample1 = NULL;
-static ALLEGRO_FONT * font1 = NULL;
-
 
 /*******************************************************************************
  *******************************************************************************
@@ -126,6 +129,7 @@ int init_all()       // Inicializo y verifico que no falle
 	return false;
 }
 
+
 /**
  * @brief Carga la imagenes, fuentes y sonidos.
 */
@@ -143,28 +147,33 @@ int load_all()
                             if (endImage) {
                                 cannon = al_load_bitmap("PNGs/Laser_Cannon.png");
                                 if(cannon){
-                                    font1 = al_load_ttf_font("Fonts/SP-font-menu.ttf", 50, 0);
-                                    if(font1){
-                                        sample1 = al_load_sample("Songs/audio.wav");
-                                        if(sample1) {
-            //////////////////////////////////////////////////////////////
-                                            for (int i = 0; i < FIL_INVADERS; i++) {    //revisar como destruir todo esto 
-                                                for (int j = 0; j < COL_INVADERS; j++) {          //Cargo el bitmap a todas las invader
-                                                    invaders[i][j].invadersPointer = al_load_bitmap("PNGs/Laser_Cannon.png");
-                                                        if (!invaders[i][j].invadersPointer) {
-                                                        fprintf(stderr, "ERROR: failed to load enemy image !\n");
-                                                        al_destroy_sample(sample1);
-                                                        return false;
+                                    fontmu = al_load_ttf_font("Fonts/SP-font-menu.ttf", 50, 0);
+                                    if(fontmu){
+                                        fontsc = al_load_ttf_font("Fonts/SP-font-menu.ttf", 20, 0);
+                                        if(fontsc){
+                                            sample1 = al_load_sample("Songs/audio.wav");
+                                            if(sample1) {
+                //////////////////////////////////////////////////////////////
+                                                for (int i = 0; i < FIL_INVADERS; i++) {    //revisar como destruir todo esto 
+                                                    for (int j = 0; j < COL_INVADERS; j++) {          //Cargo el bitmap a todas las invader
+                                                        invaders[i][j].invadersPointer = al_load_bitmap("PNGs/Laser_Cannon.png");
+                                                            if (!invaders[i][j].invadersPointer) {
+                                                            fprintf(stderr, "ERROR: failed to load enemy image !\n");
+                                                            al_destroy_sample(sample1);
+                                                            return false;
+                                                        }
                                                     }
                                                 }
-                                            }
-                                            return true; 
-            ///////////////////////////////////////////////////////////////
-                                    } else
-                                        fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
-                                    al_destroy_font(font1);
+                                                return true; 
+                ///////////////////////////////////////////////////////////////
+                                        } else
+                                            fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
+                                        al_destroy_font(fontsc);
+                                    } else 
+                                        fprintf(stderr, "ERROR: Could not load score font!\n");
+                                    al_destroy_font(fontmu);
                                 } else 
-                                    fprintf(stderr, "ERROR: Could not load font 1!\n");
+                                    fprintf(stderr, "ERROR: Could not load menu font!\n");
                                 al_destroy_bitmap(cannon);
                             } else
                                 fprintf(stderr, "ERROR: failed to load cannon image!\n");
@@ -186,6 +195,7 @@ int load_all()
     return false;
 }
 
+
 /**
  * @brief Muestra imagen de menu y coloca palabras que recibe.
 */
@@ -202,6 +212,7 @@ void showmenu_all (char* texto[], int size)
     al_flip_display();
 }
 
+
 /**
  * @brief Recorre el menu coloreando la palabra indicada.
 */
@@ -215,9 +226,14 @@ void menucase_all  (char* texto[] ,int size, int case)
     al_flip_display();
 }
 
+
+/**
+ * @brief Muestra los mejores puntajes, máximo 10.
+*/
 void showscore_all ((SCORE* score[] ,int size) 
 {
-    char chscore[5]; //Variable temporal para convertir int a char
+    char chscore[MSCORE]; //Variable temporal para convertir int a char
+    int num=0;
     char position[2];   //Variable que indica la posición
     posiion[1]=167; //Es el circulo arriba del número
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo puntaje
@@ -225,21 +241,25 @@ void showscore_all ((SCORE* score[] ,int size)
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
     al_flip_display();
-    if (size>9){
-        size=9;
-    }
-    else {
-        for(int i=0;i<size;i++) {
-            position[0] = i+1+CHOFFSET;    
-            al_draw_text(font1, al_map_rgb(255, 255, 255), 50, 220+(i*80), ALLEGRO_ALIGN_CENTER, position);
-            al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, score.name[i]);
-            chscore = intochar();
-            al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*80), ALLEGRO_ALIGN_CENTER, chscore[i]);
-        }
+    
+    if (size>10)
+        size=10;
+
+    for(int i=0;i<size;i++) {
+        position[0] = i+1+CHOFFSET;    
+        al_draw_text(font1, al_map_rgb(255, 255, 255), 50, 220+(i*40), ALLEGRO_ALIGN_CENTER, position);
+        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*40), ALLEGRO_ALIGN_CENTER, score.name[i]);
+        num=score.num[i];
+        intochar(num,chscore);
+        al_draw_text(font1, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
 
 }
 
+
+/**
+ * @brief Muestra las instrucciones.
+*/
 void showsinst_all (void) 
 {
     al_draw_scaled_bitmap(instImage,    // Imagen de instrucciones
@@ -248,6 +268,7 @@ void showsinst_all (void)
                             0);
     al_flip_display();
 }
+
 
 /**
  * @brief Destruye los recursos empleados.
@@ -266,7 +287,8 @@ void destroy_all()
     al_destroy_bitmap(endImage);
     al_destroy_bitmap(cannon);
     al_destroy_sample(sample1);
-    al_destroy_font(font1);
+    al_destroy_font(fontmu);
+    al_destroy_font(fontsc);
 
     al_destroy_timer(timer);
     al_destroy_display(display);
@@ -287,7 +309,12 @@ void destroy_all()
  *******************************************************************************
  ******************************************************************************/
 
-char intochar(int num)
+void intochar(int num, char chscore[MSCORE])
 {
-
+    int a = 0;
+    for(int i=MSCORE-1;i>=0;i--) {
+        a = num % 10;
+        chscore[i]=a+NUMOFFSET;
+        num = num / 10;
+    }
 }
