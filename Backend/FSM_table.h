@@ -14,6 +14,7 @@
 #include "../const.h"
 #include "FSM_routines.h"
 #include "event_queue\event_queue.h"
+#include "ingame_stats.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -70,7 +71,18 @@ STATE click_state[]= {
 STATE play_state[] = {
     {PAUSE_EVENT, menu_state, pause_game},       
     {END_GAME_EVENT, game_score_state, show_game_score},
-    {FIN_TABLE, play_state, doNothing} //NOTA: no debería
+    {NEXT_LEVEL_EV, play_state, increase_level},
+    {CRAB_COLL_EV, play_state, crab_coll},
+    {OCTO_COLL_EV, play_state, octo_coll},
+    {SQUID_COLL_EV, play_state, squid_coll},
+    {UFO_COLL_EV, play_state, ufo_coll},
+    {SHIELD_COLL_EV, play_state, shield_coll},
+
+
+    {END_GAME_EVENT, game_score_state, show_game_score},
+
+    
+    {FIN_TABLE, play_state, redraw} //NOTA: INCLUIR DONDE ESTE REDRAW
 };
 
 STATE pause_state[] = {
