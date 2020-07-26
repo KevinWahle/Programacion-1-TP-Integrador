@@ -9,7 +9,7 @@
  ******************************************************************************/
 
 #include "FSM_routines.h"
-#include "ingame_states.h"
+#include "ingame_stats.h"
 #include "event_queue/event_queue.h"
 #include "const.h"
 #include <stdio.h>
@@ -264,6 +264,38 @@ void quit_game(void) {
     #ifdef DEBUG
         printf("Salgo del juego. \n");
     #endif
+}
+
+void crab_coll()
+{
+    kill_alien(CRAB);
+}
+
+void octo_coll()
+{
+    kill_alien(OCTOPUS);
+}
+
+void squid_coll()
+{
+    kill_alien(SQUID);
+}
+
+void ufo_coll()
+{
+    kill_alien(UFO);
+}
+
+void cannon_coll()
+{
+    decrease_lives();
+    // DUDA: decrea
+    // NOTA: Agregar si se actualizan las cantidad de vidas en pantalla
+}
+
+viod shield_coll()
+{
+
 }
 
 void doNothing(void) {
