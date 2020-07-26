@@ -30,15 +30,15 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define D_WIDTH   800
-#define D_HEIGHT  600
+#define D_WIDTH   800   //Ancho de pantalla
+#define D_HEIGHT  600   //Alto de pantalla
 #define FPS       60.0
 
 #define FIL_INVADERS 5
 #define COL_INVADERS 9
 
-#define CHOFFSET    48
-
+#define NUMOFFSET    48  //Offset de numero entero a char
+#define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
