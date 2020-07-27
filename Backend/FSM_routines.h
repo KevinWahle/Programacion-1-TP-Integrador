@@ -33,24 +33,28 @@ extern running;
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-
+//REVISAR: @baisili REVISAR: @basili REVISAR:
 /**
- * @brief TODO: completar descripcion
+ * @brief completar descripcion
  * @param param1 Descripcion parametro 1
  * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
 */
-// +ej: char lcd_goto (int fil, int col);+
 
 void show_splash(void);
+/**
+ * @brief llama a la funcion que se encarga del splash
+*/
 
-void my_menu();
+void my_menu(void);
+/**
+ * @brief llama a la funcion que se encarga del splash
+*/
 
-void up_menu();
+void up_menu(void);
 
-void down_menu();
+void down_menu(void);
 
-void click_menu();
+void click_menu(void);
 
 void pause_game(void);
 

@@ -65,15 +65,14 @@
 
 enum shieldStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};
 
-ALLEGRO_COLOR al_color_html(char const *string);
 
-/*
-enum COLORS {  COLOR_STATE_0 =  #00691c,
-               COLOR_STATE_1 = #018f27, 
-               COLOR_STATE_2 =  #00d138,
-               COLOR_STATE_3 = #21ff5d,
-               COLOR_STATE_4 =      };
-*/
+// Color de los escudos
+#define CUANTO_DE_ROJO 0
+#define CUANTO_DE_VERDE 255
+#define CUANTO_DE_AZUL 0
+
+#define OPACIDAD_COLOR 0
+
 
 enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
 
@@ -506,8 +505,8 @@ void getCanonShotCollision(void)
 
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
 {
-    // Guardo el ancho del invader más grande
-    int max_inv_width = al_get_bitmap_width(ptr_to_struct[invadersDistribution[BIG_INVADER]][0].invadersPointer);
+    // Guardo el ancho del invader más grande, que será el de la última fila
+    int max_inv_width = al_get_bitmap_width(ptr_to_struct[FIL_INVADERS-1][0].invadersPointer);
 
     for (int i = 0; i < FIL_INVADERS; i++)
     {
