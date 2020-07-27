@@ -96,6 +96,8 @@ static ALLEGRO_SAMPLE *sample1 = NULL;
 static ALLEGRO_FONT * fontmu = NULL;
 static ALLEGRO_FONT * fontsc = NULL;
 
+static ALLEGRO_KEYBOARD_STATE ks;
+
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
@@ -178,7 +180,7 @@ int loadim_menu()
                         if (endImage) {
                             fontmu = al_load_ttf_font(FONT1_FILE, 50, 0);   //50 es el tamaño de la letra
                             if(fontmu){
-                                fontsc = al_load_ttf_font(FONT2_FILE, 20, 0);   //20 es el tamaño de la letra
+                                fontsc = al_load_ttf_font(FONT2_FILE, 28, 0);   //20 es el tamaño de la letra
                                 if(fontsc){
                                     sample1 = al_load_sample(SAMPLE_FILE);
                                     if(sample1) {
@@ -265,9 +267,10 @@ void splash_front()
                             0);
     al_rest(1.5);
     shows_inst ();
-    al_draw_text(fontmu, al_map_rgb(255, 255, 0), (D_WIDTH / 2), 500, ALLEGRO_ALIGN_CENTER, "Presione la tecla espacio para continuar...");
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 500, ALLEGRO_ALIGN_CENTER, "Presione la tecla espacio para continuar...");
     al_flip_display();
 }
+
 
 /**
  * @brief Muestra imagen de menu y coloca palabras que recibe y colorea la palabra que se indica.
@@ -334,6 +337,58 @@ void shows_inst ()
  **/
 void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGRO "ALLEGRO_EVENT ev;"
 {
+
+    /*
+    ALLEGRO_EVENT ev;
+
+    // Ver esto en lugar de al_get_next_event() (Devuelve evento sin sacar de la cola) 
+    // bool al_peek_next_event(ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_EVENT *ret_event)
+    al_start_timer(timer);
+    if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
+    {
+        if (ev.type == ALLEGRO_EVENT_TIMER)
+        {
+            int cannon_width = al_get_bitmap_width(canonPointer);
+            if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO) < D_WIDTH){
+                cannonXpos += TASA_DE_CAMBIO;
+            }
+            else if(key_pressed[KEY_LEFT] && (cannonXpos - TASA_DE_CAMBIO) > 0) {
+                cannonXpos -= TASA_DE_CAMBIO;
+            }
+            redraw = true;
+        }
+
+        else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+            display_close = true;
+
+        else if (ev.type == ALLEGRO_EVENT_KEY_DOWN )
+        {
+            switch (ev.keyboard.keycode)
+            {
+            case ALLEGRO_KEY_ESCAPE:
+                add_event(PAUSE_BTN);
+                break;
+            case ALLEGRO_KEY_SPACE:
+                add_event(CLICK_BTN);
+                break;
+            case ALLEGRO_KEY_UP:
+                add_event(MOVE_UP);
+                break;
+            case ALLEGRO_KEY_DOWN:
+                add_event(MOVE_DOWN);
+                break;
+            case ALLEGRO_KEY_LEFT:
+                add_event(MOVE_LEFT);
+                break;
+            case ALLEGRO_KEY_RIGHT:
+                add_event(MOVE_RIGHT);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    */
     al_get_keyboard_state(&ks);
 
     if(al_key_down(&ks,ALLEGRO_KEY_ESCAPE)) {

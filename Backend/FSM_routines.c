@@ -80,20 +80,21 @@ void my_menu(){
 
 }
 
-void up_menu(){
-if (ONLY_ESSENTIAL){           //NOTA: Alguna razón para no usar #if de precompilador?                                         
-        do{                                                                
-           if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){                     // Si el front solo permite mostrar las opciones esenciales:
-                actual_option++;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
-           }                                                                            //y cuando haya una arriba.
-        } while ((main_menu[actual_option]).essential=FALSE && sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option);
-    }
+void up_menu(MENU_ITEM* menu){ //REVISAR: HACER
     
-    else{                                                               // Si el front permite mostrar las opciones no esenciales:
+    #ifdef ONLY_ESSENTIAL            //NOTA: Alguna razón para no usar #if de precompilador?                                         
+            do{                                                                
+            if(sizeof(menu)/sizeof(MENU_ITEM) > actual_option){                     // Si el front solo permite mostrar las opciones esenciales:
+                    actual_option++;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
+            }                                                                            //y cuando haya una arriba.
+            } while ((menu[actual_option]).essential=FALSE && sizeof(menu)/sizeof(MENU_ITEM) > actual_option);
+    
+    #else                                                               // Si el front permite mostrar las opciones no esenciales:
         if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){        
             actual_option++;                                                //subimos en el menú hasta la siguiente opcion
         }
-    }
+
+    #endif
 
     #ifdef DEBUG
     printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
@@ -299,12 +300,12 @@ void down_menu_main()
 
 void up_menu_pause()
 {
-
+    up_menu(pause_menu);
 }
 
 void down_menu_pause()
 {
-    
+    down_menu(pause_menu);
 }
 
 void doNothing(void) {

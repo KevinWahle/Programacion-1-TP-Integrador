@@ -19,6 +19,7 @@
 #define SHOT_HEIGHT 15
 #define SHOT_WIDTH 4
 
+
 #define FIL_INVADERS 5
 #define COL_INVADERS 9
 
@@ -63,15 +64,15 @@
 
 #define TOTAL_SHIELDS 4
 
-#define SHIELDERS_WIDTH_PERCENT   0.7    // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
+#define SHIELDERS_WIDTH_PERCENT   0.7   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  (1 - SHIELDERS_WIDTH_PERCENT)/2
 #define SHIELD_WIDTH  B_WIDTH * 3
 #define SHIELDERS_WIDTH_ABSOLUTE  SHIELDERS_WIDTH_PERCENT * D_WIDTH
 #define OFFSET_FROM_WALL_ABSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
 
-#define DIST  (SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * B_WIDTH)/(TOTAL_SHIELDS - 1)
+#define DIST  (SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1)
 
-
+#define BLOCK_LIVES 4
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -80,12 +81,17 @@
 enum shieldStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};
 
 
-// Color de los escudos
-#define CUANTO_DE_ROJO 0
-#define CUANTO_DE_VERDE 255
-#define CUANTO_DE_AZUL 0
+// Color de los escudos, PARA SALIR DEL PASO
+#define COLOR_STATE_0 "green"
+#define COLOR_STATE_1 "yellow"
+#define COLOR_STATE_2 "orange"
+#define COLOR_STATE_3 "red"
 
-#define OPACIDAD_COLOR 0
+char *blockColors[BLOCK_LIVES] = {  COLOR_STATE_0,
+                                    COLOR_STATE_1,
+                                    COLOR_STATE_2,
+                                    COLOR_STATE_3,
+                                };
 
 
 enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
@@ -126,14 +132,24 @@ typedef struct
     ALLEGRO_BITMAP *invadersPointer;
 }invader_t;
 
-typedef struct
+typedef struct 
 {
     int x;
     int y;
     int height;
     int width;
     int state;
-}miniBlock_t;
+}block_t;
+
+typedef struct
+{
+    block_t block_1;
+    block_t block_2;
+    block_t block_3;
+    block_t block_4;
+    block_t block_5;
+}shield_t;
+
 
 
 typedef int cannonPosition_t;
@@ -158,7 +174,7 @@ int is_invadersOnFloor(void);
 void shouldInvaderShot(void);
 
 
-void createShield(int x_shield, int y_shield);
+void createShield(int x_shield, int y_shield, shield_t *shield);
 void placeShields(void);
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -206,6 +222,9 @@ static const int invadersDistribution [FIL_INVADERS] = {
                                                         OCTO,
                                                         OCTO,
                                                        };
+
+
+shield_t shielders[TOTAL_SHIELDS];
 
 #define BIG_INVADER OCTO
 
@@ -810,42 +829,59 @@ void shouldInvaderShot(void)
     }       
 }
 
-
-
-//void createShield(void)
-//{
-//
-//    al_draw_filled_rectangle(X1, Y1, X2, Y2, al_color_name("green")  );
-//    al_draw_filled_rectangle(X1 + B_WIDTH, Y1, X2 + B_WIDTH, Y2, al_color_name("green")  );
-//    al_draw_filled_rectangle(X1 + 2*B_WIDTH, Y1, X2 + 2*B_WIDTH, Y2, al_color_name("green")  );
-//    al_draw_filled_rectangle(X1, Y1 + B_HEIGHT, X2, Y2 + B_HEIGHT, al_color_name("green")  );
-//    al_draw_filled_rectangle(X1 + 2*B_WIDTH, Y1 + B_HEIGHT, X2 + 2*B_WIDTH, Y2 + B_HEIGHT, al_color_name("green")  );
-//
-//}
-
-void createShield(int x_shield, int y_shield)
+void createShield(int x_shield, int y_shield, shield_t *shield)
 {
+    shield->block_1.x = x_shield;
+    shield->block_1.y = y_shield;     // Algunos pensaran que esta hardcodeado, pues si, cada bloque se debe decidir, no hay patron generico
+    shield->block_1.state = STATE_0;
 
-    al_draw_filled_rectangle(x_shield, y_shield, x_shield + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
-    al_draw_filled_rectangle(x_shield + B_WIDTH, y_shield, x_shield + B_WIDTH + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
-    al_draw_filled_rectangle(x_shield + 2*B_WIDTH, y_shield, x_shield + B_WIDTH + 2*B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
-    al_draw_filled_rectangle(x_shield, y_shield + B_HEIGHT, x_shield + B_WIDTH, y_shield + B_HEIGHT + B_HEIGHT, al_color_name("green")  );
-    al_draw_filled_rectangle(x_shield + 2*B_WIDTH, y_shield + B_HEIGHT, x_shield + B_WIDTH + 2*B_WIDTH, y_shield + B_HEIGHT + B_HEIGHT, al_color_name("green")  );
+    shield->block_2.x = x_shield + B_WIDTH;
+    shield->block_2.y = y_shield;
+    shield->block_2.state = STATE_0;
+
+    shield->block_3.x = x_shield + 2*B_WIDTH;
+    shield->block_3.y = y_shield;
+    shield->block_3.state = STATE_0;
+
+    shield->block_4.x = x_shield;
+    shield->block_4.y = y_shield + B_HEIGHT;
+    shield->block_4.state = STATE_0;
+
+    shield->block_5.x = x_shield + 2*B_WIDTH;
+    shield->block_5.y = y_shield + B_HEIGHT;
+    shield->block_5.state = STATE_0;
+
+    //al_draw_filled_rectangle(x_shield, y_shield, x_shield + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
+    //al_draw_filled_rectangle(x_shield + B_WIDTH, y_shield, x_shield + B_WIDTH + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
+    //al_draw_filled_rectangle(x_shield + 2*B_WIDTH, y_shield, x_shield + B_WIDTH + 2*B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
+    //al_draw_filled_rectangle(x_shield, y_shield + B_HEIGHT, x_shield + B_WIDTH, y_shield + B_HEIGHT + B_HEIGHT, al_color_name("green")  );
+    //al_draw_filled_rectangle(x_shield + 2*B_WIDTH, y_shield + B_HEIGHT, x_shield + B_WIDTH + 2*B_WIDTH, y_shield + B_HEIGHT + B_HEIGHT, al_color_name("green")  );
+
+    al_draw_filled_rectangle(shield->block_1.x, shield->block_1.y, shield->block_1.x + B_WIDTH, shield->block_1.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    al_draw_filled_rectangle(shield->block_2.x, shield->block_2.y, shield->block_2.x + B_WIDTH, shield->block_2.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    al_draw_filled_rectangle(shield->block_3.x, shield->block_3.y, shield->block_3.x + B_WIDTH, shield->block_3.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    al_draw_filled_rectangle(shield->block_4.x, shield->block_4.y, shield->block_4.x + B_WIDTH, shield->block_4.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    al_draw_filled_rectangle(shield->block_5.x, shield->block_5.y, shield->block_5.x + B_WIDTH, shield->block_5.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
 
 }
-
-//X2 = x_shield + B_WIDTH
-//
-//Y2 = y_shield + B_HEIGHT
-
 void placeShields(void)
 {
     for (int i = 0; i < TOTAL_SHIELDS; i++)
     {
-        int x_shield =  i * ( B_WIDTH + DIST ) + OFFSET_FROM_WALL_ABSOLUTE ;
+        int x_shield =  i * ( SHIELD_WIDTH + DIST ) + OFFSET_FROM_WALL_ABSOLUTE ;
 
         int y_shield = Y1;
 
-        createShield(x_shield, y_shield);
+        createShield(x_shield, y_shield, &shielders[i] );
     }
+}
+
+void drawShields(void)
+{
+    for (int i = 0; i < TOTAL_SHIELDS; i++)
+    {
+        if( !shielders[i].block_1.state )
+    }
+    
+
 }

@@ -27,7 +27,7 @@
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-extern running;   //REVISAR: Falta tipo de dato
+extern BOOL running;
 
 
 /*******************************************************************************
@@ -50,9 +50,10 @@ void my_menu(void);
  * @brief Llama a la funcion que se encarga de mostrar el menu, indicandole las opciones a mostrar y la opcion a resaltar
 */
 
-void up_menu(void);
-/**
+void up_menu(MENU_ITEM* menu); //REVISAR: hay que  incluir donde esta la constante
+/** 
  * @brief Llama a la funcion que se encarga de mostrar el menu, indicandole las opciones a mostrar y la opcion a resaltar
+ * @param // CONTINUAR:
 */
 
 void down_menu(void);
@@ -104,26 +105,52 @@ void click_menu_pause(void);
 /**
  * @brief Añanade la opcion seleccionada a la cola de eventos
 */
-/////////////////////////////////////////////////////////////////////////////NOTA: HASTA  ACA COMENTÉ
 
 void crab_coll(void);
 /**
- * @brief 
+ * @brief Llama a la funcion encargada de matar al crab
 */
-void octo_coll(void);
 
+void octo_coll(void);
+/**
+ * @brief Llama a la funcion encargada de matar al octopus
+*/
 
 void squid_coll(void);
+/**
+ * @brief Llama a la funcion encargada de matar al squid
+*/
 
 void ufo_coll(void);
+/**
+ * @brief Llama a la funcion encargada de matar al ufo
+*/
 
 void cannon_coll(void);
+/**
+ * @brief Decrementa una vida y agrega el suceso a  la cola de eventos
+*/
 
 void up_menu_main(void);
+/**
+ * @brief Llama a la funcion encargada seleccionar la opcion de arriba del menu principal
+*/
+
 void down_menu_main(void);
+/**
+ * @brief Llama a la funcion encargada seleccionar la opcion de abajo del menu principal
+*/
+
 void up_menu_pause(void);
+/**
+ * @brief Llama a la funcion encargada seleccionar la opcion de arriba del menu principal
+*/
+
 void down_menu_pause(void);
 
+/**
+ * @brief Llama a la funcion encargada seleccionar la opcion de arriba del menu principal
+*/
 
 
 
