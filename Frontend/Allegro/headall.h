@@ -127,6 +127,11 @@ void shows_inst ();
 void update_front_event();
 
 /**
+ * @brief Redraw dependiendo del timer.
+ **/
+void redraw(void);
+
+/**
  * @brief Destruye los recursos empleados.
  **/
 void destroy_front();

@@ -29,12 +29,12 @@
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-void BubbleSort(SCORE arr[], int cont); 
 /**
- * @brief Ordena los eleementos de mayor a menor
+ * @brief Ordena los elementos de mayor a menor
  * @param arr: arreglo  con los elementos a ordenar
  * @param cont: cantidad de elementos a ordenar
 */
+void BubbleSort(SCORE arr[], int cont); 
 
 /*******************************************************************************
  * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -63,15 +63,15 @@ void put_score (char* name, unsigned long int score, const int top, SCORE* my_pu
     int cant = lect_score (my_pun);                 // Cuento cuantos nombres hay y lo coloco en memoria
     if (cant<=top){                                 // Si la cantidad no supera el top   
         BubbleSort(my_pun, cant);                   // Lo agrego en el orden correspondiendte
-        fp= fopen ("score.txt","w");         // Abro el archivo
+        fp= fopen ("score.txt","w");                // Abro el archivo
         for (int i=0; i<cant; i++){
             fprintf(fp, "%s %lu\n", my_pun[i].name, my_pun[i].pts); // Le coloco los nombres y puntajes
         }
-        fclose(fp);                                  // Cierro el archivo
+        fclose(fp);                                 // Cierro el archivo
     }
     else{
         BubbleSort(my_pun, top+1);                  // Agrego el nuevo punteje con el nombre correspondiente y lo ordeno 
-        fp= fopen ("score.txt","w");         // Abro el archivo
+        fp= fopen ("score.txt","w");                // Abro el archivo
         for (int i=0; i<top; i++){
             fprintf(fp, "%s %lu\n", my_pun[i].name, my_pun[i].pts); // Le coloco los nombres y puntajes
         }
@@ -106,7 +106,7 @@ int lect_score (SCORE* my_pun)
 
         
         if (c!=' '){                                        // Si el ultimo caracter no era un espacio
-            char temp=fgetc (fp);                             // Leo el espacio (basura)
+            char temp=fgetc (fp);                           // Leo el espacio (basura)
         }
 
 

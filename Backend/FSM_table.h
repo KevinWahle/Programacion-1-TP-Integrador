@@ -76,7 +76,7 @@ STATE play_state[] = {
     {OCTO_COLL_EV, play_state, octo_coll},
     {SQUID_COLL_EV, play_state, squid_coll},
     {UFO_COLL_EV, play_state, ufo_coll},
-    {FIN_TABLE, play_state, redraw} //NOTA: INCLUIR DONDE ESTE REDRAW
+    {FIN_TABLE, play_state, refresh} 
 };
 
 STATE pause_state[] = {

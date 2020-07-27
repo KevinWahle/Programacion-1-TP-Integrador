@@ -76,6 +76,9 @@ LISTO	10) /**
 		*/
 		void shows_inst (void);
 		
+        update_speed_front(int newSpeed);
+            // El back llama a esta función con la velocidad actualizada
+            // Adentro de la función el front actualiza su propia velocidad (invaders, frecuencia de tiros, etc)
 
         destroyCanon();
 
@@ -105,3 +108,4 @@ FRONT:
     (no se que) queue_all();
         La cola de eventos ya sea reconocimiento de teclado u otras funciones
     
+o

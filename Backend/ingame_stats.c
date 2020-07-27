@@ -42,7 +42,7 @@
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 static int lives, points, level, speed=MIN_SPEED;
-static clock_t start,end;
+static clock_t start;
 
 static int killed_invaders[TYPES_INVADERS];
 //El contendio quedaría:
@@ -107,7 +107,7 @@ void reset_killed_aliens()
 
 void reset_timer(void)
 {
-    start=clock();
+    start=clock();                  // Renuevo el tiempo de referecia.
 }
 
 
@@ -180,25 +180,29 @@ void increase_speed(const int cant){
     #endif  
 }
 
-int speed_update(int seg, int actual_speed)
+void speed_update(const float seg)
 {
-    end=clock();
-    float difference =((float)(end-start)/CLOCKS_PER_SEC);
-    if (difference >= seg)
+    clock_t end = clock();                                      // Tomo el tiempo actual de la consola.
+    float difference =((float)(end-start)/CLOCKS_PER_SEC);      // Calculo cuantos segundos.
+    if (difference >= seg)                                      // Si pasó más tiempo del debido:
     {
-        reset_timer();
-        actual_speed += STEP_SPEED;
+        reset_timer();                                          // Actualizo el tiempo de referencia.
+        
+        if( (speed + STEP_SPEED) <= MAX_SPEED)           // Si puedo incrementar la velocidad sin superar
+            speed += STEP_SPEED;                         // la velocidad máxima, la incremento.
         
         #ifdef DEBUG
-        printf("La nueva velocidad es: %d \n", actual_speed);
+        printf("La nueva velocidad es: %d \n", speed);
         #endif
+        
+        update_speed_front(speed);
+        //NOTA: INCLUIR donde se encuentre update_speed_front.
 
     }        
-    return actual_speed;
 }
 
 /**********************************************************
-*************************  GET   **************************
+************************   GET   **************************
 **********************************************************/
 
 int get_lives()
@@ -234,7 +238,7 @@ int get_level()
 **********************************************************/
 
 void set_speed(int new_speed){              
-    speed=new_speed;
+    speed=new_speed;                                // Actualizamos la velocidad
 
     #ifdef DEBUG
         printf("La velocidad paso a ser: %d \n", speed);
@@ -243,7 +247,7 @@ void set_speed(int new_speed){
 
 void set_level(int new_level)
 {
-    level=new_level; 
+    level=new_level;                                // Actualizamos el nivel
 
     #ifdef DEBUG
         printf("El nivel paso a ser: %d \n", level);

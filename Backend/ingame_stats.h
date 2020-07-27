@@ -142,11 +142,10 @@ void set_level(int new_level);
 void kill_alien(const int tipo_alien);
 
 /**
- * @brief Actualuzala la velocidad, incrementandola 
- * @param seg: en cuantos segundos se quiere incrementar.
- * @param actual_speed: velocidad actual.
+ * @brief Actualiza la velocidad, incrementandola. 
+ * @param seg: cada cuantos segundos se quiere incrementar.
 */
-int speed_update(int seg, int actual_speed);
+void speed_update(const float seg);
 
 /**
  * @brief Resetea el timer

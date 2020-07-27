@@ -52,7 +52,7 @@
 #define B_WIDTH    D_WIDTH * 0.03
 #define B_HEIGHT   D_WIDTH * 0.03
 #define X_PERCENT  0.1
-#define Y_PERCENT  0.8
+#define Y_PERCENT  0.7
 
 #define X1  D_WIDTH * X_PERCENT 
 #define Y1  D_HEIGHT * Y_PERCENT
@@ -62,9 +62,9 @@
 
 //##### RANCIEDAD
 
-#define TOTAL_SHIELDS 4
+#define TOTAL_SHIELDS 7
 
-#define SHIELDERS_WIDTH_PERCENT   0.7   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
+#define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  (1 - SHIELDERS_WIDTH_PERCENT)/2
 #define SHIELD_WIDTH  B_WIDTH * 3
 #define SHIELDERS_WIDTH_ABSOLUTE  SHIELDERS_WIDTH_PERCENT * D_WIDTH
@@ -139,6 +139,7 @@ typedef struct
     int height;
     int width;
     int state;
+    char *color;
 }block_t;
 
 typedef struct
@@ -149,7 +150,6 @@ typedef struct
     block_t block_4;
     block_t block_5;
 }shield_t;
-
 
 
 typedef int cannonPosition_t;
@@ -176,6 +176,9 @@ void shouldInvaderShot(void);
 
 void createShield(int x_shield, int y_shield, shield_t *shield);
 void placeShields(void);
+void drawShields(void);
+static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
+int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -192,7 +195,7 @@ static int initAll(void);
 static shot_t invaderShotList[MAX_INVADERS_SHOT];
 // Lista de los disparos de los invaders
 
-static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
+
 static int actualInvadersShots; 
 static int actualCanonShots;
 
@@ -316,7 +319,8 @@ int main(void) {
             if( !is_invadersOnFloor()  )
                 proxDir = moveInvaders(proxDir);
 
-            placeShields();
+            drawShields();
+
             drawAliveInvaders(invaders);
             al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
             al_flip_display(); 
@@ -468,6 +472,11 @@ void getCanonShotCollision(void)
                                                           .width = SHOT_WIDTH
                                                        };
                 if( canonShotList[iCont].y <= 0 )
+                {
+                    canonShotList[iCont].shotState = 0;
+                    colisionDetected++;
+                }
+                else if( getCollisionOnBlock( &collBoxShotFromCanon ) )
                 {
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
@@ -670,6 +679,7 @@ static int initAll(void)
 
     placeInvaders( invaders );
 
+    placeShields();
     
 
     //void al_draw_bitmap(ALLEGRO_BITMAP *bitmap, float dx, float dy, int flags) 
@@ -834,22 +844,37 @@ void createShield(int x_shield, int y_shield, shield_t *shield)
     shield->block_1.x = x_shield;
     shield->block_1.y = y_shield;     // Algunos pensaran que esta hardcodeado, pues si, cada bloque se debe decidir, no hay patron generico
     shield->block_1.state = STATE_0;
+    shield->block_1.color = blockColors[STATE_0];
+    shield->block_1.width = B_WIDTH;
+    shield->block_1.height = B_HEIGHT;
 
     shield->block_2.x = x_shield + B_WIDTH;
     shield->block_2.y = y_shield;
     shield->block_2.state = STATE_0;
+    shield->block_2.color = blockColors[STATE_0];
+    shield->block_2.width = B_WIDTH;
+    shield->block_2.height = B_HEIGHT;
 
     shield->block_3.x = x_shield + 2*B_WIDTH;
     shield->block_3.y = y_shield;
     shield->block_3.state = STATE_0;
+    shield->block_3.color = blockColors[STATE_0];
+    shield->block_3.width = B_WIDTH;
+    shield->block_3.height = B_HEIGHT;
 
     shield->block_4.x = x_shield;
     shield->block_4.y = y_shield + B_HEIGHT;
     shield->block_4.state = STATE_0;
+    shield->block_4.color = blockColors[STATE_0];
+    shield->block_4.width = B_WIDTH;
+    shield->block_4.height = B_HEIGHT;
 
     shield->block_5.x = x_shield + 2*B_WIDTH;
     shield->block_5.y = y_shield + B_HEIGHT;
     shield->block_5.state = STATE_0;
+    shield->block_5.color = blockColors[STATE_0];
+    shield->block_5.width = B_WIDTH;
+    shield->block_5.height = B_HEIGHT;
 
     //al_draw_filled_rectangle(x_shield, y_shield, x_shield + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
     //al_draw_filled_rectangle(x_shield + B_WIDTH, y_shield, x_shield + B_WIDTH + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
@@ -880,8 +905,100 @@ void drawShields(void)
 {
     for (int i = 0; i < TOTAL_SHIELDS; i++)
     {
-        if( !shielders[i].block_1.state )
+        if( !shielders[i].block_1.state != STATE_4)
+        {
+            al_draw_filled_rectangle(shielders[i].block_1.x, shielders[i].block_1.y, shielders[i].block_1.x + B_WIDTH, shielders[i].block_1.y + B_HEIGHT, al_color_name( shielders[i].block_1.color  )  );
+        }
+        if( !shielders[i].block_2.state != STATE_4)
+        {
+            al_draw_filled_rectangle(shielders[i].block_2.x, shielders[i].block_2.y, shielders[i].block_2.x + B_WIDTH, shielders[i].block_2.y + B_HEIGHT, al_color_name( shielders[i].block_2.color  )  );
+        }
+        if( !shielders[i].block_3.state != STATE_4)
+        {
+            al_draw_filled_rectangle(shielders[i].block_3.x, shielders[i].block_3.y, shielders[i].block_3.x + B_WIDTH, shielders[i].block_3.y + B_HEIGHT, al_color_name( shielders[i].block_3.color  )  );
+        }
+        if( !shielders[i].block_4.state != STATE_4)
+        {
+            al_draw_filled_rectangle(shielders[i].block_4.x, shielders[i].block_4.y, shielders[i].block_4.x + B_WIDTH, shielders[i].block_4.y + B_HEIGHT, al_color_name( shielders[i].block_4.color  )  );
+        }
+        if( !shielders[i].block_5.state != STATE_4)
+        {
+            al_draw_filled_rectangle(shielders[i].block_5.x, shielders[i].block_5.y, shielders[i].block_5.x + B_WIDTH, shielders[i].block_5.y + B_HEIGHT, al_color_name( shielders[i].block_5.color  )  );
+        }
     }
-    
+}
 
+
+
+int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
+{
+    int colision = 0;
+    int i = 0;
+    while(i < TOTAL_SHIELDS && !colision)
+    {
+        
+        collBoxShot_t boxOfBlock1 = {  .x = shielders[i].block_1.x,
+                                       .y = shielders[i].block_1.y,
+                                       .height = shielders[i].block_1.height,
+                                       .width = shielders[i].block_1.width,           
+                                   };            
+        collBoxShot_t boxOfBlock2 = {  .x = shielders[i].block_2.x,
+                                       .y = shielders[i].block_2.y,
+                                       .height = shielders[i].block_2.height,
+                                       .width = shielders[i].block_2.width,           
+                                   };
+        collBoxShot_t boxOfBlock3 = {  .x = shielders[i].block_3.x,
+                                       .y = shielders[i].block_3.y,
+                                       .height = shielders[i].block_3.height,
+                                       .width = shielders[i].block_3.width,           
+                                   };
+        collBoxShot_t boxOfBlock4 = {  .x = shielders[i].block_4.x,
+                                       .y = shielders[i].block_4.y,
+                                       .height = shielders[i].block_4.height,
+                                       .width = shielders[i].block_4.width,           
+                                   };
+        collBoxShot_t boxOfBlock5 = {  .x = shielders[i].block_5.x,
+                                       .y = shielders[i].block_5.y,
+                                       .height = shielders[i].block_5.height,
+                                       .width = shielders[i].block_5.width,           
+                                   };
+        
+        if(  shielders[i].block_1.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock1) )
+        {
+            colision = 1;
+            shielders[i].block_1.state++;
+            if( shielders[i].block_1.state != STATE_4 )
+                shielders[i].block_1.color = blockColors[ shielders[i].block_1.state ];
+        }
+        else if(  shielders[i].block_2.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock2) )
+        {
+            colision = 1;
+            shielders[i].block_2.state++;
+            if( shielders[i].block_2.state != STATE_4 )
+                shielders[i].block_2.color = blockColors[ shielders[i].block_2.state ];
+        }
+        else if(  shielders[i].block_3.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock3) )
+        {
+            colision = 1;
+            shielders[i].block_3.state++;
+            if( shielders[i].block_3.state != STATE_4 )
+                shielders[i].block_3.color = blockColors[ shielders[i].block_3.state ];
+        }
+        else if(  shielders[i].block_4.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock4) )
+        {
+            colision = 1;
+            shielders[i].block_4.state++;
+            if( shielders[i].block_4.state != STATE_4 )
+                shielders[i].block_4.color = blockColors[ shielders[i].block_4.state ];
+        }
+        else if(  shielders[i].block_5.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock5) )
+        {
+            colision = 1;
+            shielders[i].block_5.state++;
+            if( shielders[i].block_5.state != STATE_4 )
+                shielders[i].block_5.color = blockColors[ shielders[i].block_5.state ];
+        }
+        i++;
+    }
+    return colision;
 }

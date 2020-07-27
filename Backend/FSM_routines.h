@@ -33,126 +33,124 @@ extern BOOL running;
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-//REVISAR: @baisili REVISAR: @basili REVISAR:
-/**
- * @brief completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
-*/
 
-void show_splash(void);
 /**
  * @brief Llama a la funcion que se encarga del splash
 */
+void show_splash(void);
 
+/**
+ * @brief Llama a la funcion que se encarga de mostrar el menu, indicandole las opciones a mostrar y la opcion a resaltar
+*/
 void my_menu(void);
+
 /**
- * @brief Llama a la funcion que se encarga de mostrar el menu, indicandole las opciones a mostrar y la opcion a resaltar
+ * @brief Llama a la funcion que se encarga de mostrar el menu que se le pase, indicandole las opciones a mostrar y la opcion a resaltar
+ * @param menu menu a mostrar en pantalla
+ * @param menu_size tamaño del menu
 */
+void up_menu(MENU_ITEM* menu, int menu_size); //REVISAR: hay que  incluir donde esta la constante
 
-void up_menu(MENU_ITEM* menu); //REVISAR: hay que  incluir donde esta la constante
-/** 
- * @brief Llama a la funcion que se encarga de mostrar el menu, indicandole las opciones a mostrar y la opcion a resaltar
- * @param // CONTINUAR:
-*/
-
-void down_menu(void);
 /**
- * @brief Llama a la funcion que se encarga de mostrar el menu, indicandole las opciones a mostrar y la opcion a resaltar
+ * @brief Llama a la funcion que se encarga de mostrar el menu que se le pase, indicandole las opciones a mostrar y la opcion a resaltar
+ * @param menu menu a mostrar en pantalla
+ * @param menu_size tamaño del menu
 */
-
-void click_menu(void);
+void down_menu(MENU_ITEM* menu, int menu_size);//:
 /**
  * @brief Añanade la opcion seleccionada a la cola de eventos
 */
+void click_menu(void);
 
-void pause_game(void);
 /**
  * @brief Llama a la funcion que se encarga de mostrar el menu de pausa, indicandole las opciones a mostrar y la opcion a resaltar
 */
+void pause_game(void);
 
-void resume_game(void);
 /**
  * @brief CONTINUAR: 
 */
+void resume_game(void);
 
-void start_game(void);
 /**
  * @brief Resetea todos los puntos y estadisticas CONTINUAR:
 */
+void start_game(void);
 
-void show_game_score(unsigned long long int score);
 /**
  * @brief LLama a la funcion que se encarga de mostrar el score, indicandole el puntaje final y la cantidad de aliens asesinados
 */
+void show_game_score(unsigned long long int score);
 
-void show_global_score(void);
 /**
  * @brief LLama a la funcion que se encarga de mostrar el score, indicandole el top deseado
 */
+void show_global_score(void);
 
-void quit_game(void);
 /**
  * @brief LLama a la funcion que se encarga de destruir los recursos del front
 */
+void quit_game(void);
 
-void doNothing(void);
 /**
  * @brief No hace nada
 */
+void doNothing(void);
 
-void click_menu_pause(void);
 /**
  * @brief Añanade la opcion seleccionada a la cola de eventos
 */
+void click_menu_pause(void);
 
-void crab_coll(void);
 /**
  * @brief Llama a la funcion encargada de matar al crab
 */
+void crab_coll(void);
 
-void octo_coll(void);
 /**
  * @brief Llama a la funcion encargada de matar al octopus
 */
+void octo_coll(void);
 
-void squid_coll(void);
 /**
  * @brief Llama a la funcion encargada de matar al squid
 */
+void squid_coll(void);
 
-void ufo_coll(void);
 /**
  * @brief Llama a la funcion encargada de matar al ufo
 */
+void ufo_coll(void);
 
-void cannon_coll(void);
 /**
  * @brief Decrementa una vida y agrega el suceso a  la cola de eventos
 */
+void cannon_coll(void);
 
-void up_menu_main(void);
 /**
  * @brief Llama a la funcion encargada seleccionar la opcion de arriba del menu principal
 */
+void up_menu_main(void);
 
-void down_menu_main(void);
 /**
  * @brief Llama a la funcion encargada seleccionar la opcion de abajo del menu principal
 */
+void down_menu_main(void);
 
-void up_menu_pause(void);
 /**
- * @brief Llama a la funcion encargada seleccionar la opcion de arriba del menu principal
+ * @brief Llama a la funcion encargada seleccionar la opcion de arriba del menu de pausa
 */
+void up_menu_pause(void);
 
+/**
+ * @brief Llama a la funcion encargada seleccionar la opcion de abajo del menu de pausa
+*/
 void down_menu_pause(void);
 
 /**
- * @brief Llama a la funcion encargada seleccionar la opcion de arriba del menu principal
+ * @brief Actualiza el timer y lo que se muestra en pantalla
 */
-
-
+void refresh (void);
 
 
 

@@ -91,12 +91,13 @@ static ALLEGRO_BITMAP *scoreImage = NULL;
 static ALLEGRO_TIMER *timer = NULL;
 static ALLEGRO_DISPLAY *display = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+static ALLEGRO_EVENT_QUEUE *timer_event = NULL;
 
 static ALLEGRO_SAMPLE *sample1 = NULL;
 static ALLEGRO_FONT * fontmu = NULL;
 static ALLEGRO_FONT * fontsc = NULL;
 
-static ALLEGRO_KEYBOARD_STATE ks;
+//static ALLEGRO_KEYBOARD_STATE ks;
 
 /*******************************************************************************
  *******************************************************************************
@@ -111,8 +112,8 @@ int init_front()       // Inicializo y verifico que no falle
 			if (timer) {
 				if (al_init_image_addon()) {    //Imagen
                     if (al_init_font_addon()) {     //Fuente
-                        if(al_init_ttf_addon()) { // initialize the ttf (True Type Font) addon)    
-                            if (al_install_audio()) {               //INICIALIZACION
+                        if(al_init_ttf_addon()) { // initialize the ttf (True Type Font) addon    
+                            if (al_install_audio()) {               //INICIALIZACIÓN
                                 if (al_init_acodec_addon()) {       //      DE
                                     if (al_reserve_samples(1)) {    //     AUDIO
                                         display = al_create_display(D_WIDTH, D_HEIGHT);
@@ -121,12 +122,18 @@ int init_front()       // Inicializo y verifico que no falle
                                                 event_queue = al_create_event_queue();
                                                 if (event_queue) {
                                                     al_register_event_source(event_queue, al_get_display_event_source(display));
-                                                    al_register_event_source(event_queue, al_get_timer_event_source(timer));
                                                     al_register_event_source(event_queue, al_get_keyboard_event_source());
-                                                    if (loadim_menu()){
-                                                        return true;
-                                                    } else 
-                                                        fprintf(stderr, "ERROR: failed to add thing!\n");
+                                                    
+                                                    timer_event = al_create_event_queue();
+                                                    if (timer_event) {
+                                                        al_register_event_source(timer_event, al_get_timer_event_source(timer));
+                                                        if (loadim_menu()){
+                                                            return true;
+                                                        } else 
+                                                            fprintf(stderr, "ERROR: failed to add thing!\n");
+                                                        al_destroy_event_queue(timer_event);
+                                                    } else
+                                                        fprintf(stderr, "ERROR: failed to create timer_event!\n");
                                                     al_destroy_event_queue(event_queue);
                                                 } else
                                                     fprintf(stderr, "ERROR: failed to create event_queue!\n");
@@ -158,7 +165,7 @@ int init_front()       // Inicializo y verifico que no falle
 		} else
 			fprintf(stderr, "ERROR: failed to load primitives addon \n");
     } else
-        fprintf(stderr, "ERROR: Failed to initialize allegro system\n");
+        fprintf(stderr, "ERROR: failed to initialize allegro system\n");
     return false;
 }
 
@@ -337,29 +344,12 @@ void shows_inst ()
  **/
 void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGRO "ALLEGRO_EVENT ev;"
 {
-
-    /*
     ALLEGRO_EVENT ev;
 
-    // Ver esto en lugar de al_get_next_event() (Devuelve evento sin sacar de la cola) 
-    // bool al_peek_next_event(ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_EVENT *ret_event)
-    al_start_timer(timer);
     if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
     {
-        if (ev.type == ALLEGRO_EVENT_TIMER)
-        {
-            int cannon_width = al_get_bitmap_width(canonPointer);
-            if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO) < D_WIDTH){
-                cannonXpos += TASA_DE_CAMBIO;
-            }
-            else if(key_pressed[KEY_LEFT] && (cannonXpos - TASA_DE_CAMBIO) > 0) {
-                cannonXpos -= TASA_DE_CAMBIO;
-            }
-            redraw = true;
-        }
-
-        else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-            display_close = true;
+        if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+            add_event(EXIT_EVENT);  //No se si end game termina el juego o termina todo
 
         else if (ev.type == ALLEGRO_EVENT_KEY_DOWN )
         {
@@ -388,8 +378,11 @@ void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGR
             }
         }
     }
-    */
-    al_get_keyboard_state(&ks);
+
+    // Ver esto en lugar de al_get_next_event() (Devuelve evento sin sacar de la cola) 
+    // bool al_peek_next_event(ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_EVENT *ret_event)
+
+    /*al_get_keyboard_state(&ks);
 
     if(al_key_down(&ks,ALLEGRO_KEY_ESCAPE)) {
         add_event(PAUSE_BTN);
@@ -408,7 +401,40 @@ void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGR
     }
     else if(al_key_down(&ks,ALLEGRO_KEY_RIGHT)) {
         add_event(MOVE_RIGHT);
+    }*/
+}
+
+
+/**
+ * @brief Redraw dependiendo del timer.
+ **/
+void redraw ()
+{
+    ALLEGRO_EVENT ev1;
+    if (al_get_next_event(timer_event, &ev1)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
+    {
+        if (ev1.type == ALLEGRO_EVENT_TIMER)
+        {
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+            
+            getCanonShotCollision();
+
+            shouldInvaderShot();
+
+            getInvaderShotCollison();
+            
+            if( !is_invadersOnFloor()  )
+                proxDir = moveInvaders(proxDir);
+
+            placeShields();
+
+            drawAliveInvaders(invaders);
+
+            al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0);
+            al_flip_display();
+        }
     }
+
 }
 
 

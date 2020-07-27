@@ -17,7 +17,7 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-
+#define SEG 1
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -62,6 +62,10 @@ static actual_option = 0;
  *******************************************************************************
  ******************************************************************************/
 
+/**********************************************************
+***********************  SPLASH   **************************
+**********************************************************/
+
 void show_splash(void){     
     splash_front(); //NOTA: incluir donde se encuentra splash_front
     
@@ -69,6 +73,10 @@ void show_splash(void){
     printf("Muestro el SPLASH. \n");
     #endif          
 }
+
+/**********************************************************
+***********************  MENU  **************************
+**********************************************************/
 
 void my_menu(){
     actual_option=0;
@@ -80,17 +88,17 @@ void my_menu(){
 
 }
 
-void up_menu(MENU_ITEM* menu){ //REVISAR: HACER
+void up_menu(MENU_ITEM* menu, int menu_size){ //REVISAR: HACER
     
     #ifdef ONLY_ESSENTIAL            //NOTA: Alguna razón para no usar #if de precompilador?                                         
             do{                                                                
-            if(sizeof(menu)/sizeof(MENU_ITEM) > actual_option){                     // Si el front solo permite mostrar las opciones esenciales:
+                if(smenu_ize/sizeof(MENU_ITEM) > actual_option){                         // Si el front solo permite mostrar las opciones esenciales:
                     actual_option++;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
-            }                                                                            //y cuando haya una arriba.
+                }                                                                           //y cuando haya una arriba.
             } while ((menu[actual_option]).essential=FALSE && sizeof(menu)/sizeof(MENU_ITEM) > actual_option);
     
     #else                                                               // Si el front permite mostrar las opciones no esenciales:
-        if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){        
+        if(menu_size/sizeof(MENU_ITEM) > actual_option){        
             actual_option++;                                                //subimos en el menú hasta la siguiente opcion
         }
 
@@ -100,33 +108,37 @@ void up_menu(MENU_ITEM* menu){ //REVISAR: HACER
     printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
     #endif 
 
-    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front. //NOTA: incluir donde se encuentra show_menu()
+    show_menu (menu, menu_size/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front. //NOTA: incluir donde se encuentra show_menu()
 
     #ifdef DEBUG
     printf("Se actualizó el menú");
     #endif 
 }
 
-void down_menu(){
-    if (ONLY_ESSENTIAL){           //NOTA: Alguna razón para no usar #if de precompilador?
+void down_menu(MENU_ITEM* menu, int menu_size){
+     #ifdef ONLY_ESSENTIAL            //NOTA: Alguna razón para no usar #if de precompilador?   
         do{
            if(actual_option>0){                                                         // Si el front solo permite mostrar las opciones esenciales:
                 actual_option--;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
            }                                                                            //y cuando haya una abajo.
-        } while ((main_menu[actual_option]).essential=FALSE && actual_option>0);
-    }
+        } while ((menu[actual_option]).essential=FALSE && actual_option>0);
     
-    else{                                                               // Si el front permite mostrar las opciones no esenciales:
+    
+    #else                                                               // Si el front permite mostrar las opciones no esenciales:
+        
         if(actual_option > 0){
             actual_option--;                                            //bajamos en el menú hasta la siguiente opcion
         }
-    }
+        
+    #endif
     
+
     #ifdef DEBUG
     printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
     #endif 
     
-    show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front. //NOTA: incluir donde se encuentra show_menu
+    show_menu (menu, menu_size/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front. 
+    //NOTA: incluir donde se encuentra show_menu
 
     #ifdef DEBUG
     printf("Se actualizó el menú");
@@ -191,6 +203,29 @@ void click_menu_pause()
     #endif 
 }
 
+void up_menu_main()
+{
+    up_menu(main_menu, sizeof(main_menu));
+}
+
+void down_menu_main()
+{
+    down_menu(main_menu, sizeof(main_menu));
+}
+
+void up_menu_pause()
+{
+    up_menu(pause_menu, sizeof(main_menu));
+}
+
+void down_menu_pause()
+{
+    down_menu(pause_menu, sizeof(main_menu));
+}
+
+/**********************************************************
+*************  PAUSE/RESUME/START/QUIT   ******************
+**********************************************************/
 
 void pause_game(void){
     actual_option=0;
@@ -209,16 +244,6 @@ void resume_game(void){
         printf("Reanudo partida. \n");
     #endif
 }
-    
-void show_game_score(unsigned long long int score){
-    //CONTINUAR: game_score_front(cantidad de bichos muertos de cada tipo,...,pts,nivel);
-    //NOTA: Incluir en donde se encuentra game_score_front.
-
-    #ifdef DEBUG
-        printf("Mostrando las estadisticas de la partida. \n");
-    #endif
-}
-
 void start_game(void){
     //CONTINUAR:
     reset_lives();
@@ -231,6 +256,28 @@ void start_game(void){
         printf("Preparo las variables para jugar. \n");
     #endif
 }
+void quit_game(void) {
+    destroy_front();
+    //NOTA: Incluir en donde se encuentra destroy_front.
+    running=0;
+
+    #ifdef DEBUG
+        printf("Salgo del juego. \n");
+    #endif
+}
+/**********************************************************
+***********************  SCORE   **************************
+**********************************************************/    
+
+void show_game_score(unsigned long long int score){
+    //CONTINUAR: game_score_front(cantidad de bichos muertos de cada tipo,...,pts,nivel);
+    //NOTA: Incluir en donde se encuentra game_score_front.
+
+    #ifdef DEBUG
+        printf("Mostrando las estadisticas de la partida. \n");
+    #endif
+}
+
 
 void show_global_score(void) {
     SCORE leadboard[LEADERBOARD_SIZE];                     
@@ -243,35 +290,34 @@ void show_global_score(void) {
         printf("Mostrando Leadboard. \n");
     #endif
 }
-
-void quit_game(void) {
-    destroy_front();
-    //NOTA: Incluir en donde se encuentra destroy_front.
-    running=0;
-
-    #ifdef DEBUG
-        printf("Salgo del juego. \n");
-    #endif
-}
-
+/**********************************************************
+*********************  COLLISION   ************************
+**********************************************************/
 void crab_coll()
 {
-    kill_alien(CRAB);
+    kill_alien(CRAB);       //Ejecutamos la función que guarda en
+                            // la info de la partida que se asesinó 
+                            // un crab.
 }
-
 void octo_coll()
 {
-    kill_alien(OCTOPUS);
+    kill_alien(OCTOPUS);    //Ejecutamos la función que guarda en
+                            // la info de la partida que se asesinó 
+                            // un octopus. 
 }
 
 void squid_coll()
 {
-    kill_alien(SQUID);
+    kill_alien(SQUID);      //Ejecutamos la función que guarda en
+                            // la info de la partida que se asesinó 
+                            // un squid. 
 }
 
 void ufo_coll()
 {
-    kill_alien(UFO);
+    kill_alien(UFO);        //Ejecutamos la función que guarda en
+                            // la info de la partida que se asesinó 
+                            // un UFO.    
 }
 
 void cannon_coll()
@@ -288,25 +334,15 @@ void cannon_coll()
     // NOTA: Agregar si se actualizan las cantidad de vidas en pantalla.
 }
 
-void up_menu_main()
-{
-    up_menu(main_menu);
+/**********************************************************
+*********************  VARIOUS   **************************
+**********************************************************/
+
+void refresh(void){
+    speed_update(SEG);     // Actualizo
+    redraw();           // Redibujo la pantalla
 }
 
-void down_menu_main()
-{
-    down_menu(main_menu);
-}
-
-void up_menu_pause()
-{
-    up_menu(pause_menu);
-}
-
-void down_menu_pause()
-{
-    down_menu(pause_menu);
-}
 
 void doNothing(void) {
 //* DO NOTHING*//

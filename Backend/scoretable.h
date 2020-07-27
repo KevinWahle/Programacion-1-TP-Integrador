@@ -11,8 +11,6 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 
-
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
@@ -36,29 +34,26 @@ typedef struct     // Estructura que contiene al nombre del usuario con su corre
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
 
-// +ej: extern unsigned int anio_actual;+
-
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
 
-void put_score (char* name, unsigned long int score, const int top, SCORE* my_pun); 
 /**
  * @brief Coloca los nombres y scores en un txt odenados
  * @param name: string con el nombres
  * @param score: puntaje asignado al nombre
  * @param top: cantidad de puntjes a mostrar
- * @param mypun: puntero a una posicion de memoria donde se almacenaran los datos del score
- * @return 
+ * @param mypun: puntero a una posicion de memoria donde se almacenaran los datos del score 
 */
+void put_score (char* name, unsigned long int score, const int top, SCORE* my_pun); 
 
-int lect_score (SCORE* my_pun); 
 /**
  * @brief  Coloco en memoria los datos del score
  * @param mypun: puntero a una posicion de memoria donde se almacenaran los datos del score
  * @return cantidad de personas actuales en el top
 */
+int lect_score (SCORE* my_pun); 
 
 /*******************************************************************************
  ******************************************************************************/
