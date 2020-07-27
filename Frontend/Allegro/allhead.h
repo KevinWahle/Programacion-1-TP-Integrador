@@ -25,7 +25,7 @@
 #include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 //Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm. 
 
-#include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura score
+#include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -92,16 +92,6 @@ invader_t invaders[FIL_INVADERS][COL_INVADERS];
  * @return Si hubo o no error.
 */
 int init_front();
-
-/**
- * @brief Carga la imagenes, fuentes y sonidos para el menu.
-*/
-int loadim_menu();
-
-/**
- * @brief Carga la imagenes para el juego.
-*/
-int loadim_game();
 
 /**
  * @brief Muestra imagen del menu y coloca las palabras que reciba.

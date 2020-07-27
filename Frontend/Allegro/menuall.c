@@ -17,8 +17,8 @@
 
 #define CANON_FILE "PNGs/Laser_Cannon.png"
 #define CRAB_FILE "PNGs/Crab1.png"
-#define SQUID_FILE "PNGs/Octopus1.png"
-#define OCTO_FILE "PNGs/Squid1.png"
+#define OCTO_FILE "PNGs/Octopus1.png"
+#define SQUID_FILE "PNGs/Squid1.png"
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -47,6 +47,16 @@ static void intochar(int num, char chscore[MSCORE]);
  * @brief Destruye todos los invaders cargados.
  */
 static void destroy_invaders();
+
+/**
+ * @brief Carga la imagenes, fuentes y sonidos para el menu.
+*/
+int loadim_menu();
+
+/**
+ * @brief Carga la imagenes para el juego.
+*/
+int loadim_game();
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE

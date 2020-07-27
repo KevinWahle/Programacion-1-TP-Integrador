@@ -110,7 +110,6 @@ void getCanonShotCollision(void);
 
 int moveInvaders(int direction);
 
-
 void moveInvadersDown(void);
 
 int is_invadersOnFloor(void);
