@@ -65,10 +65,12 @@
 
 enum shieldStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};
 
+ALLEGRO_COLOR al_color_html(char const *string);
+
 /*
-enum COLORS {  COLOR_STATE_0 = ,
-               COLOR_STATE_1 = , 
-               COLOR_STATE_2 = ,
+enum COLORS {  COLOR_STATE_0 =  #00691c,
+               COLOR_STATE_1 = #018f27, 
+               COLOR_STATE_2 =  #00d138,
                COLOR_STATE_3 = ,
                COLOR_STATE_4 =      };
 */
