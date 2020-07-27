@@ -1,6 +1,6 @@
 /***************************************************************************/ /**
-  @file     +menuall.c+
-  @brief    +Archivo con recursos principales de allegro+
+  @file     +menu_front.c+
+  @brief    +Archivo con recursos principales de allegro para menu y teclado+
   @author   +Grupo 3+
  ******************************************************************************/
 

@@ -47,30 +47,36 @@
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
 void reset_lives(void);
+/**
+ * @brief resetea las vidas
+*/
 
-
-// +ej: char lcd_goto (int fil, int col);+
 void reset_points(void);
 /**
  * @brief resetea los puntos
 */
+
 void reset_level(void);
 /**
  * @brief resetea el nivel
 */
+
 void reset_speed(void); //NOTA: Puede ir a .c
 /**
  * @brief resetea la velocidad
 */
+
 void reset_killed_aliens(void); //NOTA: Puede ir a .c
 /**
  * @brief resetea la cantidad de aliens asesinados
 */
+
 void increase_points(const int cant);
 /**
  * @brief incrementa los puntos
  * @param cant cantidad de puntos a incrementar
 */
+
 int decrease_lives(void);
 /**
  * @brief Permite decrementar en 1 la cantidad de vidas disponibles
