@@ -44,7 +44,7 @@
 static int lives, points, level, speed=MIN_SPEED;
 static clock_t start;
 
-static int killed_invaders[TYPES_INVADERS];
+static unsigned int killed_invaders[TYPES_INVADERS];
 //El contendio quedaría:
 //  killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
 
@@ -233,6 +233,14 @@ int get_level()
     return level;       // Devuelve el nivel en el que se encuentra
 }
 
+unsigned int get_killed_aliens(const int tipo_alien)
+{
+    #ifdef DEBUG
+    printf("Se mataron %d de la especie \n", killed_invaders[tipo_alien], tipo_alien);
+    #endif 
+
+    return killed_invaders[tipo_alien]; 
+}
 /**********************************************************
 **************************  SET   *************************
 **********************************************************/
@@ -267,8 +275,8 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
 //invader proporcional.   
 {
     switch (tipo_alien)
-    /* NOTA: Definir los aliens en algun .h  
-    Preferentemente:
+    /*
+        Preferentemente:
     *   CRAB = 1
     *   OCTOPUS = 2 
     *   SQUID = 3
@@ -298,7 +306,7 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
         break;                         
 
     default:
-        return 1;                                       
+        return 1;                                       // Retorno 1 si hay error.                  
     }
 
     if (tipo_alien>=CRAB && tipo_alien<=UFO)            // Corroboramos para evitar cualquier tipo de error

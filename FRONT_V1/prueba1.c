@@ -14,7 +14,8 @@
 #define D_HEIGHT 600
 #define TASA_DE_CAMBIO 3
 #define TASA_DE_CAMBIO_BALA 4
-#define TASA_DE_CAMBIO_INVADERS 1
+#define TASA_DE_CAMBIO_INVADERS 0.5
+#define TASA_DE_CAMBIO_NODRIZA 0.5
 
 #define SHOT_HEIGHT 15
 #define SHOT_WIDTH 4
@@ -28,17 +29,17 @@
 #define INVADERS_HEIGHT_PERCENT  0.4    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
 #define INVADERS_START_HEIGHT_PERCENT  0.05    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
 
-#define INVADERS_FLOOR D_HEIGHT*0.7         // Espacio desde el techo hasta "piso" de los invasores
-#define INVADERS_WALL D_WIDTH*0.01          // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
-#define INVADERS_FALL D_HEIGHT*0.05         // Espacio de caida de los invaders al llegar a cada tope 
+#define INVADERS_FLOOR (D_HEIGHT*0.65)        // Espacio desde el techo hasta "piso" de los invasores
+#define INVADERS_WALL (D_WIDTH*0.01)          // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_FALL (D_HEIGHT*0.02)         // Espacio de caida de los invaders al llegar a cada tope 
 
-#define CANT_INVADERS FIL_INVADERS*COL_INVADERS
+#define CANT_INVADERS (FIL_INVADERS*COL_INVADERS)
 
 #define CANT_D_POSIBLES_OBJETIVOS CANT_INVADERS // Solo tengo en cuenta disparo del cannon hacia los invaders no al reves.
 
-#define CANT_D_ESCUDOS_POSIBLES 4 // falta para usar esto. No serian 5 habrian como 6 bloquecitos por cada bloque.
+#define CANT_D_ESCUDOS_POSIBLES 3 // falta para usar esto. No serian 5 habrian como 6 bloquecitos por cada bloque.
 
-#define MAX_INVADERS_SHOT 20
+#define MAX_INVADERS_SHOT 20         
 
 #define MAX_CANON_SHOT 3
 
@@ -46,40 +47,53 @@
 #define CRAB_FILE "PNGs/Crab1.png"
 #define OCTO_FILE "PNGs/Octopus1.png"
 #define SQUID_FILE "PNGs/Squid1.png"
+#define UFO_FILE "PNGs/UFO.png"
 
 //##### CUBOS SHIELDS #####
 
-#define B_WIDTH    D_WIDTH * 0.03
-#define B_HEIGHT   D_WIDTH * 0.03
+#define B_WIDTH    (D_WIDTH * 0.03)
+#define B_HEIGHT   (D_WIDTH * 0.03)
 #define X_PERCENT  0.1
-#define Y_PERCENT  0.7
+#define Y_PERCENT  0.76
 
-#define X1  D_WIDTH * X_PERCENT 
-#define Y1  D_HEIGHT * Y_PERCENT
+#define X1  (D_WIDTH * X_PERCENT )
+#define Y1  (D_HEIGHT * Y_PERCENT)
 
-#define X2  X1 + B_WIDTH
-#define Y2  Y1 + B_HEIGHT
+#define X2  (X1 + B_WIDTH)
+#define Y2  (Y1 + B_HEIGHT)
 
 //##### RANCIEDAD
 
-#define TOTAL_SHIELDS 7
+#define TOTAL_SHIELDS 3
 
 #define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
-#define OFFSET_FROM_WALL_PERCENT  (1 - SHIELDERS_WIDTH_PERCENT)/2
-#define SHIELD_WIDTH  B_WIDTH * 3
-#define SHIELDERS_WIDTH_ABSOLUTE  SHIELDERS_WIDTH_PERCENT * D_WIDTH
+#define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)
+#define SHIELD_WIDTH  (B_WIDTH * 3)
+#define SHIELDERS_WIDTH_ABSOLUTE  (SHIELDERS_WIDTH_PERCENT * D_WIDTH)
 #define OFFSET_FROM_WALL_ABSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
 
-#define DIST  (SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1)
+#define DIST   ((SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1) )
 
 #define BLOCK_LIVES 4
+
+//TOPES MAXIMOS Y MINIMOS DE VELOCIDAD DE INVADERS Y 
+#define MAX_SPEED_INVADER  5
+#define MIN_SPEED_INVADER  0.25
+
+#define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  50
+#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  900
+
+
+#define MAX_POSIBILIY_OF_APPEAR_UFO  500
+#define MIN_POSIBILIY_OF_APPEAR_UFO  1200
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-enum shieldStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};
+enum blockStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};
 
+#define DEATH_STATE STATE_4
 
 // Color de los escudos, PARA SALIR DEL PASO
 #define COLOR_STATE_0 "green"
@@ -91,10 +105,10 @@ char *blockColors[BLOCK_LIVES] = {  COLOR_STATE_0,
                                     COLOR_STATE_1,
                                     COLOR_STATE_2,
                                     COLOR_STATE_3,
-                                };
+                                 };
 
 
-enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
+enum INVADERS_TYPES {CRAB ,SQUID, OCTO, UFO};
 
 enum DIRECTIONS {LEFT, RIGHT, ERROR_DIREC};
 
@@ -109,8 +123,8 @@ typedef unsigned char SHOT_TYPE;
 
 typedef struct 
 {
-    int x;
-    int y;
+    float x;
+    float y;
     int shotState;
     SHOT_TYPE type;
 }shot_t;
@@ -125,12 +139,22 @@ typedef struct
 
 typedef struct 
 {
-    int x;
-    int y;
+    float x;
+    float y;
     int invaderState;
     int invaderType;
     ALLEGRO_BITMAP *invadersPointer;
 }invader_t;
+
+typedef struct 
+{
+    float x;
+    float y;
+    int invaderState;
+    int invaderType;
+    int direction;      //  El UFO puede aparecer desde la izquierda o desde la derecha
+    ALLEGRO_BITMAP *invadersPointer;
+} UFO_t;
 
 typedef struct 
 {
@@ -179,6 +203,9 @@ void placeShields(void);
 void drawShields(void);
 static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
 int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
+
+void update_speed_front(int newSpeed);
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -206,6 +233,14 @@ static ALLEGRO_BITMAP *canonPointer = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 static ALLEGRO_TIMER *timer = NULL;
 
+#define UFO_HEIGHT_PERCENT  0.1
+#define UFO_HEIGHT  (UFO_HEIGHT_PERCENT * D_HEIGHT)
+
+UFO_t UFO_invader = {   .y =  UFO_HEIGHT,
+                        .invaderType = UFO,
+                        .invaderState = 0     //Arranca muerta
+                        };
+
 // El cañón
 static cannonPosition_t cannonXpos = 0;
 
@@ -217,6 +252,12 @@ static shot_t canonShotList[MAX_CANON_SHOT];
 
 static int proxDir = LEFT;
 
+//TASAS DE CAMBIO VARIABLES:
+
+static float dxInvader;
+static float shotFromInvaderFrec;
+ 
+
 
 static const int invadersDistribution [FIL_INVADERS] = {
                                                         SQUID,
@@ -225,7 +266,6 @@ static const int invadersDistribution [FIL_INVADERS] = {
                                                         OCTO,
                                                         OCTO,
                                                        };
-
 
 shield_t shielders[TOTAL_SHIELDS];
 
@@ -413,6 +453,11 @@ void getInvaderShotCollison(void)
                     invaderShotList[i].shotState = 0;
                     colisionDetected++;
                 }
+                else if( getCollisionOnBlock( &collBoxShotFromInvader ) )
+                {
+                    invaderShotList[i].shotState = 0;
+                    colisionDetected++;
+                }
                 else if( invaderShotList[i].y > D_HEIGHT )
                 {
                     invaderShotList[i].shotState = 0;
@@ -580,6 +625,11 @@ static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADE
                 al_draw_bitmap( ptr_to_invaders[i][j].invadersPointer, ptr_to_invaders[i][j].x, ptr_to_invaders[i][j].y, 0);  //Dibujo solo los vivos        
         }
     }
+
+    if (UFO_invader.invaderState) {
+        al_draw_bitmap( UFO_invader.invadersPointer, UFO_invader.x, UFO_invader.y, 0);
+    }
+
 }
 static int isCollision(collBoxShot_t* box1, collBoxShot_t* box2){
 
@@ -629,6 +679,12 @@ static int initAll(void)
     }
 
     canonPointer = al_load_bitmap(CANON_FILE);
+    if (!canonPointer) {
+        fprintf(stderr, "failed to load image !\n");
+        return -1;
+    }
+
+    UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
     if (!canonPointer) {
         fprintf(stderr, "failed to load image !\n");
         return -1;
@@ -833,7 +889,7 @@ void shouldInvaderShot(void)
         }
         if( i >= 0)          // entonces se encontro algun invader vivo
         {
-            if(  !(rand() % 350) )
+            if(  !(rand() % 900) )
                 invaderShot(i, j);
         }
     }       
@@ -905,23 +961,23 @@ void drawShields(void)
 {
     for (int i = 0; i < TOTAL_SHIELDS; i++)
     {
-        if( !shielders[i].block_1.state != STATE_4)
+        if( shielders[i].block_1.state != DEATH_STATE)
         {
             al_draw_filled_rectangle(shielders[i].block_1.x, shielders[i].block_1.y, shielders[i].block_1.x + B_WIDTH, shielders[i].block_1.y + B_HEIGHT, al_color_name( shielders[i].block_1.color  )  );
         }
-        if( !shielders[i].block_2.state != STATE_4)
+        if( shielders[i].block_2.state != DEATH_STATE)
         {
             al_draw_filled_rectangle(shielders[i].block_2.x, shielders[i].block_2.y, shielders[i].block_2.x + B_WIDTH, shielders[i].block_2.y + B_HEIGHT, al_color_name( shielders[i].block_2.color  )  );
         }
-        if( !shielders[i].block_3.state != STATE_4)
+        if( shielders[i].block_3.state != DEATH_STATE)
         {
             al_draw_filled_rectangle(shielders[i].block_3.x, shielders[i].block_3.y, shielders[i].block_3.x + B_WIDTH, shielders[i].block_3.y + B_HEIGHT, al_color_name( shielders[i].block_3.color  )  );
         }
-        if( !shielders[i].block_4.state != STATE_4)
+        if( shielders[i].block_4.state != DEATH_STATE)
         {
             al_draw_filled_rectangle(shielders[i].block_4.x, shielders[i].block_4.y, shielders[i].block_4.x + B_WIDTH, shielders[i].block_4.y + B_HEIGHT, al_color_name( shielders[i].block_4.color  )  );
         }
-        if( !shielders[i].block_5.state != STATE_4)
+        if( shielders[i].block_5.state != DEATH_STATE)
         {
             al_draw_filled_rectangle(shielders[i].block_5.x, shielders[i].block_5.y, shielders[i].block_5.x + B_WIDTH, shielders[i].block_5.y + B_HEIGHT, al_color_name( shielders[i].block_5.color  )  );
         }
@@ -963,42 +1019,66 @@ int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
                                        .width = shielders[i].block_5.width,           
                                    };
         
-        if(  shielders[i].block_1.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock1) )
+        if(  shielders[i].block_1.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock1) )
         {
             colision = 1;
             shielders[i].block_1.state++;
-            if( shielders[i].block_1.state != STATE_4 )
+            if( shielders[i].block_1.state != DEATH_STATE )
                 shielders[i].block_1.color = blockColors[ shielders[i].block_1.state ];
         }
-        else if(  shielders[i].block_2.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock2) )
+        else if(  shielders[i].block_2.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock2) )
         {
             colision = 1;
             shielders[i].block_2.state++;
-            if( shielders[i].block_2.state != STATE_4 )
+            if( shielders[i].block_2.state != DEATH_STATE )
                 shielders[i].block_2.color = blockColors[ shielders[i].block_2.state ];
         }
-        else if(  shielders[i].block_3.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock3) )
+        else if(  shielders[i].block_3.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock3) )
         {
             colision = 1;
             shielders[i].block_3.state++;
-            if( shielders[i].block_3.state != STATE_4 )
+            if( shielders[i].block_3.state != DEATH_STATE )
                 shielders[i].block_3.color = blockColors[ shielders[i].block_3.state ];
         }
-        else if(  shielders[i].block_4.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock4) )
+        else if(  shielders[i].block_4.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock4) )
         {
             colision = 1;
             shielders[i].block_4.state++;
-            if( shielders[i].block_4.state != STATE_4 )
+            if( shielders[i].block_4.state != DEATH_STATE )
                 shielders[i].block_4.color = blockColors[ shielders[i].block_4.state ];
         }
-        else if(  shielders[i].block_5.state != STATE_4 && isCollision(boxOfTheShot, &boxOfBlock5) )
+        else if(  shielders[i].block_5.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock5) )
         {
             colision = 1;
             shielders[i].block_5.state++;
-            if( shielders[i].block_5.state != STATE_4 )
+            if( shielders[i].block_5.state != DEATH_STATE )
                 shielders[i].block_5.color = blockColors[ shielders[i].block_5.state ];
         }
         i++;
     }
     return colision;
+}
+
+
+//
+//void update_speed_front(int newSpeed) {
+//    static const int maxSpeed = 100; // Pasarlo a constante segun el back
+//    dxInvader = MIN_SPEED_INVADER + (MAX_SPEED_INVADER-MIN_SPEED_INVADER)*newSpeed/maxSpeed;
+//    shotFromInvaderFrec = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS + (MAX_POSIBILIY_OF_SHOT_FROM_INVADERS-MIN_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed;
+//    //TODO: Frecuencia de aparicion de UFO
+//}
+
+
+void shouldUFOappear(void)
+{
+    if( !(rand() %  MIN_POSIBILIY_OF_APPEAR_UFO) && !UFO_invader.invaderState )
+    {
+        UFO_invader.invaderState = 1;
+        UFO_invader.direction = rand()%2 ? RIGHT : LEFT ; 
+    }
+}
+
+int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
+{
+    
 }

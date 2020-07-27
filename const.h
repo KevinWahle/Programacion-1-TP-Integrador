@@ -86,6 +86,8 @@ enum INVADERS{
     SQUID,
     UFO,
 };
+// NOTA: Conviene definirlo así para funciones internas.
+
 #define TYPES_INVADERS	4
 #define INIT_LIFES 3
 

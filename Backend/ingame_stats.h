@@ -137,13 +137,13 @@ void set_level(int new_level);
 /**
  * @brief Incrementa el contador de aliens asesinados y tambien los puntos
  * en funcion a la especie del invasor destruido. 
- * @param tipo_alien: especie invasora que fue destruida.
+ * @param tipo_alien especie invasora que fue destruida.
 */
 void kill_alien(const int tipo_alien);
 
 /**
  * @brief Actualiza la velocidad, incrementandola. 
- * @param seg: cada cuantos segundos se quiere incrementar.
+ * @param seg cada cuantos segundos se quiere incrementar.
 */
 void speed_update(const float seg);
 
@@ -152,6 +152,11 @@ void speed_update(const float seg);
 */
 void reset_timer(void);
 
+/**
+ * @brief contabilizala cantidd de aliens asesinados  
+ * @param tipo_alien especie de alien.
+*/
+unsigned int get_killed_aliens(const int tipo_alien);
 
 /*******************************************************************************
  ******************************************************************************/

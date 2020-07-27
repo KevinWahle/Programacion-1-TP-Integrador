@@ -249,6 +249,7 @@ void start_game(void){
     reset_lives();
     reset_points();
     reset_level();
+    reset_killed_aliens();
     reset_front();
     //NOTA: Incluir en donde se encuentra reset_front.
     
@@ -269,8 +270,15 @@ void quit_game(void) {
 ***********************  SCORE   **************************
 **********************************************************/    
 
-void show_game_score(unsigned long long int score){
-    //CONTINUAR: game_score_front(cantidad de bichos muertos de cada tipo,...,pts,nivel);
+void show_game_score(){
+
+    unsigned long long int score= get_points();
+    int level= get_level();
+    int killed_crabs= get_killed_aliens(CRAB); 
+    int killed_octo= get_killed_aliens(OCTOPUS); 
+    int killed_squid= get_killed_aliens(SQUID); 
+    int killed_ufo= get_killed_aliens(UFO); 
+    //CONTINUAR: game_score_front(score, level, killed_crabs, killed_octo, killed_squid, killed_ufo);
     //NOTA: Incluir en donde se encuentra game_score_front.
 
     #ifdef DEBUG
@@ -339,8 +347,9 @@ void cannon_coll()
 **********************************************************/
 
 void refresh(void){
-    speed_update(SEG);     // Actualizo
-    redraw();           // Redibujo la pantalla
+    speed_update(SEG);      // Actualizo la velocidad con la que se mueven los invaders.
+    redraw();               // Redibujo la pantalla
+    //NOTA: incluir donde se encuentre redraw()
 }
 
 
