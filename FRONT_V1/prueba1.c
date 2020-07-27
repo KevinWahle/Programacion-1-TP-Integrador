@@ -46,9 +46,32 @@
 #define OCTO_FILE "PNGs/Octopus1.png"
 #define SQUID_FILE "PNGs/Squid1.png"
 
+//##### CUBOS SHIELDS #####
+
+#define B_WIDTH    D_WIDTH * 0.03
+#define B_HEIGHT   D_WIDTH * 0.03
+#define X_PERCENT  0.1
+#define Y_PERCENT  0.8
+
+#define X1  D_WIDTH * X_PERCENT 
+#define Y1  D_HEIGHT * Y_PERCENT
+
+#define X2  X1 + B_WIDTH
+#define Y2  Y1 + B_HEIGHT
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
+
+enum shieldStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};
+
+/*
+enum COLORS {  COLOR_STATE_0 = ,
+               COLOR_STATE_1 = , 
+               COLOR_STATE_2 = ,
+               COLOR_STATE_3 = ,
+               COLOR_STATE_4 =      };
+*/
 
 enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
 
@@ -88,6 +111,15 @@ typedef struct
     ALLEGRO_BITMAP *invadersPointer;
 }invader_t;
 
+typedef struct
+{
+    int x;
+    int y;
+    int height;
+    int width;
+    int state;
+}miniBlock_t;
+
 
 typedef int cannonPosition_t;
 
@@ -109,6 +141,9 @@ void moveInvadersDown(void);
 int is_invadersOnFloor(void);
 
 void shouldInvaderShot(void);
+
+
+void createShield(void);
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -157,7 +192,7 @@ static const int invadersDistribution [FIL_INVADERS] = {
                                                         OCTO,
                                                        };
 
-// static int CONTEOREAL;
+#define BIG_INVADER OCTO
 
 int main(void) {
     
@@ -180,11 +215,13 @@ int main(void) {
         {
             if (ev.type == ALLEGRO_EVENT_TIMER)
             {
-                if(key_pressed[KEY_RIGHT])
+                int cannon_width = al_get_bitmap_width(canonPointer);
+                if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO) < D_WIDTH){
                     cannonXpos += TASA_DE_CAMBIO;
-                else if(key_pressed[KEY_LEFT] )
-                    cannonXpos -= TASA_DE_CAMBIO ;
-
+                }
+                else if(key_pressed[KEY_LEFT] && (cannonXpos - TASA_DE_CAMBIO) > 0) {
+                    cannonXpos -= TASA_DE_CAMBIO;
+                }
                 redraw = true;
             }
 
@@ -240,9 +277,12 @@ int main(void) {
             shouldInvaderShot();
             getInvaderShotCollison();
             
+
+            
             if( !is_invadersOnFloor()  )
                 proxDir = moveInvaders(proxDir);
 
+            createShield();
             drawAliveInvaders(invaders);
             al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
             al_flip_display(); 
@@ -443,15 +483,41 @@ void getCanonShotCollision(void)
  *******************************************************************************
  ******************************************************************************/
 
+//Funciona, pero no centrado
+// static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
+// {
+//     for (int i = 0; i < FIL_INVADERS; i++)
+//     {
+//         for (int j = 0; j < COL_INVADERS; j++)
+//         {
+//             int inv_width = al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer);
+//             int inv_height = al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer);
+//             int x_pos =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-inv_width)/(COL_INVADERS-1) + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
+//             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
+//             al_draw_bitmap( ptr_to_struct[i][j].invadersPointer, x_pos, y_pos, 0 );
+//             ptr_to_struct[i][j].x = x_pos;
+//             ptr_to_struct[i][j].y = y_pos;
+//             ptr_to_struct[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
+//         }
+//     }
+// }
+
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
 {
+    // Guardo el ancho del invader más grande
+    int max_inv_width = al_get_bitmap_width(ptr_to_struct[invadersDistribution[BIG_INVADER]][0].invadersPointer);
+
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for (int j = 0; j < COL_INVADERS; j++)
         {
             int inv_width = al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer);
             int inv_height = al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer);
-            int x_pos =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-inv_width)/(COL_INVADERS-1) + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
+            
+            // Cáclulo del centro en x de los invasores
+            int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
+            
+            int x_pos =  x_mid - inv_width/2;
             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
             al_draw_bitmap( ptr_to_struct[i][j].invadersPointer, x_pos, y_pos, 0 );
             ptr_to_struct[i][j].x = x_pos;
@@ -684,10 +750,10 @@ int is_invadersOnFloor(void)
     int i = FIL_INVADERS - 1;
     int state = 0;
     int onFloor = 0;
-    while( i >= 0 && !state )
+    while( i >= 0 && !state )                                         //Arranco en la fila de mas abajo, que seria la primera en tocar el piso
     {
         int j = 0;
-        while(   j < COL_INVADERS  && !invaders[i][j].invaderState  ) // Busca en la col, mientras esten muertos
+        while(   j < COL_INVADERS  && !invaders[i][j].invaderState  ) // Busco el primer invader vivo de la columna, 
         {
             j++;
         }
@@ -717,14 +783,27 @@ void shouldInvaderShot(void)
     for (int j = 0; j < COL_INVADERS; j++)
     {
         int i = FIL_INVADERS - 1;
-        while( i >= 0  &&   !invaders[i][j].invaderState )  //mientras esten muertos los invaders
+        while( i >= 0  &&   !invaders[i][j].invaderState )  //Busco los invaders (vivos) tales que abajo de ellos no tengan ninguna invader vivo
         {
             i--;
         }
-        if( i >= 0)          // entonces se encotnro algun invader vivo
+        if( i >= 0)          // entonces se encontro algun invader vivo
         {
             if(  !(rand() % 350) )
                 invaderShot(i, j);
         }
     }       
+}
+
+
+
+void createShield(void)
+{
+
+    al_draw_filled_rectangle(X1, Y1, X2, Y2, al_color_name("green")  );
+    al_draw_filled_rectangle(X1 + B_WIDTH, Y1, X2 + B_WIDTH, Y2, al_color_name("green")  );
+    al_draw_filled_rectangle(X1 + 2*B_WIDTH, Y1, X2 + 2*B_WIDTH, Y2, al_color_name("green")  );
+    al_draw_filled_rectangle(X1, Y1 + B_HEIGHT, X2, Y2 + B_HEIGHT, al_color_name("green")  );
+    al_draw_filled_rectangle(X1 + 2*B_WIDTH, Y1 + B_HEIGHT, X2 + 2*B_WIDTH, Y2 + B_HEIGHT, al_color_name("green")  );
+
 }
