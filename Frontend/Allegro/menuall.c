@@ -308,7 +308,9 @@ void shows_inst ()
  **/
 void update_front_event ()
 {
-
+    if(al_key_down(?????,ALLEGRO_KEY_ESCAPE)){
+        add_event()
+    }
     HACER!!!! SOLO SE USA add_event(event_t event) y hay que agregar const.h
 
 }
