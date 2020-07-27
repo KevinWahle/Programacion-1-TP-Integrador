@@ -32,6 +32,13 @@ ALLEGRO_BITMAP *cannon = NULL;
 // Invaders matrix
 invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
+const int invadersDistribution [FIL_INVADERS] = {
+                                                OCTO,
+                                                OCTO,
+                                                SQUID,
+                                                CRAB,
+                                                CRAB,
+                                                };
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -225,8 +232,8 @@ int loadim_game ()
                     al_destroy_bitmap(cannon);
                     return false;
                 }
-
             }
+            return true;
         }
     } else
         fprintf(stderr, "ERROR: failed to load cannon image!\n");    
