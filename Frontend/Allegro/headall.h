@@ -4,8 +4,8 @@
   @author   +Grupo 3+
  ******************************************************************************/
 
-#ifndef HEADALL_H_
-#define HEADALL_H_
+#ifndef HALLEGRO_H_
+#define HALLEGRO_H_
 
 /*******************************************************************************
  * INCLUDE HEADER FILES
@@ -114,7 +114,12 @@ void show_score (SCORE* score ,int size);
 /**
  * @brief Muestra las instrucciones.
 */
-void shows_inst (void);
+void shows_inst ();
+
+/**
+ * @brief Lee el teclado y carga el evento segun la libretia "event_queue.h".
+ **/
+void update_front_event();
 
 /**
  * @brief Destruye los recursos empleados.
@@ -126,4 +131,4 @@ void destroy_front();
 /*******************************************************************************
  ******************************************************************************/
 
-#endif // HEADALL_H_
+#endif // HALLEGRO_H_

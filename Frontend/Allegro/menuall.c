@@ -9,6 +9,7 @@
  ******************************************************************************/
 #include "headall.h"
 #include "../../Backend/event_queue/event_queue.h"
+#include "../../conts.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -292,7 +293,7 @@ void show_score (SCORE* score ,int size)
 /**
  * @brief Muestra las instrucciones.
 */
-void shows_inst (void) 
+void shows_inst () 
 {
     al_draw_scaled_bitmap(instImage,    // Imagen de instrucciones
                             0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),
@@ -305,7 +306,7 @@ void shows_inst (void)
 /**
  * @brief Lee el teclado y carga el evento segun la libretia "event_queue.h".
  **/
-void update_front_event(void)
+void update_front_event ()
 {
 
     HACER!!!! SOLO SE USA add_event(event_t event) y hay que agregar const.h
