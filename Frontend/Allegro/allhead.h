@@ -83,10 +83,14 @@ const int invadersDistribution [FIL_INVADERS] = {
                                                 CRAB,
                                                 };
 
+ALLEGRO_BITMAP *cannon = NULL;
+// Invaders matrix
 invader_t invaders[FIL_INVADERS][COL_INVADERS];
+
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
- ******************************************************************************/
+ ******************************************************************************
 /**
  * @brief Inicializa los recursos a emplear.
  * @return Si hubo o no error.
@@ -117,6 +121,7 @@ void shows_inst (void);
  * @brief Destruye los recursos empleados.
  **/
 void destroy_front();
+
 
 
 /*******************************************************************************

@@ -66,7 +66,6 @@ static ALLEGRO_BITMAP *firstImage = NULL;
 static ALLEGRO_BITMAP *endImage = NULL;
 static ALLEGRO_BITMAP *instImage = NULL;
 static ALLEGRO_BITMAP *scoreImage = NULL;
-static ALLEGRO_BITMAP *cannon = NULL;
 
 static ALLEGRO_TIMER *timer = NULL;
 static ALLEGRO_DISPLAY *display = NULL;
@@ -75,9 +74,6 @@ static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 static ALLEGRO_SAMPLE *sample1 = NULL;
 static ALLEGRO_FONT * fontmu = NULL;
 static ALLEGRO_FONT * fontsc = NULL;
-
-// Invaders matrix
-static invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
 /*******************************************************************************
  *******************************************************************************

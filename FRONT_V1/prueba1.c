@@ -9,7 +9,7 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 
-#define FPS    60.0 
+#define FPS 60.0 
 #define D_WIDTH 800
 #define D_HEIGHT 600
 #define TASA_DE_CAMBIO 3
@@ -18,9 +18,6 @@
 
 #define SHOT_HEIGHT 15
 #define SHOT_WIDTH 4
-
-#define COLA_DE_DISPARO (450 - SHOT_HEIGHT)
-#define POS_EN_Y_DEL_CANNON 450
 
 #define FIL_INVADERS 5
 #define COL_INVADERS 9
@@ -36,11 +33,9 @@
 
 #define CANT_INVADERS FIL_INVADERS*COL_INVADERS
 
-#define HIGH_INVADERS_SEPARATION 15
-
 #define CANT_D_POSIBLES_OBJETIVOS CANT_INVADERS // Solo tengo en cuenta disparo del cannon hacia los invaders no al reves.
 
-#define CANT_D_ESCUDOS_POSIBLES 5 // falta para usar esto. No serian 5 habrian como 6 bloquecitos por cada bloque.
+#define CANT_D_ESCUDOS_POSIBLES 4 // falta para usar esto. No serian 5 habrian como 6 bloquecitos por cada bloque.
 
 #define MAX_INVADERS_SHOT 20
 
@@ -50,8 +45,6 @@
 #define CRAB_FILE "PNGs/Crab1.png"
 #define OCTO_FILE "PNGs/Octopus1.png"
 #define SQUID_FILE "PNGs/Squid1.png"
-
-
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -485,8 +478,6 @@ static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
         }
     }
 }
-
-
 
 static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADERS])
 {
