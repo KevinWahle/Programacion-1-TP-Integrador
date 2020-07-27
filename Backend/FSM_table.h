@@ -13,7 +13,7 @@
  ******************************************************************************/
 #include "../const.h"
 #include "FSM_routines.h"
-#include "event_queue\event_queue.h"
+#include "event_queue/event_queue.h"
 #include "ingame_stats.h"
 
 /*******************************************************************************
@@ -52,8 +52,8 @@ STATE splash_state []= {
 };
 
 STATE menu_state []= {
-    {MOVE_UP, menu_state, up_menu}, 
-    {MOVE_DOWN, menu_state, down_menu},
+    {MOVE_UP, menu_state, up_menu_main}, 
+    {MOVE_DOWN, menu_state, down_menu_main},
     {CLICK_BTN, click_state, click_menu},
     {FIN_TABLE, menu_state, doNothing}
 };
@@ -80,10 +80,10 @@ STATE play_state[] = {
 };
 
 STATE pause_state[] = {
-    {MOVE_UP, menu_state, up_menu},          
-    {MOVE_DOWN, menu_state, down_menu},     
+    {MOVE_UP, pause_state, up_menu_pause},          
+    {MOVE_DOWN, pause_state, down_menu_pause},     
     {CLICK_BTN, click_state, click_menu_pause},
-    {FIN_TABLE, play_state, doNothing}
+    {FIN_TABLE, pause_state, doNothing}
 };
 
 STATE game_score_state[] = {

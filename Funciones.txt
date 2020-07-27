@@ -45,7 +45,7 @@ LISTO    3) int init_front(): funcion que dependiendo del front inicializa todo 
     empezar a correr el juego. Devuelve 0 si no hay error, cualquier otra 
     cosa si hay error.
 
-    4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
+LISTO   4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
     de ser posible por el front.
 
     5) void game_score_front(unsigned long long int score, ...):

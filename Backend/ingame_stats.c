@@ -10,7 +10,8 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "ingame_stats.h"
-#include "..\const.h"
+#include "../const.h"
+#include<time.h>
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -40,10 +41,8 @@
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-static int lives;
-static int points;
-static int level;
-static int speed=MIN_SPEED;
+static int lives, points, level, speed=MIN_SPEED;
+static clock_t start,end;
 
 static int killed_invaders[TYPES_INVADERS];
 //El contendio quedaría:
@@ -55,13 +54,6 @@ static int killed_invaders[TYPES_INVADERS];
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-
-/**
- * @brief Incrementa el contador de aliens asesinados y tambien los puntos
- * en funcion a la especie del invasor destruido. 
- * @param tipo_alien: especie invasora que fue destruida.
-*/
-void kill_alien(const int tipo_alien);
 
 
 /**********************************************************
@@ -111,6 +103,11 @@ void reset_killed_aliens()
     {
         killed_invaders[i]=0;      // Vuelve el contador de muertes de aliens de cada tipo a 0
     }
+}
+
+void reset_timer(void)
+{
+    start=clock();
 }
 
 
@@ -169,6 +166,7 @@ void increase_level(){
 }
 
 
+//NOTA: NO SE USA.
 void increase_speed(const int cant){
     
     if (speed<(MAX_SPEED-cant)){
@@ -180,6 +178,23 @@ void increase_speed(const int cant){
     #ifdef DEBUG
         printf("Incremento en %d la velocidad, ahora la velocidad es: %d \n", cant, speed);
     #endif  
+}
+
+int speed_update(int seg, int actual_speed)
+{
+    end=clock();
+    float difference =((float)(end-start)/CLOCKS_PER_SEC);
+    if (difference >= seg)
+    {
+        reset_timer();
+        actual_speed += STEP_SPEED;
+        
+        #ifdef DEBUG
+        printf("La nueva velocidad es: %d \n", actual_speed);
+        #endif
+
+    }        
+    return actual_speed;
 }
 
 /**********************************************************

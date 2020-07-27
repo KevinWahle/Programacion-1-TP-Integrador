@@ -97,6 +97,11 @@ extern invader_t invaders[FIL_INVADERS][COL_INVADERS];
 int init_front();
 
 /**
+ * @brief Muestra el splash.
+*/
+void splash_front(); 
+
+/**
  * @brief Muestra imagen del menu y coloca las palabras que reciba.
  * @param texto[] Recibe un puntero a esturctura de strings
  * @param size Recibe cantidad de palabras a imprimir

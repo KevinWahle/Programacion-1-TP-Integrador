@@ -46,92 +46,112 @@
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-void reset_lives(void);
 /**
  * @brief resetea las vidas
 */
+void reset_lives(void);
 
-void reset_points(void);
 /**
  * @brief resetea los puntos
 */
+void reset_points(void);
 
-void reset_level(void);
 /**
  * @brief resetea el nivel
 */
+void reset_level(void);
 
-void reset_speed(void); //NOTA: Puede ir a .c
 /**
  * @brief resetea la velocidad
 */
+void reset_speed(void); //NOTA: Puede ir a .c
 
-void reset_killed_aliens(void); //NOTA: Puede ir a .c
 /**
  * @brief resetea la cantidad de aliens asesinados
 */
+void reset_killed_aliens(void); //NOTA: Puede ir a .c
 
-void increase_points(const int cant);
 /**
  * @brief incrementa los puntos
  * @param cant cantidad de puntos a incrementar
 */
+void increase_points(const int cant);
 
-int decrease_lives(void);
 /**
  * @brief Permite decrementar en 1 la cantidad de vidas disponibles
  *  sin necesidad acceder a la variable "lives".
  * @return Retorna las vidas disponibles post-decremento.
 */
+int decrease_lives(void);
 
-void increase_lives(void); 
 /**
  * @brief incrementa las vidas
 */
+void increase_lives(void); 
 
-void increase_level(void);
 /**
  * @brief incrementa el nivel
 */
+void increase_level(void);
 
-void increase_speed(const int cant);
 /**
  * @brief incrementa la  velocidad
  * @param cant cantidad de velocidad a incrementar
 */
+void increase_speed(const int cant);
 
-int get_lives(void);
 /**
  * @brief Permite conocer las vidas disponibles de la nave sin necesidad 
  * de acceder a la variable "lives" 
  * @return Retorna la cantidad de vidas disponibles.
 */
+int get_lives(void);
 
-int get_points(void);
 /**
  * @brief Permite conocer los puntos obtenidos sin necesidad de acceder a
  * la variable "points".
  * @return Retorna la cantidad de puntos obtenidos en la partida.
 */
+int get_points(void);
 
-int get_level(void);
 /**
  * @brief Permite conocer el nivel actual sin necesidad acceder a
  * la variable "level".
  * @return Retorna el nivel actual.
 */
+int get_level(void);
 
-void set_speed(int new_speed);
 /**
  * @brief actualiza la velocidad
  * @param new_speed representa el nuevo valor de la velocidad
 */
+void set_speed(int new_speed);
 
-void set_level(int new_level);
 /**
  * @brief actualiza el nivel
  * @param new_level representa el nuevo nivel
 */
+void set_level(int new_level);
+
+
+/**
+ * @brief Incrementa el contador de aliens asesinados y tambien los puntos
+ * en funcion a la especie del invasor destruido. 
+ * @param tipo_alien: especie invasora que fue destruida.
+*/
+void kill_alien(const int tipo_alien);
+
+/**
+ * @brief Actualuzala la velocidad, incrementandola 
+ * @param seg: en cuantos segundos se quiere incrementar.
+ * @param actual_speed: velocidad actual.
+*/
+int speed_update(int seg, int actual_speed);
+
+/**
+ * @brief Resetea el timer
+*/
+void reset_timer(void);
 
 
 /*******************************************************************************

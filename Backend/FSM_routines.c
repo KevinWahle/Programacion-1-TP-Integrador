@@ -81,7 +81,7 @@ void my_menu(){
 }
 
 void up_menu(){
-if (ONLY_ESSENTIAL){                                                    
+if (ONLY_ESSENTIAL){           //NOTA: Alguna razón para no usar #if de precompilador?                                         
         do{                                                                
            if(sizeof(main_menu)/sizeof(MENU_ITEM) > actual_option){                     // Si el front solo permite mostrar las opciones esenciales:
                 actual_option++;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
@@ -107,7 +107,7 @@ if (ONLY_ESSENTIAL){
 }
 
 void down_menu(){
-    if (ONLY_ESSENTIAL){
+    if (ONLY_ESSENTIAL){           //NOTA: Alguna razón para no usar #if de precompilador?
         do{
            if(actual_option>0){                                                         // Si el front solo permite mostrar las opciones esenciales:
                 actual_option--;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
@@ -285,6 +285,26 @@ void cannon_coll()
     }
 
     // NOTA: Agregar si se actualizan las cantidad de vidas en pantalla.
+}
+
+void up_menu_main()
+{
+    up_menu(main_menu);
+}
+
+void down_menu_main()
+{
+    down_menu(main_menu);
+}
+
+void up_menu_pause()
+{
+
+}
+
+void down_menu_pause()
+{
+    
 }
 
 void doNothing(void) {

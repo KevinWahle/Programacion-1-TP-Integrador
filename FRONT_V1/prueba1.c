@@ -59,6 +59,20 @@
 #define X2  X1 + B_WIDTH
 #define Y2  Y1 + B_HEIGHT
 
+//##### RANCIEDAD
+
+#define TOTAL_SHIELDS 4
+
+#define SHIELDERS_WIDTH_PERCENT   0.7    // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
+#define OFFSET_FROM_WALL_PERCENT  (1 - SHIELDERS_WIDTH_PERCENT)/2
+#define SHIELD_WIDTH  B_WIDTH * 3
+#define SHIELDERS_WIDTH_ABSOLUTE  SHIELDERS_WIDTH_PERCENT * D_WIDTH
+#define OFFSET_FROM_WALL_ABSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
+
+#define DIST  (SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * B_WIDTH)/(TOTAL_SHIELDS - 1)
+
+
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -144,8 +158,8 @@ int is_invadersOnFloor(void);
 void shouldInvaderShot(void);
 
 
-void createShield(void);
-
+void createShield(int x_shield, int y_shield);
+void placeShields(void);
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -283,7 +297,7 @@ int main(void) {
             if( !is_invadersOnFloor()  )
                 proxDir = moveInvaders(proxDir);
 
-            createShield();
+            placeShields();
             drawAliveInvaders(invaders);
             al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
             al_flip_display(); 
@@ -798,13 +812,40 @@ void shouldInvaderShot(void)
 
 
 
-void createShield(void)
+//void createShield(void)
+//{
+//
+//    al_draw_filled_rectangle(X1, Y1, X2, Y2, al_color_name("green")  );
+//    al_draw_filled_rectangle(X1 + B_WIDTH, Y1, X2 + B_WIDTH, Y2, al_color_name("green")  );
+//    al_draw_filled_rectangle(X1 + 2*B_WIDTH, Y1, X2 + 2*B_WIDTH, Y2, al_color_name("green")  );
+//    al_draw_filled_rectangle(X1, Y1 + B_HEIGHT, X2, Y2 + B_HEIGHT, al_color_name("green")  );
+//    al_draw_filled_rectangle(X1 + 2*B_WIDTH, Y1 + B_HEIGHT, X2 + 2*B_WIDTH, Y2 + B_HEIGHT, al_color_name("green")  );
+//
+//}
+
+void createShield(int x_shield, int y_shield)
 {
 
-    al_draw_filled_rectangle(X1, Y1, X2, Y2, al_color_name("green")  );
-    al_draw_filled_rectangle(X1 + B_WIDTH, Y1, X2 + B_WIDTH, Y2, al_color_name("green")  );
-    al_draw_filled_rectangle(X1 + 2*B_WIDTH, Y1, X2 + 2*B_WIDTH, Y2, al_color_name("green")  );
-    al_draw_filled_rectangle(X1, Y1 + B_HEIGHT, X2, Y2 + B_HEIGHT, al_color_name("green")  );
-    al_draw_filled_rectangle(X1 + 2*B_WIDTH, Y1 + B_HEIGHT, X2 + 2*B_WIDTH, Y2 + B_HEIGHT, al_color_name("green")  );
+    al_draw_filled_rectangle(x_shield, y_shield, x_shield + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
+    al_draw_filled_rectangle(x_shield + B_WIDTH, y_shield, x_shield + B_WIDTH + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
+    al_draw_filled_rectangle(x_shield + 2*B_WIDTH, y_shield, x_shield + B_WIDTH + 2*B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
+    al_draw_filled_rectangle(x_shield, y_shield + B_HEIGHT, x_shield + B_WIDTH, y_shield + B_HEIGHT + B_HEIGHT, al_color_name("green")  );
+    al_draw_filled_rectangle(x_shield + 2*B_WIDTH, y_shield + B_HEIGHT, x_shield + B_WIDTH + 2*B_WIDTH, y_shield + B_HEIGHT + B_HEIGHT, al_color_name("green")  );
 
+}
+
+//X2 = x_shield + B_WIDTH
+//
+//Y2 = y_shield + B_HEIGHT
+
+void placeShields(void)
+{
+    for (int i = 0; i < TOTAL_SHIELDS; i++)
+    {
+        int x_shield =  i * ( B_WIDTH + DIST ) + OFFSET_FROM_WALL_ABSOLUTE ;
+
+        int y_shield = Y1;
+
+        createShield(x_shield, y_shield);
+    }
 }

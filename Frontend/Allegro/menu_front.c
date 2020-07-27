@@ -9,7 +9,7 @@
  ******************************************************************************/
 #include "headall.h"
 #include "../../Backend/event_queue/event_queue.h"
-#include "../../conts.h"
+#include "../../const.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -255,6 +255,21 @@ int loadim_game ()
 
 
 /**
+ * @brief Muestra el splash.
+*/
+void splash_front() 
+{
+    al_draw_scaled_bitmap(firstImage,    // Imagen de bienvenida la juego
+                            0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
+                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0);
+    al_rest(1.5);
+    shows_inst ();
+    al_draw_text(fontmu, al_map_rgb(255, 255, 0), (D_WIDTH / 2), 500, ALLEGRO_ALIGN_CENTER, "Presione la tecla espacio para continuar...");
+    al_flip_display();
+}
+
+/**
  * @brief Muestra imagen de menu y coloca palabras que recibe y colorea la palabra que se indica.
 */
 void show_menu (char* texto[], int size, int option)
@@ -280,7 +295,7 @@ void show_score (SCORE* score ,int size)
     int num=0;
     char position[2];   //Variable que indica la posición
     position[1]=167; //Es el circulo arriba del número
-    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo puntaje
+    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
@@ -317,24 +332,26 @@ void shows_inst ()
 /**
  * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".
  **/
-void update_front_event ()  //VER DE DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGRO
+void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGRO "ALLEGRO_EVENT ev;"
 {
-    if(al_key_down(???,ALLEGRO_KEY_ESCAPE){
+    al_get_keyboard_state(&ks);
+
+    if(al_key_down(&ks,ALLEGRO_KEY_ESCAPE)) {
         add_event(PAUSE_BTN);
     }
-    else if(al_key_down(???,ALLEGRO_KEY_SPACE){
+    else if(al_key_down(&ks,ALLEGRO_KEY_SPACE)) {
         add_event(CLICK_BTN);
     }
-    else if(al_key_down(???,ALLEGRO_KEY_UP){
+    else if(al_key_down(&ks,ALLEGRO_KEY_UP)) {
         add_event(MOVE_UP);
     }
-    else if(al_key_down(???,ALLEGRO_KEY_DOWN){
+    else if(al_key_down(&ks,ALLEGRO_KEY_DOWN)) {
         add_event(MOVE_DOWN);
     }
-    else if(al_key_down(???,ALLEGRO_KEY_LEFT){
+    else if(al_key_down(&ks,ALLEGRO_KEY_LEFT)) {
         add_event(MOVE_LEFT);
     }
-    else if(al_key_down(???,ALLEGRO_KEY_RIGHT){
+    else if(al_key_down(&ks,ALLEGRO_KEY_RIGHT)) {
         add_event(MOVE_RIGHT);
     }
 }
