@@ -69,6 +69,8 @@ typedef struct
     ALLEGRO_BITMAP *invadersPointer;
 }invader_t;
 
+enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
+
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/

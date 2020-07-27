@@ -48,8 +48,8 @@
 
 #define CANON_FILE "PNGs/Laser_Cannon.png"
 #define CRAB_FILE "PNGs/Crab1.png"
-#define SQUID_FILE "PNGs/Octopus1.png"
-#define OCTO_FILE "PNGs/Squid1.png"
+#define OCTO_FILE "PNGs/Octopus1.png"
+#define SQUID_FILE "PNGs/Squid1.png"
 
 
 
@@ -109,7 +109,7 @@ void canonShot(void);
 void getCanonShotCollision(void);
 
 int moveInvaders(int direction);
-static int decideWhetherChangeDirectionOrNot(int direction);
+
 
 void moveInvadersDown(void);
 
@@ -122,7 +122,7 @@ void shouldInvaderShot(void);
  ******************************************************************************/
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS]);
 static void drawAliveInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS]);
-
+static int decideWhetherChangeDirectionOrNot(int direction);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE

@@ -61,12 +61,7 @@
     {
       return -1;
     }
-    if (!load_all())
-    {
-      destroy_front();
-      return -1; 
-    }
-    al_rest(4);
+    al_rest(2);
     destroy_front();
     return 0;
   }
