@@ -8,6 +8,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "headall.h"
+#include "../../Backend/event_queue/event_queue.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -302,7 +303,18 @@ void shows_inst (void)
 
 
 /**
- * @brief Destruye los recursos empleados.
+ * @brief Lee el teclado y carga el evento segun la libretia "event_queue.h".
+ **/
+void update_front_event(void)
+{
+
+    HACER!!!! SOLO SE USA add_event(event_t event) y hay que agregar const.h
+
+}
+
+
+/**
+ * @brief Destruye los recursos empleados por allegro.
  **/
 void destroy_front()
 {
@@ -337,6 +349,7 @@ void destroy_front()
     
     printf("See you next time...\n\n");
 }
+
 /*******************************************************************************
  *******************************************************************************
                         LOCAL FUNCTION DEFINITIONS
