@@ -15,10 +15,15 @@
 #define NUMOFFSET    48  //Offset de numero entero a char
 #define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
 
+#define CANON_FILE "PNGs/Laser_Cannon.png"
+#define CRAB_FILE "PNGs/Crab1.png"
+#define SQUID_FILE "PNGs/Octopus1.png"
+#define OCTO_FILE "PNGs/Squid1.png"
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-
+enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
 
 
 /*******************************************************************************
@@ -85,7 +90,11 @@ int init_front()       // Inicializo y verifico que no falle
                                                     al_register_event_source(event_queue, al_get_display_event_source(display));
                                                     al_register_event_source(event_queue, al_get_timer_event_source(timer));
                                                     al_register_event_source(event_queue, al_get_keyboard_event_source());
-                                                    return true;
+                                                    if (loadig_menu()){
+                                                        return true;
+                                                    } else 
+                                                        fprintf(stderr, "ERROR: failed to add thing!\n");
+                                                    al_destroy_event_queue(event_queue);
                                                 } else
                                                     fprintf(stderr, "ERROR: failed to create event_queue!\n");
                                                 al_uninstall_keyboard();
@@ -125,7 +134,7 @@ int init_front()       // Inicializo y verifico que no falle
 /**
  * @brief Carga la imagenes, fuentes y sonidos.
 */
-int load_all()
+int loadig_menu()
 {
     menuImage = al_load_bitmap("BMPs/menu-sp.bmp");
 		if (menuImage) {
@@ -135,40 +144,27 @@ int load_all()
                 if (scoreImage) {   
                     instImage = al_load_bitmap("BMPs/instruction-sp.bmp");
                     if (instImage) {
-                            endImage = al_load_bitmap("BMPs/bye-image.bmp");
-                            if (endImage) {
-                                cannon = al_load_bitmap("PNGs/Laser_Cannon.png");
-                                if(cannon){
-                                    fontmu = al_load_ttf_font("Fonts/SP-font-menu.ttf", 50, 0);
-                                    if(fontmu){
-                                        fontsc = al_load_ttf_font("Fonts/SP-font-menu.ttf", 20, 0);
-                                        if(fontsc){
-                                            sample1 = al_load_sample("Songs/audio.wav");
-                                            if(sample1) {
-                //////////////////////////////////////////////////////////////
-                                                for (int i = 0; i < FIL_INVADERS; i++) {    //revisar como destruir todo esto 
-                                                    for (int j = 0; j < COL_INVADERS; j++) {          //Cargo el bitmap a todas las invader
-                                                        invaders[i][j].invadersPointer = al_load_bitmap("PNGs/Laser_Cannon.png");
-                                                            if (!invaders[i][j].invadersPointer) {
-                                                            fprintf(stderr, "ERROR: failed to load enemy image !\n");
-                                                            al_destroy_sample(sample1);
-                                                            return false;
-                                                        }
-                                                    }
-                                                }
-                                                return true; 
-                ///////////////////////////////////////////////////////////////
-                                        } else
-                                            fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
-                                        al_destroy_font(fontsc);
-                                    } else 
-                                        fprintf(stderr, "ERROR: Could not load score font!\n");
-                                    al_destroy_font(fontmu);
+                        endImage = al_load_bitmap("BMPs/bye-image.bmp");
+                        if (endImage) {
+                            fontmu = al_load_ttf_font("Fonts/SP-font-menu.ttf", 50, 0);
+                            if(fontmu){
+                                fontsc = al_load_ttf_font("Fonts/SP-font-menu.ttf", 20, 0);
+                                if(fontsc){
+                                    sample1 = al_load_sample("Songs/audio.wav");
+                                    if(sample1) {
+                                        if (loadig_game()){
+                                            return true;
+                                        } else 
+                                            fprintf(stderr, "ERROR: failed to add game images!\n");
+                                        al_destroy_sample(sample1);
+                                    } else
+                                        fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
+                                    al_destroy_font(fontsc);
                                 } else 
-                                    fprintf(stderr, "ERROR: Could not load menu font!\n");
-                                al_destroy_bitmap(cannon);
-                            } else
-                                fprintf(stderr, "ERROR: failed to load cannon image!\n");
+                                    fprintf(stderr, "ERROR: Could not load score font!\n");
+                                al_destroy_font(fontmu);
+                            } else 
+                                fprintf(stderr, "ERROR: Could not load menu font!\n");  
                             al_destroy_bitmap(endImage);   
                         } else 
                             fprintf(stderr, "ERROR: failed to load endImage!\n");
@@ -184,6 +180,45 @@ int load_all()
             al_destroy_bitmap(menuImage);	
         } else 
     		fprintf(stderr, "ERROR: failed to load menuImage!\n");
+    return false;
+}
+
+int loadig_game () 
+{
+    cannon = al_load_bitmap(CANON_FILE);
+    if(cannon){
+        for (int i = 0; i < FIL_INVADERS; i++)
+        {
+            for (int j = 0; j < COL_INVADERS; j++)                         //Cargo el bitmap a todas las invaders
+            {
+                invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo según la fila 
+                const char *file;
+                switch(invaders[i][j].invaderType)
+                {
+                    case CRAB:
+                        file = CRAB_FILE;
+                        break;
+                    case OCTO:
+                        file = OCTO_FILE;
+                        break;
+                    case SQUID:
+                        file = SQUID_FILE;
+                        break;
+                    default:
+                        file = NULL;
+                        break;
+                }
+                invaders[i][j].invadersPointer = al_load_bitmap(file);
+                if (!invaders[i][j].invadersPointer) {
+                    fprintf(stderr, "failed to load image \"%s\"!\n", file);
+                    return false;
+                }
+
+            }
+        }
+        al_destroy_bitmap(cannon);
+    } else
+        fprintf(stderr, "ERROR: failed to load cannon image!\n");
     return false;
 }
 
@@ -260,10 +295,16 @@ void destroy_front()
     al_flip_display();
     al_rest(2.0); // Tiempo de duracion random
     // Destrucción de recursos empleados
+    for (int i = 0; i < FIL_INVADERS; i++) {
+        for (int j = 0; j < COL_INVADERS; j++) {
+            al_destroy_bitmap(invaders[i][j].invadersPointer);
+        }
+    }
+    al_destroy_bitmap(cannon);
+
     al_destroy_bitmap(menuImage);
     al_destroy_bitmap(firstImage);
     al_destroy_bitmap(endImage);
-    al_destroy_bitmap(cannon);
     al_destroy_sample(sample1);
     al_destroy_font(fontmu);
     al_destroy_font(fontsc);

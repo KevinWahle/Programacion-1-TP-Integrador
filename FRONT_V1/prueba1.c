@@ -46,10 +46,10 @@
 
 #define MAX_CANON_SHOT 3
 
-#define CANON_FILE "./PNGs/Laser_Cannon.png"
-#define CRAB_FILE "./PNGs/Crab1.png"
-#define SQUID_FILE "./PNGs/Octopus1.png"
-#define OCTO_FILE "./PNGs/Squid1.png"
+#define CANON_FILE "PNGs/Laser_Cannon.png"
+#define CRAB_FILE "PNGs/Crab1.png"
+#define SQUID_FILE "PNGs/Octopus1.png"
+#define OCTO_FILE "PNGs/Squid1.png"
 
 
 
@@ -157,11 +157,11 @@ static int proxDir = LEFT;
 
 
 static const int invadersDistribution [FIL_INVADERS] = {
-                                                        OCTO,
-                                                        OCTO,
                                                         SQUID,
                                                         CRAB,
                                                         CRAB,
+                                                        OCTO,
+                                                        OCTO,
                                                        };
 
 static int CONTEOREAL;
@@ -261,8 +261,6 @@ int main(void) {
     al_destroy_bitmap(canonPointer);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
-  
-      //al_init es "destruido automaticamente" ver documentacion 
 
     for (int i = 0; i < FIL_INVADERS; i++) {
         for (int j = 0; j < COL_INVADERS; j++) {
@@ -361,7 +359,7 @@ void canonShot(void)
     int ship_height = al_get_bitmap_height( canonPointer );
     
     int x_shot = (ship_width + 2* cannonXpos  )/2;
-    int y_shot = D_HEIGHT - al_get_bitmap_height( canonPointer);
+    int y_shot = D_HEIGHT - ship_height;
     
     shot_t shot = { .x = x_shot,
                     .y = y_shot,

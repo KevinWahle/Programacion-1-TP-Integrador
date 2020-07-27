@@ -73,9 +73,15 @@ typedef struct
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
 
-// +ej: extern unsigned int anio_actual;+
+const int invadersDistribution [FIL_INVADERS] = {
+                                                OCTO,
+                                                OCTO,
+                                                SQUID,
+                                                CRAB,
+                                                CRAB,
+                                                };
 
-
+invader_t invaders[FIL_INVADERS][COL_INVADERS];
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
@@ -86,9 +92,14 @@ typedef struct
 int init_front();
 
 /**
- * @brief Carga la imagenes, fuentes y sonidos.
+ * @brief Carga la imagenes, fuentes y sonidos para el menu.
 */
-int load_all();
+int loadig_menu();
+
+/**
+ * @brief Carga la imagenes para el juego.
+*/
+int loadig_game();
 
 /**
  * @brief Muestra imagen del menu y coloca las palabras que reciba.
