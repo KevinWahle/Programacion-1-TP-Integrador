@@ -74,7 +74,6 @@ enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-
 const int invadersDistribution [FIL_INVADERS] = {
                                                 OCTO,
                                                 OCTO,
@@ -83,14 +82,14 @@ const int invadersDistribution [FIL_INVADERS] = {
                                                 CRAB,
                                                 };
 
-ALLEGRO_BITMAP *cannon = NULL;
+extern ALLEGRO_BITMAP *cannon = NULL;
 // Invaders matrix
-invader_t invaders[FIL_INVADERS][COL_INVADERS];
+extern invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
- ******************************************************************************
+ ******************************************************************************/
 /**
  * @brief Inicializa los recursos a emplear.
  * @return Si hubo o no error.

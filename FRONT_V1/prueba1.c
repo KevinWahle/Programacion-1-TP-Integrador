@@ -62,6 +62,7 @@ enum MYKEYS {
 
 typedef unsigned char SHOT_TYPE;
 
+
 typedef struct 
 {
     int x;
@@ -442,25 +443,6 @@ void getCanonShotCollision(void)
  *******************************************************************************
  ******************************************************************************/
 
-// static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
-// {
-//     for (int i = 0; i < FIL_INVADERS; i++)
-//     {
-//         for (int j = 0; j < COL_INVADERS; j++)
-//         {
-//             int inv_width = al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer);
-//             int inv_height = al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer);
-//             int x_pos =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-inv_width)/(COL_INVADERS-1) + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
-//             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
-//             al_draw_bitmap( ptr_to_struct[i][j].invadersPointer, x_pos, y_pos, 0 );
-//             ptr_to_struct[i][j].x = x_pos;
-//             ptr_to_struct[i][j].y = y_pos;
-//             ptr_to_struct[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
-//         }
-//     }
-// }
-
-// DEL github:
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
 {
     for (int i = 0; i < FIL_INVADERS; i++)
@@ -605,26 +587,20 @@ static int initAll(void)
 
 int moveInvaders(int direction)
 {
-    int nextDirection = decideWhetherChangeDirectionOrNot(direction);
-    if(nextDirection != direction)
-    {
+    int nextDirection = decideWhetherChangeDirectionOrNot(direction); // Me fijo si tengo que mantener la direccion o no, invocando a la funcion
+    if(nextDirection != direction)                                    // Si la direccion es distinta a la que se venia llevando => muevo el conjunto 
+    {                                                                 // de invaders para abajo
         moveInvadersDown();
     }
-    if(nextDirection == LEFT )  //VER SI HACER UN UNICO BUCLE
+    for (int i = 0; i < FIL_INVADERS; i++)
     {
-        for (int i = 0; i < FIL_INVADERS; i++)
+        for(int j = 0; j < COL_INVADERS; j++ )
         {
-            for(int j = 0; j < COL_INVADERS; j++ )
+            if(nextDirection == LEFT)
             {
                 invaders[i][j].x -= TASA_DE_CAMBIO_INVADERS;
             }
-        }
-    }
-    else if(nextDirection == RIGHT)
-    {
-        for (int i = 0; i < FIL_INVADERS; i++)
-        {
-            for(int j = 0; j < COL_INVADERS; j++ )
+            else if(nextDirection == RIGHT)
             {
                 invaders[i][j].x += TASA_DE_CAMBIO_INVADERS;
             }
@@ -642,13 +618,13 @@ static int decideWhetherChangeDirectionOrNot(int direction)
         while(j < COL_INVADERS && nextDirection == ERROR_DIREC )
         {
             int i = 0;
-            while(   i < FIL_INVADERS  && !invaders[i][j].invaderState  ) // Busca en la col, mientras esten muertos
+            while(   i < FIL_INVADERS  && !invaders[i][j].invaderState  ) // Busca en la col, mientras esten muertos, sigo
             {
                 i++;
             }
             if( i == FIL_INVADERS  ) // Entonces estaban todos muertos
             {
-                j++;
+                j++;                // Voy a la siguiente columna
             }
             else   //Si no, hay al menos uno vivo
             {

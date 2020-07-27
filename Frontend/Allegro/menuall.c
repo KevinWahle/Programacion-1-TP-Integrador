@@ -28,8 +28,9 @@
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
-
-// +ej: unsigned int anio_actual;+
+ALLEGRO_BITMAP *cannon = NULL;
+// Invaders matrix
+invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
 
 /*******************************************************************************
