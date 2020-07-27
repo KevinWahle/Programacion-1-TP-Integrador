@@ -44,6 +44,11 @@ enum INVADERS_TYPES {CRAB ,SQUID, OCTO};
 */
 static void intochar(int num, char chscore[MSCORE]);
 
+/**
+ * @brief Destruye todos los invaders cargados.
+ */
+static void destroy_invaders();
+
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -90,7 +95,7 @@ int init_front()       // Inicializo y verifico que no falle
                                                     al_register_event_source(event_queue, al_get_display_event_source(display));
                                                     al_register_event_source(event_queue, al_get_timer_event_source(timer));
                                                     al_register_event_source(event_queue, al_get_keyboard_event_source());
-                                                    if (loadig_menu()){
+                                                    if (loadim_menu()){
                                                         return true;
                                                     } else 
                                                         fprintf(stderr, "ERROR: failed to add thing!\n");
@@ -126,7 +131,6 @@ int init_front()       // Inicializo y verifico que no falle
 			fprintf(stderr, "ERROR: failed to load primitives addon \n");
     } else
         fprintf(stderr, "ERROR: Failed to initialize allegro system\n");
-	
     return false;
 }
 
@@ -134,7 +138,7 @@ int init_front()       // Inicializo y verifico que no falle
 /**
  * @brief Carga la imagenes, fuentes y sonidos.
 */
-int loadig_menu()
+int loadim_menu()
 {
     menuImage = al_load_bitmap("BMPs/menu-sp.bmp");
 		if (menuImage) {
@@ -152,7 +156,7 @@ int loadig_menu()
                                 if(fontsc){
                                     sample1 = al_load_sample("Songs/audio.wav");
                                     if(sample1) {
-                                        if (loadig_game()){
+                                        if (loadim_game()){
                                             return true;
                                         } else 
                                             fprintf(stderr, "ERROR: failed to add game images!\n");
@@ -183,7 +187,7 @@ int loadig_menu()
     return false;
 }
 
-int loadig_game () 
+int loadim_game () 
 {
     cannon = al_load_bitmap(CANON_FILE);
     if(cannon){
@@ -210,15 +214,16 @@ int loadig_game ()
                 }
                 invaders[i][j].invadersPointer = al_load_bitmap(file);
                 if (!invaders[i][j].invadersPointer) {
-                    fprintf(stderr, "failed to load image \"%s\"!\n", file);
+                    fprintf(stderr, "failed to load invader image \"%s\"!\n", file);
+                    destroy_invaders();
+                    al_destroy_bitmap(cannon);
                     return false;
                 }
 
             }
         }
-        al_destroy_bitmap(cannon);
     } else
-        fprintf(stderr, "ERROR: failed to load cannon image!\n");
+        fprintf(stderr, "ERROR: failed to load cannon image!\n");    
     return false;
 }
 
@@ -295,21 +300,18 @@ void destroy_front()
     al_flip_display();
     al_rest(2.0); // Tiempo de duracion random
     // Destrucción de recursos empleados
-    for (int i = 0; i < FIL_INVADERS; i++) {
-        for (int j = 0; j < COL_INVADERS; j++) {
-            al_destroy_bitmap(invaders[i][j].invadersPointer);
-        }
-    }
+
+    destroy_invaders();         //Destruye la parte de loadim_game
     al_destroy_bitmap(cannon);
 
-    al_destroy_bitmap(menuImage);
+    al_destroy_bitmap(menuImage);   //Destruye la parte de loadim_menu
     al_destroy_bitmap(firstImage);
     al_destroy_bitmap(endImage);
     al_destroy_sample(sample1);
     al_destroy_font(fontmu);
     al_destroy_font(fontsc);
 
-    al_destroy_timer(timer);
+    al_destroy_timer(timer);        //Destruye la parte de inicialización
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
 
@@ -327,7 +329,9 @@ void destroy_front()
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-
+/**
+ * @brief Transforma un entero no signado a un string.
+ */
 static void intochar(int num, char chscore[MSCORE])
 {
     int a = 0;
@@ -335,5 +339,18 @@ static void intochar(int num, char chscore[MSCORE])
         a = num % 10;
         chscore[i]=a+NUMOFFSET;
         num = num / 10;
+    }
+}
+
+
+/**
+ * @brief Destruye todos los invaders cargados.
+ */
+static void destroy_invaders() 
+{
+    for (int i = 0; i < FIL_INVADERS; i++) {
+        for (int j = 0; j < COL_INVADERS; j++) {
+            al_destroy_bitmap(invaders[i][j].invadersPointer);
+        }
     }
 }

@@ -94,12 +94,12 @@ int init_front();
 /**
  * @brief Carga la imagenes, fuentes y sonidos para el menu.
 */
-int loadig_menu();
+int loadim_menu();
 
 /**
  * @brief Carga la imagenes para el juego.
 */
-int loadig_game();
+int loadim_game();
 
 /**
  * @brief Muestra imagen del menu y coloca las palabras que reciba.

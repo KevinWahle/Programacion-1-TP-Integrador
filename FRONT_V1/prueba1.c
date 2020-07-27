@@ -27,12 +27,12 @@
 
 // INVADERS POSITION
 #define INVADERS_WIDTH_PERCENT  0.7    // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
-#define INVADERS_HEIGHT_PERCENT  0.3 //0.3    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
+#define INVADERS_HEIGHT_PERCENT  0.4    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
 #define INVADERS_START_HEIGHT_PERCENT  0.05    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
 
-#define INVADERS_FLOOR D_HEIGHT*0.9
-#define INVADERS_WALL D_WIDTH*0.01
-#define INVADERS_FALL D_HEIGHT*0.05
+#define INVADERS_FLOOR D_HEIGHT*0.7         // Espacio desde el techo hasta "piso" de los invasores
+#define INVADERS_WALL D_WIDTH*0.01          // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_FALL D_HEIGHT*0.05         // Espacio de caida de los invaders al llegar a cada tope 
 
 #define CANT_INVADERS FIL_INVADERS*COL_INVADERS
 
@@ -164,7 +164,7 @@ static const int invadersDistribution [FIL_INVADERS] = {
                                                         OCTO,
                                                        };
 
-static int CONTEOREAL;
+// static int CONTEOREAL;
 
 int main(void) {
     
