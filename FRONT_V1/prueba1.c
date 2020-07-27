@@ -71,7 +71,7 @@ ALLEGRO_COLOR al_color_html(char const *string);
 enum COLORS {  COLOR_STATE_0 =  #00691c,
                COLOR_STATE_1 = #018f27, 
                COLOR_STATE_2 =  #00d138,
-               COLOR_STATE_3 = ,
+               COLOR_STATE_3 = #21ff5d,
                COLOR_STATE_4 =      };
 */
 
