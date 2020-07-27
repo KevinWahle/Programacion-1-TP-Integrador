@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     +allhead.h+
+  @file     +headall.h+
   @brief    +header principal de allegro+
   @author   +Grupo 3+
  ******************************************************************************/
@@ -88,7 +88,7 @@ extern invader_t invaders[FIL_INVADERS][COL_INVADERS];
 */
 
 /*******************************************************************************
- * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
+ * FUNCTION PROTOTYPES FOR MENU AND KEYBOARD
  ******************************************************************************/
 /**
  * @brief Inicializa los recursos a emplear.
@@ -117,7 +117,7 @@ void show_score (SCORE* score ,int size);
 void shows_inst ();
 
 /**
- * @brief Lee el teclado y carga el evento segun la libretia "event_queue.h".
+ * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".
  **/
 void update_front_event();
 
@@ -125,6 +125,12 @@ void update_front_event();
  * @brief Destruye los recursos empleados.
  **/
 void destroy_front();
+
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR IN-GAME
+ ******************************************************************************/
+
 
 
 

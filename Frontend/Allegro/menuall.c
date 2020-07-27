@@ -17,10 +17,21 @@
 #define NUMOFFSET    48  //Offset de numero entero a char
 #define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
 
-#define CANON_FILE "PNGs/Laser_Cannon.png"
-#define CRAB_FILE "PNGs/Crab1.png"
-#define OCTO_FILE "PNGs/Octopus1.png"
-#define SQUID_FILE "PNGs/Squid1.png"
+#define CANON_FILE  "PNGs/Laser_Cannon.png"
+#define CRAB_FILE   "PNGs/Crab1.png"
+#define OCTO_FILE   "PNGs/Octopus1.png"
+#define SQUID_FILE  "PNGs/Squid1.png"
+
+#define MENU_FILE   "BMPs/menu-sp.bmp"
+#define FIRST_FILE  "BMPs/first-image.bmp"
+#define SCORE_FILE  "BMPs/puntaje-sp.bmp"
+#define INST_FILE   "BMPs/instruction-sp.bmp"
+#define END_FILE    "BMPs/bye-image.bmp"
+
+#define FONT1_FILE  "Fonts/SP-font-menu.ttf"
+#define FONT2_FILE  "Fonts/SP-font-menu.ttf"
+
+#define SAMPLE_FILE "Songs/audio.wav"
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -155,21 +166,21 @@ int init_front()       // Inicializo y verifico que no falle
 */
 int loadim_menu()
 {
-    menuImage = al_load_bitmap("BMPs/menu-sp.bmp");
+    menuImage = al_load_bitmap(MENU_FILE);
 		if (menuImage) {
-			firstImage = al_load_bitmap("BMPs/first-image.bmp");
+			firstImage = al_load_bitmap(FIRST_FILE);
             if (firstImage) {
-                scoreImage = al_load_bitmap("BMPs/puntaje-sp.bmp");
+                scoreImage = al_load_bitmap(SCORE_FILE);
                 if (scoreImage) {   
-                    instImage = al_load_bitmap("BMPs/instruction-sp.bmp");
+                    instImage = al_load_bitmap(INST_FILE);
                     if (instImage) {
-                        endImage = al_load_bitmap("BMPs/bye-image.bmp");
+                        endImage = al_load_bitmap(END_FILE);
                         if (endImage) {
-                            fontmu = al_load_ttf_font("Fonts/SP-font-menu.ttf", 50, 0);
+                            fontmu = al_load_ttf_font(FONT1_FILE, 50, 0);   //50 es el tamaño de la letra
                             if(fontmu){
-                                fontsc = al_load_ttf_font("Fonts/SP-font-menu.ttf", 20, 0);
+                                fontsc = al_load_ttf_font(FONT2_FILE, 20, 0);   //20 es el tamaño de la letra
                                 if(fontsc){
-                                    sample1 = al_load_sample("Songs/audio.wav");
+                                    sample1 = al_load_sample(SAMPLE_FILE);
                                     if(sample1) {
                                         if (loadim_game()){
                                             return true;
@@ -208,7 +219,7 @@ int loadim_game ()
     if(cannon){
         for (int i = 0; i < FIL_INVADERS; i++)
         {
-            for (int j = 0; j < COL_INVADERS; j++)                         //Cargo el bitmap a todas las invaders
+            for (int j = 0; j < COL_INVADERS; j++)      //Cargo el bitmap a todas las invaders
             {
                 invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo según la fila 
                 const char *file;
@@ -304,15 +315,28 @@ void shows_inst ()
 
 
 /**
- * @brief Lee el teclado y carga el evento segun la libretia "event_queue.h".
+ * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".
  **/
-void update_front_event ()
+void update_front_event ()  //VER DE DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGRO
 {
-    if(al_key_down(?????,ALLEGRO_KEY_ESCAPE)){
-        add_event()
+    if(al_key_down(???,ALLEGRO_KEY_ESCAPE){
+        add_event(PAUSE_BTN);
     }
-    HACER!!!! SOLO SE USA add_event(event_t event) y hay que agregar const.h
-
+    else if(al_key_down(???,ALLEGRO_KEY_SPACE){
+        add_event(CLICK_BTN);
+    }
+    else if(al_key_down(???,ALLEGRO_KEY_UP){
+        add_event(MOVE_UP);
+    }
+    else if(al_key_down(???,ALLEGRO_KEY_DOWN){
+        add_event(MOVE_DOWN);
+    }
+    else if(al_key_down(???,ALLEGRO_KEY_LEFT){
+        add_event(MOVE_LEFT);
+    }
+    else if(al_key_down(???,ALLEGRO_KEY_RIGHT){
+        add_event(MOVE_RIGHT);
+    }
 }
 
 

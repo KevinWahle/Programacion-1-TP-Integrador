@@ -10,15 +10,16 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "ingame_stats.h"
+#include "..\const.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 
-
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
+
 
 
 /*******************************************************************************
@@ -54,6 +55,12 @@ static int killed_invaders[TYPES_INVADERS];
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+
+/**
+ * @brief Incrementa el contador de aliens asesinados y tambien los puntos
+ * en funcion a la especie del invasor destruido. 
+ * @param tipo_alien: especie invasora que fue destruida.
+*/
 void kill_alien(const int tipo_alien);
 
 
@@ -180,6 +187,7 @@ void increase_speed(const int cant){
 **********************************************************/
 
 int get_lives()
+//NOTA: PARECE AL PEDO.
 {
     #ifdef DEBUG
     printf("Se tienen %d vidas \n", lives);
@@ -227,15 +235,13 @@ void set_level(int new_level)
     #endif 
 }
 
-/**********************************************************
-************************  VARIOUS   ***********************
-**********************************************************/
 
 /*******************************************************************************
  *******************************************************************************
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+
 
 void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTAN EN UNA MATRIZ
 //Sumo al puntaje actual, la cantidad propocional al
