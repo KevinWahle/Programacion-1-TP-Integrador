@@ -14,8 +14,8 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define NUMOFFSET    48  //Offset de numero entero a char
-#define MSCORE       5 //Cantidad maxima a imprimir de puntaje 
+#define NUMOFFSET   '0' //Offset de numero entero a char
+#define MSCORE       5  //Cantidad maxima a imprimir de puntaje 
 
 #define CANON_FILE  "PNGs/Laser_Cannon.png"
 #define CRAB_FILE   "PNGs/Crab1.png"
@@ -187,7 +187,7 @@ int loadim_menu()
                         if (endImage) {
                             fontmu = al_load_ttf_font(FONT1_FILE, 50, 0);   //50 es el tamaño de la letra
                             if(fontmu){
-                                fontsc = al_load_ttf_font(FONT2_FILE, 28, 0);   //20 es el tamaño de la letra
+                                fontsc = al_load_ttf_font(FONT2_FILE, 28, 0);   //28 es el tamaño de la letra
                                 if(fontsc){
                                     sample1 = al_load_sample(SAMPLE_FILE);
                                     if(sample1) {
@@ -408,7 +408,7 @@ void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGR
 /**
  * @brief Redraw dependiendo del timer.
  **/
-void redraw ()
+void redraw ()          //VER SI PONER EN GAME_FRONT
 {
     ALLEGRO_EVENT ev1;
     if (al_get_next_event(timer_event, &ev1)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.

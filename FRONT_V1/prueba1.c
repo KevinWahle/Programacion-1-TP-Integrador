@@ -15,7 +15,7 @@
 #define TASA_DE_CAMBIO 3
 #define TASA_DE_CAMBIO_BALA 4
 #define TASA_DE_CAMBIO_INVADERS 0.5
-#define TASA_DE_CAMBIO_NODRIZA 0.5
+#define TASA_DE_CAMBIO_NODRIZA 2
 
 #define SHOT_HEIGHT 15
 #define SHOT_WIDTH 4
@@ -27,7 +27,7 @@
 // INVADERS POSITION
 #define INVADERS_WIDTH_PERCENT  0.7    // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
 #define INVADERS_HEIGHT_PERCENT  0.4    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
-#define INVADERS_START_HEIGHT_PERCENT  0.05    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
+#define INVADERS_START_HEIGHT_PERCENT  0.15    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
 
 #define INVADERS_FLOOR (D_HEIGHT*0.65)        // Espacio desde el techo hasta "piso" de los invasores
 #define INVADERS_WALL (D_WIDTH*0.01)          // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
@@ -213,6 +213,12 @@ static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS]);
 static void drawAliveInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS]);
 static int decideWhetherChangeDirectionOrNot(int direction);
 
+void moveUFO(void);
+
+int getColisionOnUFO(collBoxShot_t *boxOfTheShot);
+
+void shouldUFOappear(void);
+
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -233,13 +239,13 @@ static ALLEGRO_BITMAP *canonPointer = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 static ALLEGRO_TIMER *timer = NULL;
 
-#define UFO_HEIGHT_PERCENT  0.1
+#define UFO_HEIGHT_PERCENT  0.05
 #define UFO_HEIGHT  (UFO_HEIGHT_PERCENT * D_HEIGHT)
 
-UFO_t UFO_invader = {   .y =  UFO_HEIGHT,
+UFO_t UFO_invader = {   .y = UFO_HEIGHT,
                         .invaderType = UFO,
                         .invaderState = 0     //Arranca muerta
-                        };
+                    };
 
 // El cañón
 static cannonPosition_t cannonXpos = 0;
@@ -349,6 +355,9 @@ int main(void) {
             //
             //getInvaderShotCollison();
             
+            shouldUFOappear();
+            moveUFO();
+
             getCanonShotCollision();
 
             shouldInvaderShot();
@@ -358,6 +367,7 @@ int main(void) {
             
             if( !is_invadersOnFloor()  )
                 proxDir = moveInvaders(proxDir);
+
 
             drawShields();
 
@@ -388,6 +398,13 @@ int main(void) {
  *******************************************************************************
  ******************************************************************************/
 
+//
+//void update_speed_front(int newSpeed) {
+//    static const int maxSpeed = 100; // Pasarlo a constante segun el back
+//    dxInvader = MIN_SPEED_INVADER + (MAX_SPEED_INVADER-MIN_SPEED_INVADER)*newSpeed/maxSpeed;
+//    shotFromInvaderFrec = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS + (MAX_POSIBILIY_OF_SHOT_FROM_INVADERS-MIN_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed;
+//    //TODO: Frecuencia de aparicion de UFO
+//}
 
 
 int invaderShot(int i, int j)
@@ -526,6 +543,11 @@ void getCanonShotCollision(void)
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
                 }
+                else if( getColisionOnUFO( &collBoxShotFromCanon )  )
+                {
+                    canonShotList[iCont].shotState = 0;
+                    colisionDetected++;
+                }
                 else
                 {
                     for(int i = 0; i < FIL_INVADERS; i++)
@@ -571,25 +593,6 @@ void getCanonShotCollision(void)
  *******************************************************************************
  ******************************************************************************/
 
-//Funciona, pero no centrado
-// static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
-// {
-//     for (int i = 0; i < FIL_INVADERS; i++)
-//     {
-//         for (int j = 0; j < COL_INVADERS; j++)
-//         {
-//             int inv_width = al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer);
-//             int inv_height = al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer);
-//             int x_pos =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-inv_width)/(COL_INVADERS-1) + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
-//             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
-//             al_draw_bitmap( ptr_to_struct[i][j].invadersPointer, x_pos, y_pos, 0 );
-//             ptr_to_struct[i][j].x = x_pos;
-//             ptr_to_struct[i][j].y = y_pos;
-//             ptr_to_struct[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
-//         }
-//     }
-// }
-
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
 {
     // Guardo el ancho del invader más grande, que será el de la última fila
@@ -626,8 +629,17 @@ static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADE
         }
     }
 
-    if (UFO_invader.invaderState) {
-        al_draw_bitmap( UFO_invader.invadersPointer, UFO_invader.x, UFO_invader.y, 0);
+    if (UFO_invader.invaderState) 
+    {
+        if( UFO_invader.x >= ( (-1)*al_get_bitmap_width(UFO_invader.invadersPointer) )  && UFO_invader.x <= (D_WIDTH + al_get_bitmap_width(UFO_invader.invadersPointer)) )
+        {
+            al_draw_bitmap( UFO_invader.invadersPointer, UFO_invader.x, UFO_invader.y, 0);
+        }
+        else
+        {
+            UFO_invader.invaderState = 0;
+            printf("F UFO!!\n");
+        }
     }
 
 }
@@ -685,8 +697,8 @@ static int initAll(void)
     }
 
     UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
-    if (!canonPointer) {
-        fprintf(stderr, "failed to load image !\n");
+    if (!UFO_invader.invadersPointer) {
+        fprintf(stderr, "failed to load UFO !\n");
         return -1;
     }
    
@@ -1060,25 +1072,47 @@ int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
 }
 
 
-//
-//void update_speed_front(int newSpeed) {
-//    static const int maxSpeed = 100; // Pasarlo a constante segun el back
-//    dxInvader = MIN_SPEED_INVADER + (MAX_SPEED_INVADER-MIN_SPEED_INVADER)*newSpeed/maxSpeed;
-//    shotFromInvaderFrec = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS + (MAX_POSIBILIY_OF_SHOT_FROM_INVADERS-MIN_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed;
-//    //TODO: Frecuencia de aparicion de UFO
-//}
-
-
 void shouldUFOappear(void)
 {
-    if( !(rand() %  MIN_POSIBILIY_OF_APPEAR_UFO) && !UFO_invader.invaderState )
+    if(  !(rand() % 60) && !UFO_invader.invaderState )
     {
+        printf("UFO SHOULD APPEAR!!\n");
         UFO_invader.invaderState = 1;
-        UFO_invader.direction = rand()%2 ? RIGHT : LEFT ; 
+        UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;
+        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*al_get_bitmap_width(UFO_invader.invadersPointer) : D_WIDTH + al_get_bitmap_width(UFO_invader.invadersPointer);
     }
 }
 
 int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
 {
+    int colision = 0;
+    if(UFO_invader.invaderState)
+    {
+        collBoxShot_t boxOfUFO = {  .x = UFO_invader.x,
+                                    .y = UFO_invader.y,
+                                    .width = al_get_bitmap_width(UFO_invader.invadersPointer),
+                                    .height = al_get_bitmap_height(UFO_invader.invadersPointer),
+                                 };
+        if(colision = isCollision( &boxOfUFO, boxOfTheShot ) )
+        {
+            UFO_invader.invaderState = 0;
+        }
     
+    }
+    return colision;
+}
+
+void moveUFO(void)
+{
+    if (UFO_invader.invaderState) 
+    {
+        if (UFO_invader.direction == RIGHT) 
+        {
+            UFO_invader.x += TASA_DE_CAMBIO_NODRIZA;
+        }
+        else 
+        {
+            UFO_invader.x -= TASA_DE_CAMBIO_NODRIZA;
+        }
+    }
 }

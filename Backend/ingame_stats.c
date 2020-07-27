@@ -80,7 +80,7 @@ void reset_points()
 void reset_level()
 {
     set_level(0);        // Reinicio al nivel 0.
-    reset_speed();
+    reset_speed();       // Reinicio la velocidad
     
     #ifdef DEBUG
         printf("Resteo nivel. \n");
@@ -153,7 +153,8 @@ void increase_level(){
 
     int newspeed = level*STEP_LEVEL_SPEED;
     set_speed(newspeed);
-    //NOTA: Agregar speed_calculator(speed) y el archivo donde este su prototipo.
+    reset_timer();
+    //INCLUIR: Agregar speed_calculator(speed) y el archivo donde este su prototipo.
 
  
     //CONTINUAR:

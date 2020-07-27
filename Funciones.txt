@@ -48,7 +48,7 @@ LISTO    3) int init_front(): funcion que dependiendo del front inicializa todo 
 LISTO   4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
     de ser posible por el front.
 
-    5) void game_score_front(unsigned long long int score, ...):
+    5) void game_score_front(unsigned long long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo);
     Debe mostrar en el front las estadísticas de la partida una vez FINALIZADA.
     
     6) void update_front_event(void) agrega a la lista de eventos todos los 
@@ -64,21 +64,21 @@ LISTO   4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
         agregar los eventos a la event_queue, etc, etc...
         OBS: el main del back NO DEBE SER BLOQUEANTE
 
-LISTO    9) /**
- 		* @brief Muestra imagen descore y muestra hasta top 10.
+LISTO    10) /**
+ 		* @brief Muestra imagen de score y muestra hasta top 10.
  		* @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
  		* @param size Recibe el tamaño actual de la lista de puntaje
 	   */
 		void show_score (SCORE* score ,int size);
 		
-LISTO	10) /**
+LISTO	11) /**
  		* @brief Muestra las instrucciones.
 		*/
 		void shows_inst (void);
 		
-        update_speed_front(int newSpeed);
-            // El back llama a esta función con la velocidad actualizada
-            // Adentro de la función el front actualiza su propia velocidad (invaders, frecuencia de tiros, etc)
+    12) update_speed_front(int newSpeed);
+        // El back llama a esta función con la velocidad actualizada
+        // Adentro de la función el front actualiza su propia velocidad (invaders, frecuencia de tiros, etc)
 
         destroyCanon();
 

@@ -80,7 +80,7 @@ void start_game(void);
 /**
  * @brief LLama a la funcion que se encarga de mostrar el score, indicandole el puntaje final y la cantidad de aliens asesinados
 */
-void show_game_score(unsigned long long int score);
+void show_game_score();
 
 /**
  * @brief LLama a la funcion que se encarga de mostrar el score, indicandole el top deseado

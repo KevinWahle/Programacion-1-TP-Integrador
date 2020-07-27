@@ -84,7 +84,7 @@ void put_score (char* name, unsigned long int score, const int top, SCORE* my_pu
 int lect_score (SCORE* my_pun)
 {
     FILE* fp;
-    char str[NAME];             // Arreglo con el nombre
+    char str[NAME_SIZE+1];       // Arreglo con el nombre
     SCORE score_data;           // Tipo de dato que almacena nombre y puntaje
     char c;                     // Caracter a leer
     unsigned long int num;      // Numero con el puntaje
@@ -95,7 +95,7 @@ int lect_score (SCORE* my_pun)
     {
         num=0;
 
-        for (i=0; i<NAME-1 && (c=fgetc (fp))!=' ' ; i++){   //Leo hasta que se termine la palabra o llegue al maximo permitido
+        for (i=0; i<NAME_SIZE && (c=fgetc (fp))!=' ' ; i++){   //Leo hasta que se termine la palabra o llegue al maximo permitido
             if (c==EOF){
                 return cant+1;                              // Si terminé de leer el archivo, salgo
             }
@@ -113,7 +113,7 @@ int lect_score (SCORE* my_pun)
         while ((c=fgetc (fp))!=EOF && c!='\n'){ // Mientras que no Lea un enter, o el archivo se termine
             num=num*10+(c-OFFSET);              // vamos conformando el numero con los caracteres
         }
-          for (int j=0; j<i+1; j++){
+          for (int j=0; j<=i; j++){
             score_data.name[j]=str[j];          // Cargamos el nombre a la memoria
 
         }

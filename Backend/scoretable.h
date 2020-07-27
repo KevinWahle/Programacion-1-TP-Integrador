@@ -15,7 +15,7 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 
-#define NAME    6 // Implica que cada nombre tiene que tener 5 letras como máximo
+#define NAME_SIZE    5 // Implica que cada nombre tiene que tener 5 letras como máximo
 #define LEADERBOARD_SIZE     5 // Tamaño del top
 
 
