@@ -6,10 +6,10 @@ OBJS = mallegro.o menuall.o ${LDLIBSOPTIONS}
 main: mallegro.o menuall.o
 	${CC} ${OPTIONS} ${OBJS} -o main 
 
-mallegro.o: mallegro.c allhead.h
+mallegro.o: mallegro.c headall.h
 	${CC} ${OPTIONS} -c mallegro.c 
 
-menuall: menuall.o allhead.h
+menuall: menuall.o headall.h
 	${CC} ${OPTIONS} ${OBJS} -c menuall
 
 
