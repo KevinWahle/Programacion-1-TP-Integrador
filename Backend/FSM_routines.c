@@ -117,18 +117,16 @@ void up_menu(MENU_ITEM* menu, int menu_size){
 
 void down_menu(MENU_ITEM* menu, int menu_size){
     
-     #ifdef ONLY_ESSENTIAL            
+    #ifdef ONLY_ESSENTIAL            
         do{
-           if(menu_size/sizeof(MENU_ITEM)>actual_option){                                // Si el front solo permite mostrar las opciones esenciales:
-                //REVISAR: no seria actual options-1;
+           if(menu_size/sizeof(MENU_ITEM)-1 > actual_option) {                                // Si el front solo permite mostrar las opciones esenciales:
                 actual_option++;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
            }                                                                            //y cuando haya una abajo.
         } while ((menu[actual_option]).essential==FALSE && actual_option>0);
     
-    
     #else                                                                               // Si el front permite mostrar las opciones no esenciales:
         
-        if(menu_size/sizeof(MENU_ITEM)-1 > actual_option){
+        if(menu_size/sizeof(MENU_ITEM)-1 > actual_option) {
             actual_option++;                                                            //bajamos en el menú hasta la siguiente opcion
         }
         
