@@ -15,7 +15,7 @@ HFRONT_RAS = /Frontend/Raspi/headras.h
 ################################################
 OBJS = main.o PORTS.o
 
-allegro: Backend\FSM_table.h Backend\main.c ingame_stats.o scoretable.o FSM_routines.o const.h
+allegro: Backend/FSM_table.h Backend/main.c Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o const.h 
 	${CC} ${OPTIONS} ${OBJS} main.c -o spg 
 
 #space_invaders_debug: main.o 
@@ -44,5 +44,3 @@ menu_front: menu_front.c headall.h ${EVENTQ_OBJECT}
 
 clean: 
 	rm *.o
-
-#https://hernandis.me/2017/03/20/como-hacer-un-makefile.html#:~:text=GNU%20make%20es%20una%20utilidad,al%20final%20hace%20lo%20mismo.

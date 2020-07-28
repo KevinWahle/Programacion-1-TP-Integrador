@@ -61,21 +61,12 @@ void reset_points(void);
 */
 void reset_level(void);
 
-/**
- * @brief resetea la velocidad
-*/
-void reset_speed(void); //NOTA: Puede ir a .c
+
 
 /**
  * @brief resetea la cantidad de aliens asesinados
 */
 void reset_killed_aliens(void); //NOTA: Puede ir a .c
-
-/**
- * @brief incrementa los puntos
- * @param cant cantidad de puntos a incrementar
-*/
-void increase_points(const int cant);
 
 /**
  * @brief Permite decrementar en 1 la cantidad de vidas disponibles
@@ -94,25 +85,13 @@ void increase_lives(void);
 */
 void increase_level(void);
 
-/**
- * @brief incrementa la  velocidad
- * @param cant cantidad de velocidad a incrementar
-*/
-void increase_speed(const int cant);
-
-/**
- * @brief Permite conocer las vidas disponibles de la nave sin necesidad 
- * de acceder a la variable "lives" 
- * @return Retorna la cantidad de vidas disponibles.
-*/
-int get_lives(void);
 
 /**
  * @brief Permite conocer los puntos obtenidos sin necesidad de acceder a
  * la variable "points".
  * @return Retorna la cantidad de puntos obtenidos en la partida.
 */
-int get_points(void);
+unsigned long long int get_points(void);
 
 /**
  * @brief Permite conocer el nivel actual sin necesidad acceder a
@@ -120,18 +99,6 @@ int get_points(void);
  * @return Retorna el nivel actual.
 */
 int get_level(void);
-
-/**
- * @brief actualiza la velocidad
- * @param new_speed representa el nuevo valor de la velocidad
-*/
-void set_speed(int new_speed);
-
-/**
- * @brief actualiza el nivel
- * @param new_level representa el nuevo nivel
-*/
-void set_level(int new_level);
 
 
 /**
@@ -147,10 +114,6 @@ void kill_alien(const int tipo_alien);
 */
 void speed_update(const float seg);
 
-/**
- * @brief Resetea el timer
-*/
-void reset_timer(void);
 
 /**
  * @brief contabilizala cantidd de aliens asesinados  

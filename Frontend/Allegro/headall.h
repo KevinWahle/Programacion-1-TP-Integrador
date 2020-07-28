@@ -25,8 +25,6 @@
 #include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
 //Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm. 
 
-#include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
@@ -69,9 +67,8 @@ typedef struct
     ALLEGRO_BITMAP *invadersPointer;
 }invader_t;
 
-enum INVADERS_TYPES {CRAB ,SQUID, OCTO};        //OBS: ACA o en CONST?
-// Crab puede ser 0?
-// Agregar UFO?
+//enum INVADERS_TYPES {CRAB ,SQUID, OCTO};        
+// NOTA: PASO A CONST.H
 
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
@@ -109,7 +106,7 @@ void splash_front();
  * @param size Recibe cantidad de palabras a imprimir
  * @param option Recibe un entero indicando que palabra colorear
 */
-void show_menu (char* texto[], int size, int option);
+void show_menu (MENU_ITEM *menu_to_show, int size, int item);
 
 /**
  * @brief Muestra imagen descore y muestra hasta top 10.

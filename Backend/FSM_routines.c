@@ -11,7 +11,7 @@
 
 #include "FSM_routines.h"
 #include "event_queue/event_queue.h"
-#include "const.h"
+#include "../const.h"
 #include <stdio.h>
 #include "../Frontend/Allegro/headall.h"
 
@@ -53,7 +53,7 @@ MENU_ITEM pause_menu[] = {
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-static actual_option = 0;
+static int actual_option = 0;
 
 /*******************************************************************************
  *******************************************************************************
@@ -255,7 +255,8 @@ void start_game(void){
     reset_points();             // Reinicio el contador de puntos.
     reset_level();              // Reinicio el contador de niveles.
     reset_killed_aliens();      // Reinicio el contador de aliens asesinados.
-    reset_front();              // Actualizo el front a formato partida. 
+    
+    //reset_front();              // Actualizo el front a formato partida. 
     //INCLUIR: Incluir en donde se encuentra reset_front.
     
     //NOTA: Agregar si se desea mostrar las vidas disponibles en pantalla.

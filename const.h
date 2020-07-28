@@ -40,7 +40,8 @@ enum EVENTS {
 	OCTO_COLL_EV,
 	SQUID_COLL_EV,
 	UFO_COLL_EV,
-
+	CANNON_COLL_EV,
+	
 	// Pueden ser del Back o del Front.
 	EXIT_EVENT,
 	END_GAME_EVENT,

@@ -8,8 +8,9 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "headall.h"
-#include "../../Backend/event_queue/event_queue.h"
 #include "../../const.h"
+#include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
+#include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -282,16 +283,16 @@ void splash_front()
 /**
  * @brief Muestra imagen de menu y coloca palabras que recibe y colorea la palabra que se indica.
 */
-void show_menu (char* texto[], int size, int option)
+void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
                           0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                           0);
     for(int i=0;i<size;i++) {
-        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i]);  //Imprime en pantalla todas las palabras
+        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, texto[i].option);  //Imprime en pantalla todas las palabras
     }
-    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(option*80), ALLEGRO_ALIGN_CENTER, texto[option]);
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(item*80), ALLEGRO_ALIGN_CENTER, texto[item].option);
     al_flip_display();
 }
 

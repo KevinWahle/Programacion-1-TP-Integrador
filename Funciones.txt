@@ -80,6 +80,10 @@ LISTO	11) /**
         // El back llama a esta función con la velocidad actualizada
         // Adentro de la función el front actualiza su propia velocidad (invaders, frecuencia de tiros, etc)
 
+        void updatePoints(int score);
+
+        void updateLives(int lives);
+
         destroyCanon();
 
         nextLevel();

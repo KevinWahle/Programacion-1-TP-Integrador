@@ -89,6 +89,7 @@ STATE play_state[] = {
     {OCTO_COLL_EV, play_state, octo_coll},
     {SQUID_COLL_EV, play_state, squid_coll},
     {UFO_COLL_EV, play_state, ufo_coll},
+    {CANNON_COLL_EV, play_state, cannon_coll},
     {NULL_EVENT, play_state, refresh} 
 };
 

@@ -9,6 +9,43 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 
+// #include "../const.h"
+#include "../Backend/event_queue/event_queue.h"
+
+enum EVENTS {
+	
+	// Eventos que provienen del back.
+	INIT_FAILURE_EVENT, 						
+	PLAY_EVENT, 
+	SCORE_EVENT,
+	INSTRUCTION_EVENT,
+	RESUME_EVENT,
+	PAUSE_EVENT, 
+	BACK_EVENT,
+	NEXT_LEVEL_EV,
+	FIN_TABLE,
+
+
+	// Eventos que provienen del front y son hardware.
+	MOVE_UP,
+    MOVE_DOWN,
+    MOVE_LEFT,
+    MOVE_RIGHT,
+    CLICK_BTN,  // Botón de click, shoot o aceptar
+    PAUSE_BTN,
+
+	// Eventos que provienen del front y son sobre el juego.
+	CRAB_COLL_EV,
+	OCTO_COLL_EV,
+	SQUID_COLL_EV,
+	UFO_COLL_EV,
+	CANNON_COLL_EV,
+	
+	// Pueden ser del Back o del Front.
+	EXIT_EVENT,
+	END_GAME_EVENT,
+};
+
 #define FPS 60.0 
 #define D_WIDTH 800
 #define D_HEIGHT 600
@@ -41,7 +78,7 @@
 
 #define MAX_INVADERS_SHOT 20         
 
-#define MAX_CANON_SHOT 3
+#define MAX_CANON_SHOT 8
 
 #define CANON_FILE "PNGs/Laser_Cannon.png"
 #define CRAB_FILE "PNGs/Crab1.png"
@@ -75,9 +112,9 @@
 
 //##### RANCIEDAD
 
-#define TOTAL_SHIELDS 3
+#define TOTAL_SHIELDS 4
 
-#define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
+#define SHIELDERS_WIDTH_PERCENT   1   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)
 #define SHIELD_WIDTH  (B_WIDTH * 3)
 #define SHIELDERS_WIDTH_ABSOLUTE  (SHIELDERS_WIDTH_PERCENT * D_WIDTH)
@@ -333,7 +370,8 @@ int main(void) {
                     key_pressed[KEY_RIGHT] = true;
                     break;
                 case ALLEGRO_KEY_SPACE:
-                    key_pressed[KEY_SPACE] = true;
+                    add_event(CLICK_BTN);                       // EVENTO CLICKA
+                    canonShot();
                 default:
                     break;
                 }
@@ -348,8 +386,6 @@ int main(void) {
                 case ALLEGRO_KEY_RIGHT:
                     key_pressed[KEY_RIGHT] = false;
                     break;
-                case ALLEGRO_KEY_SPACE:
-                    canonShot();
                 default:
                     break;
                 }
@@ -461,12 +497,13 @@ void getInvaderShotCollison(void)
                                                           .width = SHOT_WIDTH
                                                        };
 
-                if( isCollision( &collBoxShotFromInvader, &canonBox ) )
+                if( isCollision( &collBoxShotFromInvader, &canonBox ) )     // Choque con Cannon
                 {
                     invaderShotList[i].shotState = 0;
                     colisionDetected++;
+                    add_event(CANNON_COLL_EV);        // Agrego evento de colision con cannon
                 }
-                else if( getCollisionOnBlock( &collBoxShotFromInvader ) )
+                else if( getCollisionOnBlock( &collBoxShotFromInvader ) )   // Choque con bloque
                 {
                     invaderShotList[i].shotState = 0;
                     colisionDetected++;
@@ -482,6 +519,7 @@ void getInvaderShotCollison(void)
         actualInvadersShots -= colisionDetected;
     }
 }
+
 void canonShot(void)
 {   
     int ship_width = AL_GET_CANNON_WIDTH(canonPointer);
@@ -543,6 +581,7 @@ void getCanonShotCollision(void)
                 {
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
+                    add_event(UFO_COLL_EV);
                 }
                 else
                 {
@@ -563,6 +602,20 @@ void getCanonShotCollision(void)
                                     canonShotList[iCont].shotState = 0;
                                     invaders[i][j].invaderState = 0;
                                     colisionDetected++;
+                                    switch (invaders[i][j].invaderType)
+                                    {
+                                    case SQUID:
+                                        add_event(SQUID_COLL_EV);
+                                        break;
+                                    case CRAB:
+                                        add_event(CRAB_COLL_EV);
+                                        break;
+                                    case OCTO:
+                                        add_event(OCTO_COLL_EV);
+                                        break;
+                                    default:
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -768,7 +821,6 @@ static int initAll(void)
 }
 /*############################################
 ############################################*/
-
 
 int moveInvaders(int direction)
 {
@@ -998,8 +1050,6 @@ void drawShields(void)
     }
 }
 
-
-
 int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
 {
     int colision = 0;
@@ -1072,7 +1122,6 @@ int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
     }
     return colision;
 }
-
 
 void shouldUFOappear(void)
 {
