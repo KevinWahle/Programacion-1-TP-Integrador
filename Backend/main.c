@@ -34,13 +34,11 @@ int main(void)
 
         p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);  // Actualizo el estado
     }
-    printf("DESPUES DE ESTO SI O SI TIENE QUE SALIR\n");
-
+   
     // DUDA: iria destroy resources?
     // NOTA: incluir las respectivas funciones
 
     return 0;
-    printf("TROLLEADO PUTO\n");
 }
 
 STATE *fsm_interprete(STATE * p_tabla_estado_actual, event_t evento_actual)

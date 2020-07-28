@@ -441,7 +441,6 @@ void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGR
  **/
 void destroy_front()
 {
-    fprintf(stderr, "FIRST\n\n");
     al_draw_scaled_bitmap(endImage,     // Imagen de despedida
                           0, 0, al_get_bitmap_width(endImage), al_get_bitmap_height(endImage),     //imagen de finalizacion
                           0, 0, al_get_display_width(display), al_get_display_height(display), //a que tamaño queres que se dibuje la imagen
@@ -449,7 +448,6 @@ void destroy_front()
     al_flip_display();
     al_rest(2); // Tiempo de duracion random
     // Destrucción de recursos empleados
-    fprintf(stderr, "DONE\n\n");
 
     destroy_invaders();         //Destruye la parte de loadim_game
     al_destroy_bitmap(cannon);
@@ -464,10 +462,10 @@ void destroy_front()
     al_destroy_timer(timer);        //Destruye la parte de inicialización
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
-    fprintf(stderr, "3\n\n");
-    //al_uninstall_audio();         //Por alguna razon si desinstalo el audio te traba el programa
+
+    al_uninstall_audio();
     al_uninstall_keyboard();
-    fprintf(stderr, "4\n\n");
+
     al_shutdown_font_addon();
     al_shutdown_image_addon();
     al_shutdown_primitives_addon();

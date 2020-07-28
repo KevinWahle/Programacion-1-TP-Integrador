@@ -128,16 +128,16 @@ void down_menu(MENU_ITEM* menu, int menu_size){
     
     #else                                                                               // Si el front permite mostrar las opciones no esenciales:
         
-        if(menu_size/sizeof(MENU_ITEM) > actual_option){
+        if(menu_size/sizeof(MENU_ITEM)-1 > actual_option){
             actual_option++;                                                            //bajamos en el menú hasta la siguiente opcion
         }
         
     #endif
     
 
-  //  #ifdef DEBUG
+    #ifdef DEBUG
     printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
-  //  #endif 
+    #endif 
     
     show_menu (menu, menu_size/sizeof(MENU_ITEM), actual_option);                       // Actualizamos el front. 
 
