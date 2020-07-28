@@ -1,4 +1,4 @@
-/***************************************************************************/ /**
+/*******************************************************************************
   @file     +FSM_table.h+
   @brief    +Tabla de estados de la maquina de estados+
   @author   +Grupo 3+
@@ -14,13 +14,19 @@
 #include "../const.h"
 #include "FSM_routines.h"
 #include "event_queue/event_queue.h"
-#include "ingame_stats.h"
+
+
+#if PLATFORM == ALLEGRO
+#include "../Frontend/Allegro/headall.h" 
+
+#elif PLATFORM == RASPI
+//#include "../Frontend/Raspi/..""/INCLUIR: header front.
+#endif
+
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-
-
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -43,6 +49,8 @@ extern STATE splash_state[];
 extern STATE menu_state[];
 extern STATE click_state[];
 extern STATE play_state[];
+extern STATE pause_state[];
+extern STATE instruction_state[];
 extern STATE game_score_state[];
 extern STATE global_score_state[];
 
@@ -61,11 +69,16 @@ STATE menu_state []= {
 STATE click_state[]= {
     {PLAY_EVENT, play_state, start_game}, 
     {SCORE_EVENT, global_score_state, show_global_score},
-//    {OPTIONS_EVENT, click_state, doNothing},
+    {INSTRUCTION_EVENT, instruction_state, shows_inst}, 
     {EXIT_EVENT, NULL, quit_game},
     {RESUME_EVENT, play_state, resume_game}, 
     {BACK_EVENT, menu_state, my_menu}, 
     {NULL_EVENT, click_state, doNothing}
+};
+
+STATE instruction_state []= {
+	{CLICK_BTN, menu_state, my_menu},
+    {NULL_EVENT, instruction_state, doNothing}
 };
 
 STATE play_state[] = {

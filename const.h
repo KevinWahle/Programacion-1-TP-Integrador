@@ -16,13 +16,10 @@
 enum EVENTS {
 	
 	// Eventos que provienen del back.
-	INIT_FAILURE_EVENT, 					
-//	OK_EVENT,
-//	PRESS_EVENT, 	
+	INIT_FAILURE_EVENT, 						
 	PLAY_EVENT, 
 	SCORE_EVENT,
-	OPTIONS_EVENT,
-	EXIT_EVENT,		//Puede ser tanto front como back.
+	INSTRUCTION_EVENT,
 	RESUME_EVENT,
 	PAUSE_EVENT, 
 	BACK_EVENT,
@@ -44,6 +41,8 @@ enum EVENTS {
 	SQUID_COLL_EV,
 	UFO_COLL_EV,
 
+	// Pueden ser del Back o del Front.
+	EXIT_EVENT,
 	END_GAME_EVENT,
 };
 
@@ -51,7 +50,7 @@ enum EVENTS {
 enum IDS{
 	PLAY_ID,
 	SCORE_ID,
-	OPTIONS_ID,
+	INSTUCTION_ID,
 	EXIT_ID,
 	RESUME_ID,
 	BACK_ID,

@@ -4,15 +4,9 @@
 #include "FSM_routines.h"
 #include "event_queue/event_queue.h"
 
-enum { PC, RASPI };
-#define PLATFORM PC
-// Cambiar por PC o Raspi para compilar para la plataforma adecuada
+enum { ALLEGRO, RASPI };
+#define PLATFORM ALLEGRO
 
-#if PLATFORM == PC
-#include "../Frontend/Allegro/hallegro.h" 
-#elif PLATFORM == RASPI
-#include "../Frontend/Raspi/....."
-#endif
 
 BOOL running;   
 

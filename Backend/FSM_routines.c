@@ -1,7 +1,8 @@
 /***************************************************************************//**
-  @file     +Nombre del archivo (ej: template.c)+
-  @brief    +Descripcion del archivo+
-  @author   +Nombre del autor (ej: Salvador Allende)+
+  @file     +FSM_routines.c+
+  @brief    +Funciones que conforman las rutas de acción entre los diferentes
+            estados de la FSM.+
+  @author   +Grupo 3+
  ******************************************************************************/
 
 /*******************************************************************************
@@ -9,7 +10,6 @@
  ******************************************************************************/
 
 #include "FSM_routines.h"
-#include "ingame_stats.h"
 #include "event_queue/event_queue.h"
 #include "const.h"
 #include <stdio.h>
@@ -29,7 +29,7 @@
 MENU_ITEM main_menu[] = {  
                             {.option = "Play", .essential = TRUE, .ID = PLAY_ID},
                             {.option = "Score", .essential = FALSE, .ID = SCORE_ID},
-                            {.option = "Options", .essential = FALSE, .ID = OPTIONS_ID},
+                            {.option = "Instructions", .essential = FALSE, .ID = INSTUCTION_ID},
                             {.option = "Exit", .essential = TRUE, .ID = EXIT_ID},
                         };
  
@@ -61,7 +61,7 @@ static actual_option = 0;
  ******************************************************************************/
 
 /**********************************************************
-***********************  SPLASH   **************************
+***********************  SPLASH   *************************
 **********************************************************/
 
 void show_splash(void){     
@@ -76,7 +76,7 @@ void show_splash(void){
 
 
 /**********************************************************
-***********************  MENU  **************************
+************************  MENU  ***************************
 **********************************************************/
 
 void my_menu(){
@@ -181,8 +181,8 @@ void click_menu()
             add = add_event(SCORE_EVENT);       // Añadimos a  la cola de eventos
         break;
 
-        case OPTIONS_ID:
-            add = add_event(OPTIONS_EVENT);     // Añadimos a  la cola de eventos
+        case INSTUCTION_ID:
+            add = add_event(INSTRUCTION_EVENT);     // Añadimos a  la cola de eventos
         break;
 
         case EXIT_ID:
@@ -301,8 +301,8 @@ void show_global_score(void) {
     SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard                               
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
     int cant= lect_score(p_leadboard);                // Coloco en memoria los datos del score y guardo la cantidad en cant
-    if (cant==LEADBOARD_SIZE+1){
-        cant=LEADBOARD_SIZE;
+    if (cant==LEADERBOARD_SIZE+1){
+        cant=LEADERBOARD_SIZE;
     }
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
     //INCLUIR: Carpeta en la que este la funcion que muestra el leadboard.
@@ -352,7 +352,7 @@ void cannon_coll()
         #endif
     }
 
-    // NOTA: Agregar funcion en la que se actualicen las vidas
+    // NOTA: Agregar funcion en la que se muestren las vidas en el front
     // INCLUIR: el archivo con el prototipo de lo de arriba
 }
 
@@ -364,7 +364,7 @@ void refresh(void){
     speed_update(SEG);      // Actualizo la velocidad con la que se mueven los invaders.
     redraw();               // Redibujo la pantalla
     //INCLUIR: incluir donde se encuentre redraw()
-
+}
 
 
  
