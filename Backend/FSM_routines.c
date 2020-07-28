@@ -55,6 +55,8 @@ MENU_ITEM pause_menu[] = {
 
 static int actual_option = 0;
 static char actual_name[NAME_SIZE];
+static SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard  
+static int letter_counter;
 
 /*******************************************************************************
  *******************************************************************************
@@ -295,8 +297,7 @@ void show_game_score(){
 }
 
 
-void show_global_score(void) {
-    SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard                               
+void show_global_score(void) {                             
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
     int cant= lect_score(p_leadboard);                // Coloco en memoria los datos del score y guardo la cantidad en cant
     if (cant==LEADERBOARD_SIZE+1){
@@ -309,18 +310,30 @@ void show_global_score(void) {
         printf("Mostrando Leadboard. \n");
     #endif
 }
-
+/*
 void next_letter()
 {
     actual_name[letter_counter]=letter;
+    
+    #ifdef DEBUG
+        printf("Se confirmo la letra: %c. En total hay %d letras. \n", actual_name[letter_counter], letter_counter+1);
+    #endif
+    
     letter_counter++;
     letter=' ';
 }      
 
 void previous_letter()
 {
+    if(letter>0)
     letter_counter--;
+
+    #ifdef DEBUG
+        printf("Se retrocedió una letra");
+    #endif
 }
+
+
 
 void upper_letter()
 {
@@ -335,6 +348,11 @@ void upper_letter()
     else{
         letter++;
     }
+
+    #ifdef DEBUG
+        printf("Se pasó a la letra");
+    #endif
+
 }
 
 void lower_letter()
@@ -350,10 +368,11 @@ void lower_letter()
 }
 
 void save_score(void){
-    void put_score (actual_name, get_points(), const int top, SCORE* my_pun);  
+    SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
+    void put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard);  
 }
 
-
+*/
 
 
 
@@ -414,9 +433,11 @@ void cannon_coll()
 
 void refresh(void){
     speed_update(SEG);      // Actualizo la velocidad con la que se mueven los invaders.
-    redraw();               // Redibujo la pantalla
+    //redraw();               // Redibujo la pantalla
     //INCLUIR: incluir donde se encuentre redraw()
 }
 
 
- 
+ void doNothing() {
+    return;
+ }

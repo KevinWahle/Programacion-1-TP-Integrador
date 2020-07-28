@@ -59,7 +59,7 @@ const int invadersDistribution [FIL_INVADERS] = {
  * @param chscore[] Recibe el string dode transformara el numero a char
  * @return Devulve el string ya transformado.
 */
-static void intochar(int num, char chscore[MSCORE]);
+static void intochar(int num, char chscore[LEADERBOARD_SIZE]);
 
 /**
  * @brief Destruye todos los invaders cargados.
@@ -481,10 +481,10 @@ void destroy_front()
 /**
  * @brief Transforma un entero no signado a un string.
  */
-static void intochar(int num, char chscore[MSCORE])
+static void intochar(int num, char chscore[LEADERBOARD_SIZE])
 {
     int a = 0;
-    for(int i=MSCORE-1;i>=0;i--) {
+    for(int i=LEADERBOARD_SIZE-1;i>=0;i--) {
         a = num % 10;
         chscore[i]=a+NUMOFFSET;
         num = num / 10;

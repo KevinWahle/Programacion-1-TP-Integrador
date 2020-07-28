@@ -54,7 +54,7 @@ extern STATE play_state[];
 extern STATE pause_state[];
 extern STATE instruction_state[];
 extern STATE game_score_state[];
-extern STATE saving_score_state[];
+//extern STATE saving_score_state[]; NOTA: descomentar
 extern STATE global_score_state[];
 
 STATE splash_state []= {
@@ -104,18 +104,18 @@ STATE pause_state[] = {
 };
 
 STATE game_score_state[] = {
-    {CLICK_BTN, saving_score_state, }, //CONTINUAR: 
+ //   {CLICK_BTN, saving_score_state, }, //CONTINUAR: 
     {NULL_EVENT, game_score_state, doNothing}
 };
 
-STATE saving_score_state[] = {
+/*STATE saving_score_state[] = {
     {CLICK_BTN, menu_state, save_score}, //NOTA: funcion queincluye a my_menu
     {MOVE_UP, saving_score_state, }, 
     {MOVE_DOWN, saving_score_state, }, 
     {MOVE_LEFT, saving_score_state, }, 
     {MOVE_RIGHT, saving_score_state, }, 
     {NULL_EVENT, saving_score_state, doNothing}
-};
+};*/
 
 STATE global_score_state[] = {
     {CLICK_BTN, menu_state, my_menu}, 
