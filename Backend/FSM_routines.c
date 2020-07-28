@@ -119,7 +119,8 @@ void down_menu(MENU_ITEM* menu, int menu_size){
     
      #ifdef ONLY_ESSENTIAL            
         do{
-           if(menu_size/sizeof(MENU_ITEM)>actual_option){                               // Si el front solo permite mostrar las opciones esenciales:
+           if(menu_size/sizeof(MENU_ITEM)>actual_option){                                // Si el front solo permite mostrar las opciones esenciales:
+                //REVISAR: no seria actual options-1;
                 actual_option++;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
            }                                                                            //y cuando haya una abajo.
         } while ((menu[actual_option]).essential==FALSE && actual_option>0);
@@ -134,9 +135,9 @@ void down_menu(MENU_ITEM* menu, int menu_size){
     #endif
     
 
-    #ifdef DEBUG
+  //  #ifdef DEBUG
     printf("La nueva opción actual es: %d \n", main_menu[actual_option].ID);
-    #endif 
+  //  #endif 
     
     show_menu (menu, menu_size/sizeof(MENU_ITEM), actual_option);                       // Actualizamos el front. 
 

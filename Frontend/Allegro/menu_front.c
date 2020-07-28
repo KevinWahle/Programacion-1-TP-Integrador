@@ -287,9 +287,9 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
                           0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                           0);
     for(int i=0;i<size;i++) {
-        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*80), ALLEGRO_ALIGN_CENTER, menu_to_show[i].option);  //Imprime en pantalla todas las palabras
+        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 200+(i*80), ALLEGRO_ALIGN_CENTER, menu_to_show[i].option);  //Imprime en pantalla todas las palabras
     }
-    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 220+(item*80), ALLEGRO_ALIGN_CENTER, menu_to_show[item].option);
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), 200+(item*80), ALLEGRO_ALIGN_CENTER, menu_to_show[item].option);
     al_flip_display();
 }
 

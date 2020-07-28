@@ -45,7 +45,8 @@ menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} Backend/event_queue/ev
 
 
 clean: 
-	rm *.o
-	rm **/*.o
-	# rm Backend/*.o
-	# rm Frontend/Allegro/*.o
+	rm Backend/*.o
+	rm Frontend/Allegro/*.o
+
+clean_eq:
+	rm Backend/event_queue/*.o
