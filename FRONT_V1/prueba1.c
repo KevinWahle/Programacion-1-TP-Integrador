@@ -3,6 +3,7 @@
  ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <time.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_color.h>
@@ -95,32 +96,31 @@ enum EVENTS {
 #define AL_GET_INVADER_HEIGHT(x)  (al_get_bitmap_height(x)*INVADERS_RESIZE_PERCENT)
 // Recordar que al_get_bitmap_???(??) se basa en la imagen cargada con al_load_bitmap
 
+#define UFO_HEIGHT_PERCENT  0.05
+#define UFO_HEIGHT  (UFO_HEIGHT_PERCENT * D_HEIGHT)
 
-//##### CUBOS SHIELDS #####
-
-#define B_WIDTH    (D_WIDTH * 0.03)
-#define B_HEIGHT   (D_WIDTH * 0.03)
-#define X_PERCENT  0.1
+//##### Blocks #####                              // Cada block seria justamente cada bloque que compone a un shield.
+#define B_WIDTH_PERCENT  0.03                     // Porcentaje que ocupa el block por sobre el tamanio del display
+#define B_HEIGHT_PERCENT  0.03                    // 
+#define B_WIDTH    (D_WIDTH * B_WIDTH_PERCENT)
+#define B_HEIGHT   (D_WIDTH * B_HEIGHT_PERCENT)
 #define Y_PERCENT  0.76
 
-#define Y1  (D_HEIGHT * Y_PERCENT)
+#define Y1  (D_HEIGHT * Y_PERCENT)                // Posicion en y en la que van a estar alineados los shields
+#define BLOCK_LIVES 4                             //Vidas del bloque, se puede modificar, pero si se la modifica se debe modificar la cantidad de colores
+                                                  // y todos los estados posibles de los bloques
+//##### Shields ####
 
-#define X2  (X1 + B_WIDTH)
-#define Y2  (Y1 + B_HEIGHT)
-
-//##### RANCIEDAD
-
-#define TOTAL_SHIELDS 4
+#define TOTAL_SHIELDS 4                  // Para todo n, en particular n = 4
 
 #define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
-#define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)
-#define SHIELD_WIDTH  (B_WIDTH * 3)
+#define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)   // Offset se refiere a la distancia en x que queda entre los puntos (0, y) y el shield que esta mas a la izquierda
+#define SHIELD_WIDTH  (B_WIDTH * 3) // Ancho del shield. No es un parametro para cambiar, pues no se pueden agregar blockes al shield asi porque si, porque a cada bloque se le debe hardcodear su posicion relativa a los demas bloques del shield
 #define SHIELDERS_WIDTH_ABSOLUTE  (SHIELDERS_WIDTH_PERCENT * D_WIDTH)
 #define OFFSET_FROM_WALL_ABSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
 
-#define DIST   ((SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1) )
+#define DIST   ((SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1) )    // Cuenta que se usa en void placeShields(void), justamente para ubicarlos adecuadamente
 
-#define BLOCK_LIVES 4
 
 //TOPES MAXIMOS Y MINIMOS DE VELOCIDAD DE INVADERS Y 
 #define MAX_SPEED_INVADER  5
@@ -137,87 +137,92 @@ enum EVENTS {
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-enum blockStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};
+enum blockStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
 
 #define DEATH_STATE STATE_4
 
-// Color de los escudos, PARA SALIR DEL PASO
+// Color de los escudos                     //Aca se deberian agregar los colores si se agregan vidas por ejemplo
 #define COLOR_STATE_0 "green"
 #define COLOR_STATE_1 "yellow"
 #define COLOR_STATE_2 "orange"
-#define COLOR_STATE_3 "red"
+#define COLOR_STATE_3 "red" 
 
-char *blockColors[BLOCK_LIVES] = {  COLOR_STATE_0,
-                                    COLOR_STATE_1,
-                                    COLOR_STATE_2,
-                                    COLOR_STATE_3,
-                                 };
+static char *blockColors[BLOCK_LIVES] = {   COLOR_STATE_0,               
+                                            COLOR_STATE_1,
+                                            COLOR_STATE_2,
+                                            COLOR_STATE_3,          // Despues, agregar aca, en el arreglo
+                                        };
 
 
 enum INVADERS_TYPES {CRAB ,SQUID, OCTO, UFO};
 
-enum DIRECTIONS {LEFT, RIGHT, ERROR_DIREC};
+enum DIRECTIONS {LEFT, RIGHT, ERROR_DIREC};                 // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
-enum SHOT_TYPES {CANON_SHOT, INVADER_SHOT};
+enum SHOT_TYPES {CANON_SHOT, INVADER_SHOT};                 // Esto avria que eliminarlo
 
 enum MYKEYS {
     KEY_SPACE, KEY_DOWN, KEY_LEFT, KEY_RIGHT //arrow keys
 };
 
-typedef unsigned char SHOT_TYPE;
 
+typedef uint8_t direction_t;
 
-typedef struct 
+// Objeto shot
+typedef struct  
 {
-    float x;
+    float x;              // su posicion
     float y;
-    int shotState;
-    SHOT_TYPE type;
+    int shotState;       // si "existe" o no
 }shot_t;
 
+// Objeto caja de disparo. A todos los objetos capaces de colisionar, para la dteccion de colision se le arma una caja de colision que sirve para el algoritmo de deteccion de colision
 typedef struct 
 {
-    int x;
+    int x;         // Alcanza con la posicion del punto de arriba a la izquierda de la caja y el ancho y largo
     int y;
     int height;
     int width;
 }collBoxShot_t;
 
+// Objeto invader
 typedef struct 
 {
     float x;
     float y;
-    int invaderState;
+    int invaderState;    // Si esta vivo o muerto 
     int invaderType;
-    ALLEGRO_BITMAP *invadersPointer;
+    ALLEGRO_BITMAP *invadersPointer;   // Puntero util para asociarlo al bitmap
 }invader_t;
 
+// Objeto UFO
 typedef struct 
 {
     float x;
     float y;
     int invaderState;
     int invaderType;
-    int direction;      //  El UFO puede aparecer desde la izquierda o desde la derecha
+    direction_t direction;      //  El UFO puede aparecer desde la izquierda o desde la derecha
     ALLEGRO_BITMAP *invadersPointer;
 } UFO_t;
 
+//Objeto bloque
 typedef struct 
 {
     int x;
     int y;
     int height;
     int width;
-    int state;
-    char *color;
+    int state;           // Ya vimos que puede tener varios estados
+    char *color;         // Apunta al string del color que deberia tener dependiendo el estado en que este
 }block_t;
 
+//Objeto shield
 typedef struct
 {
-    block_t block_1;
-    block_t block_2;
-    block_t block_3;
-    block_t block_4;
+    block_t block_1;     //Aclaracion: El shield tiene 5 blocks. Por eso no se puede hacer un shields con mas o menos blocks
+    block_t block_2;     // No se pueden agregar bloques asi porque si al shield porque cada blocke debe ser codiado su posicion
+    block_t block_3;     // LO QUE SI SE PUEDE HACER, es poner N shields, y modificar su altura, ancho, esparcion en el mapa.
+    block_t block_4;     
     block_t block_5;
 }shield_t;
 
@@ -227,55 +232,173 @@ typedef int cannonPosition_t;
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-int invaderShot(int i, int j);
 
-void getInvaderShotCollison(void);
+/**
+ * @brief Inicializa todos los recursos necesarios de Allegro y setea parámetros iniciales
+ * @return 0 si no hubo error, otro si lo hubo
+*/
+int init_front(void);
 
-void canonShot(void);
+/**
+ * @brief Libera los recursos empleados
+*/
+void destroy_front(void);
 
-void getCanonShotCollision(void);
+/**
+ * @brief Actualiza lo que se muestra en pantalla durante el juego
+*/
+void redraw();
 
-int moveInvaders(int direction);
-
-void moveInvadersDown(void);
-
-int is_invadersOnFloor(void);
-
-void shouldInvaderShot(void);
-
-
-void createShield(int x_shield, int y_shield, shield_t *shield);
-void placeShields(void);
-void drawShields(void);
-static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
-int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
-
+/**
+ * @brief Actualiza la velocidad del juego
+ * @param newSpeed El nuevo valor de velocidad para el juego
+*/
 void update_speed_front(int newSpeed);
+
+
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
+
+/**
+ * @brief Ejecuta un disparo del invader
+ * @param i fila de la matriz de invader
+ * @param j columan de la matriza de invader
+ * @return ???????????????????????????????????????????????????????????????????
+*/
+static int invaderShot(int i, int j);
+
+/**
+ * @brief Ve si hubo una colision del disparo ejecutado por algun invader
+ * @return ???????????????????????????????????????????????????????????????????
+*/
+static void getInvaderShotCollison(void);
+
+/**
+ * @brief Ejecuta un disparo del canon
+ * @return ???????????????????????????????????????????????????????????????????
+*/
+static void canonShot(void);
+
+/**
+ * @brief Ve si hubo una colision del disparo ejecutado por el canon
+ * @return ???????????????????????????????????????????????????????????????????
+*/
+static void getCanonShotCollision(void);
+
+/**
+ * @brief mueve el conjunto invader
+ * @param direction la ultima direccion con la que se movio el conjunto invader
+ * @return la direccion con la que se movio
+*/
+static direction_t moveInvaders(direction_t direction);
+
+/**
+ * @brief mueve el conjunto para abajo
+ * @return ????????????????????????????????????????????????????????????????????
+*/
+static void moveInvadersDown(void);
+
+/**
+ * @brief dice si toco piso o no algun invader
+ * @return si algun invader toco la linea horizontal que se considere como "piso"
+*/
+static int is_invadersOnFloor(void);
+
+/**
+ * @brief ejecuta o no un disparo de los invaders
+ * @return ?????????????????????????????????????????????????????????????????????
+*/
+static void shouldInvaderShot(void);
+
+/**
+ * @brief Crea un shield
+ * @param direction la ultima direccion con la que se movio el conjunto invader
+ * @param x_shield  la coord en x
+ * @param y_shield  la coord en y
+ * @param shield_t* shield: ?????????????????????????????????????????????//????
+ * @return la direccion con la que se movio
+*/
+static void createShield(int x_shield, int y_shield, shield_t *shield);
+
+/**
+ * @brief Ubica los shields en el mapa
+ * @return ?????????????????????????????????????????????????????????????????????
+*/
+static void placeShields(void);
+
+/**
+ * @brief Dibuja los shields
+ * @return ????????????????????????????????????????????????????????????????????
+*/
+static void drawShields(void);
+
+/**
+ * @brief Se fija si una CAJA choco con algun bloque
+ * @param collBoxShot_t* Puntero a la caja de lo que quiere chequear si colisiono o no 
+ * @return 1 si choco 0 si no
+*/
+static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
+
+/**
+ * @brief Ve si dos cajas estan chocando o no
+ * @param collBox_t*  la direccion de la caja 1 
+ * @param collBox_t* la direccion de la caja 2
+ * @return 1 si chocan 0 si no
+*/
+static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
+
+/**
+ * @brief Ubica a los invaders
+ * @param invader_t recibe la matriz de los invaders 
+ * @return ?????????????????????????????????????????????????????????????????????????
+*/
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS]);
+
+/**
+ * @brief dibuja los invaders
+ * @param invader_t recibe la matriz de los invaders 
+ * @return ?????????????????????????????????????????????????????????????????????????
+*/
 static void drawAliveInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS]);
-static int decideWhetherChangeDirectionOrNot(int direction);
 
-void moveUFO(void);
+/**
+ * @brief chequea si cambiar la direccion o no
+ * @param direction la direccion con la que se venia moviendo 
+ * @return la direccion a la que haya que ir
+*/
+static direction_t decideWhetherChangeDirectionOrNot(direction_t direction);
 
-int getColisionOnUFO(collBoxShot_t *boxOfTheShot);
+/**
+ * @brief Mueve a la nodriza, si la hay 
+ * @return ?????????????????????????????????????????????????????????????????????????
+*/
+static void moveUFO(void);
 
-void shouldUFOappear(void);
+/**
+ * @brief dice si hubo colision o no de alguna caja con la nodriza
+ * @param collBoxShot_t *boxOfTheShot: Direccion de la caja 
+ * @return ?????????????????????????????????????????????????????????????????????????
+*/
+static int getColisionOnUFO(collBoxShot_t *boxOfTheShot);
+
+/**
+ * @brief hace aparecer o no a UFO 
+ * @return ?????????????????????????????????????????????????????????????????????????
+*/
+static void shouldUFOappear(void);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-static int initAll(void);
-
+// Lista de los disparos de los invaders.
 static shot_t invaderShotList[MAX_INVADERS_SHOT];
-// Lista de los disparos de los invaders
 
-
+// Contador de la cantidad de balas disparadas por los invaders
 static int actualInvadersShots; 
+// Contador de la cantidad de balas disparadas por el canon
 static int actualCanonShots;
 
 
@@ -284,9 +407,6 @@ static ALLEGRO_DISPLAY * display = NULL;
 static ALLEGRO_BITMAP *canonPointer = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 static ALLEGRO_TIMER *timer = NULL;
-
-#define UFO_HEIGHT_PERCENT  0.05
-#define UFO_HEIGHT  (UFO_HEIGHT_PERCENT * D_HEIGHT)
 
 UFO_t UFO_invader = {   .y = UFO_HEIGHT,
                         .invaderType = UFO,
@@ -302,7 +422,7 @@ static invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
 static shot_t canonShotList[MAX_CANON_SHOT];
 
-static int proxDir = LEFT;
+static direction_t proxDir = LEFT;
 
 //TASAS DE CAMBIO VARIABLES:
 
@@ -327,13 +447,13 @@ int main(void) {
     
     srand (time(NULL));
 
-    bool redraw = false;
+    bool shouldRedraw = false;
     bool display_close = false;
 
     bool key_pressed[4] = {false, false, false, false}; //Estado de teclas, true cuando esta apretada
 
 
-    if(initAll())
+    if(init_front())
     {
         return -1;
     }
@@ -345,13 +465,13 @@ int main(void) {
             if (ev.type == ALLEGRO_EVENT_TIMER)
             {
                 int cannon_width = AL_GET_CANNON_WIDTH(canonPointer);
-                if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO) < D_WIDTH){
+                if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO_CANON) < D_WIDTH){
                     cannonXpos += TASA_DE_CAMBIO_CANON;
                 }
-                else if(key_pressed[KEY_LEFT] && (cannonXpos - TASA_DE_CAMBIO) > 0) {
+                else if(key_pressed[KEY_LEFT] && (cannonXpos - TASA_DE_CAMBIO_CANON) > 0) {
                     cannonXpos -= TASA_DE_CAMBIO_CANON;
                 }
-                redraw = true;
+                shouldRedraw = true;
             }
 
             else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -389,55 +509,69 @@ int main(void) {
                 }
             }
         }
-        if (redraw && al_is_event_queue_empty(event_queue)) {
-            redraw = false;
-
-            al_clear_to_color(al_map_rgb(0, 0, 0));
-            
-            shouldUFOappear();
-            moveUFO();
-
-            getCanonShotCollision();
-
-            shouldInvaderShot();
-            getInvaderShotCollison();
-            
-
-            
-            if( !is_invadersOnFloor()  )
-                proxDir = moveInvaders(proxDir);
-
-
-            drawShields();
-
-            drawAliveInvaders(invaders);
-            
-            al_draw_scaled_bitmap(canonPointer,
-                          0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
-                          cannonXpos, D_HEIGHT - AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
-                          0);
-    
-            al_flip_display(); 
+        if (shouldRedraw && al_is_event_queue_empty(event_queue)) {
+            shouldRedraw = false;
+            redraw();
         }
     }
 
-    al_shutdown_primitives_addon();
-    al_destroy_display(display); //IMPORTANTE: Destruir recursor empleados
-    al_destroy_bitmap(canonPointer);
-    al_destroy_event_queue(event_queue);
-    al_destroy_timer(timer);
-
-    for (int i = 0; i < FIL_INVADERS; i++) {
-        for (int j = 0; j < COL_INVADERS; j++) {
-            al_destroy_bitmap(invaders[i][j].invadersPointer);
-        }
-    }
+    destroy_front();
 
     return 0;
 }
 
+void destroy_front()
+{
+    al_shutdown_primitives_addon();
+    al_destroy_display(display);
+    al_destroy_bitmap(canonPointer);
+    al_destroy_event_queue(event_queue);
+    al_destroy_timer(timer);
+    al_destroy_bitmap(UFO_invader.invadersPointer); // Destruccion UFO
 
-int invaderShot(int i, int j)
+    for (int i = 0; i < FIL_INVADERS; i++) {        // Destrucción invaders
+        for (int j = 0; j < COL_INVADERS; j++) {
+            al_destroy_bitmap(invaders[i][j].invadersPointer);
+        }
+    }
+}
+
+void redraw()
+{   
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    
+    shouldUFOappear();
+    moveUFO();
+
+    getCanonShotCollision();
+
+    shouldInvaderShot();
+    getInvaderShotCollison();
+    
+    if( !is_invadersOnFloor()  )
+        proxDir = moveInvaders(proxDir);
+
+    drawShields();
+
+    drawAliveInvaders(invaders);
+    
+    al_draw_scaled_bitmap(canonPointer,
+                    0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
+                    cannonXpos, D_HEIGHT - AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
+                    0);
+
+    al_flip_display(); 
+
+}
+
+
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+static int invaderShot(int i, int j)
 {
     invader_t invader = invaders[i][j];
     
@@ -449,7 +583,6 @@ int invaderShot(int i, int j)
     
     shot_t shot = { .x = x_shot,
                     .y = y_shot,
-                    .type = INVADER_SHOT,
                     .shotState = 1
                     };
 
@@ -466,7 +599,8 @@ int invaderShot(int i, int j)
     // ARRAY OVERFLOW
     return 1;           // TODO: Cambiar por codigo de error
 }
-void getInvaderShotCollison(void)
+
+static void getInvaderShotCollison(void)
 {
     if(actualInvadersShots > 0)
     {
@@ -518,7 +652,7 @@ void getInvaderShotCollison(void)
     }
 }
 
-void canonShot(void)
+static void canonShot(void)
 {   
     int ship_width = AL_GET_CANNON_WIDTH(canonPointer);
     int ship_height = AL_GET_CANNON_HEIGHT(canonPointer);
@@ -528,7 +662,6 @@ void canonShot(void)
     
     shot_t shot = { .x = x_shot,
                     .y = y_shot,
-                    .type = INVADER_SHOT,
                     .shotState = 1
                   };
     int k = 0;
@@ -544,7 +677,8 @@ void canonShot(void)
     // ARRAY OVERFLOW
                   // TODO: Cambiar por codigo de error
 }
-void getCanonShotCollision(void)
+
+static void getCanonShotCollision(void)
 {
     if(actualCanonShots > 0)
     {
@@ -634,12 +768,6 @@ void getCanonShotCollision(void)
 
 }
 
-/*******************************************************************************
- *******************************************************************************
-                        LOCAL FUNCTION DEFINITIONS
- *******************************************************************************
- ******************************************************************************/
-
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
 {
     // Guardo el ancho del invader más grande, que será el de la última fila
@@ -694,14 +822,14 @@ static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADE
         else
         {
             UFO_invader.invaderState = 0;
-            printf("F UFO!!\n");
         }
     }
 
 }
+
 static int isCollision(collBoxShot_t* box1, collBoxShot_t* box2){
 
-    if(box1->x < box2->x + box2->width &&
+    if(box1->x < box2->x + box2->width &&                          // Algoritmo para ver si dos cajas estan chocando
        box2->x < box1->x + box1->width &&
        box1->y < box2->y + box2->height &&
        box2->y < box1->y + box1->height)
@@ -709,7 +837,8 @@ static int isCollision(collBoxShot_t* box1, collBoxShot_t* box2){
 
     return 0;
 }
-static int initAll(void)
+
+int init_front(void)
 {
     if (!al_init()) { //Primera funcion a llamar antes de empezar a usar allegro.
         fprintf(stderr, "failed to initialize allegro!\n");
@@ -762,10 +891,10 @@ static int initAll(void)
     {
         for (int j = 0; j < COL_INVADERS; j++)                         //Cargo el bitmap a todas las invaders
         {
-            invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo según la fila 
+            invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo de invader según la fila 
             const char *file;
-            switch(invaders[i][j].invaderType)
-            {
+            switch(invaders[i][j].invaderType)      // Segun el tipo de invader
+            {                                       // Se inicializa el archivo correspondiente
                 case CRAB:
                     file = CRAB_FILE;
                     break;
@@ -787,9 +916,6 @@ static int initAll(void)
 
         }
     }
-
-
-    // printf("TERMINE DE CARGAR IMAGENES DE INVADERS\n");
 
     display = al_create_display(D_WIDTH, D_HEIGHT); // Intenta crear display de 640x480 de fallar devuelve NULL
     if (!display) {
@@ -817,12 +943,10 @@ static int initAll(void)
 
     return 0;
 }
-/*############################################
-############################################*/
 
-int moveInvaders(int direction)
+static direction_t moveInvaders(direction_t direction)
 {
-    int nextDirection = decideWhetherChangeDirectionOrNot(direction); // Me fijo si tengo que mantener la direccion o no, invocando a la funcion
+    direction_t nextDirection = decideWhetherChangeDirectionOrNot(direction); // Me fijo si tengo que mantener la direccion o no, invocando a la funcion
     if(nextDirection != direction)                                    // Si la direccion es distinta a la que se venia llevando => muevo el conjunto 
     {                                                                 // de invaders para abajo
         moveInvadersDown();
@@ -844,9 +968,9 @@ int moveInvaders(int direction)
     return nextDirection;
 }
 
-static int decideWhetherChangeDirectionOrNot(int direction)
+static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
 {
-    int nextDirection = ERROR_DIREC;
+    direction_t nextDirection = ERROR_DIREC;
     if(direction == LEFT)
     {
         int j = 0;
@@ -904,7 +1028,7 @@ static int decideWhetherChangeDirectionOrNot(int direction)
     return nextDirection;
 }
 
-void moveInvadersDown(void)
+static void moveInvadersDown(void)
 {
     for (int i = 0; i < FIL_INVADERS; i++)
     {
@@ -914,7 +1038,8 @@ void moveInvadersDown(void)
         }
     }
 }
-int is_invadersOnFloor(void)
+
+static int is_invadersOnFloor(void)
 {
     int i = FIL_INVADERS - 1;
     int state = 0;
@@ -947,24 +1072,24 @@ int is_invadersOnFloor(void)
     return onFloor;
 }
 
-void shouldInvaderShot(void)
+static void shouldInvaderShot(void)
 {
     for (int j = 0; j < COL_INVADERS; j++)
     {
         int i = FIL_INVADERS - 1;
-        while( i >= 0  &&   !invaders[i][j].invaderState )  //Busco los invaders (vivos) tales que abajo de ellos no tengan ninguna invader vivo
+        while( i >= 0  &&   !invaders[i][j].invaderState )  //Busco los invaders (vivos) tales que abajo de ellos no tengan ningun invader vivo
         {
             i--;
         }
         if( i >= 0)          // entonces se encontro algun invader vivo
         {
-            if(  !(rand() % 900) )
+            if(  !(rand() % MIN_POSIBILIY_OF_SHOT_FROM_INVADERS) )
                 invaderShot(i, j);
         }
     }       
 }
 
-void createShield(int x_shield, int y_shield, shield_t *shield)
+static void createShield(int x_shield, int y_shield, shield_t *shield)
 {
     shield->block_1.x = x_shield;
     shield->block_1.y = y_shield;     // Algunos pensaran que esta hardcodeado, pues si, cada bloque se debe decidir, no hay patron generico
@@ -1009,11 +1134,12 @@ void createShield(int x_shield, int y_shield, shield_t *shield)
     al_draw_filled_rectangle(shield->block_5.x, shield->block_5.y, shield->block_5.x + B_WIDTH, shield->block_5.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
 
 }
-void placeShields(void)
+
+static void placeShields(void)
 {
     for (int i = 0; i < TOTAL_SHIELDS; i++)
     {
-        int x_shield =  i * ( SHIELD_WIDTH + DIST ) + OFFSET_FROM_WALL_ABSOLUTE ;
+        int x_shield =  i * ( SHIELD_WIDTH + DIST ) + OFFSET_FROM_WALL_ABSOLUTE ;  // Calcula la posicion en x de los shields
 
         int y_shield = Y1;
 
@@ -1021,11 +1147,11 @@ void placeShields(void)
     }
 }
 
-void drawShields(void)
+static void drawShields(void)
 {
     for (int i = 0; i < TOTAL_SHIELDS; i++)
     {
-        if( shielders[i].block_1.state != DEATH_STATE)
+        if( shielders[i].block_1.state != DEATH_STATE)   // Si el bloque no esta muerto, lo dibujo. Recordar que el color se lo asocia con el estado de la vida
         {
             al_draw_filled_rectangle(shielders[i].block_1.x, shielders[i].block_1.y, shielders[i].block_1.x + B_WIDTH, shielders[i].block_1.y + B_HEIGHT, al_color_name( shielders[i].block_1.color  )  );
         }
@@ -1048,11 +1174,11 @@ void drawShields(void)
     }
 }
 
-int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
+static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
 {
     int colision = 0;
     int i = 0;
-    while(i < TOTAL_SHIELDS && !colision)
+    while(i < TOTAL_SHIELDS && !colision)                 //Chequea en cada shield si hubo colision o no
     {
         
         collBoxShot_t boxOfBlock1 = {  .x = shielders[i].block_1.x,
@@ -1121,21 +1247,20 @@ int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
     return colision;
 }
 
-void shouldUFOappear(void)
+static void shouldUFOappear(void)
 {
-    if(  !(rand() % MIN_POSIBILIY_OF_APPEAR_UFO ) && !UFO_invader.invaderState )
+    if(  !(rand() % MIN_POSIBILIY_OF_APPEAR_UFO ) && !UFO_invader.invaderState )   // Podria aparecer UFO o no. Si ya hay un UFO, no puede haber otro
     {
-        printf("UFO SHOULD APPEAR!!\n");
         UFO_invader.invaderState = 1;
-        UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;
-        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) : D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer);
+        UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
+        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) : D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer); // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
     }
 }
 
-int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
+static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
 {
     int colision = 0;
-    if(UFO_invader.invaderState)
+    if(UFO_invader.invaderState)                            // Si hay un ufo entonces puede llegar a haber una colsion, entonces chequeo
     {
         collBoxShot_t boxOfUFO = {  .x = UFO_invader.x,
                                     .y = UFO_invader.y,
@@ -1151,7 +1276,7 @@ int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
     return colision;
 }
 
-void moveUFO(void)
+static void moveUFO(void)
 {
     if (UFO_invader.invaderState) 
     {
@@ -1159,7 +1284,7 @@ void moveUFO(void)
         {
             UFO_invader.x += TASA_DE_CAMBIO_NODRIZA;
         }
-        else 
+        else
         {
             UFO_invader.x -= TASA_DE_CAMBIO_NODRIZA;
         }

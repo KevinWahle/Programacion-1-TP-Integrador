@@ -54,29 +54,26 @@ LISTO   4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
     6) void update_front_event(void) agrega a la lista de eventos todos los 
     eventos que registre el front. 
 
-    7) void speed_calculator(int speed) Recibe una velocidad relativa que va entre 1 y 100 
-    y lo transforma a una velocidad real que depende del front.
+    7) reset_front(void) Se llama cada vez que se empieza una partida nueva
 
-    8) reset_front(void) Se llama cada vez que se empieza una partida nueva
-
-    9) void redraw(void);
+    8) void redraw(void);
         Cede el control al front para imprimir en pantalla, detectar colisiones,
         agregar los eventos a la event_queue, etc, etc...
         OBS: el main del back NO DEBE SER BLOQUEANTE
 
-LISTO    10) /**
+LISTO    9) /**
  		* @brief Muestra imagen de score y muestra hasta top 10.
  		* @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
  		* @param size Recibe el tamaño actual de la lista de puntaje
 	   */
 		void show_score (SCORE* score ,int size);
 		
-LISTO	11) /**
+LISTO	10) /**
  		* @brief Muestra las instrucciones.
 		*/
 		void shows_inst (void);
 		
-    12) update_speed_front(int newSpeed);
+    11) update_speed_front(int newSpeed);
         // El back llama a esta función con la velocidad actualizada
         // Adentro de la función el front actualiza su propia velocidad (invaders, frecuencia de tiros, etc)
 

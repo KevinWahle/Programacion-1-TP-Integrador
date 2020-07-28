@@ -45,6 +45,8 @@ struct state_diagram_edge{
     // Función a realizar durante la transición entre un estado y otro.
 };
 
+STATE *fsm_interprete(STATE * p_tabla_estado_actual, event_t evento_actual);
+
 extern STATE splash_state[];
 extern STATE menu_state[];
 extern STATE click_state[];
@@ -52,6 +54,7 @@ extern STATE play_state[];
 extern STATE pause_state[];
 extern STATE instruction_state[];
 extern STATE game_score_state[];
+extern STATE saving_score_state[];
 extern STATE global_score_state[];
 
 STATE splash_state []= {
@@ -101,8 +104,17 @@ STATE pause_state[] = {
 };
 
 STATE game_score_state[] = {
-    {CLICK_BTN, menu_state, my_menu}, 
+    {CLICK_BTN, saving_score_state, }, //CONTINUAR: 
     {NULL_EVENT, game_score_state, doNothing}
+};
+
+STATE saving_score_state[] = {
+    {CLICK_BTN, menu_state, my_menu}, 
+    {MOVE_UP, menu_state, my_menu}, 
+    {MOVE_DOWN, menu_state, my_menu}, 
+    {MOVE_LEFT, menu_state, my_menu}, 
+    {MOVE_RIGHT, menu_state, my_menu}, 
+    {NULL_EVENT, saving_score_state, doNothing}
 };
 
 STATE global_score_state[] = {
