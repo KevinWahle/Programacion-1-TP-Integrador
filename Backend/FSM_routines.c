@@ -282,7 +282,7 @@ void show_game_score(){
     unsigned long long int score= get_points();     // Guardo la cantidad de puntos obtenidos en la partida.
     int level= get_level();                         // Guardo el nivel alcanzado en la partida.
     int killed_crabs= get_killed_aliens(CRAB);      // Guardo los crabs asesinados en la partida.   
-    int killed_octo= get_killed_aliens(OCTOPUS);    // Guardo los octopus asesinados en la partida.
+    int killed_octo= get_killed_aliens(OCTO);    // Guardo los octopus asesinados en la partida.
     int killed_squid= get_killed_aliens(SQUID);     // Guardo los squids asesinados en la partida.
     int killed_ufo= get_killed_aliens(UFO);         // Guardo los UFOs asesinados en la partida.
     
@@ -320,7 +320,7 @@ void crab_coll()
 }
 void octo_coll()
 {
-    kill_alien(OCTOPUS);    //Ejecutamos la función que guarda en
+    kill_alien(OCTO);    //Ejecutamos la función que guarda en
                             // la info de la partida que se asesinó 
                             // un octopus. 
 }

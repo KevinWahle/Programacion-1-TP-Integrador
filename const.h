@@ -81,7 +81,7 @@ typedef struct {
 
 enum INVADERS{
     CRAB = 0,
-    OCTOPUS,
+    OCTO,
     SQUID,
     UFO,
 };

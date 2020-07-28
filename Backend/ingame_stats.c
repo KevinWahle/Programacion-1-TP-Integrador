@@ -8,7 +8,6 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "ingame_stats.h"
-#include "../const.h"
 #include <time.h>
 
 /*******************************************************************************
@@ -42,7 +41,7 @@ static clock_t start;                               // Referencia para medir tie
 static unsigned int killed_invaders[TYPES_INVADERS];
 // Arreglo con la cantidad de invaders asesinados de cada tipo. 
 //Su contendio quedaría:
-// killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
+// killed_invaders = {crab_killed, octo_killed, squid_killed, UFO_killed};
 
 
 /*******************************************************************************
@@ -193,7 +192,7 @@ void speed_update(const float seg)
         printf("La nueva velocidad es: %d \n", speed);
         #endif
         
-        update_speed_front(speed);
+        //update_speed_front(speed);
         //NOTA: INCLUIR donde se encuentre update_speed_front.
 
     }        
@@ -276,7 +275,7 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
     /*
         Preferentemente:
     *   CRAB = 1
-    *   OCTOPUS = 2 
+    *   OCTO = 2 
     *   SQUID = 3
     *   UFO = 4 
     */
@@ -286,7 +285,7 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
         
         break;
 
-    case OCTOPUS:
+    case OCTO:
         increase_points(OCTOPUS_POINTS);    // Aumenta los puntos relacionados al "octopus"
         break;
 
@@ -303,9 +302,6 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
         increase_points(temp*UFO_POINTS);               // Aumenta los puntos relacionados al "ufo"
         break;                         
 
-    default:
-        return 1;                                       // Retorno 1 si hay error.                  
-    }
 
     if (tipo_alien>=CRAB && tipo_alien<=UFO)            // Corroboramos para evitar cualquier tipo de error
     {
@@ -322,7 +318,6 @@ void kill_alien(const int tipo_alien)       //NOTA: EN EL FRONT, LOS BICHOS ESTA
     
     #endif 
     
-    return 0;
 }
 
 

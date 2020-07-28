@@ -25,8 +25,8 @@
 #define COL_INVADERS 9
 
 // INVADERS POSITION
-#define INVADERS_WIDTH_PERCENT  0.7    // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
-#define INVADERS_HEIGHT_PERCENT  0.4    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
+#define INVADERS_WIDTH_PERCENT  0.6    // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
+#define INVADERS_HEIGHT_PERCENT  0.3    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
 #define INVADERS_START_HEIGHT_PERCENT  0.15    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
 
 #define INVADERS_FLOOR (D_HEIGHT*0.65)        // Espacio desde el techo hasta "piso" de los invasores
@@ -48,6 +48,17 @@
 #define OCTO_FILE "PNGs/Octopus1.png"
 #define SQUID_FILE "PNGs/Squid1.png"
 #define UFO_FILE "PNGs/UFO.png"
+
+#define CANNON_RESIZE_PERCENT    1.5
+#define UFO_RESIZE_PERCENT    0.4
+#define INVADERS_RESIZE_PERCENT  0.6
+
+#define AL_GET_CANNON_WIDTH(x)    (al_get_bitmap_width(x)*CANNON_RESIZE_PERCENT)
+#define AL_GET_CANNON_HEIGHT(x)   (al_get_bitmap_height(x)*CANNON_RESIZE_PERCENT)
+#define AL_GET_UFO_WIDTH(x)       (al_get_bitmap_width(x)*UFO_RESIZE_PERCENT)
+#define AL_GET_UFO_HEIGHT(x)      (al_get_bitmap_height(x)*UFO_RESIZE_PERCENT)
+#define AL_GET_INVADER_WIDTH(x)   (al_get_bitmap_width(x)*INVADERS_RESIZE_PERCENT)
+#define AL_GET_INVADER_HEIGHT(x)  (al_get_bitmap_height(x)*INVADERS_RESIZE_PERCENT)
 
 //##### CUBOS SHIELDS #####
 
@@ -298,7 +309,7 @@ int main(void) {
         {
             if (ev.type == ALLEGRO_EVENT_TIMER)
             {
-                int cannon_width = al_get_bitmap_width(canonPointer);
+                int cannon_width = AL_GET_CANNON_WIDTH(canonPointer);
                 if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO) < D_WIDTH){
                     cannonXpos += TASA_DE_CAMBIO;
                 }
@@ -348,12 +359,6 @@ int main(void) {
             redraw = false;
 
             al_clear_to_color(al_map_rgb(0, 0, 0));
-
-            //if(  !(rand() % 60)  )
-            //{
-            //    invaderShot(FIL_INVADERS - 1 , rand()  % (COL_INVADERS )  );
-            //
-            //getInvaderShotCollison();
             
             shouldUFOappear();
             moveUFO();
@@ -372,10 +377,10 @@ int main(void) {
             drawShields();
 
             drawAliveInvaders(invaders);
-            //al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
+            
             al_draw_scaled_bitmap(canonPointer,
                           0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
-                          cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer)*2, al_get_bitmap_width(canonPointer)*2, al_get_bitmap_height(canonPointer)*2,      // Con que tamaño queres que se dibuje la imagen
+                          cannonXpos, D_HEIGHT - AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
                           0);
     
             al_flip_display(); 
@@ -397,27 +402,13 @@ int main(void) {
     return 0;
 }
 
-/*******************************************************************************
- *******************************************************************************
-                        GLOBAL FUNCTION DEFINITIONS
- *******************************************************************************
- ******************************************************************************/
-
-//
-//void update_speed_front(int newSpeed) {
-//    static const int maxSpeed = 100; // Pasarlo a constante segun el back
-//    dxInvader = MIN_SPEED_INVADER + (MAX_SPEED_INVADER-MIN_SPEED_INVADER)*newSpeed/maxSpeed;
-//    shotFromInvaderFrec = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS + (MAX_POSIBILIY_OF_SHOT_FROM_INVADERS-MIN_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed;
-//    //TODO: Frecuencia de aparicion de UFO
-//}
-
 
 int invaderShot(int i, int j)
 {
     invader_t invader = invaders[i][j];
     
-    int ship_width = al_get_bitmap_width( invader.invadersPointer );
-    int ship_height = al_get_bitmap_height( invader.invadersPointer );
+    int ship_width = AL_GET_INVADER_WIDTH( invader.invadersPointer );
+    int ship_height = AL_GET_INVADER_HEIGHT( invader.invadersPointer );
     
     int x_shot = (ship_width + 2* invaders[i][j].x  )/2;
     int y_shot = invaders[i][j].y + ship_height;
@@ -447,9 +438,9 @@ void getInvaderShotCollison(void)
     {
 
         collBoxShot_t canonBox = {  .x = cannonXpos ,
-                                    .y = D_HEIGHT - al_get_bitmap_height(canonPointer),           // TODO: Hacer una estructura o constante
-                                    .height = al_get_bitmap_height(canonPointer),
-                                    .width = al_get_bitmap_width(canonPointer)
+                                    .y = D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer),           // TODO: Hacer una estructura o constante
+                                    .height = AL_GET_CANNON_HEIGHT(canonPointer),
+                                    .width = AL_GET_CANNON_WIDTH(canonPointer)
                                  };
 
         int i = 0;
@@ -493,8 +484,8 @@ void getInvaderShotCollison(void)
 }
 void canonShot(void)
 {   
-    int ship_width = al_get_bitmap_width( canonPointer );
-    int ship_height = al_get_bitmap_height( canonPointer );
+    int ship_width = AL_GET_CANNON_WIDTH(canonPointer);
+    int ship_height = AL_GET_CANNON_HEIGHT(canonPointer);
     
     int x_shot = (ship_width + 2* cannonXpos  )/2;
     int y_shot = D_HEIGHT - ship_height;
@@ -563,8 +554,8 @@ void getCanonShotCollision(void)
                             {
                                 collBoxShot_t invaderBox = {  .x = invaders[i][j].x ,
                                                               .y = invaders[i][j].y ,           // TODO: Hacer una estructura o constante
-                                                              .height = al_get_bitmap_height(invaders[i][j].invadersPointer),
-                                                              .width = al_get_bitmap_width(invaders[i][j].invadersPointer)
+                                                              .height = AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer),
+                                                              .width = AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer)
                                                            };
 
                                 if( isCollision( &collBoxShotFromCanon, &invaderBox ) )
@@ -601,21 +592,24 @@ void getCanonShotCollision(void)
 static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
 {
     // Guardo el ancho del invader más grande, que será el de la última fila
-    int max_inv_width = al_get_bitmap_width(ptr_to_struct[FIL_INVADERS-1][0].invadersPointer);
+    int max_inv_width = AL_GET_INVADER_WIDTH(ptr_to_struct[FIL_INVADERS-1][0].invadersPointer);
 
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for (int j = 0; j < COL_INVADERS; j++)
         {
-            int inv_width = al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer);
-            int inv_height = al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer);
+            int inv_width = AL_GET_INVADER_WIDTH(ptr_to_struct[i][j].invadersPointer);
+            int inv_height = AL_GET_INVADER_HEIGHT(ptr_to_struct[i][j].invadersPointer);
             
             // Cáclulo del centro en x de los invasores
             int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
             
             int x_pos =  x_mid - inv_width/2;
             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
-            al_draw_bitmap( ptr_to_struct[i][j].invadersPointer, x_pos, y_pos, 0 );
+            al_draw_scaled_bitmap(ptr_to_struct[i][j].invadersPointer,
+                          0, 0, al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer), al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer),
+                          x_pos, y_pos, AL_GET_INVADER_WIDTH(ptr_to_struct[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(ptr_to_struct[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+                          0);
             ptr_to_struct[i][j].x = x_pos;
             ptr_to_struct[i][j].y = y_pos;
             ptr_to_struct[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
@@ -630,15 +624,21 @@ static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADE
         for (int j = 0; j < COL_INVADERS; j++)
         {
             if( (ptr_to_invaders[i][j].invaderState) )
-                al_draw_bitmap( ptr_to_invaders[i][j].invadersPointer, ptr_to_invaders[i][j].x, ptr_to_invaders[i][j].y, 0);  //Dibujo solo los vivos        
+                al_draw_scaled_bitmap(ptr_to_invaders[i][j].invadersPointer,
+                          0, 0, al_get_bitmap_width(ptr_to_invaders[i][j].invadersPointer), al_get_bitmap_height(ptr_to_invaders[i][j].invadersPointer),
+                          ptr_to_invaders[i][j].x, ptr_to_invaders[i][j].y, AL_GET_INVADER_WIDTH(ptr_to_invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(ptr_to_invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+                          0);
         }
     }
 
     if (UFO_invader.invaderState) 
     {
-        if( UFO_invader.x >= ( (-1)*al_get_bitmap_width(UFO_invader.invadersPointer) )  && UFO_invader.x <= (D_WIDTH + al_get_bitmap_width(UFO_invader.invadersPointer)) )
+        if( UFO_invader.x >= ( (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) )  && UFO_invader.x <= (D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer)) )
         {
-            al_draw_bitmap( UFO_invader.invadersPointer, UFO_invader.x, UFO_invader.y, 0);
+            al_draw_scaled_bitmap(UFO_invader.invadersPointer,
+                          0, 0, al_get_bitmap_width(UFO_invader.invadersPointer), al_get_bitmap_height(UFO_invader.invadersPointer),
+                          UFO_invader.x, UFO_invader.y, AL_GET_UFO_WIDTH(UFO_invader.invadersPointer), AL_GET_UFO_HEIGHT(UFO_invader.invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+                          0);
         }
         else
         {
@@ -753,10 +753,12 @@ static int initAll(void)
     placeInvaders( invaders );
 
     placeShields();
-    
 
-    //void al_draw_bitmap(ALLEGRO_BITMAP *bitmap, float dx, float dy, int flags) 
-    al_draw_bitmap(canonPointer, 0, 450, 0); //flags(normalmente en cero, ver doc. para rotar etc)
+
+    al_draw_scaled_bitmap(canonPointer,
+                          0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
+                          cannonXpos, D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
+                          0);
 
     al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
 
@@ -838,7 +840,7 @@ static int decideWhetherChangeDirectionOrNot(int direction)
             }
             else   //Si no, hay al menos uno vivo
             {
-                if( invaders[i][j].x + al_get_bitmap_width(invaders[i][j].invadersPointer) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                if( invaders[i][j].x + AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 {
                     nextDirection = LEFT;
                 }
@@ -949,11 +951,6 @@ void createShield(int x_shield, int y_shield, shield_t *shield)
     shield->block_5.width = B_WIDTH;
     shield->block_5.height = B_HEIGHT;
 
-    //al_draw_filled_rectangle(x_shield, y_shield, x_shield + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
-    //al_draw_filled_rectangle(x_shield + B_WIDTH, y_shield, x_shield + B_WIDTH + B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
-    //al_draw_filled_rectangle(x_shield + 2*B_WIDTH, y_shield, x_shield + B_WIDTH + 2*B_WIDTH, y_shield + B_HEIGHT, al_color_name("green")  );
-    //al_draw_filled_rectangle(x_shield, y_shield + B_HEIGHT, x_shield + B_WIDTH, y_shield + B_HEIGHT + B_HEIGHT, al_color_name("green")  );
-    //al_draw_filled_rectangle(x_shield + 2*B_WIDTH, y_shield + B_HEIGHT, x_shield + B_WIDTH + 2*B_WIDTH, y_shield + B_HEIGHT + B_HEIGHT, al_color_name("green")  );
 
     al_draw_filled_rectangle(shield->block_1.x, shield->block_1.y, shield->block_1.x + B_WIDTH, shield->block_1.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
     al_draw_filled_rectangle(shield->block_2.x, shield->block_2.y, shield->block_2.x + B_WIDTH, shield->block_2.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
@@ -1084,7 +1081,7 @@ void shouldUFOappear(void)
         printf("UFO SHOULD APPEAR!!\n");
         UFO_invader.invaderState = 1;
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;
-        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*al_get_bitmap_width(UFO_invader.invadersPointer) : D_WIDTH + al_get_bitmap_width(UFO_invader.invadersPointer);
+        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) : D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer);
     }
 }
 
@@ -1095,8 +1092,8 @@ int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
     {
         collBoxShot_t boxOfUFO = {  .x = UFO_invader.x,
                                     .y = UFO_invader.y,
-                                    .width = al_get_bitmap_width(UFO_invader.invadersPointer),
-                                    .height = al_get_bitmap_height(UFO_invader.invadersPointer),
+                                    .width = AL_GET_UFO_WIDTH(UFO_invader.invadersPointer),
+                                    .height = AL_GET_UFO_HEIGHT(UFO_invader.invadersPointer),
                                  };
         if(colision = isCollision( &boxOfUFO, boxOfTheShot ) )
         {
