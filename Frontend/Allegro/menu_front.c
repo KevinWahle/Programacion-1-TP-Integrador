@@ -14,21 +14,21 @@
  ******************************************************************************/
 #define NUMOFFSET   '0' //Offset de numero entero a char 
 
-#define CANON_FILE  "PNGs/Laser_Cannon.png"
-#define CRAB_FILE   "PNGs/Crab1.png"
-#define OCTO_FILE   "PNGs/Octopus1.png"
-#define SQUID_FILE  "PNGs/Squid1.png"
+#define CANON_FILE  "Frontend/Allegro/PNGs/Laser_Cannon.png"
+#define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"
+#define OCTO_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
+#define SQUID_FILE  "Frontend/Allegro/PNGs/Squid1.png"
 
-#define MENU_FILE   "BMPs/menu-sp.bmp"
-#define FIRST_FILE  "BMPs/first-image.bmp"
-#define SCORE_FILE  "BMPs/puntaje-sp.bmp"
-#define INST_FILE   "BMPs/instruction-sp.bmp"
-#define END_FILE    "BMPs/bye-image.bmp"
+#define MENU_FILE   "Frontend/Allegro/BMPs/menu-sp.bmp"
+#define FIRST_FILE  "Frontend/Allegro/BMPs/first-image.bmp"
+#define SCORE_FILE  "Frontend/Allegro/BMPs/puntaje-sp.bmp"
+#define INST_FILE   "Frontend/Allegro/BMPs/instruction-sp.bmp"
+#define END_FILE    "Frontend/Allegro/BMPs/bye-image.bmp"
 
-#define FONT1_FILE  "Fonts/SP-font-menu.ttf"
-#define FONT2_FILE  "Fonts/SP-font-menu.ttf"
+#define FONT1_FILE  "Frontend/Allegro/Fonts/SP-font-menu.ttf"
+#define FONT2_FILE  "Frontend/Allegro/Fonts/SP-font-menu.ttf"
 
-#define SAMPLE_FILE "Songs/audio.wav"
+#define SAMPLE_FILE "Frontend/Allegro/Songs/audio.wav"
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -124,8 +124,8 @@ int init_front()       // Inicializo y verifico que no falle
                                                     timer_event = al_create_event_queue();
                                                     if (timer_event) {
                                                         al_register_event_source(timer_event, al_get_timer_event_source(timer));
-                                                        if (loadim_menu()){
-                                                            return true;
+                                                        if (!loadim_menu()){
+                                                            return false;
                                                         } else 
                                                             fprintf(stderr, "ERROR: failed to add thing!\n");
                                                         al_destroy_event_queue(timer_event);
@@ -163,7 +163,7 @@ int init_front()       // Inicializo y verifico que no falle
 			fprintf(stderr, "ERROR: failed to load primitives addon \n");
     } else
         fprintf(stderr, "ERROR: failed to initialize allegro system\n");
-    return false;
+    return true;
 }
 
 
@@ -173,50 +173,50 @@ int init_front()       // Inicializo y verifico que no falle
 int loadim_menu()
 {
     menuImage = al_load_bitmap(MENU_FILE);
-		if (menuImage) {
-			firstImage = al_load_bitmap(FIRST_FILE);
-            if (firstImage) {
-                scoreImage = al_load_bitmap(SCORE_FILE);
-                if (scoreImage) {   
-                    instImage = al_load_bitmap(INST_FILE);
-                    if (instImage) {
-                        endImage = al_load_bitmap(END_FILE);
-                        if (endImage) {
-                            fontmu = al_load_ttf_font(FONT1_FILE, 50, 0);   //50 es el tamaño de la letra
-                            if(fontmu){
-                                fontsc = al_load_ttf_font(FONT2_FILE, 28, 0);   //28 es el tamaño de la letra
-                                if(fontsc){
-                                    sample1 = al_load_sample(SAMPLE_FILE);
-                                    if(sample1) {
-                                        if (loadim_game()){
-                                            return true;
-                                        } else 
-                                            fprintf(stderr, "ERROR: failed to add game images!\n");
-                                        al_destroy_sample(sample1);
-                                    } else
-                                        fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
-                                    al_destroy_font(fontsc);
-                                } else 
-                                    fprintf(stderr, "ERROR: Could not load score font!\n");
-                                al_destroy_font(fontmu);
+    if (menuImage) {
+        firstImage = al_load_bitmap(FIRST_FILE);
+        if (firstImage) {
+            scoreImage = al_load_bitmap(SCORE_FILE);
+            if (scoreImage) {   
+                instImage = al_load_bitmap(INST_FILE);
+                if (instImage) {
+                    endImage = al_load_bitmap(END_FILE);
+                    if (endImage) {
+                        fontmu = al_load_ttf_font(FONT1_FILE, 50, 0);   //50 es el tamaño de la letra
+                        if(fontmu){
+                            fontsc = al_load_ttf_font(FONT2_FILE, 28, 0);   //28 es el tamaño de la letra
+                            if(fontsc){
+                                sample1 = al_load_sample(SAMPLE_FILE);
+                                if(sample1) {
+                                    if (!loadim_game()){
+                                        return false;
+                                    } else 
+                                        fprintf(stderr, "ERROR: failed to add game images!\n");
+                                    al_destroy_sample(sample1);
+                                } else
+                                    fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
+                                al_destroy_font(fontsc);
                             } else 
-                                fprintf(stderr, "ERROR: Could not load menu font!\n");  
-                            al_destroy_bitmap(endImage);   
+                                fprintf(stderr, "ERROR: Could not load score font!\n");
+                            al_destroy_font(fontmu);
                         } else 
-                            fprintf(stderr, "ERROR: failed to load endImage!\n");
-                        al_destroy_bitmap(instImage);
+                            fprintf(stderr, "ERROR: Could not load menu font!\n");  
+                        al_destroy_bitmap(endImage);   
                     } else 
-                        fprintf(stderr, "ERROR: failed to load instImage!\n");
-                    al_destroy_bitmap(scoreImage);
+                        fprintf(stderr, "ERROR: failed to load endImage!\n");
+                    al_destroy_bitmap(instImage);
                 } else 
-                    fprintf(stderr, "ERROR: failed to load scoreImage!\n"); 
-                al_destroy_bitmap(firstImage);
+                    fprintf(stderr, "ERROR: failed to load instImage!\n");
+                al_destroy_bitmap(scoreImage);
             } else 
-                fprintf(stderr, "ERROR: failed to load firtsImage!\n");            
-            al_destroy_bitmap(menuImage);	
+                fprintf(stderr, "ERROR: failed to load scoreImage!\n"); 
+            al_destroy_bitmap(firstImage);
         } else 
-    		fprintf(stderr, "ERROR: failed to load menuImage!\n");
-    return false;
+            fprintf(stderr, "ERROR: failed to load firtsImage!\n");            
+        al_destroy_bitmap(menuImage);	
+    } else 
+        fprintf(stderr, "ERROR: failed to load menuImage!\n");
+    return true;
 }
 
 int loadim_game () 
@@ -249,14 +249,14 @@ int loadim_game ()
                     fprintf(stderr, "failed to load invader image \"%s\"!\n", file);
                     destroy_invaders();
                     al_destroy_bitmap(cannon);
-                    return false;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
     } else
         fprintf(stderr, "ERROR: failed to load cannon image!\n");    
-    return false;
+    return true;
 }
 
 

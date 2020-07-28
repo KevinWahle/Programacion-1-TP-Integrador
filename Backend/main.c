@@ -8,18 +8,22 @@ enum { ALLEGRO, RASPI };
 #define PLATFORM ALLEGRO
 
 
-BOOL running;   
+BOOL running=1;   
 
 int main()
 {
     STATE* p_tabla_estado_actual = splash_state;
 
-    if (init_front())             
-    {
-        return -1;          //init_front inicializa el front sea cual sea la plataforma,
-    }                       //Debe estar definida en cada front y returnar !=0 si hay error.
-    
-    splash_front();
+    if (init_front()) {                         // init_front inicializa el front sea cual sea la plataforma,       
+                                                //si hay error de inicialización corta el programa.
+        #if DEBUG
+            printf("Error de inicialización.");
+        #endif
+
+        return -1;          
+    }   
+
+    show_splash();
 
     while (running)
     {
