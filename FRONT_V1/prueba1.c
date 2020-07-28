@@ -12,6 +12,7 @@
 // #include "../const.h"
 #include "../Backend/event_queue/event_queue.h"
 
+
 enum EVENTS {
 	
 	// Eventos que provienen del back.
@@ -46,39 +47,34 @@ enum EVENTS {
 	END_GAME_EVENT,
 };
 
+
 #define FPS 60.0 
-#define D_WIDTH 800
-#define D_HEIGHT 600
-#define TASA_DE_CAMBIO 3
-#define TASA_DE_CAMBIO_BALA 4
-#define TASA_DE_CAMBIO_INVADERS 0.5
-#define TASA_DE_CAMBIO_NODRIZA 2
+#define D_WIDTH 800                      // Tamanio en pixeles del ancho del display
+#define D_HEIGHT 600                     // Tamanio en pixeles del largo del display   
+#define TASA_DE_CAMBIO_CANON 3           // Velocidad del canon   
+#define TASA_DE_CAMBIO_BALA 4            // Velocidad de la bala
+#define TASA_DE_CAMBIO_INVADERS 0.5      // MAL!!! ES VARIABLE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#define TASA_DE_CAMBIO_NODRIZA 2         // Velocidad de la nave nodriza
 
-#define SHOT_HEIGHT 15
-#define SHOT_WIDTH 4
+#define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
+#define SHOT_WIDTH 4                     // idem
 
-
-#define FIL_INVADERS 5
-#define COL_INVADERS 9
+#define FIL_INVADERS 5                   // Cantidad de filas de invaders (los invaders se pueden representar como una matriz)
+#define COL_INVADERS 9                   // // Cantidad de columnas de invaders
 
 // INVADERS POSITION
-#define INVADERS_WIDTH_PERCENT  0.6    // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
-#define INVADERS_HEIGHT_PERCENT  0.3    // Porcentaje de los invaders a lo alto de la pantalla (0-1)
+#define INVADERS_WIDTH_PERCENT  0.6      // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
+#define INVADERS_HEIGHT_PERCENT  0.3     // Porcentaje de los invaders a lo alto de la pantalla (0-1)
 #define INVADERS_START_HEIGHT_PERCENT  0.15    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
 
-#define INVADERS_FLOOR (D_HEIGHT*0.65)        // Espacio desde el techo hasta "piso" de los invasores
-#define INVADERS_WALL (D_WIDTH*0.01)          // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
-#define INVADERS_FALL (D_HEIGHT*0.02)         // Espacio de caida de los invaders al llegar a cada tope 
+#define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
+#define INVADERS_WALL (D_WIDTH*0.01)     // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
 
-#define CANT_INVADERS (FIL_INVADERS*COL_INVADERS)
 
-#define CANT_D_POSIBLES_OBJETIVOS CANT_INVADERS // Solo tengo en cuenta disparo del cannon hacia los invaders no al reves.
+#define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define CANT_D_ESCUDOS_POSIBLES 3 // falta para usar esto. No serian 5 habrian como 6 bloquecitos por cada bloque.
-
-#define MAX_INVADERS_SHOT 20         
-
-#define MAX_CANON_SHOT 8
+#define MAX_CANON_SHOT 8                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 #define CANON_FILE "PNGs/Laser_Cannon.png"
 #define CRAB_FILE "PNGs/Crab1.png"
@@ -86,16 +82,19 @@ enum EVENTS {
 #define SQUID_FILE "PNGs/Squid1.png"
 #define UFO_FILE "PNGs/UFO.png"
 
-#define CANNON_RESIZE_PERCENT    1.5
-#define UFO_RESIZE_PERCENT    0.4
-#define INVADERS_RESIZE_PERCENT  0.6
+#define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
+#define UFO_RESIZE_PERCENT    0.4        // idem anterior pero para la nodriza
+#define INVADERS_RESIZE_PERCENT  0.6     // idem anterior pero para los invaders
 
-#define AL_GET_CANNON_WIDTH(x)    (al_get_bitmap_width(x)*CANNON_RESIZE_PERCENT)
+//MACROS. Tienen el objetivo de facilitar la lectura en codigo del ancho y alto de los bitmap. Como el ancho y alto del bitmap no siempre es el que viene por default
+#define AL_GET_CANNON_WIDTH(x)    (al_get_bitmap_width(x)*CANNON_RESIZE_PERCENT)  
 #define AL_GET_CANNON_HEIGHT(x)   (al_get_bitmap_height(x)*CANNON_RESIZE_PERCENT)
 #define AL_GET_UFO_WIDTH(x)       (al_get_bitmap_width(x)*UFO_RESIZE_PERCENT)
 #define AL_GET_UFO_HEIGHT(x)      (al_get_bitmap_height(x)*UFO_RESIZE_PERCENT)
 #define AL_GET_INVADER_WIDTH(x)   (al_get_bitmap_width(x)*INVADERS_RESIZE_PERCENT)
 #define AL_GET_INVADER_HEIGHT(x)  (al_get_bitmap_height(x)*INVADERS_RESIZE_PERCENT)
+// Recordar que al_get_bitmap_???(??) se basa en la imagen cargada con al_load_bitmap
+
 
 //##### CUBOS SHIELDS #####
 
@@ -104,7 +103,6 @@ enum EVENTS {
 #define X_PERCENT  0.1
 #define Y_PERCENT  0.76
 
-#define X1  (D_WIDTH * X_PERCENT )
 #define Y1  (D_HEIGHT * Y_PERCENT)
 
 #define X2  (X1 + B_WIDTH)
@@ -114,7 +112,7 @@ enum EVENTS {
 
 #define TOTAL_SHIELDS 4
 
-#define SHIELDERS_WIDTH_PERCENT   1   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
+#define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)
 #define SHIELD_WIDTH  (B_WIDTH * 3)
 #define SHIELDERS_WIDTH_ABSOLUTE  (SHIELDERS_WIDTH_PERCENT * D_WIDTH)
@@ -348,10 +346,10 @@ int main(void) {
             {
                 int cannon_width = AL_GET_CANNON_WIDTH(canonPointer);
                 if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO) < D_WIDTH){
-                    cannonXpos += TASA_DE_CAMBIO;
+                    cannonXpos += TASA_DE_CAMBIO_CANON;
                 }
                 else if(key_pressed[KEY_LEFT] && (cannonXpos - TASA_DE_CAMBIO) > 0) {
-                    cannonXpos -= TASA_DE_CAMBIO;
+                    cannonXpos -= TASA_DE_CAMBIO_CANON;
                 }
                 redraw = true;
             }

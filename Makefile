@@ -13,7 +13,7 @@ HFRONT_ALL = /Frontend/Allegro/headall.h
 HFRONT_RAS = /Frontend/Raspi/headras.h
 
 ################################################
-OBJS = main.o PORTS.o
+OBJS = Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o
 
 allegro: Backend/FSM_table.h Backend/main.c Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o const.h 
 	${CC} ${OPTIONS} ${OBJS} main.c -o spg 
@@ -22,16 +22,16 @@ allegro: Backend/FSM_table.h Backend/main.c Backend/ingame_stats.o Backend/score
 #	${CC} ${OPTIONS} ${OBJS} -o main_d -D DEBUG
 
 ingame_stats: Backend/ingame_stats.c Backend/ingame_stats.h const.h
-	${CC} ${OPTIONS} ${OBJS} -c ingame_stats.c
+	${CC} ${OPTIONS} -c ingame_stats.c
 
 scoretable: Backend/scoretable.c Backend/scoretable.h
-	${CC} ${OPTIONS} ${OBJS} -c scoretable.c
+	${CC} ${OPTIONS} -c scoretable.c
 
 FSM_routines: Backend/FSM_routines.h Backend/FSM_routines.c ${EVENTQ_OBJECT} const.h ${HFRONT_ALL}
-	${CC} ${OPTIONS} ${OBJS} -c scoretable.c 
+	${CC} ${OPTIONS} -c scoretable.c 
 
 event_queue: Backend/event_queue/event_queue.c Backend/event_queue/event_queue.h 
-	${CC} ${OPTIONS} ${OBJS} -c event_queue.c 
+	${CC} ${OPTIONS} -c event_queue.c 
 
 menu_front: menu_front.c headall.h ${EVENTQ_OBJECT}
 	${CC} ${OPTIONS} ${LDLIBSOPTIONS} -c menu_front.c

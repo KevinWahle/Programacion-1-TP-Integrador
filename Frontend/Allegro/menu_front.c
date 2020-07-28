@@ -409,7 +409,7 @@ void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGR
 /**
  * @brief Redraw dependiendo del timer.
  **/
-void redraw ()          //VER SI PONER EN GAME_FRONT
+/*void redraw ()          //VER SI PONER EN GAME_FRONT
 {
     ALLEGRO_EVENT ev1;
     if (al_get_next_event(timer_event, &ev1)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
@@ -437,6 +437,7 @@ void redraw ()          //VER SI PONER EN GAME_FRONT
     }
 
 }
+*/
 
 
 /**
