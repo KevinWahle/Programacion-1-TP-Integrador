@@ -33,8 +33,8 @@ scoretable.o: Backend/scoretable.c Backend/scoretable.h
 FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h const.h Backend/event_queue/event_queue.h ${HFRONT_ALL}
 	${CC} ${OPTIONS} -c Backend/FSM_routines.c
 
-#event_queue.o: Backend/event_queue/event_queue.c Backend/event_queue/event_queue.h 
-#	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c 
+event_queue.o: Backend/event_queue/event_queue.c Backend/event_queue/event_queue.h 
+	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c 
 
 menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} Backend/event_queue/event_queue.h
 	${CC} ${OPTIONS} ${LDLIBSOPTIONS} -c Frontend/Allegro/menu_front.c

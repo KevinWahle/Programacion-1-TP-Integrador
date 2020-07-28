@@ -33,7 +33,7 @@ enum EVENTS {
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
-    CLICK_BTN,  // Botón de click, shoot o aceptar
+    CLICK_BTN=314,  // Botón de click, shoot o aceptar
     PAUSE_BTN,
 
 	// Eventos que provienen del front y son sobre el juego.

@@ -346,7 +346,7 @@ void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGR
     if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
     {
         if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-            add_event(EXIT_EVENT);  //No se si end game termina el juego o termina todo
+            add_event(EXIT_EVENT); 
 
         else if (ev.type == ALLEGRO_EVENT_KEY_DOWN )
         {

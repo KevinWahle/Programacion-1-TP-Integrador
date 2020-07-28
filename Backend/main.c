@@ -32,10 +32,6 @@ int main()
 
     while (running)
     {
-        #ifdef DEBUG
-            printf("Antes de actualizar la cola de eventos\n");
-        #endif        
-        
         update_front_event();               // Actualizar la lista de eventos que me indica el front.
         event_t evento = get_next_event();  // Tomo un nuevo evento de la cola de eventos.
         #ifdef DEBUG
@@ -57,9 +53,11 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, event_t evento_actual)
     printf("Evento: %d. \n", evento_actual); // Para debuggear
     #endif  //DEBUG
 
-    while (p_tabla_estado_actual -> evento != evento_actual && p_tabla_estado_actual -> evento !=FIN_TABLE)
-    ++p_tabla_estado_actual;
+    while (p_tabla_estado_actual -> evento != evento_actual && p_tabla_estado_actual -> evento !=FIN_TABLE){
+        ++p_tabla_estado_actual;
+    }
     
+
     (*p_tabla_estado_actual -> p_rut_accion) (); // Ejecuta Rutina de accion correspondiente
     p_tabla_estado_actual = p_tabla_estado_actual -> proximo_estado; // Encuentro próximo estado
     return (p_tabla_estado_actual);    
