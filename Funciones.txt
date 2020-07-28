@@ -59,7 +59,7 @@ LISTO   4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
 
     8) reset_front(void) Se llama cada vez que se empieza una partida nueva
 
-    void redraw(void);
+    9) void redraw(void);
         Cede el control al front para imprimir en pantalla, detectar colisiones,
         agregar los eventos a la event_queue, etc, etc...
         OBS: el main del back NO DEBE SER BLOQUEANTE

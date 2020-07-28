@@ -35,11 +35,13 @@
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 static int lives, points, level, speed=MIN_SPEED;   // Variables estaticas internas que permiten
-                                                    // el desarrollo de la partida
-static clock_t start;                               // Inicializo el timer                           
+                                                    // el desarrollo de la partida.
+
+static clock_t start;                               // Referencia para medir tiempo.                         
 
 static unsigned int killed_invaders[TYPES_INVADERS];
-// El contendio quedaría:
+// Arreglo con la cantidad de invaders asesinados de cada tipo. 
+//Su contendio quedaría:
 // killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
 
 
@@ -84,9 +86,10 @@ void reset_level()
 void reset_speed()
 {
     set_speed(MIN_SPEED);   // Reseteo la velocidad al mínimo.
+    reset_timer();          // Reseteo el valor de referencia.
 
     #ifdef DEBUG
-        printf("Reseto la velocidad...");
+        printf("Reseto la velocidad y la referencia...\n");
     #endif 
     
 }

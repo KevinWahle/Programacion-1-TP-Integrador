@@ -13,6 +13,7 @@
 #include "event_queue/event_queue.h"
 #include "const.h"
 #include <stdio.h>
+#include "../Frontend/Allegro/headall.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -66,7 +67,6 @@ static actual_option = 0;
 
 void show_splash(void){     
     splash_front(); 
-    //INCLUIR: donde se encuentra splash_front.
     
     #ifdef DEBUG
     printf("Muestro el SPLASH. \n");
@@ -110,7 +110,6 @@ void up_menu(MENU_ITEM* menu, int menu_size){
     #endif 
 
     show_menu (menu, menu_size/sizeof(MENU_ITEM), actual_option);          // Actualizamos el front. 
-    //INCLUIR: incluir donde se encuentra show_menu()
 
     #ifdef DEBUG
     printf("Se actualizó el menú \n");
@@ -268,7 +267,6 @@ void start_game(void){
 }
 void quit_game(void) {
     destroy_front();
-    //INCLUIR: Incluir en donde se encuentra destroy_front.
     running=0;                          // Bajo el flag para correr el programa.                                    
 
     #ifdef DEBUG
