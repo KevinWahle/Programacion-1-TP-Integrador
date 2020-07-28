@@ -54,6 +54,7 @@ MENU_ITEM pause_menu[] = {
  ******************************************************************************/
 
 static int actual_option = 0;
+static char actual_name[NAME_SIZE];
 
 /*******************************************************************************
  *******************************************************************************
@@ -72,8 +73,6 @@ void show_splash(void){
     printf("Muestro el SPLASH. \n");
     #endif          
 }
-
-
 
 /**********************************************************
 ************************  MENU  ***************************
@@ -310,6 +309,49 @@ void show_global_score(void) {
         printf("Mostrando Leadboard. \n");
     #endif
 }
+
+void next_letter()
+{
+    actual_name[]
+}      
+
+void previous_letter()
+{
+
+}
+
+void upper_letter()
+{
+    if (letter == 'Z'){
+        letter='A';
+    }
+    
+    else{
+        letter++;
+    }
+}
+
+void lower_letter()
+{
+    if (letter=='A')
+    {
+        letter= 'Z';
+    }    
+    
+    else 
+    {
+        letter--;
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 /**********************************************************

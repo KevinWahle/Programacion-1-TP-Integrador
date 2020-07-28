@@ -11,12 +11,12 @@ EVENTQ_OBJECT = Backend/event_queue/event_queque.o
 ################################################
 HFRONT_ALL = Frontend/Allegro/headall.h
 HFRONT_RAS = Frontend/Raspi/headras.h
-
-################################################
+ESTO
+################################################ NICO VENI A DISCORD
 OBJS = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Allegro/menu_front.o
 
-allegro: ${OBJS} 
-	${CC} ${OPTIONS} ${OBJS} Backend/event_queue/event_queque.o -o spg 
+allegro: ${OBJS}
+	${CC} ${OPTIONS} ${OBJS} Backend/event_queue/event_queque.o -o allegro
 
 #space_invaders_debug: main.o 
 #	${CC} ${OPTIONS} ${OBJS} -o main_d -D DEBUG

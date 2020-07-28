@@ -389,6 +389,9 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot);
 */
 static void shouldUFOappear(void);
 
+void reviveCanon(void);
+
+
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -634,6 +637,7 @@ static void getInvaderShotCollison(void)
                     invaderShotList[i].shotState = 0;
                     colisionDetected++;
                     add_event(CANNON_COLL_EV);        // Agrego evento de colision con cannon
+                    reviveCanon();
                 }
                 else if( getCollisionOnBlock( &collBoxShotFromInvader ) )   // Choque con bloque
                 {
@@ -1288,5 +1292,22 @@ static void moveUFO(void)
         {
             UFO_invader.x -= TASA_DE_CAMBIO_NODRIZA;
         }
+    }
+}
+
+//void onCanonShootedAnimation(void)
+//{
+//
+//}
+
+void reviveCanon(void)
+{
+    if(TOTAL_SHIELDS > 0)
+    {
+        cannonXpos = shielders[0].block_1.x;
+    }
+    else
+    {
+        cannonXpos = D_WIDTH/2;
     }
 }

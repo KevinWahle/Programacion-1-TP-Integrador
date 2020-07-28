@@ -109,11 +109,11 @@ STATE game_score_state[] = {
 };
 
 STATE saving_score_state[] = {
-    {CLICK_BTN, menu_state, my_menu}, 
-    {MOVE_UP, menu_state, my_menu}, 
-    {MOVE_DOWN, menu_state, my_menu}, 
-    {MOVE_LEFT, menu_state, my_menu}, 
-    {MOVE_RIGHT, menu_state, my_menu}, 
+    {CLICK_BTN, menu_state, SA}, //NOTA: funcion queincluye a my_menu
+    {MOVE_UP, saving_score_state, }, 
+    {MOVE_DOWN, saving_score_state, }, 
+    {MOVE_LEFT, saving_score_state, }, 
+    {MOVE_RIGHT, saving_score_state, }, 
     {NULL_EVENT, saving_score_state, doNothing}
 };
 
