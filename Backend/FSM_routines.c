@@ -26,6 +26,7 @@
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
+BOOL running = 1;
 
 MENU_ITEM main_menu[] = {  
                             {.option = "Play", .essential = TRUE, .ID = PLAY_ID},
@@ -44,7 +45,6 @@ MENU_ITEM pause_menu[] = {
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-
 /*******************************************************************************
  * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -52,7 +52,6 @@ MENU_ITEM pause_menu[] = {
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-
 static int actual_option = 0;
 static char actual_name[NAME_SIZE];
 static SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard  
@@ -93,14 +92,14 @@ void up_menu(MENU_ITEM* menu, int menu_size){
     
     #ifdef ONLY_ESSENTIAL                                                    
             do{                                                                
-                if(smenu_ize/sizeof(MENU_ITEM) > actual_option){                            // Si el front solo permite mostrar las opciones esenciales:
-                    actual_option++;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
+                if(actual_option>0){                            // Si el front solo permite mostrar las opciones esenciales:
+                    actual_option--;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
                 }                                                                           //y cuando haya una arriba.
             } while ((menu[actual_option]).essential==FALSE && sizeof(menu)/sizeof(MENU_ITEM) > actual_option);
     
     #else                                                                   // Si el front permite mostrar las opciones no esenciales:
-        if(menu_size/sizeof(MENU_ITEM) > actual_option){        
-            actual_option++;                                                //subimos en el menú hasta la siguiente opcion
+        if(actual_option > 0){        
+            actual_option--;                                                //subimos en el menú hasta la siguiente opcion
         }
 
     #endif
@@ -120,16 +119,16 @@ void down_menu(MENU_ITEM* menu, int menu_size){
     
      #ifdef ONLY_ESSENTIAL            
         do{
-           if(actual_option>0){                                                         // Si el front solo permite mostrar las opciones esenciales:
-                actual_option--;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
+           if(menu_size/sizeof(MENU_ITEM)>actual_option){                               // Si el front solo permite mostrar las opciones esenciales:
+                actual_option++;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
            }                                                                            //y cuando haya una abajo.
         } while ((menu[actual_option]).essential==FALSE && actual_option>0);
     
     
     #else                                                                               // Si el front permite mostrar las opciones no esenciales:
         
-        if(actual_option > 0){
-            actual_option--;                                                            //bajamos en el menú hasta la siguiente opcion
+        if(menu_size/sizeof(MENU_ITEM) > actual_option){
+            actual_option++;                                                            //bajamos en el menú hasta la siguiente opcion
         }
         
     #endif
@@ -223,7 +222,7 @@ void click_menu_pause()
         printf("Se agregó a la cola de eventos: %d \n", main_menu[actual_option].ID);
 
         if(add==1)
-        printf("No se pudo agregar\n")
+        printf("No se pudo agregar\n");
         
     #endif 
 }
@@ -269,7 +268,6 @@ void start_game(void){
 void quit_game(void) {
     destroy_front();
     running=0;                          // Bajo el flag para correr el programa.                                    
-
     #ifdef DEBUG
         printf("Salgo del juego. \n");
     #endif

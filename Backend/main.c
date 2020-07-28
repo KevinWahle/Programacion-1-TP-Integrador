@@ -7,9 +7,8 @@
 enum { ALLEGRO, RASPI };
 #define PLATFORM ALLEGRO
 
-BOOL running=1;   
-
-int main()
+ 
+int main(void)
 {
     STATE* p_tabla_estado_actual = splash_state;
 
@@ -25,11 +24,6 @@ int main()
 
     show_splash();
 
-    #ifdef DEBUG
-        printf("Muestro Splash\n");
-    #endif
-
-
     while (running)
     {
         update_front_event();               // Actualizar la lista de eventos que me indica el front.
@@ -40,6 +34,7 @@ int main()
 
         p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);  // Actualizo el estado
     }
+    printf("DESPUES DE ESTO SI O SI TIENE QUE SALIR\n");
 
     // DUDA: iria destroy resources?
     // NOTA: incluir las respectivas funciones
@@ -53,7 +48,7 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, event_t evento_actual)
     printf("Evento: %d. \n", evento_actual); // Para debuggear
     #endif  //DEBUG
 
-    while (p_tabla_estado_actual -> evento != evento_actual && p_tabla_estado_actual -> evento !=FIN_TABLE){
+    while (p_tabla_estado_actual -> evento != evento_actual && p_tabla_estado_actual -> evento !=NULL_EVENT){
         ++p_tabla_estado_actual;
     }
     

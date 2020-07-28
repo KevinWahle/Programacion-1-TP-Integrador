@@ -59,6 +59,7 @@ extern STATE global_score_state[];
 
 STATE splash_state []= {
 	{CLICK_BTN, menu_state, my_menu},
+    {EXIT_EVENT, NULL, quit_game},
     {NULL_EVENT, splash_state, doNothing}
 };
 
@@ -66,6 +67,7 @@ STATE menu_state []= {
     {MOVE_UP, menu_state, up_menu_main}, 
     {MOVE_DOWN, menu_state, down_menu_main},
     {CLICK_BTN, click_state, click_menu},
+    {EXIT_EVENT, NULL, quit_game},
     {NULL_EVENT, menu_state, doNothing}
 };
 
@@ -81,6 +83,7 @@ STATE click_state[]= {
 
 STATE instruction_state []= {
 	{CLICK_BTN, menu_state, my_menu},
+    {EXIT_EVENT, NULL, quit_game},
     {NULL_EVENT, instruction_state, doNothing}
 };
 
@@ -93,6 +96,7 @@ STATE play_state[] = {
     {SQUID_COLL_EV, play_state, squid_coll},
     {UFO_COLL_EV, play_state, ufo_coll},
     {CANNON_COLL_EV, play_state, cannon_coll},
+    {EXIT_EVENT, NULL, quit_game},
     {NULL_EVENT, play_state, refresh} 
 };
 
@@ -100,11 +104,13 @@ STATE pause_state[] = {
     {MOVE_UP, pause_state, up_menu_pause},          
     {MOVE_DOWN, pause_state, down_menu_pause},     
     {CLICK_BTN, click_state, click_menu_pause},
+    {EXIT_EVENT, NULL, quit_game},
     {NULL_EVENT, pause_state, doNothing}
 };
 
 STATE game_score_state[] = {
  //   {CLICK_BTN, saving_score_state, }, //CONTINUAR: 
+    {EXIT_EVENT, NULL, quit_game},
     {NULL_EVENT, game_score_state, doNothing}
 };
 
@@ -113,12 +119,14 @@ STATE game_score_state[] = {
     {MOVE_UP, saving_score_state, }, 
     {MOVE_DOWN, saving_score_state, }, 
     {MOVE_LEFT, saving_score_state, }, 
-    {MOVE_RIGHT, saving_score_state, }, 
+    {MOVE_RIGHT, saving_score_state, },
+    {EXIT_EVENT, NULL, quit_game}, 
     {NULL_EVENT, saving_score_state, doNothing}
 };*/
 
 STATE global_score_state[] = {
     {CLICK_BTN, menu_state, my_menu}, 
+    {EXIT_EVENT, NULL, quit_game},
     {NULL_EVENT, global_score_state, doNothing}
 };
 
