@@ -1295,10 +1295,10 @@ static void moveUFO(void)
     }
 }
 
-//void onCanonShootedAnimation(void)
-//{
-//
-//}
+void onCanonShootedAnimation(void)
+{
+
+}
 
 void reviveCanon(void)
 {

@@ -11,7 +11,7 @@ EVENTQ_OBJECT = Backend/event_queue/event_queque.o
 ################################################
 HFRONT_ALL = Frontend/Allegro/headall.h
 HFRONT_RAS = Frontend/Raspi/headras.h
-ESTO
+
 ################################################ NICO VENI A DISCORD
 OBJS = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Allegro/menu_front.o
 
@@ -42,7 +42,6 @@ menu_front.o: Frontend/Allegro/menu_front.c Frontend/Allegro/headall.h Backend/e
 
 #raspi: Backend\FSM_talbe.h main.c ingame_stats.o scoretable.o FSM_routines.o ${HFRONT_RAS}
 #	${CC} ${OPTIONS} ${OBJS} main.c -o spg -D RASPI
-
 
 
 clean: 

@@ -109,7 +109,7 @@ STATE game_score_state[] = {
 };
 
 STATE saving_score_state[] = {
-    {CLICK_BTN, menu_state, SA}, //NOTA: funcion queincluye a my_menu
+    {CLICK_BTN, menu_state, save_score}, //NOTA: funcion queincluye a my_menu
     {MOVE_UP, saving_score_state, }, 
     {MOVE_DOWN, saving_score_state, }, 
     {MOVE_LEFT, saving_score_state, }, 

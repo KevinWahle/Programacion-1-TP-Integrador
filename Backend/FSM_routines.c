@@ -312,20 +312,26 @@ void show_global_score(void) {
 
 void next_letter()
 {
-    actual_name[]
+    actual_name[letter_counter]=letter;
+    letter_counter++;
+    letter=' ';
 }      
 
 void previous_letter()
 {
-
+    letter_counter--;
 }
 
 void upper_letter()
 {
-    if (letter == 'Z'){
+    if (letter == 'Z' || letter==' '){
         letter='A';
     }
     
+    else if(letter==' '){
+        letter='A';
+    }
+
     else{
         letter++;
     }
@@ -333,15 +339,18 @@ void upper_letter()
 
 void lower_letter()
 {
-    if (letter=='A')
+    if (letter=='A' || letter==' ')
     {
         letter= 'Z';
     }    
-    
     else 
     {
         letter--;
     }
+}
+
+void save_score(void){
+    void put_score (actual_name, get_points(), const int top, SCORE* my_pun);  
 }
 
 
