@@ -269,6 +269,7 @@ void splash_front()
                             0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
+    al_flip_display();
     al_rest(1.5);
     shows_inst ();
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 500, ALLEGRO_ALIGN_CENTER, "Presione la tecla espacio para continuar...");
@@ -342,7 +343,6 @@ void shows_inst ()
 void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGRO "ALLEGRO_EVENT ev;"
 {
     ALLEGRO_EVENT ev;
-
     if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
     {
         if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)

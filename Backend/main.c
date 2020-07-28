@@ -7,7 +7,6 @@
 enum { ALLEGRO, RASPI };
 #define PLATFORM ALLEGRO
 
-
 BOOL running=1;   
 
 int main()
@@ -16,22 +15,30 @@ int main()
 
     if (init_front()) {                         // init_front inicializa el front sea cual sea la plataforma,       
                                                 //si hay error de inicialización corta el programa.
-        #if DEBUG
-            printf("Error de inicialización.");
+        #ifdef DEBUG
+            printf("Error de inicialización\n");
         #endif
 
         return -1;          
     }   
 
+
     show_splash();
+
+    #ifdef DEBUG
+        printf("Muestro Splash\n");
+    #endif
+
 
     while (running)
     {
+        #ifdef DEBUG
+            printf("Antes de actualizar la cola de eventos\n");
+        #endif        
         
         update_front_event();               // Actualizar la lista de eventos que me indica el front.
         event_t evento = get_next_event();  // Tomo un nuevo evento de la cola de eventos.
-
-        #if DEBUG
+        #ifdef DEBUG
             printf("El nuevo evento es: %d \n", evento);
         #endif
 
