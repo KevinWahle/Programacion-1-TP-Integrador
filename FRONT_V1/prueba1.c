@@ -374,8 +374,8 @@ int main(void) {
             drawAliveInvaders(invaders);
             //al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0); //flags(normalmente en cero, ver doc. para rotar etc)
             al_draw_scaled_bitmap(canonPointer,    // Imagen de fondo del menu
-                          0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
-                          0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                          cannonXpos, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
+                          cannonXpos, 0, al_get_bitmap_width(canonPointer)*2, al_get_bitmap_height(canonPointer)*2,      // Con que tamaño queres que se dibuje la imagen
                           0);
             
             al_flip_display(); 

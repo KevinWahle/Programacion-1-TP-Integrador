@@ -1,5 +1,3 @@
-//TODO: Completar descripciones y ver donde poner los prototipos.
-
 /***************************************************************************//**
   @file     +ingame_stats.c+
   @brief    +Estadisticas generales del juego+
@@ -11,7 +9,7 @@
  ******************************************************************************/
 #include "ingame_stats.h"
 #include "../const.h"
-#include<time.h>
+#include <time.h>
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -36,12 +34,13 @@
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-static int lives, points, level, speed=MIN_SPEED;
-static clock_t start;
+static int lives, points, level, speed=MIN_SPEED;   // Variables estaticas internas que permiten
+                                                    // el desarrollo de la partida
+static clock_t start;                               // Inicializo el timer                           
 
 static unsigned int killed_invaders[TYPES_INVADERS];
-//El contendio quedaría:
-//  killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
+// El contendio quedaría:
+// killed_invaders = {crab_killed, octopus_killed, squid_killed, UFO_killed};
 
 
 /*******************************************************************************
