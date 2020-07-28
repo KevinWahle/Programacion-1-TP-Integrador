@@ -40,6 +40,7 @@ int main(void)
     // NOTA: incluir las respectivas funciones
 
     return 0;
+    printf("TROLLEADO PUTO\n");
 }
 
 STATE *fsm_interprete(STATE * p_tabla_estado_actual, event_t evento_actual)
