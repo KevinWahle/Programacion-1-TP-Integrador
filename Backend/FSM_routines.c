@@ -343,9 +343,9 @@ void ufo_coll()
 
 void cannon_coll()
 {
-    if(decrease_lives()<1)          // Si las vidas llegan a 0,
-    {                               //se considera que el jugador ya perdió.
-        add_event(END_GAME_EVENT);  
+    if(decrease_lives()<1)          //Si las vidas llegan a 0,
+    {                               // se considera que el jugador ya perdió
+        add_event(END_GAME_EVENT);  // y se agrega el evento de que se acabó la partida.
 
         #ifdef DEBUG
             printf("El jugador se quedó sin vidas\n");

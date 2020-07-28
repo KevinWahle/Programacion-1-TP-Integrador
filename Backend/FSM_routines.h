@@ -49,7 +49,7 @@ void my_menu(void);
  * @param menu menu a mostrar en pantalla
  * @param menu_size tamaño del menu
 */
-void up_menu(MENU_ITEM* menu, int menu_size); //REVISAR: hay que  incluir donde esta la constante
+void up_menu(MENU_ITEM* menu, int menu_size); //INCLUIR: hay que  incluir donde esta la constante
 
 /**
  * @brief Llama a la funcion que se encarga de mostrar el menu que se le pase, indicandole las opciones a mostrar y la opcion a resaltar
