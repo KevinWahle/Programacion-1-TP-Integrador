@@ -89,14 +89,15 @@ LISTO	10) /**
 LISTO    15) void reset_aliens_matrix();    // YA EXISTIA SE LLAMA void placeInvaders(void) 
         Debe resetear la matriz de aliens que guarda el front.
 
-    16) void clean_shoots();   
+LISTO    16) void clean_shoots();   
         Limpiar los disparos de la pantalla.
 
-    17) void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score);
+LISTO    17) void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score);
         Muestra los caracteres del nombre que se esta ingresanto, y highlightea el item mencionado
         actual_name: puntero a arreglo de char con el nombre a mostrar
         size: largo del arreglo
         letter_counter: letra a resaltar (va de 0 a size-1)
+        score: Puntaje a mostrar
 
 LISTO    18) void shoot_cannon(void)
         Solicita un disparo del cannon, el front verifica si el disparo se realiza o no
@@ -126,5 +127,3 @@ FRONT:
         
     (no se que) queue_all();
         La cola de eventos ya sea reconocimiento de teclado u otras funciones
-    
-o

@@ -256,6 +256,7 @@ void start_game(void){
     reset_points();             // Reinicio el contador de puntos.
     reset_level();              // Reinicio el contador de niveles.
     reset_killed_aliens();      // Reinicio el contador de aliens asesinados.
+    clean_shoots();             // Limpio los disparos en pantalla. 
     
     //reset_front();              // Actualizo el front a formato partida. 
     //INCLUIR: Incluir en donde se encuentra reset_front.

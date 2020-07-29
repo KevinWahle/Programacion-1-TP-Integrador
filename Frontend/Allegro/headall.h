@@ -19,15 +19,6 @@
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
 #include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event
 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_color.h>
-#include <allegro5/allegro_image.h> //manejo de imagenes
-#include <allegro5/allegro_font.h> //manejo de fonts
-#include <allegro5/allegro_ttf.h> //Manejo de ttfs
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_acodec.h>
-//Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm. 
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -38,46 +29,15 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC};                 // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
+enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
 typedef uint8_t direction_t;  // Necesario para move_cannon()
 
-typedef struct 
-{
-    int x;
-    int y;
-    int shotState;
-    SHOT_TYPE type;
-} shot_t;
-
-
-// typedef struct 
-// {
-//     int x;
-//     int y;
-//     int height;
-//     int width;
-// }collBoxShot_t;
-
-
-//enum INVADERS_TYPES {CRAB ,SQUID, OCTO};        
-// NOTA: PASO A CONST.H
 
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-/*const int invadersDistribution [FIL_INVADERS] = {
-                                                OCTO,
-                                                OCTO,
-                                                SQUID,
-                                                CRAB,
-                                                CRAB,
-                                                };
 
-extern ALLEGRO_BITMAP *cannon = NULL;
-// Invaders matrix
-extern invader_t invaders[FIL_INVADERS][COL_INVADERS];
-*/
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR MENU AND KEYBOARD
@@ -142,11 +102,6 @@ void destroy_front();
  * @return 0 si es satisfactorio, otro si hubo error
  **/
 int init_game(void);
-
-/**
- * @brief Destruye los recursos del juego
- **/
-void destroy_game(void);
 
 /**
  * @brief Actualiza lo que se muestra en pantalla durante el juego

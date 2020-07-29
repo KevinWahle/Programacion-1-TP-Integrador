@@ -77,7 +77,7 @@ void pause_game(void);
 
 
 /**
- * @brief CONTINUAR: 
+ * @brief 
 */
 void resume_game(void);
 

@@ -7,8 +7,6 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-// #include <stdio.h>
-// #include <stdlib.h>
 #include <stdint.h>
 // #include <time.h>
 // #include <allegro5/allegro.h>
@@ -20,7 +18,9 @@
 #include "headall.h"
 #include "shared_res.h"
 
-
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
 #define TASA_DE_CAMBIO_CANON 3           // Velocidad del canon   
 #define TASA_DE_CAMBIO_BALA 4            // Velocidad de la bala
 #define TASA_DE_CAMBIO_INVADERS 0.5      // MAL!!! ES VARIABLE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -43,11 +43,6 @@
 
 #define MAX_CANON_SHOT 8                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
-#define CANON_FILE "PNGs/Laser_Cannon.png"
-#define CRAB_FILE "PNGs/Crab1.png"
-#define OCTO_FILE "PNGs/Octopus1.png"
-#define SQUID_FILE "PNGs/Squid1.png"
-#define UFO_FILE "PNGs/UFO.png"
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
 #define UFO_RESIZE_PERCENT    0.4        // idem anterior pero para la nodriza
@@ -99,12 +94,6 @@
 #define MAX_POSIBILIY_OF_APPEAR_UFO  500
 #define MIN_POSIBILIY_OF_APPEAR_UFO  1200
 
-/*******************************************************************************
- * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-
-enum blockStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
-
 #define DEATH_STATE STATE_4
 
 // Color de los escudos                     //Aca se deberian agregar los colores si se agregan vidas por ejemplo
@@ -112,6 +101,13 @@ enum blockStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};   // STATE_0 ser
 #define COLOR_STATE_1 "yellow"
 #define COLOR_STATE_2 "orange"
 #define COLOR_STATE_3 "red" 
+
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+
+enum blockStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
+
 
 static char *blockColors[BLOCK_LIVES] = {   COLOR_STATE_0,               
                                             COLOR_STATE_1,
@@ -145,8 +141,6 @@ typedef struct
     int width;
 }collBoxShot_t;
 
-
-
 //Objeto bloque
 typedef struct 
 {
@@ -171,21 +165,32 @@ typedef struct
 
 typedef int cannonPosition_t;
 
+
 /*******************************************************************************
- * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
+ * VARIABLES WITH GLOBAL SCOPE (SOLO PARA SHARED_RES)
  ******************************************************************************/
 
-// LO COMENTO PORQUE ESTA EN HEADALL
-// /**
-//  * @brief Inicializa todos los recursos necesarios de Allegro y setea parámetros iniciales
-//  * @return 0 si no hubo error, otro si lo hubo
-// */
-// int init_front(void);
+/************ALLEGRO VARIABLES DEFINITION***************/
+ALLEGRO_BITMAP *canonPointer = NULL;
+ALLEGRO_EVENT_QUEUE *timer_queue = NULL;
+ALLEGRO_TIMER *timer = NULL;
+ALLEGRO_FONT * fontsc = NULL;
 
-// /**
-//  * @brief Libera los recursos empleados
-// */
-// void destroy_front(void);
+// Invaders matrix
+invader_t invaders[FIL_INVADERS][COL_INVADERS];
+
+UFO_t UFO_invader = {   .y = UFO_HEIGHT,
+                        .invaderType = UFO,
+                        .invaderState = 0     //Arranca muerta
+                    };
+
+const int invadersDistribution [FIL_INVADERS] = {
+                                                  SQUID,
+                                                  CRAB,
+                                                  CRAB,
+                                                  OCTO,
+                                                  OCTO,
+                                                  };
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -327,27 +332,10 @@ static int actualInvadersShots;
 static int actualCanonShots;
 
 
-/************ALLEGRO VARIABLES DEFINITION***************/
-static ALLEGRO_DISPLAY * display = NULL;
-static ALLEGRO_BITMAP *canonPointer = NULL;
-static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-static ALLEGRO_EVENT_QUEUE *timer_queue = NULL;
-static ALLEGRO_TIMER *timer = NULL;
-static ALLEGRO_FONT * fontsc = NULL;
-
-
-static UFO_t UFO_invader = {   .y = UFO_HEIGHT,
-                        .invaderType = UFO,
-                        .invaderState = 0     //Arranca muerta
-                    };
 
 // El cañón
 static cannonPosition_t cannonXpos = 0;
 static direction_t cannonDir = STOP;
-
-// Invaders matrix
-static invader_t invaders[FIL_INVADERS][COL_INVADERS];
-
 
 static shot_t canonShotList[MAX_CANON_SHOT];
 
@@ -358,19 +346,11 @@ static direction_t proxDir = LEFT;
 static float dxInvader;
 static float shotFromInvaderFrec;
 
-static const int invadersDistribution [FIL_INVADERS] = {
-                                                        SQUID,
-                                                        CRAB,
-                                                        CRAB,
-                                                        OCTO,
-                                                        OCTO,
-                                                       };
-
 static shield_t shielders[TOTAL_SHIELDS];
 
 #ifdef PRUEBA
 int main() {
-  if (init_game())
+  if (init_front())
     return -1;
 
   int running = 1;
@@ -421,7 +401,7 @@ int main() {
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-
+/*
 int init_game(void) {
 
 // ESTO NO VA ACA, SOLO PARA PROBAR:
@@ -544,145 +524,7 @@ int init_game(void) {
   return 0;
 
 }
-
-//EN MENU_FRONT:
-/*
-int init_front(void)
-{
-    if (!al_init()) { //Primera funcion a llamar antes de empezar a usar allegro.
-        fprintf(stderr, "failed to initialize allegro!\n");
-        return -1;
-    }
-
-    if (!al_init_primitives_addon()) {
-        fprintf(stderr, "failed to initialize primitives!\n");
-        return -1;
-    }
-
-
-    if (!al_install_keyboard()) {
-        fprintf(stderr, "failed to initialize the keyboard!\n");
-        return -1;
-    }
-
-    if (!al_init_image_addon()) { // ADDON necesario para manejo(no olvidar el freno de mano) de imagenes 
-        fprintf(stderr, "failed to initialize image addon !\n");
-        return -1;
-    }
-
-
-    timer = al_create_timer(1.0 / FPS); //crea el timer pero NO empieza a correr
-    if (!timer) {
-        fprintf(stderr, "failed to create timer!\n");
-        return -1;
-    }
-
-    event_queue = al_create_event_queue();
-    if (!event_queue) {
-        fprintf(stderr, "failed to create event_queue!\n");
-        al_destroy_timer(timer);
-        return -1;
-    }
-
-    timer_queue = al_create_event_queue();
-    if (!timer_queue) {
-        fprintf(stderr, "failed to create timer_queue!\n");
-        al_destroy_timer(timer);
-        return -1;
-    }
-
-    canonPointer = al_load_bitmap(CANON_FILE);
-    if (!canonPointer) {
-        fprintf(stderr, "failed to load image !\n");
-        return -1;
-    }
-
-    UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
-    if (!UFO_invader.invadersPointer) {
-        fprintf(stderr, "failed to load UFO !\n");
-        return -1;
-    }
-   
-    for (int i = 0; i < FIL_INVADERS; i++)
-    {
-        for (int j = 0; j < COL_INVADERS; j++)                         //Cargo el bitmap a todas las invaders
-        {
-            invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo de invader según la fila 
-            const char *file;
-            switch(invaders[i][j].invaderType)      // Segun el tipo de invader
-            {                                       // Se inicializa el archivo correspondiente
-                case CRAB:
-                    file = CRAB_FILE;
-                    break;
-                case OCTO:
-                    file = OCTO_FILE;
-                    break;
-                case SQUID:
-                    file = SQUID_FILE;
-                    break;
-                default:
-                    file = NULL;
-                    break;
-            }
-            invaders[i][j].invadersPointer = al_load_bitmap(file);
-            if (!invaders[i][j].invadersPointer) {
-                fprintf(stderr, "failed to load image \"%s\"!\n", file);
-                return -1;
-            }
-
-        }
-    }
-
-    display = al_create_display(D_WIDTH, D_HEIGHT); // Intenta crear display de 640x480 de fallar devuelve NULL
-    if (!display) {
-        fprintf(stderr, "failed to create display!\n");
-        return -1;
-    }
-
-    al_register_event_source(event_queue, al_get_display_event_source(display));
-    al_register_event_source(event_queue, al_get_keyboard_event_source()); //REGISTRAMOS EL TECLADO
-    
-    al_register_event_source(timer_queue, al_get_timer_event_source(timer));    // Esto en la timer_queue
-
-    placeInvaders();
-
-    placeShields();
-
-
-    al_draw_scaled_bitmap(canonPointer,
-                          0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
-                          cannonXpos, D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
-                          0);
-
-    al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
-
-    al_start_timer(timer); //Recien aca EMPIEZA el timer
-
-    return 0;
-}
 */
-
-// En destroy_front llamar a destroy_game
-void destroy_game(void)
-{
-  // ESTO TAL VEZ DEBERIA IR EN EL MENU U OTRO
-    al_shutdown_primitives_addon();
-    al_destroy_display(display);
-    al_destroy_event_queue(event_queue);
-  ///////////////////////////////////////////
-
-    al_destroy_bitmap(canonPointer);
-    al_destroy_event_queue(timer_queue);
-    al_destroy_timer(timer);
-    al_destroy_bitmap(UFO_invader.invadersPointer); // Destruccion UFO
-
-    for (int i = 0; i < FIL_INVADERS; i++) {        // Destrucción invaders
-        for (int j = 0; j < COL_INVADERS; j++) {
-            al_destroy_bitmap(invaders[i][j].invadersPointer);
-        }
-    }
-
-}
 
 
 void redraw(void)

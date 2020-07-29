@@ -14,12 +14,14 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 #define NUMOFFSET   '0' //Offset de numero entero a char 
+#define SIZE_FMU    50
+#define SIZE_FSC    28
 
-#define CANON_FILE  "Frontend/Allegro/PNGs/Laser_Cannon.png"
-#define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"
-#define OCTO_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
-#define SQUID_FILE  "Frontend/Allegro/PNGs/Squid1.png"
-#define UFO_FILE    "Frontend/Allegro/PNGs/UFO.png"
+#define CANON_FILE "Frontend/Allegro/PNGs/Laser_Cannon.png"
+#define CRAB_FILE "Frontend/Allegro/PNGs/Crab1.png"
+#define OCTO_FILE "Frontend/Allegro/PNGs/Octopus1.png"
+#define SQUID_FILE "Frontend/Allegro/PNGs/Squid1.png"
+#define UFO_FILE "Frontend/Allegro/PNGs/UFO.png"
 
 #define MENU_FILE   "Frontend/Allegro/BMPs/menu-sp.bmp"
 #define FIRST_FILE  "Frontend/Allegro/BMPs/first-image.bmp"
@@ -27,8 +29,8 @@
 #define INST_FILE   "Frontend/Allegro/BMPs/instruction-sp.bmp"
 #define END_FILE    "Frontend/Allegro/BMPs/bye-image.bmp"
 
-#define FONT1_FILE  "Frontend/Allegro/Fonts/SP-font-menu.ttf"
-#define FONT2_FILE  "Frontend/Allegro/Fonts/SP-font-menu.ttf"
+#define FONTMU_FILE  "Frontend/Allegro/Fonts/SP-font-menu.ttf"
+#define FONTSC_FILE "Frontend/Allegro/Fonts/SP-font-menu.ttf"
 
 #define SAMPLE_FILE "Frontend/Allegro/Songs/audio.wav"
 
@@ -40,23 +42,8 @@
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
-ALLEGRO_BITMAP *canonPointer = NULL;
-Invaders matrix;
-
-invader_t invaders[FIL_INVADERS][COL_INVADERS];
-
-const int invadersDistribution [FIL_INVADERS] = {
-                                                 OCTO,
-                                                 OCTO,
-                                                 SQUID,
-                                                 CRAB,
-                                                 CRAB,
-                                                 };
 
 ALLEGRO_DISPLAY *display = NULL;
-ALLEGRO_TIMER *timer = NULL;
-ALLEGRO_EVENT_QUEUE *timer_event = NULL;
-ALLEGRO_FONT * fontsc = NULL;
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -125,16 +112,16 @@ int init_front()       // Inicializo y verifico que no falle
                                                     al_register_event_source(event_queue, al_get_display_event_source(display));
                                                     al_register_event_source(event_queue, al_get_keyboard_event_source());
                                                     
-                                                    timer_event = al_create_event_queue();
-                                                    if (timer_event) {
-                                                        al_register_event_source(timer_event, al_get_timer_event_source(timer));
+                                                    timer_queue = al_create_event_queue();
+                                                    if (timer_queue) {
+                                                        al_register_event_source(timer_queue, al_get_timer_event_source(timer));
                                                         if (!loadim_menu()){
                                                             return false;
                                                         } else 
                                                             fprintf(stderr, "ERROR: failed to add thing!\n");
-                                                        al_destroy_event_queue(timer_event);
+                                                        al_destroy_event_queue(timer_queue);
                                                     } else
-                                                        fprintf(stderr, "ERROR: failed to create timer_!\n");
+                                                        fprintf(stderr, "ERROR: failed to create timer_queue!\n");
                                                     al_destroy_event_queue(event_queue);
                                                 } else
                                                     fprintf(stderr, "ERROR: failed to create event_queue!\n");
@@ -186,9 +173,9 @@ int loadim_menu()
                 if (instImage) {
                     endImage = al_load_bitmap(END_FILE);
                     if (endImage) {
-                        fontmu = al_load_ttf_font(FONT1_FILE, 50, 0);   //50 es el tamaño de la letra
+                        fontmu = al_load_ttf_font(FONTMU_FILE, SIZE_FMU, 0);
                         if(fontmu){
-                            fontsc = al_load_ttf_font(FONT2_FILE, 28, 0);   //28 es el tamaño de la letra
+                            fontsc = al_load_ttf_font(FONTSC_FILE, SIZE_FSC, 0);
                             if(fontsc){
                                 sample1 = al_load_sample(SAMPLE_FILE);
                                 if(sample1) {
@@ -225,8 +212,8 @@ int loadim_menu()
 
 int loadim_game () 
 {
-    cannon = al_load_bitmap(CANON_FILE);
-    if(cannon){
+    canonPointer = al_load_bitmap(CANON_FILE);
+    if(canonPointer){
         UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
         if (!UFO_invader.invadersPointer) {
             for (int i = 0; i < FIL_INVADERS; i++)
@@ -255,7 +242,7 @@ int loadim_game ()
                         fprintf(stderr, "failed to load invader image \"%s\"!\n", file);
                         destroy_invaders();
                         al_destroy_bitmap(UFO_invader.invadersPointer);
-                        al_destroy_bitmap(cannon);
+                        al_destroy_bitmap(canonPointer);
                         return true;
                     }
                 }
@@ -264,7 +251,7 @@ int loadim_game ()
             return false; //Cargó todo bien 
         } else
             fprintf(stderr, "failed to load UFO !\n");
-        al_destroy_bitmap(cannon); 
+        al_destroy_bitmap(canonPointer); 
 }
 
 
@@ -305,7 +292,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 /**
  * @brief Muestra los mejores puntajes, máximo 10.
 */
-void show_score (SCORE* score ,int size) 
+/*void show_score (SCORE* score ,int size) 
 {
     char chscore[LEADERBOARD_SIZE]; //Variable temporal para convertir int a char
     int num=0;
@@ -328,25 +315,28 @@ void show_score (SCORE* score ,int size)
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
     al_flip_display();
-}
+}*/
 
 
 /**
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
 */
-void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) {
+/*void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) {
     char chscore[LEADERBOARD_SIZE];
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
+    al_draw_text(fontmu, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");
+    
     for(int i=0;i<size;i++) {   
-        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+20, (D_HEIGHT / 2), ALLEGRO_ALIGN_CENTER, actual_name[i]);
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+10*i, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, actual_name[i]);
     }
+    al_draw_text(fontsc, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+10*letter_counter, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, actual_name[letter_counter]); //Imprime la legra a higligtear
     intochar(score,chscore);
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-20, (D_HEIGHT / 2), ALLEGRO_ALIGN_CENTER, chscore);
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
-}
+}*/
 
 
 /**
@@ -432,7 +422,7 @@ void destroy_front()
     // Destrucción de recursos empleados
 
     destroy_invaders();         //Destruye la parte de loadim_game
-    al_destroy_bitmap(cannon);
+    al_destroy_bitmap(canonPointer);
     al_destroy_bitmap(UFO_invader.invadersPointer); // Destruccion UFO
 
 
@@ -465,7 +455,7 @@ void destroy_front()
 /**
  * @brief Transforma un entero no signado a un string.
  */
-static void intochar(int num, char chscore[LEADERBOARD_SIZE])
+/*static void intochar(int num, char chscore[LEADERBOARD_SIZE])
 {
     int a = 0;
     for(int i=LEADERBOARD_SIZE-1;i>=0;i--) {
@@ -473,8 +463,7 @@ static void intochar(int num, char chscore[LEADERBOARD_SIZE])
         chscore[i]=a+NUMOFFSET;
         num = num / 10;
     }
-}
-
+}*/
 
 /**
  * @brief Destruye todos los invaders cargados.

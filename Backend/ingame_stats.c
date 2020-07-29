@@ -175,8 +175,7 @@ void increase_level(){
 
     placeInvaders();                        // Reubico a los aliens 
 
-    // clean_shoots();
-    //INCLUIR: Agregar clean_shots() y el archivo donde este su prototipo.
+    clean_shoots();                         // Limpio los disparos de la pantalla.
 
 
     #ifdef DEBUG
