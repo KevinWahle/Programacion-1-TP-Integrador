@@ -98,6 +98,12 @@ unsigned long int get_points(void);
 */
 int get_level(void);
 
+/**
+ * @brief Permite conocer el nivel actual sin necesidad acceder a
+ * la variable "lives".
+ * @return Retorna la cantidad de vidas actuales.
+*/
+int get_lives()
 
 /**
  * @brief Incrementa el contador de aliens asesinados y tambien los puntos

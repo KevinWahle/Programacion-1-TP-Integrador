@@ -119,7 +119,7 @@ void down_menu(MENU_ITEM* menu, int menu_size){
     
     #ifdef ONLY_ESSENTIAL            
         do{
-           if(menu_size/sizeof(MENU_ITEM)-1 > actual_option) {                                // Si el front solo permite mostrar las opciones esenciales:
+           if(menu_size/sizeof(MENU_ITEM)-1 > actual_option) {                          // Si el front solo permite mostrar las opciones esenciales:
                 actual_option++;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
            }                                                                            //y cuando haya una abajo.
         } while ((menu[actual_option]).essential==FALSE && actual_option>0);
@@ -240,8 +240,11 @@ void pause_game(void){
 }
 
 void resume_game(void){                 
-    //Ya hay funciones que hacen todo lo necesario para comenzar una partida.
-
+    //update_points(get_points());
+    //update_lives(get_lives());
+    //update_level(get_level());
+    //NOTA: descomentar cuando existan
+    
     #ifdef DEBUG
         printf("Reanudo partida. \n");
     #endif
@@ -276,7 +279,7 @@ void quit_game(void) {
 
 void show_game_score(){
 
-    unsigned long long int score= get_points();     // Guardo la cantidad de puntos obtenidos en la partida.
+    unsigned long int score= get_points();     // Guardo la cantidad de puntos obtenidos en la partida.
     int level= get_level();                         // Guardo el nivel alcanzado en la partida.
     int killed_crabs= get_killed_aliens(CRAB);      // Guardo los crabs asesinados en la partida.   
     int killed_octo= get_killed_aliens(OCTO);       // Guardo los octopus asesinados en la partida.
@@ -349,7 +352,6 @@ void upper_letter()
         letter++;                               // Si es una letra cualquiera paso a la siguiente del
                                                 //abcedario.
     }
-
     #ifdef DEBUG
         printf("Se pasó a la letra %c \n", letter);
     #endif
@@ -365,21 +367,32 @@ void lower_letter()
     {                                           // Si es una letra cualquiera paso a la anterior del
         letter--;                               //abcedario.
     }
-
     #ifdef DEBUG
         printf("Se pasó a la letra %c\n", letter);
     #endif
 }
 
 void save_score(){
-    SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
-    put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard); 
+    SCORE* p_leadboard=leadboard;                       // Coloco un puntero a su primer elemento
+    int not_null_char=0;                                // Creo una variable que cuente los ' '.
+
+    for(int i=0; i<NAME_SIZE; i++)                      // Para cada caracter no terminador de
+    {                                                   //actual_name:
+        if (actual_name[i] != ' ')                      // Reviso si NO es ' ' y si es así              
+        not_null_char++;                                // incremento la cantidad de posiciones
+    }                                                   // que tinen valor.
     
-    #ifdef DEBUG
+    if (not_null_char>0)                                // Si afirmativamente hay algun caracter guardado:
+    {
+        put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard);   // Ejecuto la función que guarda el 
+                                                                                //puntaje ordenado en el archivo.
+        
+        #ifdef DEBUG
         printf("Se guadro el nuevo score\n");
-    #endif
-    
-    my_menu(); 
+        #endif
+    }
+
+    my_menu();                                          // Precargo el menú antes de salir.
 }
 
 void saving_init()
@@ -398,7 +411,10 @@ void saving_init()
     
 }
 
-
+void show_name(void)
+{
+    show_name_front(actual_name, NAME_SIZE, letter_counter);
+}
 
 /**********************************************************
 *********************  COLLISION   ************************
@@ -443,9 +459,32 @@ void cannon_coll()
 
     reviveCanon();
 
-    // update_lives(getlives());
+    // update_lives(get_lives());
     // INCLUIR: el archivo con el prototipo de lo de arriba
 }
+
+/**********************************************************
+**********************  MOVEMENT   ************************
+**********************************************************/
+void move_cannon_left()
+{
+//    move_cannon(LEFT);
+}
+//CONTINUAR:
+
+
+void move_cannon_right()
+{
+//    move_cannon(RIGHT);
+}
+//CONTINUAR:
+
+void stop_cannon()
+{
+//    move_cannon(STOP);
+}
+//CONTINUAR:
+
 
 /**********************************************************
 *********************  VARIOUS   **************************

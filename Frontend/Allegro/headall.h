@@ -43,8 +43,11 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-// typedef unsigned char SHOT_TYPE;
+enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC};                 // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
+typedef uint8_t direction_t;
+
+// typedef unsigned char SHOT_TYPE;
 // typedef struct 
 // {
 //     int x;
@@ -140,6 +143,17 @@ void destroy_front();
  ******************************************************************************/
 
 /**
+ * @brief Inicializa los recursos del juego
+ * @return 0 si es satisfactorio, otro si hubo error
+ **/
+int init_game(void);
+
+/**
+ * @brief Destruye los recursos del juego
+ **/
+void destroy_game(void);
+
+/**
  * @brief Actualiza lo que se muestra en pantalla durante el juego
 */
 void redraw();
@@ -161,9 +175,16 @@ void reviveCanon(void);
 void placeInvaders(void);
 
 /**
+ * @brief Ejecuta un disparo del canon
+ * @return TODO?: CODIGO DE ERROR?
+*/
+void shoot_cannon(void);
+
+/**
  * @brief Elimina los disparos actuales
 */
 void clean_shoots(void);
+
 
 /*******************************************************************************
  ******************************************************************************/

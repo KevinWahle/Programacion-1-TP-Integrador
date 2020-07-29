@@ -92,8 +92,22 @@ LISTO    15) void reset_aliens_matrix();    // YA EXISTIA SE LLAMA void placeInv
     16) void clean_shoots();   
         Limpiar los disparos de la pantalla.
 
-    17) void game_score_front(score, level, killed_crabs, killed_octo, killed_squid, killed_ufo);
-        Muestra en pantalla los puntos y la cantidad de aliens asesinados.
+    17) show_name_front()
+     Muestra en pantalla el nombre con el cual se guardará el score.
+
+    18) show_name_front(char* actual_name, int size, int letter_counter);
+        Muestra los caracteres del nombre que se esta ingresanto, y highlightea el item mencionado
+        actual_name: puntero a arreglo de char con el nombre a mostrar
+        size: largo del arreglo
+        letter_counter: letra a resaltar (va de 0 a size-1)
+
+LISTO    19) void shoot_cannon(void)
+        Solicita un disparo del cannon, el front verifica si el disparo se realiza o no
+        segun la cantidad máxima de disparos
+
+LISTO    20) void move_cannon(direction_t dir)
+        Solicita un movimiento del cannon, el front verifica si se mueve o no segun la posicion
+        direction_t es un typedef definido en headall.h y se le pasa LEFT, RIGHT o STOP
 
 
 

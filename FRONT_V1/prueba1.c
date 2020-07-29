@@ -112,7 +112,7 @@ static char *blockColors[BLOCK_LIVES] = {   COLOR_STATE_0,
                                         };
 
 
-enum INVADERS_TYPES {CRAB ,SQUID, OCTO, UFO};
+// enum INVADERS_TYPES {CRAB ,SQUID, OCTO, UFO};
 
 enum DIRECTIONS {LEFT, RIGHT, ERROR_DIREC};                 // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
@@ -398,21 +398,24 @@ int main(void) {
 
     while (!display_close) {
         ALLEGRO_EVENT ev;
+        redraw();
+        // if (al_get_next_event(timer_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
+        //     if (ev.type == ALLEGRO_EVENT_TIMER)
+        //     {
+        //         int cannon_width = AL_GET_CANNON_WIDTH(canonPointer);
+        //         if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO_CANON) < D_WIDTH){
+        //             cannonXpos += TASA_DE_CAMBIO_CANON;
+        //         }
+        //         else if(key_pressed[KEY_LEFT] && (cannonXpos - TASA_DE_CAMBIO_CANON) > 0) {
+        //             cannonXpos -= TASA_DE_CAMBIO_CANON;
+        //         }
+        //         shouldRedraw = true;
+        //     }
+        // }
         if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
         {
-            if (ev.type == ALLEGRO_EVENT_TIMER)
-            {
-                int cannon_width = AL_GET_CANNON_WIDTH(canonPointer);
-                if(key_pressed[KEY_RIGHT] && (cannonXpos +  cannon_width + TASA_DE_CAMBIO_CANON) < D_WIDTH){
-                    cannonXpos += TASA_DE_CAMBIO_CANON;
-                }
-                else if(key_pressed[KEY_LEFT] && (cannonXpos - TASA_DE_CAMBIO_CANON) > 0) {
-                    cannonXpos -= TASA_DE_CAMBIO_CANON;
-                }
-                shouldRedraw = true;
-            }
 
-            else if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+            if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
                 display_close = true;
 
             else if(ev.type == ALLEGRO_EVENT_KEY_DOWN )
@@ -1318,12 +1321,15 @@ static void moveUFO(void)
 
 void clean_shoots(void)
 {
-    for(int i = 0; i < MAX_CANON_SHOT)
+    for(int i = 0; i < MAX_CANON_SHOT; i++)
     {
         canonShotList[i].shotState = 0;
     }
-    for(int i = 0; i < MAX_INVADERS_SHOT)
+    for(int i = 0; i < MAX_INVADERS_SHOT; i++)
     {
         invaderShotList[i].shotState = 0;
     }
 }
+
+    
+        

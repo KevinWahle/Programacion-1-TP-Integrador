@@ -38,17 +38,17 @@
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
-ALLEGRO_BITMAP *cannon = NULL;
+// ALLEGRO_BITMAP *cannon = NULL;
 // Invaders matrix
-invader_t invaders[FIL_INVADERS][COL_INVADERS];
+// invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
-const int invadersDistribution [FIL_INVADERS] = {
-                                                OCTO,
-                                                OCTO,
-                                                SQUID,
-                                                CRAB,
-                                                CRAB,
-                                                };
+// const int invadersDistribution [FIL_INVADERS] = {
+//                                                 OCTO,
+//                                                 OCTO,
+//                                                 SQUID,
+//                                                 CRAB,
+//                                                 CRAB,
+//                                                 };
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -252,8 +252,9 @@ int loadim_game ()
                     return true;
                 }
             }
-            return false;
         }
+        
+        return false;
     } else
         fprintf(stderr, "ERROR: failed to load cannon image!\n");    
     return true;

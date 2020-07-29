@@ -165,7 +165,7 @@ void increase_lives()
 
 void increase_level(){
     level++;                // Incremento el nivel en uno.
-    update_level();
+    update_level(get_level());
 
     increase_lives();       // Si me faltan vidas, recupero una.
     
@@ -173,12 +173,7 @@ void increase_level(){
     set_speed(newspeed);                    // la velocidad.
     reset_timer();
 
-    update_speed_front(get_speed());        // Le aviso al front que 
-                                            //actualice la velocidad
-    
     placeInvaders();                        // Reubico a los aliens 
-
-    //INCLUIR: Agregar update_speed_front(speed) y el archivo donde este su prototipo.
 
     // clean_shoots();
     //INCLUIR: Agregar clean_shots() y el archivo donde este su prototipo.
@@ -188,20 +183,6 @@ void increase_level(){
         printf("Se incremento el nivel, esta en el nivel %d\n", level);
         printf("La velocidad de inicio de nivel es: %d\n", speed);
     #endif  
-
-    /*NOTA: 
-    level++;                // Incremento el nivel en uno.
-    update_level();
-
-    increase_lives();       // Si me faltan vidas, recupero una.
-                        
-    set_speed(level*STEP_LEVEL_SPEED);  // Calculamos y actualizamos 
-    reset_timer();                      // la velocidad.
-    speed_update();
-    placeInvaders();                        // Reubico a los aliens 
-
-    
-    */
 }
 
 void speed_update(const float seg)
@@ -212,15 +193,13 @@ void speed_update(const float seg)
     {
         reset_timer();                                          // Actualizo el tiempo de referencia.
         
-        if( (speed + STEP_SPEED) <= MAX_SPEED)           // Si puedo incrementar la velocidad sin superar
-            speed += STEP_SPEED;                         // la velocidad máxima, la incremento.
+        if( (get_speed() + STEP_SPEED) <= MAX_SPEED)           // Si puedo incrementar la velocidad sin superar
+            set_speed(get_speed() + STEP_SPEED);                         // la velocidad máxima, la incremento.
         
         #ifdef DEBUG
         printf("La nueva velocidad es: %d \n", speed);
         #endif
         
-        //update_speed_front(speed);
-        //INCLUIR: donde se encuentre update_speed_front.
 
     }        
 }
@@ -253,6 +232,15 @@ unsigned int get_killed_aliens(const int tipo_alien)
     #endif 
 
     return killed_invaders[tipo_alien]; 
+}
+
+int get_lives()
+{
+    #ifdef DEBUG
+    printf("Se tiene %d vidas\n", lives);
+    #endif
+
+    return  lives;
 }
 
 /**********************************************************
@@ -345,8 +333,10 @@ static void increase_points(const int cant)
  
 static void set_speed(int new_speed){              
     
-    speed=new_speed;                                // Actualizamos la velocidad
+    speed=new_speed;                                // Actualizamos la velocidad localmente
 
+    //update_speed_front(speed);                      // Y se la pasamos al front.
+    //NOTA: descomentar
     #ifdef DEBUG
         printf("La velocidad paso a ser: %d \n", speed);
     #endif 

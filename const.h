@@ -29,12 +29,18 @@ enum EVENTS {
 
 
 	// Eventos que provienen del front y son hardware.
+	
+	// Eventos de apretado de tecla
 	MOVE_UP,
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
     CLICK_BTN,  // Botón de click, shoot o aceptar
     PAUSE_BTN,
+	
+	// Eventos de soltado de tecla:
+    MOVE_LEFT_REL,
+    MOVE_RIGHT_REL,
 
 	// Eventos que provienen del front y son sobre el juego.
 	CRAB_COLL_EV,
