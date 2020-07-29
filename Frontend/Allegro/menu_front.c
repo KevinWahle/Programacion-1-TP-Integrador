@@ -8,6 +8,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "headall.h"
+#include "shared_res.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -18,6 +19,7 @@
 #define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"
 #define OCTO_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
 #define SQUID_FILE  "Frontend/Allegro/PNGs/Squid1.png"
+#define UFO_FILE    "Frontend/Allegro/PNGs/UFO.png"
 
 #define MENU_FILE   "Frontend/Allegro/BMPs/menu-sp.bmp"
 #define FIRST_FILE  "Frontend/Allegro/BMPs/first-image.bmp"
@@ -38,17 +40,23 @@
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
-// ALLEGRO_BITMAP *cannon = NULL;
-// Invaders matrix
-// invader_t invaders[FIL_INVADERS][COL_INVADERS];
+ALLEGRO_BITMAP *canonPointer = NULL;
+Invaders matrix;
 
-// const int invadersDistribution [FIL_INVADERS] = {
-//                                                 OCTO,
-//                                                 OCTO,
-//                                                 SQUID,
-//                                                 CRAB,
-//                                                 CRAB,
-//                                                 };
+invader_t invaders[FIL_INVADERS][COL_INVADERS];
+
+const int invadersDistribution [FIL_INVADERS] = {
+                                                 OCTO,
+                                                 OCTO,
+                                                 SQUID,
+                                                 CRAB,
+                                                 CRAB,
+                                                 };
+
+ALLEGRO_DISPLAY *display = NULL;
+ALLEGRO_TIMER *timer = NULL;
+ALLEGRO_EVENT_QUEUE *timer_event = NULL;
+ALLEGRO_FONT * fontsc = NULL;
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -85,14 +93,10 @@ static ALLEGRO_BITMAP *endImage = NULL;
 static ALLEGRO_BITMAP *instImage = NULL;
 static ALLEGRO_BITMAP *scoreImage = NULL;
 
-static ALLEGRO_TIMER *timer = NULL;
-static ALLEGRO_DISPLAY *display = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
-static ALLEGRO_EVENT_QUEUE *timer_event = NULL;
 
 static ALLEGRO_SAMPLE *sample1 = NULL;
 static ALLEGRO_FONT * fontmu = NULL;
-static ALLEGRO_FONT * fontsc = NULL;
 
 //static ALLEGRO_KEYBOARD_STATE ks;
 
@@ -130,7 +134,7 @@ int init_front()       // Inicializo y verifico que no falle
                                                             fprintf(stderr, "ERROR: failed to add thing!\n");
                                                         al_destroy_event_queue(timer_event);
                                                     } else
-                                                        fprintf(stderr, "ERROR: failed to create timer_event!\n");
+                                                        fprintf(stderr, "ERROR: failed to create timer_!\n");
                                                     al_destroy_event_queue(event_queue);
                                                 } else
                                                     fprintf(stderr, "ERROR: failed to create event_queue!\n");
@@ -223,41 +227,44 @@ int loadim_game ()
 {
     cannon = al_load_bitmap(CANON_FILE);
     if(cannon){
-        for (int i = 0; i < FIL_INVADERS; i++)
-        {
-            for (int j = 0; j < COL_INVADERS; j++)      //Cargo el bitmap a todas las invaders
+        UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
+        if (!UFO_invader.invadersPointer) {
+            for (int i = 0; i < FIL_INVADERS; i++)
             {
-                invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo según la fila 
-                const char *file;
-                switch(invaders[i][j].invaderType)
+                for (int j = 0; j < COL_INVADERS; j++)      //Cargo el bitmap a todas las invaders
                 {
-                    case CRAB:
-                        file = CRAB_FILE;
-                        break;
-                    case OCTO:
-                        file = OCTO_FILE;
-                        break;
-                    case SQUID:
-                        file = SQUID_FILE;
-                        break;
-                    default:
-                        file = NULL;
-                        break;
+                    invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo según la fila 
+                    const char *file;
+                    switch(invaders[i][j].invaderType)
+                    {
+                        case CRAB:
+                            file = CRAB_FILE;
+                            break;
+                        case OCTO:
+                            file = OCTO_FILE;
+                            break;
+                        case SQUID:
+                            file = SQUID_FILE;
+                            break;
+                        default:
+                            file = NULL;
+                            break;
+                    }
+                    invaders[i][j].invadersPointer = al_load_bitmap(file);
+                    if (!invaders[i][j].invadersPointer) {
+                        fprintf(stderr, "failed to load invader image \"%s\"!\n", file);
+                        destroy_invaders();
+                        al_destroy_bitmap(UFO_invader.invadersPointer);
+                        al_destroy_bitmap(cannon);
+                        return true;
+                    }
                 }
-                invaders[i][j].invadersPointer = al_load_bitmap(file);
-                if (!invaders[i][j].invadersPointer) {
-                    fprintf(stderr, "failed to load invader image \"%s\"!\n", file);
-                    destroy_invaders();
-                    al_destroy_bitmap(cannon);
-                    return true;
-                }
+
             }
-        }
-        
-        return false;
-    } else
-        fprintf(stderr, "ERROR: failed to load cannon image!\n");    
-    return true;
+            return false; //Cargó todo bien 
+        } else
+            fprintf(stderr, "failed to load UFO !\n");
+        al_destroy_bitmap(cannon); 
 }
 
 
@@ -308,20 +315,37 @@ void show_score (SCORE* score ,int size)
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
-    al_flip_display();
     
     if (size>10)
         size=10;
 
     for(int i=0;i<size;i++) {
-        position[0] = i+1+NUMOFFSET;    
+        position[0] = i+1+NUMOFFSET;  //Muestra el numero de la posicion del jugador  
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), 50, 220+(i*40), ALLEGRO_ALIGN_CENTER, position);
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*40), ALLEGRO_ALIGN_CENTER, score[i].name);
         num=score[i].pts;
         intochar(num,chscore);
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
+    al_flip_display();
+}
 
+
+/**
+ * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
+*/
+void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) {
+    char chscore[LEADERBOARD_SIZE];
+    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
+                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
+                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0);
+    for(int i=0;i<size;i++) {   
+        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+20, (D_HEIGHT / 2), ALLEGRO_ALIGN_CENTER, actual_name[i]);
+    }
+    intochar(score,chscore);
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-20, (D_HEIGHT / 2), ALLEGRO_ALIGN_CENTER, chscore);
+    al_flip_display();
 }
 
 
@@ -341,15 +365,16 @@ void shows_inst ()
 /**
  * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".
  **/
-void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGRO "ALLEGRO_EVENT ev;"
+void update_front_event (void)
 {
     ALLEGRO_EVENT ev;
-    if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
+    if (al_get_next_event(event_queue, &ev))
     {
-        if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-            add_event(EXIT_EVENT); 
-
-        else if (ev.type == ALLEGRO_EVENT_KEY_DOWN )
+        if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)   // Eventos de display
+        {
+            add_event(EXIT_EVENT);
+        }
+        else if (ev.type == ALLEGRO_EVENT_KEY_DOWN )  // Eventos de press
         {
             switch (ev.keyboard.keycode)
             {
@@ -375,42 +400,22 @@ void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGR
                 break;
             }
         }
-    }
-}
-
-
-/**
- * @brief Redraw dependiendo del timer.
- **/
-/*void redraw ()          //VER SI PONER EN GAME_FRONT
-{
-    ALLEGRO_EVENT ev1;
-    if (al_get_next_event(timer_event, &ev1)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
-    {
-        if (ev1.type == ALLEGRO_EVENT_TIMER)
+        else if (ev.type == ALLEGRO_EVENT_KEY_UP )    // Eventos de release
         {
-            al_clear_to_color(al_map_rgb(0, 0, 0));
-            
-            getCanonShotCollision();
-
-            shouldInvaderShot();
-
-            getInvaderShotCollison();
-            
-            if( !is_invadersOnFloor()  )
-                proxDir = moveInvaders(proxDir);
-
-            placeShields();
-
-            drawAliveInvaders(invaders);
-
-            al_draw_bitmap(canonPointer, cannonXpos, D_HEIGHT - al_get_bitmap_height(canonPointer) , 0);
-            al_flip_display();
+            switch (ev.keyboard.keycode)
+            {
+            case ALLEGRO_KEY_LEFT:
+                add_event(MOVE_LEFT_REL);
+                break;
+            case ALLEGRO_KEY_RIGHT:
+                add_event(MOVE_RIGHT_REL);
+                break;
+            default:
+                break;
+            }
         }
     }
-
 }
-*/
 
 
 /**
@@ -428,6 +433,8 @@ void destroy_front()
 
     destroy_invaders();         //Destruye la parte de loadim_game
     al_destroy_bitmap(cannon);
+    al_destroy_bitmap(UFO_invader.invadersPointer); // Destruccion UFO
+
 
     al_destroy_bitmap(menuImage);   //Destruye la parte de loadim_menu
     al_destroy_bitmap(firstImage);

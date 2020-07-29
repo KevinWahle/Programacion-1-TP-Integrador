@@ -32,12 +32,7 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define D_WIDTH   800   //Ancho de pantalla
-#define D_HEIGHT  600   //Alto de pantalla
-#define FPS       60.0
 
-#define FIL_INVADERS 5                   // Cantidad de filas de invaders
-#define COL_INVADERS 9                   // Cantidad de columnas de invaders
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -45,16 +40,15 @@
 
 enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC};                 // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
-typedef uint8_t direction_t;
+typedef uint8_t direction_t;  // Necesario para move_cannon()
 
-// typedef unsigned char SHOT_TYPE;
-// typedef struct 
-// {
-//     int x;
-//     int y;
-//     int shotState;
-//     SHOT_TYPE type;
-// } shot_t;
+typedef struct 
+{
+    int x;
+    int y;
+    int shotState;
+    SHOT_TYPE type;
+} shot_t;
 
 
 // typedef struct 
@@ -65,14 +59,6 @@ typedef uint8_t direction_t;
 //     int width;
 // }collBoxShot_t;
 
-// typedef struct 
-// {
-//     int x;
-//     int y;
-//     int invaderState;
-//     int invaderType;
-//     ALLEGRO_BITMAP *invadersPointer;
-// }invader_t;
 
 //enum INVADERS_TYPES {CRAB ,SQUID, OCTO};        
 // NOTA: PASO A CONST.H
@@ -116,11 +102,20 @@ void splash_front();
 void show_menu (MENU_ITEM *menu_to_show, int size, int item);
 
 /**
- * @brief Muestra imagen descore y muestra hasta top 10.
+ * @brief Muestra imagen de score y muestra hasta top 10.
  * @param score[] Recibe un puntero a esturctura de que tiene nombres ypuntajes
  * @param size Recibe el tamaño actual de la lista de puntaje
 */
 void show_score (SCORE* score ,int size);
+
+/**
+ * @brief Muestra imagen de score y muestra el punjate final de partida
+ * @param actual_name Recibe un puntero a el nombre que quiere ingresar el usiario
+ * @param size Recibe el largo del arreglo
+ * @param letter_counter  Recibe la letra a resaltar (va de 0 a size-1)
+ * @param score Puntaje de final de partida
+*/
+void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score);
 
 /**
  * @brief Muestra las instrucciones.
@@ -179,6 +174,12 @@ void placeInvaders(void);
  * @return TODO?: CODIGO DE ERROR?
 */
 void shoot_cannon(void);
+
+/**
+ * @brief Solicita un movimiento continuo del cannon en la direccion indicada
+ * @param dir la direccion a la que se desea mover. STOP si se desea parar
+*/
+void move_cannon(direction_t dir);
 
 /**
  * @brief Elimina los disparos actuales

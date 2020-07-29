@@ -16,7 +16,9 @@
 // #include <allegro5/allegro_image.h>
 // #include <allegro5/allegro_primitives.h>
 #include <string.h>
+
 #include "headall.h"
+#include "shared_res.h"
 
 
 #define TASA_DE_CAMBIO_CANON 3           // Velocidad del canon   
@@ -143,26 +145,7 @@ typedef struct
     int width;
 }collBoxShot_t;
 
-// Objeto invader
-typedef struct 
-{
-    float x;
-    float y;
-    int invaderState;    // Si esta vivo o muerto 
-    int invaderType;
-    ALLEGRO_BITMAP *invadersPointer;   // Puntero util para asociarlo al bitmap
-}invader_t;
 
-// Objeto UFO
-typedef struct 
-{
-    float x;
-    float y;
-    int invaderState;
-    int invaderType;
-    direction_t direction;      //  El UFO puede aparecer desde la izquierda o desde la derecha
-    ALLEGRO_BITMAP *invadersPointer;
-} UFO_t;
 
 //Objeto bloque
 typedef struct 
@@ -259,7 +242,7 @@ static void shouldInvaderShot(void);
  * @param x_shield  la coord en x
  * @param y_shield  la coord en y
  * @param shield_t* shield: ?????????????????????????????????????????????//????
- * @return la direccion con la que se movio
+ * @return lon la que se movio
 */
 static void createShield(int x_shield, int y_shield, shield_t *shield);
 
@@ -323,6 +306,14 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot);
 */
 static void shouldUFOappear(void);
 
+/**
+ * @brief Actualiza la posicion y dibuja el cannon
+*/
+static void drawCannon(void);
+
+static void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo);
+
+
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -342,7 +333,7 @@ static ALLEGRO_BITMAP *canonPointer = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 static ALLEGRO_EVENT_QUEUE *timer_queue = NULL;
 static ALLEGRO_TIMER *timer = NULL;
-static ALLEGRO_FONT * font = NULL;
+static ALLEGRO_FONT * fontsc = NULL;
 
 
 static UFO_t UFO_invader = {   .y = UFO_HEIGHT,
@@ -376,8 +367,6 @@ static const int invadersDistribution [FIL_INVADERS] = {
                                                        };
 
 static shield_t shielders[TOTAL_SHIELDS];
-
-#define PRUEBA
 
 #ifdef PRUEBA
 int main() {
@@ -474,8 +463,8 @@ int init_game(void) {
   al_init_font_addon(); // initialize the font addon      // Chequear si hay error?
   al_init_ttf_addon(); // initialize the ttf (True Type Font) addon
 ////////////////////
-  font = al_load_ttf_font("space.ttf", 36, 0); //HAY CREAR UN FONT PARA CADA TAMAÑO DE LETRA :( 
-  if (!font) {
+  fontsc = al_load_ttf_font("Fonts/space.ttf", 36, 0); //HAY CREAR UN FONT PARA CADA TAMAÑO DE LETRA :( 
+  if (!fontsc) {
     fprintf(stderr, "Could not load 'space.ttf'.\n");
     return -1;
   }
@@ -546,12 +535,9 @@ int init_game(void) {
   placeShields();
 
 // ESTO NO ES NECESARIO HASTA redraw()
-  // al_draw_scaled_bitmap(canonPointer,
-  //                       0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
-  //                       cannonXpos, D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_WIDTH(canonPointer),      // Con que tamaño queres que se dibuje la imagen
-  //                       0);
+  drawCannon();
 
-  // al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
+  al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
 
   al_start_timer(timer); //Recien aca EMPIEZA el timer
 
@@ -698,57 +684,6 @@ void destroy_game(void)
 
 }
 
-void update_front_event (void)
-{
-    ALLEGRO_EVENT ev;
-    if (al_get_next_event(event_queue, &ev))
-    {
-        if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-        {
-            add_event(EXIT_EVENT);
-        }
-        else if (ev.type == ALLEGRO_EVENT_KEY_DOWN )
-        {
-            switch (ev.keyboard.keycode)
-            {
-            case ALLEGRO_KEY_ESCAPE:
-                add_event(PAUSE_BTN);
-                break;
-            case ALLEGRO_KEY_SPACE:
-                add_event(CLICK_BTN);
-                break;
-            case ALLEGRO_KEY_UP:
-                add_event(MOVE_UP);
-                break;
-            case ALLEGRO_KEY_DOWN:
-                add_event(MOVE_DOWN);
-                break;
-            case ALLEGRO_KEY_LEFT:
-                add_event(MOVE_LEFT);
-                break;
-            case ALLEGRO_KEY_RIGHT:
-                add_event(MOVE_RIGHT);
-                break;
-            default:
-                break;
-            }
-        else if (ev.type == ALLEGRO_EVENT_KEY_UP )
-        {
-            switch (ev.keyboard.keycode)
-            {
-            case ALLEGRO_KEY_LEFT:
-                add_event(MOVE_LEFT_REL);
-                break;
-            case ALLEGRO_KEY_RIGHT:
-                add_event(MOVE_RIGHT_REL);
-                break;
-            default:
-                break;
-            }
-        }
-    }
-}
-
 
 void redraw(void)
 {   
@@ -774,10 +709,9 @@ void redraw(void)
 
             drawAliveInvaders();
 
-            al_draw_scaled_bitmap(canonPointer,
-                            0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
-                            cannonXpos, D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
-                            0);
+            drawCannon();
+
+            game_score_front(30 , 25, 20, 15, 3, 7);
 
             al_flip_display(); 
         }
@@ -1123,6 +1057,15 @@ static void updateCannonPos(void)
   }
 }
 
+static void drawCannon(void)
+{
+  updateCannonPos();
+  al_draw_scaled_bitmap(canonPointer,
+                0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
+                cannonXpos, D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
+                0);
+}
+
 static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
 {
     direction_t nextDirection = ERROR_DIREC;
@@ -1459,11 +1402,47 @@ void clean_shoots(void)
 }
 
 
-//void game_score_front(unsigned long intscore, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo)
-//{   
-//
-//    char score[20];
-//    strcpy (score,"score ");
-//    strcat (score,     );
-//    al_draw_text(font, al_map_rgb(255, 255, 255), D_WIDTH / 2, 0, ALLEGRO_ALIGN_CENTER, score);
-//}
+static void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo)
+{   
+
+    char scoreText[] = "Score: ";
+    char stringScore[10];
+    sprintf(stringScore, "%d", (int)score);
+    strcat (scoreText, stringScore );
+
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  D_HEIGHT / 8, ALLEGRO_ALIGN_CENTER, scoreText);
+
+
+    char levelText[] = "Level: ";
+    char stringLevel[10];
+    sprintf(stringLevel, "%d", level);
+    strcat (levelText, stringLevel ); 
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  D_HEIGHT / 4, ALLEGRO_ALIGN_CENTER, levelText); 
+
+    char killedCrabsText[] = "Killed crabs: ";
+    char stringCrabs[28];
+    sprintf(stringCrabs, "%d", killed_crabs);
+    strcat (killedCrabsText, stringCrabs ); 
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  D_HEIGHT / 2, ALLEGRO_ALIGN_CENTER, killedCrabsText); 
+    
+    char killedOctoText[] = "Killed octo: ";
+    char stringOcto[30];
+    sprintf(stringOcto, "%d", killed_octo);
+    strcat (killedOctoText, stringOcto ); 
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  D_HEIGHT / (3.0/4.0), ALLEGRO_ALIGN_CENTER, killedOctoText);
+
+    char killedSquidText[] = "Killed squid: ";
+    char stringSquid[30];
+    sprintf(stringSquid, "%d", killed_squid);
+    strcat (killedSquidText, stringSquid ); 
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  D_HEIGHT / (3.0/4.0), ALLEGRO_ALIGN_CENTER, killedSquidText);
+
+    char killedUfoText[] = "Killed UFO: ";
+    char stringUfo[30];
+    sprintf(stringUfo, "%d", killed_ufo);
+    strcat (killedUfoText, stringUfo ); 
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  D_HEIGHT / (3.0/4.0), ALLEGRO_ALIGN_CENTER, killedUfoText);
+
+
+
+}

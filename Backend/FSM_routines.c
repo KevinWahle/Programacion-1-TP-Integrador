@@ -18,7 +18,8 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define SEG 1
+#define SPEED_LAPSE 1
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -413,7 +414,7 @@ void saving_init()
 
 void show_name(void)
 {
-    show_name_front(actual_name, NAME_SIZE, letter_counter);
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }
 
 /**********************************************************
@@ -468,22 +469,19 @@ void cannon_coll()
 **********************************************************/
 void move_cannon_left()
 {
-//    move_cannon(LEFT);
+   // move_cannon(LEFT);
 }
-//CONTINUAR:
-
 
 void move_cannon_right()
 {
-//    move_cannon(RIGHT);
+   // move_cannon(RIGHT);
 }
-//CONTINUAR:
 
 void stop_cannon()
 {
-//    move_cannon(STOP);
+  //  move_cannon(STOP);
 }
-//CONTINUAR:
+
 
 
 /**********************************************************
@@ -491,7 +489,7 @@ void stop_cannon()
 **********************************************************/
 
 void refresh(void){
-    speed_update(SEG);      // Actualizo la velocidad con la que se mueven los invaders.
+    speed_update(SPEED_LAPSE);      // Actualizo la velocidad con la que se mueven los invaders.
     redraw();               // Redibujo la pantalla
 }
 

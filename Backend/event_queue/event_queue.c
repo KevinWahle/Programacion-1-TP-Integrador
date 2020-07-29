@@ -95,7 +95,7 @@ int is_queue_empty(void) {
 
 #ifdef TEST     // Solo si se define TEST
 
-static void printArray (event_t array[], size_t size) {
+static void printArray (event_t array[], unsigned int size) {
     printf("[ ");
     for (int i = 0; i < size; i++) {
         printf("%u ", array[i]);

@@ -20,7 +20,7 @@
 #include "../Frontend/Allegro/headall.h" 
 
 #elif PLATFORM == RASPI
-//#include "../Frontend/Raspi/..""/INCLUIR: header front.
+//#include "../Frontend/Raspi/.." //INCLUIR: header front.
 #endif
 
 
