@@ -560,7 +560,7 @@ void redraw()
     
     al_draw_scaled_bitmap(canonPointer,
                     0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
-                    cannonXpos, D_HEIGHT - AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
+                    cannonXpos, D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
                     0);
 
     al_flip_display(); 
@@ -581,7 +581,7 @@ static int invaderShot(int i, int j)
     int ship_width = AL_GET_INVADER_WIDTH( invader.invadersPointer );
     int ship_height = AL_GET_INVADER_HEIGHT( invader.invadersPointer );
     
-    int x_shot = (ship_width + 2* invaders[i][j].x  )/2;
+    int x_shot = (ship_width + 2* invaders[i][j].x)/2;
     int y_shot = invaders[i][j].y + ship_height;
     
     shot_t shot = { .x = x_shot,
