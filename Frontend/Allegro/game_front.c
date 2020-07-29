@@ -8,6 +8,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include <stdint.h>
+#include <stdio.h>    // SOLO PARA DEBUGEAR
 // #include <time.h>
 // #include <allegro5/allegro.h>
 // #include <allegro5/allegro_color.h>
@@ -347,13 +348,15 @@ static float dxInvader;
 static float shotFromInvaderFrec;
 
 static shield_t shielders[TOTAL_SHIELDS];
-
+// #define PRUEBA
 #ifdef PRUEBA
 int main() {
   if (init_front())
     return -1;
 
   int running = 1;
+
+  init_game();
 
   while (running) {
     update_front_event();
@@ -392,7 +395,7 @@ int main() {
     redraw();
   }
 
-  destroy_game();
+  destroy_front();
   return 0;
 }
 #endif //PRUEBA
@@ -401,130 +404,20 @@ int main() {
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-/*
-int init_game(void) {
 
-// ESTO NO VA ACA, SOLO PARA PROBAR:
-  if (!al_init()) { //Primera funcion a llamar antes de empezar a usar allegro.
-    fprintf(stderr, "failed to initialize allegro!\n");
-    return -1;
-  }
-
-  if (!al_init_primitives_addon()) {
-    fprintf(stderr, "failed to initialize primitives!\n");
-    return -1;
-  }
-
-  if (!al_install_keyboard()) {
-    fprintf(stderr, "failed to initialize the keyboard!\n");
-    return -1;
-  }
-
-  if (!al_init_image_addon()) { // ADDON necesario para manejo(no olvidar el freno de mano) de imagenes 
-    fprintf(stderr, "failed to initialize image addon !\n");
-    return -1;
-  }
-  
-  display = al_create_display(D_WIDTH, D_HEIGHT); // Intenta crear display de 640x480 de fallar devuelve NULL
-    if (!display) {
-      fprintf(stderr, "failed to create display!\n");
-      return -1;
-  }
-//////////////////////////////////////
-
-// ACA O EN MENU?????
-  event_queue = al_create_event_queue();
-  if (!event_queue) {
-    fprintf(stderr, "failed to create event_queue!\n");
-    al_destroy_timer(timer);
-    return -1;
-  }
-
-  al_init_font_addon(); // initialize the font addon      // Chequear si hay error?
-  al_init_ttf_addon(); // initialize the ttf (True Type Font) addon
-////////////////////
-  fontsc = al_load_ttf_font("Fonts/space.ttf", 36, 0); //HAY CREAR UN FONT PARA CADA TAMAÑO DE LETRA :( 
-  if (!fontsc) {
-    fprintf(stderr, "Could not load 'space.ttf'.\n");
-    return -1;
-  }
-
-  timer = al_create_timer(1.0 / FPS); //crea el timer pero NO empieza a correr
-  if (!timer) {
-    fprintf(stderr, "failed to create timer!\n");
-    return -1;
-  }
-
-  timer_queue = al_create_event_queue();
-  if (!timer_queue) {
-    fprintf(stderr, "failed to create timer_queue!\n");
-    al_destroy_timer(timer);
-    return -1;
-  }
-
-  canonPointer = al_load_bitmap(CANON_FILE);
-  if (!canonPointer) {
-    fprintf(stderr, "failed to load image !\n");
-    return -1;
-  }
-
-  UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
-  if (!UFO_invader.invadersPointer) {
-    fprintf(stderr, "failed to load UFO !\n");
-    return -1;
-  }
-  
-  for (int i = 0; i < FIL_INVADERS; i++)
-  {
-    for (int j = 0; j < COL_INVADERS; j++)                         //Cargo el bitmap a todas las invaders
-    {
-      invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo de invader según la fila 
-      const char *file;
-      switch(invaders[i][j].invaderType)      // Segun el tipo de invader
-      {                                       // Se inicializa el archivo correspondiente
-        case CRAB:
-          file = CRAB_FILE;
-          break;
-        case OCTO:
-          file = OCTO_FILE;
-          break;
-        case SQUID:
-          file = SQUID_FILE;
-          break;
-        default:
-          file = NULL;
-          break;
-      }
-      invaders[i][j].invadersPointer = al_load_bitmap(file);
-      if (!invaders[i][j].invadersPointer) {
-        fprintf(stderr, "failed to load image \"%s\"!\n", file);
-        return -1;
-      }
-    }
-  }
-
-// ACA O EN MENU?????
-  al_register_event_source(event_queue, al_get_display_event_source(display));
-  al_register_event_source(event_queue, al_get_keyboard_event_source()); //REGISTRAMOS EL TECLADO
-/////////////////////
-
-  al_register_event_source(timer_queue, al_get_timer_event_source(timer));    // Esto en la timer_queue
+void init_game(void) {
 
   placeInvaders();
 
   placeShields();
 
-// ESTO NO ES NECESARIO HASTA redraw()
   drawCannon();
 
   al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
 
   al_start_timer(timer); //Recien aca EMPIEZA el timer
 
-  return 0;
-
 }
-*/
 
 
 void redraw(void)

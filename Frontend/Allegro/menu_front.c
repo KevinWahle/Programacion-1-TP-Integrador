@@ -215,7 +215,7 @@ int loadim_game ()
     canonPointer = al_load_bitmap(CANON_FILE);
     if(canonPointer){
         UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
-        if (!UFO_invader.invadersPointer) {
+        if (UFO_invader.invadersPointer) {
             for (int i = 0; i < FIL_INVADERS; i++)
             {
                 for (int j = 0; j < COL_INVADERS; j++)      //Cargo el bitmap a todas las invaders
@@ -239,19 +239,21 @@ int loadim_game ()
                     }
                     invaders[i][j].invadersPointer = al_load_bitmap(file);
                     if (!invaders[i][j].invadersPointer) {
-                        fprintf(stderr, "failed to load invader image \"%s\"!\n", file);
+                        fprintf(stderr, "ERROR: failed to load invader image \"%s\"!\n", file);
                         destroy_invaders();
                         al_destroy_bitmap(UFO_invader.invadersPointer);
                         al_destroy_bitmap(canonPointer);
                         return true;
                     }
                 }
-
             }
             return false; //Cargó todo bien 
         } else
-            fprintf(stderr, "failed to load UFO !\n");
-        al_destroy_bitmap(canonPointer); 
+            fprintf(stderr, "ERROR: failed to load UFO !\n");
+        al_destroy_bitmap(canonPointer);
+    } else
+        fprintf(stderr, "ERROR: failed to load canon !\n");
+    return true;
 }
 
 
@@ -292,7 +294,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 /**
  * @brief Muestra los mejores puntajes, máximo 10.
 */
-/*void show_score (SCORE* score ,int size) 
+void show_score (SCORE* score ,int size) 
 {
     char chscore[LEADERBOARD_SIZE]; //Variable temporal para convertir int a char
     int num=0;
@@ -315,7 +317,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
     al_flip_display();
-}*/
+}
 
 
 /**
@@ -455,7 +457,7 @@ void destroy_front()
 /**
  * @brief Transforma un entero no signado a un string.
  */
-/*static void intochar(int num, char chscore[LEADERBOARD_SIZE])
+static void intochar(int num, char chscore[LEADERBOARD_SIZE])
 {
     int a = 0;
     for(int i=LEADERBOARD_SIZE-1;i>=0;i--) {
@@ -463,7 +465,7 @@ void destroy_front()
         chscore[i]=a+NUMOFFSET;
         num = num / 10;
     }
-}*/
+}
 
 /**
  * @brief Destruye todos los invaders cargados.

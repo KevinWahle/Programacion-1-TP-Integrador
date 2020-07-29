@@ -12,3 +12,6 @@ game_front.o: game_front.o shared_res.h headall.h ${HEAD_ALL}
 
 menu_front.o: menu_front.c shared_res.h headall.h ${HEAD_ALL}
 	gcc -Wall -c menu_front.c
+
+clean: 
+	rm *.o

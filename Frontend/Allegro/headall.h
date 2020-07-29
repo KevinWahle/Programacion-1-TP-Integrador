@@ -98,10 +98,9 @@ void destroy_front();
  ******************************************************************************/
 
 /**
- * @brief Inicializa los recursos del juego
- * @return 0 si es satisfactorio, otro si hubo error
- **/
-int init_game(void);
+ * @brief Inicializa lo necesario para empezar la partida
+*/
+void init_game(void);
 
 /**
  * @brief Actualiza lo que se muestra en pantalla durante el juego
