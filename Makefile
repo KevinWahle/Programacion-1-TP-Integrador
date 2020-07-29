@@ -1,6 +1,6 @@
 ################################################
 CC = gcc
-OPTIONS = -O2 -g -Wall -D DEBUG  # -g for debug, -O2 for optimise and -Wall additional messages
+OPTIONS = -O2 -g -Wall # -g for debug, -O2 for optimise and -Wall additional messages
 
 ################################################
 LDLIBSOPTIONS =`pkg-config --libs allegro-5` `pkg-config --libs allegro_acodec-5` `pkg-config --libs allegro_audio-5` `pkg-config --libs allegro_color-5` `pkg-config --libs allegro_dialog-5` `pkg-config --libs allegro_font-5` `pkg-config --libs allegro_image-5` `pkg-config --libs allegro_main-5` `pkg-config --libs allegro_memfile-5` `pkg-config --libs allegro_physfs-5` `pkg-config --libs allegro_primitives-5` `pkg-config --libs allegro_ttf-5` `pkg-config --libs allegro_video-5`
@@ -40,9 +40,19 @@ menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} Backend/event_queue/ev
 	${CC} ${OPTIONS} ${LDLIBSOPTIONS} -c Frontend/Allegro/menu_front.c
 
 
+################################################Terminar raspi
 #raspi: Backend\FSM_talbe.h main.c ingame_stats.o scoretable.o FSM_routines.o ${HFRONT_RAS}
 #	${CC} ${OPTIONS} ${OBJS} main.c -o spg -D RASPI
+#
+#scoretable.o: Backend/scoretable.c Backend/scoretable.h
+#	${CC} ${OPTIONS} -c Backend/scoretable.c
+#
+#menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} Backend/event_queue/event_queue.h
+#	${CC} ${OPTIONS} -c Frontend/Raspi/menu_front.c
 
+################################################
+event_queue.o: Backend/event_queue/event_queue.c Backend/event_queue/event_queue.h 
+	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c 
 
 clean: 
 	rm Backend/*.o
