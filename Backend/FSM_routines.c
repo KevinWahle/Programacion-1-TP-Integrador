@@ -53,7 +53,7 @@ MENU_ITEM pause_menu[] = {
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 static int actual_option = 0;
-static char actual_name[NAME_SIZE]= {' ', ' ', ' ', ' ',' '}; //NOTA: Con o sin terminador???
+static char actual_name[NAME_SIZE+1]= {' ', ' ', ' ', ' ', ' ', '\0'};  //NOTA: El terminador es necesario.
 static SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard  
 static int letter_counter;
 
@@ -171,19 +171,19 @@ void click_menu()
     switch (main_menu[actual_option].ID)
     {
         case PLAY_ID:
-            add = add_event(PLAY_EVENT);        // Añadimos a  la cola de eventos
+            add_event(PLAY_EVENT);        // Añadimos a  la cola de eventos
         break;
 
         case SCORE_ID:
-            add = add_event(SCORE_EVENT);       // Añadimos a  la cola de eventos
+            add_event(SCORE_EVENT);       // Añadimos a  la cola de eventos
         break;
 
         case INSTUCTION_ID:
-            add = add_event(INSTRUCTION_EVENT);     // Añadimos a  la cola de eventos
+            add_event(INSTRUCTION_EVENT);     // Añadimos a  la cola de eventos
         break;
 
         case EXIT_ID:
-            add = add_event(EXIT_EVENT);        // Añadimos a  la cola de eventos
+            add_event(EXIT_EVENT);        // Añadimos a  la cola de eventos
         break;        
     }
     actual_option=0;
@@ -309,16 +309,16 @@ void show_global_score(void) {
 /*
 void next_letter()
 {
-    if (letter < NAME_SIZE)                     // Si me quedan letras por guardar:
+    if (letter < NAME_SIZE && actual_name[letter_counter-1]!=' ')                         // Si me quedan letras por guardar:
     {
-        actual_name[letter_counter]=letter;         //Guardo la letra actual.
+        actual_name[letter_counter]=letter;                                              //Guardo la letra actual.
     
     #ifdef DEBUG
         printf("Se confirmo la letra: %c. En total hay %d letras. \n", actual_name[letter_counter], letter_counter+1);
     #endif
     
-    letter_counter++;                              //Paso a la siguiente letra.                                           
-    letter=' ';
+    letter_counter++;                              // Paso a la siguiente letra.                                           
+    letter=actual_name[letter_counter];            // Cargo la siguiente letra de la nueva ubicación.
     }
 }      
 
@@ -337,16 +337,15 @@ void previous_letter()
     }                                         
 }
 
-
-
 void upper_letter()
 {
-    if (letter == 'Z' || letter==' '){
-        letter='A';
+    if (letter == 'Z' || letter==' '){          // Si no tengo letra cargada o llegue al final
+        letter='A';                             //del abcedario cargo la letra A
     }
 
     else{
-        letter++;
+        letter++;                               // Si es una letra cualquiera paso a la siguiente del
+                                                //abcedario.
     }
 
     #ifdef DEBUG
@@ -357,13 +356,12 @@ void upper_letter()
 
 void lower_letter()
 {
-    if (letter=='A' || letter==' ')
-    {
-        letter= 'Z';
+    if (letter=='A' || letter==' '){            // Si no tengo letra cargada o llegue al inicio                        
+        letter= 'Z';                            //del abcedario cargo la letra Z.
     }    
     else 
-    {
-        letter--;
+    {                                           // Si es una letra cualquiera paso a la anterior del
+        letter--;                               //abcedario.
     }
 
     #ifdef DEBUG
@@ -377,13 +375,6 @@ void save_score(void){
 }
 
 */
-
-
-
-
-
-
-
 
 
 /**********************************************************

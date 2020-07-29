@@ -77,15 +77,21 @@ LISTO	10) /**
         // El back llama a esta función con la velocidad actualizada
         // Adentro de la función el front actualiza su propia velocidad (invaders, frecuencia de tiros, etc)
 
-        void updatePoints(int score);
+    12)  void updatePoints(int score);
+        Muestra en pantalla los puntos de la partida.
 
         void updateLives(int lives);
+        Muestra en pantalla las vidas restantes de la partida.
 
         destroyCanon();
 
-        nextLevel();
+        nextLevel();    
+        //NOTA: aparece como increase level.
 
         endGame();
+
+    13) void reset_aliens_matrix();
+        Debe resetear la matriz de aliens que guarda el front.     
 
 
 

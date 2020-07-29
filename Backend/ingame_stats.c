@@ -273,7 +273,7 @@ void kill_alien(const int tipo_alien)
     //update_points(get_points());   //INCLUIR: header con el prototipo
     
     #ifdef DEBUG
-        printf("Tipo de invader asesinado: %d \t Puntos: %lld \n\n", tipo_alien, get_points());
+        printf("Tipo de invader asesinado: %d \t Puntos: %lu \n\n", tipo_alien, get_points());
     
         for(int i=0; i<=UFO; i++){
         printf("Invaders del tipo %d asesinados: %d\n", tipo_alien, killed_invaders[tipo_alien]);
@@ -310,7 +310,7 @@ void increase_points(const int cant)
     points += cant;         // Incremento los puntos en cant.
         
     #ifdef DEBUG
-        printf("Incremento en %d los puntos, hay %lld puntos \n", cant, get_points());
+        printf("Incremento en %d los puntos, hay %lu puntos \n", cant, get_points());
     #endif  
 }   
  

@@ -44,8 +44,6 @@ void BubbleSort(SCORE arr[], int cont);
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-// +ej: static int temperaturas_actuales[4];+
-
 
 /*******************************************************************************
  *******************************************************************************
@@ -90,33 +88,22 @@ int lect_score (SCORE* my_pun)
     unsigned long int num;      // Numero con el puntaje
     int cant =-1;               // Contador. Cuenta  la canitdad de puntajes que tiene el archivo
     fp=fopen ("score.txt","r"); // Abro el archivo
-    int i;
     do
     {
         num=0;
 
-        for (i=0; i<NAME_SIZE && (c=fgetc (fp))!=' ' ; i++){   //Leo hasta que se termine la palabra o llegue al maximo permitido
-            if (c==EOF){
-                return cant+1;                              // Si terminé de leer el archivo, salgo
-            }
-            str [i]=c;                                      // Cargo el nombre en un string
-            
-        }
-        str [i]=0;                                          // Le agrego el terminador
-
-        
-        if (c!=' '){                                        // Si el ultimo caracter no era un espacio
-            char temp=fgetc (fp);                           // Leo el espacio (basura)
-        }
+        fgets(str, NAME_SIZE+1, fp);            //Leo el string con el nombre
+        char temp=fgetc (fp);                   // Leo el espacio (basura)
 
 
         while ((c=fgetc (fp))!=EOF && c!='\n'){ // Mientras que no Lea un enter, o el archivo se termine
             num=num*10+(c-OFFSET);              // vamos conformando el numero con los caracteres
         }
-          for (int j=0; j<=i; j++){
+        
+        for (int j=0; j<=NAME_SIZE; j++){
             score_data.name[j]=str[j];          // Cargamos el nombre a la memoria
-
         }
+
         score_data.pts=num;                     // Cargamos el puntaje a la memoria
         *my_pun=score_data;
         my_pun++;                               // Apuntamos al siguiente nombre y puntaje
