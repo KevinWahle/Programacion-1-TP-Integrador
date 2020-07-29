@@ -29,30 +29,36 @@
 /**
  * @brief Resetea el timer
 */
-void reset_timer(void);
+static void reset_timer(void);
 
 /**
  * @brief resetea la velocidad
 */
-void reset_speed(void);
+static void reset_speed(void);
 
 /**
  * @brief incrementa los puntos
  * @param cant cantidad de puntos a incrementar
 */
-void increase_points(const int cant);
+static void increase_points(const int cant);
 
 /**
  * @brief actualiza la velocidad
  * @param new_speed representa el nuevo valor de la velocidad
 */
-void set_speed(int new_speed);
+static void set_speed(int new_speed);
 
 /**
  * @brief actualiza el nivel
  * @param new_level representa el nuevo nivel
 */
-void set_level(int new_level);
+static void set_level(int new_level);
+
+/**
+ * @brief toma cuanto vale la velocidad
+ * @return devuelve la velocidad actual
+*/
+static unsigned int get_speed (void);
 
 /*******************************************************************************
  * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -96,7 +102,8 @@ void reset_lives()
 void reset_points()
 {
     points=0;           //Devuelvo la variable puntos a su valor inicial.
-    
+    //update_points(get_points());   //INCLUIR: header con el prototipo
+
     #ifdef DEBUG
         printf("Renuevo puntos. \n");
     #endif  
@@ -149,7 +156,7 @@ void increase_lives()
 {
     if(lives<=2){           // Si perdi alguna vida:
         lives++;            // Incremento la cantidad de vidas en uno. 
-        //update_lives(lives);     // INCLUIR: header con el prototipo
+      //  update_lives(lives);     // INCLUIR: header con el prototipo
         #ifdef DEBUG
         printf("Incremento 1 vida, quedan %d vidas \n", lives);
         #endif          
@@ -158,22 +165,43 @@ void increase_lives()
 
 void increase_level(){
     level++;                // Incremento el nivel en uno.
-    increase_lives();
-    int newspeed = level*STEP_LEVEL_SPEED;
-    set_speed(newspeed);
+    update_level();
+
+    increase_lives();       // Si me faltan vidas, recupero una.
+    
+    int newspeed = level*STEP_LEVEL_SPEED;  // Calculamos y actualizamos 
+    set_speed(newspeed);                    // la velocidad.
     reset_timer();
+
+    update_speed_front(get_speed());        // Le aviso al front que 
+                                            //actualice la velocidad
+    
+    placeInvaders();                        // Reubico a los aliens 
+
     //INCLUIR: Agregar update_speed_front(speed) y el archivo donde este su prototipo.
 
- 
-    //CONTINUAR:
-    // placeInvader(); 
     // clean_shoots();
-    //INCLUIR: incluir archivo con la funcion reset_aliens_matrix();
+    //INCLUIR: Agregar clean_shots() y el archivo donde este su prototipo.
+
 
     #ifdef DEBUG
         printf("Se incremento el nivel, esta en el nivel %d\n", level);
         printf("La velocidad de inicio de nivel es: %d\n", speed);
     #endif  
+
+    /*NOTA: 
+    level++;                // Incremento el nivel en uno.
+    update_level();
+
+    increase_lives();       // Si me faltan vidas, recupero una.
+                        
+    set_speed(level*STEP_LEVEL_SPEED);  // Calculamos y actualizamos 
+    reset_timer();                      // la velocidad.
+    speed_update();
+    placeInvaders();                        // Reubico a los aliens 
+
+    
+    */
 }
 
 void speed_update(const float seg)
@@ -227,7 +255,6 @@ unsigned int get_killed_aliens(const int tipo_alien)
     return killed_invaders[tipo_alien]; 
 }
 
-
 /**********************************************************
 **********************  VARIOUS   *************************
 **********************************************************/
@@ -273,8 +300,6 @@ void kill_alien(const int tipo_alien)
         killed_invaders[tipo_alien]++;                  // Sumamos el contador de muertes relacionado al tipo de alien      
     }
     
-    //update_points(get_points());   //INCLUIR: header con el prototipo
-    
     #ifdef DEBUG
         printf("Tipo de invader asesinado: %d \t Puntos: %lu \n\n", tipo_alien, get_points());
     
@@ -293,12 +318,12 @@ void kill_alien(const int tipo_alien)
  *******************************************************************************
  ******************************************************************************/
 
-void reset_timer(void)
+static void reset_timer(void)
 {
     start=clock();                  // Renuevo el tiempo de referecia.
 }
 
-void reset_speed()
+static void reset_speed()
 {
     set_speed(MIN_SPEED);   // Reseteo la velocidad al mínimo.
     reset_timer();          // Reseteo el valor de referencia.
@@ -308,16 +333,18 @@ void reset_speed()
     #endif 
 }
 
-void increase_points(const int cant)
+static void increase_points(const int cant)
 {
     points += cant;         // Incremento los puntos en cant.
-        
+    //update_points(get_points());   //INCLUIR: header con el prototipo
+
     #ifdef DEBUG
         printf("Incremento en %d los puntos, hay %lu puntos \n", cant, get_points());
     #endif  
 }   
  
-void set_speed(int new_speed){              
+static void set_speed(int new_speed){              
+    
     speed=new_speed;                                // Actualizamos la velocidad
 
     #ifdef DEBUG
@@ -325,7 +352,7 @@ void set_speed(int new_speed){
     #endif 
 }
 
-void set_level(int new_level)
+static void set_level(int new_level)
 {
     level=new_level;                                // Actualizamos el nivel
 
@@ -334,5 +361,9 @@ void set_level(int new_level)
     #endif 
 }
 
+static unsigned int get_speed (void)
+{
+    return speed;                                   // Devuelvo la velocidad actual.
+}
 
 

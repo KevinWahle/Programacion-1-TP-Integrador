@@ -1,18 +1,18 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
+// #include <stdio.h>
+// #include <stdlib.h>
 #include <stdint.h>
-#include <time.h>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_color.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_primitives.h>
+// #include <time.h>
+// #include <allegro5/allegro.h>
+// #include <allegro5/allegro_color.h>
+// #include <allegro5/allegro_image.h>
+// #include <allegro5/allegro_primitives.h>
 
 #include "../Frontend/Allegro/headall.h"
 
-   
+
 #define TASA_DE_CAMBIO_CANON 3           // Velocidad del canon   
 #define TASA_DE_CAMBIO_BALA 4            // Velocidad de la bala
 #define TASA_DE_CAMBIO_INVADERS 0.5      // MAL!!! ES VARIABLE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -20,9 +20,6 @@
 
 #define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
 #define SHOT_WIDTH 4                     // idem
-
-#define FIL_INVADERS 5                   // Cantidad de filas de invaders (los invaders se pueden representar como una matriz)
-#define COL_INVADERS 9                   // // Cantidad de columnas de invaders
 
 // INVADERS POSITION
 #define INVADERS_WIDTH_PERCENT  0.6      // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
@@ -194,36 +191,20 @@ typedef int cannonPosition_t;
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
 
-/**
- * @brief Inicializa todos los recursos necesarios de Allegro y setea parámetros iniciales
- * @return 0 si no hubo error, otro si lo hubo
-*/
-int init_front(void);
+// LO COMENTO PORQUE ESTA EN HEADALL
+// /**
+//  * @brief Inicializa todos los recursos necesarios de Allegro y setea parámetros iniciales
+//  * @return 0 si no hubo error, otro si lo hubo
+// */
+// int init_front(void);
 
-/**
- * @brief Libera los recursos empleados
-*/
-void destroy_front(void);
-
-/**
- * @brief Actualiza lo que se muestra en pantalla durante el juego
-*/
-void redraw();
-
-/**
- * @brief Actualiza la velocidad del juego
- * @param newSpeed El nuevo valor de velocidad para el juego
-*/
-void update_speed_front(int newSpeed);
-
-/**
- * @brief Coloca el cannon en la posición al revivir, debajo de un shield
-*/
-void reviveCanon(void);
+// /**
+//  * @brief Libera los recursos empleados
+// */
+// void destroy_front(void);
 
 //TODO
 void reset_front(void);
-
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -317,18 +298,11 @@ static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
 static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
 
 /**
- * @brief Ubica a los invaders
- * @param invader_t recibe la matriz de los invaders 
- * @return ?????????????????????????????????????????????????????????????????????????
-*/
-static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS]);
-
-/**
  * @brief dibuja los invaders
  * @param invader_t recibe la matriz de los invaders 
  * @return ?????????????????????????????????????????????????????????????????????????
 */
-static void drawAliveInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS]);
+static void drawAliveInvaders(void);
 
 /**
  * @brief chequea si cambiar la direccion o no
@@ -373,6 +347,7 @@ static int actualCanonShots;
 static ALLEGRO_DISPLAY * display = NULL;
 static ALLEGRO_BITMAP *canonPointer = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+static ALLEGRO_EVENT_QUEUE *timer_queue = NULL;
 static ALLEGRO_TIMER *timer = NULL;
 
 UFO_t UFO_invader = {   .y = UFO_HEIGHT,
@@ -395,9 +370,6 @@ static direction_t proxDir = LEFT;
 
 static float dxInvader;
 static float shotFromInvaderFrec;
- 
-
-
 
 static const int invadersDistribution [FIL_INVADERS] = {
                                                         SQUID,
@@ -419,12 +391,11 @@ int main(void) {
 
     bool key_pressed[4] = {false, false, false, false}; //Estado de teclas, true cuando esta apretada
 
-
     if(init_front())
     {
         return -1;
     }
-    
+
     while (!display_close) {
         ALLEGRO_EVENT ev;
         if (al_get_next_event(event_queue, &ev)) //Toma un evento de la cola, VER RETURN EN DOCUMENT.
@@ -494,12 +465,13 @@ int main(void) {
  *******************************************************************************
  ******************************************************************************/
 
-void destroy_front()
+void destroy_front(void)
 {
     al_shutdown_primitives_addon();
     al_destroy_display(display);
     al_destroy_bitmap(canonPointer);
     al_destroy_event_queue(event_queue);
+    al_destroy_event_queue(timer_queue);
     al_destroy_timer(timer);
     al_destroy_bitmap(UFO_invader.invadersPointer); // Destruccion UFO
 
@@ -510,32 +482,91 @@ void destroy_front()
     }
 }
 
-void redraw()
+void update_front_event (void)
+{
+    ALLEGRO_EVENT ev;
+    if (al_get_next_event(event_queue, &ev))
+    {
+        if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        {
+            add_event(EXIT_EVENT);
+            ////////SOLO PARA TESTEAR, DESPUES LO HACE EL BACK
+            destroy_front();
+            ////////////////////////////////////////
+        }
+        else if (ev.type == ALLEGRO_EVENT_KEY_DOWN )
+        {
+            switch (ev.keyboard.keycode)
+            {
+            case ALLEGRO_KEY_ESCAPE:
+                add_event(PAUSE_BTN);
+                break;
+            case ALLEGRO_KEY_SPACE:
+                add_event(CLICK_BTN);
+                canonShot();                // MEJOR QUE LO DECIDA EL BACK!!!-----------
+                break;
+            case ALLEGRO_KEY_UP:
+                add_event(MOVE_UP);
+                break;
+            case ALLEGRO_KEY_DOWN:
+                add_event(MOVE_DOWN);
+                break;
+            case ALLEGRO_KEY_LEFT:
+                add_event(MOVE_LEFT);
+                ////////SOLO PARA TESTEAR, DESPUES VEMOS SI VA AL BACK
+                if((cannonXpos - TASA_DE_CAMBIO_CANON) > 0) {
+                    cannonXpos -= TASA_DE_CAMBIO_CANON;
+                }
+                ///////////////////////////////////
+                break;
+            case ALLEGRO_KEY_RIGHT:
+                add_event(MOVE_RIGHT);
+                ////////SOLO PARA TESTEAR, DESPUES VEMOS SI VA AL BACK
+                if((cannonXpos +  AL_GET_CANNON_WIDTH(canonPointer) + TASA_DE_CAMBIO_CANON) < D_WIDTH){
+                    cannonXpos += TASA_DE_CAMBIO_CANON;
+                }
+                /////////////////
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
+
+void redraw(void)
 {   
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-    
-    shouldUFOappear();
-    moveUFO();
+    ALLEGRO_EVENT ev;
+    if (al_get_next_event(timer_queue, &ev)) //Toma un evento de la timer_queue
+    {
+        if (ev.type == ALLEGRO_EVENT_TIMER)
+        {
+            al_clear_to_color(al_map_rgb(0, 0, 0));
 
-    getCanonShotCollision();
+            shouldUFOappear();
+            moveUFO();
 
-    shouldInvaderShot();
-    getInvaderShotCollison();
-    
-    if( !is_invadersOnFloor()  )
-        proxDir = moveInvaders(proxDir);
+            getCanonShotCollision();
 
-    drawShields();
+            shouldInvaderShot();
+            getInvaderShotCollison();
 
-    drawAliveInvaders(invaders);
-    
-    al_draw_scaled_bitmap(canonPointer,
-                    0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
-                    cannonXpos, D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
-                    0);
+            if( !is_invadersOnFloor()  )
+                proxDir = moveInvaders(proxDir);
 
-    al_flip_display(); 
+            drawShields();
 
+            drawAliveInvaders();
+
+            al_draw_scaled_bitmap(canonPointer,
+                            0, 0, al_get_bitmap_width(canonPointer), al_get_bitmap_height(canonPointer),
+                            cannonXpos, D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer), AL_GET_CANNON_WIDTH(canonPointer), AL_GET_CANNON_HEIGHT(canonPointer),      // Con que tamaño queres que se dibuje la imagen
+                            0);
+
+            al_flip_display(); 
+        }
+    }
 }
 
 void reviveCanon(void)
@@ -754,44 +785,44 @@ static void getCanonShotCollision(void)
 
 }
 
-static void placeInvaders(invader_t ptr_to_struct[FIL_INVADERS][COL_INVADERS])
+void placeInvaders(void)
 {
     // Guardo el ancho del invader más grande, que será el de la última fila
-    int max_inv_width = AL_GET_INVADER_WIDTH(ptr_to_struct[FIL_INVADERS-1][0].invadersPointer);
+    int max_inv_width = AL_GET_INVADER_WIDTH(invaders[FIL_INVADERS-1][0].invadersPointer);
 
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for (int j = 0; j < COL_INVADERS; j++)
         {
-            int inv_width = AL_GET_INVADER_WIDTH(ptr_to_struct[i][j].invadersPointer);
-            int inv_height = AL_GET_INVADER_HEIGHT(ptr_to_struct[i][j].invadersPointer);
+            int inv_width = AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer);
+            int inv_height = AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer);
             
             // Cáclulo del centro en x de los invasores
             int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
             
             int x_pos =  x_mid - inv_width/2;
             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
-            al_draw_scaled_bitmap(ptr_to_struct[i][j].invadersPointer,
-                          0, 0, al_get_bitmap_width(ptr_to_struct[i][j].invadersPointer), al_get_bitmap_height(ptr_to_struct[i][j].invadersPointer),
-                          x_pos, y_pos, AL_GET_INVADER_WIDTH(ptr_to_struct[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(ptr_to_struct[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+            al_draw_scaled_bitmap(invaders[i][j].invadersPointer,
+                          0, 0, al_get_bitmap_width(invaders[i][j].invadersPointer), al_get_bitmap_height(invaders[i][j].invadersPointer),
+                          x_pos, y_pos, AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
                           0);
-            ptr_to_struct[i][j].x = x_pos;
-            ptr_to_struct[i][j].y = y_pos;
-            ptr_to_struct[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
+            invaders[i][j].x = x_pos;
+            invaders[i][j].y = y_pos;
+            invaders[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
         }
     }
 }
 
-static void drawAliveInvaders(invader_t ptr_to_invaders[FIL_INVADERS][COL_INVADERS])
+static void drawAliveInvaders(void)
 {
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for (int j = 0; j < COL_INVADERS; j++)
         {
-            if( (ptr_to_invaders[i][j].invaderState) )
-                al_draw_scaled_bitmap(ptr_to_invaders[i][j].invadersPointer,
-                          0, 0, al_get_bitmap_width(ptr_to_invaders[i][j].invadersPointer), al_get_bitmap_height(ptr_to_invaders[i][j].invadersPointer),
-                          ptr_to_invaders[i][j].x, ptr_to_invaders[i][j].y, AL_GET_INVADER_WIDTH(ptr_to_invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(ptr_to_invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+            if( (invaders[i][j].invaderState) )
+                al_draw_scaled_bitmap(invaders[i][j].invadersPointer,
+                          0, 0, al_get_bitmap_width(invaders[i][j].invadersPointer), al_get_bitmap_height(invaders[i][j].invadersPointer),
+                          invaders[i][j].x, invaders[i][j].y, AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
                           0);
         }
     }
@@ -861,6 +892,13 @@ int init_front(void)
         return -1;
     }
 
+    timer_queue = al_create_event_queue();
+    if (!timer_queue) {
+        fprintf(stderr, "failed to create timer_queue!\n");
+        al_destroy_timer(timer);
+        return -1;
+    }
+
     canonPointer = al_load_bitmap(CANON_FILE);
     if (!canonPointer) {
         fprintf(stderr, "failed to load image !\n");
@@ -910,10 +948,11 @@ int init_front(void)
     }
 
     al_register_event_source(event_queue, al_get_display_event_source(display));
-    al_register_event_source(event_queue, al_get_timer_event_source(timer));
     al_register_event_source(event_queue, al_get_keyboard_event_source()); //REGISTRAMOS EL TECLADO
+    
+    al_register_event_source(timer_queue, al_get_timer_event_source(timer));    // Esto en la timer_queue
 
-    placeInvaders( invaders );
+    placeInvaders();
 
     placeShields();
 
@@ -1283,5 +1322,8 @@ void clean_shoots(void)
     {
         canonShotList[i].shotState = 0;
     }
-    for(int i = 0; i < )
+    for(int i = 0; i < MAX_INVADERS_SHOT)
+    {
+        invaderShotList[i].shotState = 0;
+    }
 }

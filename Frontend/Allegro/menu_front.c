@@ -375,30 +375,6 @@ void update_front_event ()  //VER SI DEJARLO ASI O HACERLO CON EVENTOS DE ALLEGR
             }
         }
     }
-
-    // Ver esto en lugar de al_get_next_event() (Devuelve evento sin sacar de la cola) 
-    // bool al_peek_next_event(ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_EVENT *ret_event)
-
-    /*al_get_keyboard_state(&ks);
-
-    if(al_key_down(&ks,ALLEGRO_KEY_ESCAPE)) {
-        add_event(PAUSE_BTN);
-    }
-    else if(al_key_down(&ks,ALLEGRO_KEY_SPACE)) {
-        add_event(CLICK_BTN);
-    }
-    else if(al_key_down(&ks,ALLEGRO_KEY_UP)) {
-        add_event(MOVE_UP);
-    }
-    else if(al_key_down(&ks,ALLEGRO_KEY_DOWN)) {
-        add_event(MOVE_DOWN);
-    }
-    else if(al_key_down(&ks,ALLEGRO_KEY_LEFT)) {
-        add_event(MOVE_LEFT);
-    }
-    else if(al_key_down(&ks,ALLEGRO_KEY_RIGHT)) {
-        add_event(MOVE_RIGHT);
-    }*/
 }
 
 

@@ -256,7 +256,6 @@ void start_game(void){
     //reset_front();              // Actualizo el front a formato partida. 
     //INCLUIR: Incluir en donde se encuentra reset_front.
     
-
     //NOTA: Agregar si se desea mostrar las vidas disponibles en pantalla.
 
     
@@ -284,7 +283,7 @@ void show_game_score(){
     int killed_squid= get_killed_aliens(SQUID);     // Guardo los squids asesinados en la partida.
     int killed_ufo= get_killed_aliens(UFO);         // Guardo los UFOs asesinados en la partida.
     
-    //CONTINUAR: game_score_front(score, level, killed_crabs, killed_octo, killed_squid, killed_ufo);
+    //game_score_front(score, level, killed_crabs, killed_octo, killed_squid, killed_ufo);
     //INCLUIR: Incluir en donde se encuentra game_score_front.
 
     #ifdef DEBUG
@@ -454,8 +453,7 @@ void cannon_coll()
 
 void refresh(void){
     speed_update(SEG);      // Actualizo la velocidad con la que se mueven los invaders.
-    //redraw();               // Redibujo la pantalla
-    //INCLUIR: incluir donde se encuentre redraw()
+    redraw();               // Redibujo la pantalla
 }
 
 

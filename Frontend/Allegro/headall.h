@@ -36,40 +36,40 @@
 #define D_HEIGHT  600   //Alto de pantalla
 #define FPS       60.0
 
-#define FIL_INVADERS 5
-#define COL_INVADERS 9
-
+#define FIL_INVADERS 5                   // Cantidad de filas de invaders
+#define COL_INVADERS 9                   // Cantidad de columnas de invaders
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-typedef unsigned char SHOT_TYPE;
 
-typedef struct 
-{
-    int x;
-    int y;
-    int shotState;
-    SHOT_TYPE type;
-}shot_t;
+// typedef unsigned char SHOT_TYPE;
+
+// typedef struct 
+// {
+//     int x;
+//     int y;
+//     int shotState;
+//     SHOT_TYPE type;
+// } shot_t;
 
 
-typedef struct 
-{
-    int x;
-    int y;
-    int height;
-    int width;
-}collBoxShot_t;
+// typedef struct 
+// {
+//     int x;
+//     int y;
+//     int height;
+//     int width;
+// }collBoxShot_t;
 
-typedef struct 
-{
-    int x;
-    int y;
-    int invaderState;
-    int invaderType;
-    ALLEGRO_BITMAP *invadersPointer;
-}invader_t;
+// typedef struct 
+// {
+//     int x;
+//     int y;
+//     int invaderState;
+//     int invaderType;
+//     ALLEGRO_BITMAP *invadersPointer;
+// }invader_t;
 
 //enum INVADERS_TYPES {CRAB ,SQUID, OCTO};        
 // NOTA: PASO A CONST.H
@@ -130,11 +130,6 @@ void shows_inst ();
 void update_front_event();
 
 /**
- * @brief Redraw dependiendo del timer.
- **/
-void redraw(void);
-
-/**
  * @brief Destruye los recursos empleados.
  **/
 void destroy_front();
@@ -144,8 +139,31 @@ void destroy_front();
  * FUNCTION PROTOTYPES FOR IN-GAME
  ******************************************************************************/
 
+/**
+ * @brief Actualiza lo que se muestra en pantalla durante el juego
+*/
+void redraw();
 
+/**
+ * @brief Actualiza la velocidad del juego
+ * @param newSpeed El nuevo valor de velocidad para el juego
+*/
+void update_speed_front(int newSpeed);
 
+/**
+ * @brief Coloca el cannon en la posición al revivir, debajo de un shield
+*/
+void reviveCanon(void);
+
+/**
+ * @brief Ubica a los invaders en la posición inicial
+*/
+void placeInvaders(void);
+
+/**
+ * @brief Elimina los disparos actuales
+*/
+void clean_shoots(void);
 
 /*******************************************************************************
  ******************************************************************************/
