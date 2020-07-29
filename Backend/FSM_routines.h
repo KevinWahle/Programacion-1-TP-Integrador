@@ -173,6 +173,37 @@ void down_menu_pause(void);
 
 
 /**
+ * @brief pasa a la letra siguiente del nombre para poder modificarla.
+*/
+void next_letter(void);
+
+/**
+ * @brief vuelve a la letra anterior del nombre para poder modificarla.
+*/
+void previous_letter(void);
+
+/**
+ * @brief pasa a la siguiente letra del abcedario.
+*/
+void upper_letter(void);
+
+/**
+ * @brief pasa a la letra anterior del abcedario.
+*/
+void lower_letter(void);
+
+/**
+ * @brief Guarda en un .txt el puntaje y el nombre correspondiente.
+*/
+void save_score(void);
+
+
+/**
+ * @brief inicializa las variables para poder cargar el nombre.
+*/
+void saving_init(void);
+
+/**
  * @brief Actualiza el timer y lo que se muestra en pantalla
 */
 void refresh (void);

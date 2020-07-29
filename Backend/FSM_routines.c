@@ -52,11 +52,11 @@ MENU_ITEM pause_menu[] = {
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-static int actual_option = 0;
-static char actual_name[NAME_SIZE+1]= {' ', ' ', ' ', ' ', ' ', '\0'};  //NOTA: El terminador es necesario.
+static int actual_option = 0;                            // Variable que marca la opcion del menú seleccionada.   
+static char actual_name[NAME_SIZE+1];
 static SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard  
-static int letter_counter;
-
+static int letter_counter;                               // Variable que da el indice de la letra a cargar.
+static int letter;                                       // Variable que retiene la letra que se quiere cargar.   
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
@@ -306,10 +306,10 @@ void show_global_score(void) {
         printf("Mostrando Leadboard. \n");
     #endif
 }
-/*
+
 void next_letter()
 {
-    if (letter < NAME_SIZE && actual_name[letter_counter-1]!=' ')                         // Si me quedan letras por guardar:
+    if (letter < NAME_SIZE)                         // Si me quedan letras por guardar:
     {
         actual_name[letter_counter]=letter;                                              //Guardo la letra actual.
     
@@ -329,10 +329,14 @@ void previous_letter()
     letter_counter--;                           //Retrocedo una letra.
 
     #ifdef DEBUG
-        printf("Se retrocedió una letra");
+        printf("Se retrocedió una letra \n");
     #endif
     
     letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
+    
+    #ifdef DEBUG
+        printf("Se pasó a la letra %c \n", letter);
+    #endif
 
     }                                         
 }
@@ -349,7 +353,7 @@ void upper_letter()
     }
 
     #ifdef DEBUG
-        printf("Se pasó a la letra %c", letter);
+        printf("Se pasó a la letra %c \n", letter);
     #endif
 
 }
@@ -365,16 +369,30 @@ void lower_letter()
     }
 
     #ifdef DEBUG
-        printf("Se pasó a la letra %c", letter);
+        printf("Se pasó a la letra %c\n", letter);
     #endif
 }
 
-void save_score(void){
+void save_score(){
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
-    void put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard);  
+    put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard); 
+    #ifdef DEBUG
+        printf("Se guadro el nuevo score\n", letter);
+    #endif
+    my_menu(); 
 }
 
-*/
+void saving_init()
+{
+    for(int i=0; i<NAME_SIZE; i++)
+    {
+        actual_name[i]= ' ';        // Inicio el arreglo con espacios.
+    }
+    actual_name[NAME_SIZE]=0;       // Cargo el terminador.
+    letter_counter=0;               // Apunto al primer elemento del arreglo nombre
+    letter= actual_name[letter_counter];
+}
+
 
 
 /**********************************************************

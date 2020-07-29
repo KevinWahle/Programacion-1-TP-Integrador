@@ -61,8 +61,10 @@ void set_level(int new_level);
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-static int lives, points, level, speed=MIN_SPEED;   // Variables estaticas internas que permiten
-                                                    // el desarrollo de la partida.
+static int lives, level, speed=MIN_SPEED;   // Variables estaticas internas que permiten
+static unsigned long int points;            // el desarrollo de la partida.
+
+
 
 static clock_t start;                               // Referencia para medir tiempo.                         
 
@@ -198,7 +200,7 @@ void speed_update(const float seg)
 ************************   GET   **************************
 **********************************************************/
 
-unsigned long long int get_points()    
+unsigned long int get_points()    
 {
     #ifdef DEBUG
     printf("Se tienen %d puntos \n", points);

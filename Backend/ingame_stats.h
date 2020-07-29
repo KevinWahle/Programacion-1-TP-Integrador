@@ -1,5 +1,3 @@
-//TODO: Completar descripciones y ver donde poner los prototipos.
-
 /***************************************************************************//**
   @file     +ingame_stats.h+
   @brief    +Estadisticas generales del juego+
@@ -91,7 +89,7 @@ void increase_level(void);
  * la variable "points".
  * @return Retorna la cantidad de puntos obtenidos en la partida.
 */
-unsigned long long int get_points(void);
+unsigned long int get_points(void);
 
 /**
  * @brief Permite conocer el nivel actual sin necesidad acceder a
