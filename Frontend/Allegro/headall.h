@@ -25,8 +25,8 @@
 #include <allegro5/allegro_image.h> //manejo de imagenes
 #include <allegro5/allegro_font.h> //manejo de fonts
 #include <allegro5/allegro_ttf.h> //Manejo de ttfs
-#include <allegro5/allegro_audio.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
-#include <allegro5/allegro_acodec.h> // NO OLVIDAR AGREGAR EN EL LINKER DEL PROYECTO
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 //Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm. 
 
 /*******************************************************************************

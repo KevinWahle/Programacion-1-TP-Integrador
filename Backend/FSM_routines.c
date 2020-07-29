@@ -248,7 +248,6 @@ void resume_game(void){
 }
 
 void start_game(void){
-    //CONTINUAR:
     reset_lives();              // Renuevo las vidas.
     reset_points();             // Reinicio el contador de puntos.
     reset_level();              // Reinicio el contador de niveles.
@@ -257,6 +256,7 @@ void start_game(void){
     //reset_front();              // Actualizo el front a formato partida. 
     //INCLUIR: Incluir en donde se encuentra reset_front.
     
+
     //NOTA: Agregar si se desea mostrar las vidas disponibles en pantalla.
 
     
@@ -280,7 +280,7 @@ void show_game_score(){
     unsigned long long int score= get_points();     // Guardo la cantidad de puntos obtenidos en la partida.
     int level= get_level();                         // Guardo el nivel alcanzado en la partida.
     int killed_crabs= get_killed_aliens(CRAB);      // Guardo los crabs asesinados en la partida.   
-    int killed_octo= get_killed_aliens(OCTO);    // Guardo los octopus asesinados en la partida.
+    int killed_octo= get_killed_aliens(OCTO);       // Guardo los octopus asesinados en la partida.
     int killed_squid= get_killed_aliens(SQUID);     // Guardo los squids asesinados en la partida.
     int killed_ufo= get_killed_aliens(UFO);         // Guardo los UFOs asesinados en la partida.
     
@@ -300,8 +300,7 @@ void show_global_score(void) {
         cant=LEADERBOARD_SIZE;
     }
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
-    //INCLUIR: Carpeta en la que este la funcion que muestra el leadboard.
-    
+        
     #ifdef DEBUG
         printf("Mostrando Leadboard. \n");
     #endif
@@ -335,7 +334,7 @@ void previous_letter()
     letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
     
     #ifdef DEBUG
-        printf("Se pasó a la letra %c \n", letter);
+        printf("Se retrocedio a la letra %c en la posición \n", letter, letter_counter+1);
     #endif
 
     }                                         
@@ -376,9 +375,11 @@ void lower_letter()
 void save_score(){
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
     put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard); 
+    
     #ifdef DEBUG
-        printf("Se guadro el nuevo score\n", letter);
+        printf("Se guadro el nuevo score\n");
     #endif
+    
     my_menu(); 
 }
 
@@ -391,6 +392,11 @@ void saving_init()
     actual_name[NAME_SIZE]=0;       // Cargo el terminador.
     letter_counter=0;               // Apunto al primer elemento del arreglo nombre
     letter= actual_name[letter_counter];
+
+    #ifdef DEBUG
+        printf("Se inicializó la carga \n");
+    #endif
+    
 }
 
 
@@ -436,7 +442,9 @@ void cannon_coll()
         #endif
     }
 
-    // NOTA: Agregar funcion en la que se muestren las vidas en el front
+    reviveCanon();
+
+    // update_lives(getlives());
     // INCLUIR: el archivo con el prototipo de lo de arriba
 }
 

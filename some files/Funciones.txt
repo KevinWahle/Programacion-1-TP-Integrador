@@ -54,7 +54,7 @@ LISTO   4) void splash_front(): Muestra una pantalla de "carga" o  "premenu"
     6) void update_front_event(void) agrega a la lista de eventos todos los 
     eventos que registre el front. 
 
-    7) reset_front(void) Se llama cada vez que se empieza una partida nueva
+    7) SHERMAN: reset_front(void) Se llama cada vez que se empieza una partida nueva (que incluya areset_aliens matrix y clean_shoots)
 
     8) void redraw(void);
         Cede el control al front para imprimir en pantalla, detectar colisiones,
@@ -73,26 +73,24 @@ LISTO	10) /**
 		*/
 		void shows_inst (void);
 		
-    11) update_speed_front(int newSpeed);
+    11) void update_speed_front(int newSpeed);
         // El back llama a esta función con la velocidad actualizada
         // Adentro de la función el front actualiza su propia velocidad (invaders, frecuencia de tiros, etc)
 
-    12)  void updatePoints(int score);
+    12)  void update_points(int score);
         Muestra en pantalla los puntos de la partida.
 
-        void updateLives(int lives);
+    13)    void update_lives(int lives);
         Muestra en pantalla las vidas restantes de la partida.
 
-        destroyCanon();
+LISTO    14) void reset_aliens_matrix();    // YA EXISTIA SE LLAMA void placeInvader(void) 
+        Debe resetear la matriz de aliens que guarda el front.
 
-        nextLevel();    
-        //NOTA: aparece como increase level.
+    15) void clean_shoots();   
+        Limpiar los disparos de la pantalla.
 
-        endGame();
-
-    13) void reset_aliens_matrix();
-        Debe resetear la matriz de aliens que guarda el front.     
-
+    16) void game_score_front(score, level, killed_crabs, killed_octo, killed_squid, killed_ufo);
+        Muestra en pantalla los puntos y la cantidad de aliens asesinados.
 
 
 

@@ -10,48 +10,9 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 
-// #include "../const.h"
-#include "../Backend/event_queue/event_queue.h"
+#include "../Frontend/Allegro/headall.h"
 
-
-enum EVENTS {
-	
-	// Eventos que provienen del back.
-	INIT_FAILURE_EVENT, 						
-	PLAY_EVENT, 
-	SCORE_EVENT,
-	INSTRUCTION_EVENT,
-	RESUME_EVENT,
-	PAUSE_EVENT, 
-	BACK_EVENT,
-	NEXT_LEVEL_EV,
-	FIN_TABLE,
-
-
-	// Eventos que provienen del front y son hardware.
-	MOVE_UP,
-    MOVE_DOWN,
-    MOVE_LEFT,
-    MOVE_RIGHT,
-    CLICK_BTN,  // Botón de click, shoot o aceptar
-    PAUSE_BTN,
-
-	// Eventos que provienen del front y son sobre el juego.
-	CRAB_COLL_EV,
-	OCTO_COLL_EV,
-	SQUID_COLL_EV,
-	UFO_COLL_EV,
-	CANNON_COLL_EV,
-	
-	// Pueden ser del Back o del Front.
-	EXIT_EVENT,
-	END_GAME_EVENT,
-};
-
-
-#define FPS 60.0 
-#define D_WIDTH 800                      // Tamanio en pixeles del ancho del display
-#define D_HEIGHT 600                     // Tamanio en pixeles del largo del display   
+   
 #define TASA_DE_CAMBIO_CANON 3           // Velocidad del canon   
 #define TASA_DE_CAMBIO_BALA 4            // Velocidad de la bala
 #define TASA_DE_CAMBIO_INVADERS 0.5      // MAL!!! ES VARIABLE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -255,7 +216,13 @@ void redraw();
 */
 void update_speed_front(int newSpeed);
 
+/**
+ * @brief Coloca el cannon en la posición al revivir, debajo de un shield
+*/
+void reviveCanon(void);
 
+//TODO
+void reset_front(void);
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -389,9 +356,6 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot);
 */
 static void shouldUFOappear(void);
 
-void reviveCanon(void);
-
-
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -434,6 +398,7 @@ static float shotFromInvaderFrec;
  
 
 
+
 static const int invadersDistribution [FIL_INVADERS] = {
                                                         SQUID,
                                                         CRAB,
@@ -442,9 +407,8 @@ static const int invadersDistribution [FIL_INVADERS] = {
                                                         OCTO,
                                                        };
 
-shield_t shielders[TOTAL_SHIELDS];
+static shield_t shielders[TOTAL_SHIELDS];
 
-#define BIG_INVADER OCTO
 
 int main(void) {
     
@@ -523,6 +487,13 @@ int main(void) {
     return 0;
 }
 
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
 void destroy_front()
 {
     al_shutdown_primitives_addon();
@@ -567,6 +538,17 @@ void redraw()
 
 }
 
+void reviveCanon(void)
+{
+    if(TOTAL_SHIELDS > 0)
+    {
+        cannonXpos = shielders[0].block_1.x;
+    }
+    else
+    {
+        cannonXpos = D_WIDTH/2;
+    }
+}
 
 /*******************************************************************************
  *******************************************************************************
@@ -1295,19 +1277,11 @@ static void moveUFO(void)
     }
 }
 
-void onCanonShootedAnimation(void)
+void clean_shoots(void)
 {
-
-}
-
-void reviveCanon(void)
-{
-    if(TOTAL_SHIELDS > 0)
+    for(int i = 0; i < MAX_CANON_SHOT)
     {
-        cannonXpos = shielders[0].block_1.x;
+        canonShotList[i].shotState = 0;
     }
-    else
-    {
-        cannonXpos = D_WIDTH/2;
-    }
+    for(int i = 0; i < )
 }

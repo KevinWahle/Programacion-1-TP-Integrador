@@ -166,7 +166,8 @@ void increase_level(){
 
  
     //CONTINUAR:
-    // reset_aliens_matrix(); 
+    // placeInvader(); 
+    // clean_shoots();
     //INCLUIR: incluir archivo con la funcion reset_aliens_matrix();
 
     #ifdef DEBUG
