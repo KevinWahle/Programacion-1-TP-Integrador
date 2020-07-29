@@ -53,7 +53,7 @@ MENU_ITEM pause_menu[] = {
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 static int actual_option = 0;
-static char actual_name[NAME_SIZE];
+static char actual_name[NAME_SIZE]= {' ', ' ', ' ', ' ',' '}; //NOTA: Con o sin terminador???
 static SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard  
 static int letter_counter;
 
@@ -71,7 +71,7 @@ void show_splash(void){
     splash_front(); 
     
     #ifdef DEBUG
-    printf("Muestro el SPLASH. \n");
+        printf("Muestro el SPLASH. \n");
     #endif          
 }
 
@@ -309,24 +309,32 @@ void show_global_score(void) {
 /*
 void next_letter()
 {
-    actual_name[letter_counter]=letter;
+    if (letter < NAME_SIZE)                     // Si me quedan letras por guardar:
+    {
+        actual_name[letter_counter]=letter;         //Guardo la letra actual.
     
     #ifdef DEBUG
         printf("Se confirmo la letra: %c. En total hay %d letras. \n", actual_name[letter_counter], letter_counter+1);
     #endif
     
-    letter_counter++;
+    letter_counter++;                              //Paso a la siguiente letra.                                           
     letter=' ';
+    }
 }      
 
 void previous_letter()
 {
-    if(letter>0)
-    letter_counter--;
+    if(letter>0)                                // Si no estoy en la primer letra:
+    {
+    letter_counter--;                           //Retrocedo una letra.
 
     #ifdef DEBUG
         printf("Se retrocedió una letra");
     #endif
+    
+    letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
+
+    }                                         
 }
 
 
@@ -336,17 +344,13 @@ void upper_letter()
     if (letter == 'Z' || letter==' '){
         letter='A';
     }
-    
-    else if(letter==' '){
-        letter='A';
-    }
 
     else{
         letter++;
     }
 
     #ifdef DEBUG
-        printf("Se pasó a la letra");
+        printf("Se pasó a la letra %c", letter);
     #endif
 
 }
@@ -361,6 +365,10 @@ void lower_letter()
     {
         letter--;
     }
+
+    #ifdef DEBUG
+        printf("Se pasó a la letra %c", letter);
+    #endif
 }
 
 void save_score(void){

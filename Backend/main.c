@@ -28,8 +28,11 @@ int main(void)
     {
         update_front_event();               // Actualizar la lista de eventos que me indica el front.
         event_t evento = get_next_event();  // Tomo un nuevo evento de la cola de eventos.
+        
         #ifdef DEBUG
+            if (evento != NULL_EVENT){
             printf("El nuevo evento es: %d \n", evento);
+            }
         #endif
 
         p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);  // Actualizo el estado
