@@ -311,21 +311,8 @@ void show_global_score(void) {
         cant=LEADERBOARD_SIZE;
     }
 
-    #ifdef DEBUG
-        printf("Pre put_score. \n");
-    #endif
-
-    put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);    
-    
-    #ifdef DEBUG
-        printf("Pre show_score. \n");
-    #endif
-
+    put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se     
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
-        
-    #ifdef DEBUG
-        printf("Mostrando Leadboard. \n");
-    #endif
 }
 
 void next_letter()

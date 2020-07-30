@@ -38,6 +38,9 @@ scoretable.o: Backend/scoretable.c Backend/scoretable.h
 FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_ALL} const.h
 	${CC} ${OPTIONS} -c Backend/FSM_routines.c
 
+event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
+	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c 
+
 menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
 	${CC} ${OPTIONS} -c Frontend/Allegro/menu_front.c
 
@@ -66,12 +69,10 @@ game_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Fronten
 # 	${CC} ${OPTIONS} ${ALLLINUXLIB} -c Frontend/Allegro/menu_front.c
 
 ################################################
-event_queue.o: Backend/event_queue/event_queue.c Backend/event_queue/event_queue.h 
-	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c 
-
 clean: 
 	rm Backend/*.o
 	rm Frontend/Allegro/*.o
+	rm Backend/event_queue/*.o
 
 clean_eq:
 	rm Backend/event_queue/*.o
