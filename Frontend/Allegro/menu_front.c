@@ -314,14 +314,14 @@ void show_score (SCORE* score ,int size)
         size=LEADERBOARD_SIZE;
     }
     printf("Antes del for2\n");
-    /*for(int i=0;i<size;i++) {
+    for(int i=0;i<size;i++) {
         position[0] = i+1+NUMOFFSET;  //Muestra el numero de la posicion del jugador  
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*1, 180+(i*40), ALLEGRO_ALIGN_CENTER, position);
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 180+(i*40), ALLEGRO_ALIGN_CENTER, score[i].name);
         num=score[i].pts;
         intochar(num,chscore);
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 180+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
-    }*/
+    }
     while (getchar() != '\n');
     printf("Flippeame ESTA \n");
     al_flip_display();
@@ -344,14 +344,14 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     for (int i=0; i<NAME_SIZE; i++){
         letter[0]=actual_name[i];
         letter[1]='\0';
-        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-(40*(NAME_SIZE/2))+50*i, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter);
+        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-(40*(2))+50*i, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter);
     }
     letter[0]=actual_name[letter_counter];
     letter[1]='\0';
-    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)-(40*(NAME_SIZE/2))+50*letter_counter, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)-(40*(2))+50*letter_counter, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
     intochar(score,chscore);
     al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-100, ALLEGRO_ALIGN_CENTER, "Partida actual:");
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-(40*(LENG_SC/2)), (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-(80), (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
 }
 
@@ -487,7 +487,7 @@ static void intochar(unsigned long int num, char chscore[LENG_SC])
     }
 
     else{
-        for(int i=LENG_SC;i>=0;i--) {
+        for(int i=LENG_SC-1;i>=0;i--) {
             a = num % 10;                   // Tomo un digito a mostrar.
             if(num>0)
             {
@@ -503,7 +503,7 @@ static void intochar(unsigned long int num, char chscore[LENG_SC])
         }  
     }
 
-    chscore[LENG_SC+1]='\0';          // Agrego el terminador
+    chscore[LENG_SC]='\0';          // Agrego el terminador
 }
 
 /**
