@@ -1,5 +1,5 @@
 ################################################
-CC = gcc -D PRUEBA
+CC = gcc
 OPTIONS = -O2 -g -Wall # -g for debug, -O2 for optimise and -Wall additional messages
 
 ################################################
@@ -13,7 +13,7 @@ HFRONT_ALL = Frontend/Allegro/headall.h
 HFRONT_RAS = Frontend/Raspi/headras.h
 
 ################################################
-OBJS = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Allegro/menu_front.o Frontend/Allegro/game_front.c ${EVENTQ_OBJECT}
+OBJS = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Allegro/menu_front.o Frontend/Allegro/game_front.o ${EVENTQ_OBJECT}
 
 game: ${OBJS} 
 	${CC} ${OPTIONS} ${OBJS} ${LDLIBSOPTIONS} -o game
@@ -21,7 +21,7 @@ game: ${OBJS}
 #space_invaders_debug: main.o 
 #	${CC} ${OPTIONS} ${OBJS} -o main_d -D DEBUG
 
-main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_OBJECT} const.h
+main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
 	${CC} ${OPTIONS} -c Backend/main.c
 	
 ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h

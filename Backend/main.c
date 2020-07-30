@@ -1,13 +1,14 @@
+
+enum { ALLEGRO, RASPI };
+
+#define PLATFORM ALLEGRO
+
 #include <stdio.h>
 #include "../const.h"
 #include "FSM_table.h"
 #include "FSM_routines.h"
 #include "event_queue/event_queue.h"
 
-enum { ALLEGRO, RASPI };
-#define PLATFORM ALLEGRO
-
- 
 int main(void)
 {
     STATE* p_tabla_estado_actual = splash_state;

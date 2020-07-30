@@ -15,6 +15,14 @@
 #include "ingame_stats.h"
 
 
+#if PLATFORM == ALLEGRO
+#include "../Frontend/Allegro/headall.h" 
+
+#elif PLATFORM == RASPI
+//#include "../Frontend/Raspi/.." //INCLUIR: header front.
+#endif
+
+
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
