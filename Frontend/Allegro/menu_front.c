@@ -325,7 +325,7 @@ void show_score (SCORE* score ,int size)
 /**
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
 */
-/*void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) {
+void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) {
     char chscore[LEADERBOARD_SIZE];
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
@@ -340,7 +340,7 @@ void show_score (SCORE* score ,int size)
     intochar(score,chscore);
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
-}*/
+}
 
 
 /**
