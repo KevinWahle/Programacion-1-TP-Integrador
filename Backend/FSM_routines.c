@@ -234,7 +234,7 @@ void click_menu_pause()
 void pause_game(void){
     actual_option=0;
     show_menu(pause_menu, sizeof(pause_menu)/sizeof(MENU_ITEM), actual_option);
-    
+    pause_game_front();
     #ifdef DEBUG
         printf("Mostrando menú de pausa. \n");
     #endif
@@ -244,7 +244,8 @@ void resume_game(void){
     //update_points(get_points());
     //update_lives(get_lives());
     //update_level(get_level());
-    //NOTA: descomentar cuando existan
+    //INCLUIR: descomentar cuando existan
+    resume_game_front();
     
     #ifdef DEBUG
         printf("Reanudo partida. \n");

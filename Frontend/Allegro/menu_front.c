@@ -380,6 +380,9 @@ void update_front_event (void)
             case ALLEGRO_KEY_ESCAPE:
                 add_event(PAUSE_BTN);
                 break;
+            case ALLEGRO_KEY_P:             // P también para pausa
+                add_event(PAUSE_BTN);
+                break;
             case ALLEGRO_KEY_SPACE:
                 add_event(CLICK_BTN);
                 break;

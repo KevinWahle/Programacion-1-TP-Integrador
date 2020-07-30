@@ -409,6 +409,8 @@ void init_game(void) {
   placeInvaders();
 
   placeShields();
+  
+  clean_shoots();
 
   drawCannon();
 
@@ -418,9 +420,8 @@ void init_game(void) {
 
 }
 
-
 void redraw(void)
-{   
+{
     ALLEGRO_EVENT ev;
     if (al_get_next_event(timer_queue, &ev)) //Toma un evento de la timer_queue
     {
@@ -437,8 +438,13 @@ void redraw(void)
             getInvaderShotCollison();
 
             if( !is_invadersOnFloor()  )
+            {
                 proxDir = moveInvaders(proxDir);
-
+            }
+            else
+            {
+                add_event(END_GAME_EVENT);
+            }
             drawShields();
 
             drawAliveInvaders();
@@ -542,6 +548,14 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
 void update_speed_front(int newSpeed, int maxSpeed) {
     //TODO
     return;
+}
+
+void pause_game_front(void) {
+    al_stop_timer(timer);   // Para que deje de generar eventos durante la pausa
+}
+
+void resume_game_front(void) {
+    al_resume_timer(timer);   // Para que vuelva a generar eventos
 }
 
 /*******************************************************************************

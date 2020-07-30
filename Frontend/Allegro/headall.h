@@ -145,6 +145,16 @@ void clean_shoots(void);
 */
 void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo);
 
+/**
+ * @brief Detiene los eventos innecesarios durante la pausa
+*/
+void pause_game_front(void);
+
+/**
+ * @brief Vuelve a escuchar notificaciones
+*/
+void resume_game_front(void);
+
 
 /*******************************************************************************
  ******************************************************************************/
