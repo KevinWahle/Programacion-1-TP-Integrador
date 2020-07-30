@@ -308,8 +308,8 @@ void show_score (SCORE* score ,int size)
                              0, 0, D_WIDTH, D_HEIGHT,    
                              0);
 
-    if (size>10) {
-        size=10;
+    if (size>LEADERBOARD_SIZE) {
+        size=LEADERBOARD_SIZE;
     }
 
     for(int i=0;i<size;i++) {
