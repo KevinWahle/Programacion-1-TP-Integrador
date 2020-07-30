@@ -169,7 +169,7 @@ void down_menu_pause()
 
 void click_menu()
 {     
-    switch (main_menu[actual_option].ID)
+    switch ((main_menu[actual_option]).ID)
     {
         case PLAY_ID:
             add_event(PLAY_EVENT);        // Añadimos a  la cola de eventos
@@ -187,11 +187,11 @@ void click_menu()
             add_event(EXIT_EVENT);        // Añadimos a  la cola de eventos
         break;        
     }
-    actual_option=0;
 
     #ifdef DEBUG
         printf("Se agregó a la cola de eventos: %d \n", main_menu[actual_option].ID);
     #endif      
+    actual_option=0;
 }
 
 void click_menu_pause()
