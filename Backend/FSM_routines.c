@@ -167,8 +167,7 @@ void down_menu_pause()
 
 
 void click_menu()
-{
-    int add=0;       
+{     
     switch (main_menu[actual_option].ID)
     {
         case PLAY_ID:
@@ -195,23 +194,22 @@ void click_menu()
 }
 
 void click_menu_pause()
-{
-    int add=0;       
+{      
 
     switch (pause_menu[actual_option].ID)
     {
         case PLAY_ID:
-            add = add_event(PLAY_EVENT);            // Añadimos a  la cola de eventos
+            add_event(PLAY_EVENT);            // Añadimos a  la cola de eventos
                                                     //el evento para redireccionar la FSM.
         break;
 
         case RESUME_ID:
-            add = add_event(RESUME_EVENT);          // Añadimos a  la cola de eventos
+            add_event(RESUME_EVENT);          // Añadimos a  la cola de eventos
                                                     //el evento para redireccionar la FSM. 
         break;
         
         case BACK_ID:
-            add = add_event(BACK_EVENT);            // Añadimos a  la cola de eventos
+            add_event(BACK_EVENT);            // Añadimos a  la cola de eventos
                                                     //el evento para redireccionar la FSM.
         break;
     }
@@ -220,9 +218,6 @@ void click_menu_pause()
 
     #ifdef DEBUG
         printf("Se agregó a la cola de eventos: %d \n", main_menu[actual_option].ID);
-
-        if(add==1)
-        printf("No se pudo agregar\n");
         
     #endif 
 }
