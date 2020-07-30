@@ -379,13 +379,14 @@ void save_score(){
 
     SCORE* p_leadboard=leadboard;                       // Coloco un puntero a su primer elemento
     int not_null_char=0;                                // Creo una variable que cuente los ' '.
-
-    for(int i=0; i<NAME_SIZE; i++)                      // Para cada caracter no terminador de
+    printf ("antes del for\n");
+    for(int i=0; i<NAME_SIZE-1; i++)                    // Para cada caracter no terminador de
     {                                                   //actual_name:
         if (actual_name[i] != ' ')                      // Reviso si NO es ' ' y si es así              
-        not_null_char++;                                // incremento la cantidad de posiciones
+            not_null_char++;                            // incremento la cantidad de posiciones
     }                                                   // que tinen valor.
     
+    printf("Llegue a preguardado. \n");
     if (not_null_char>0)                                // Si afirmativamente hay algun caracter guardado:
     {
         put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard);   // Ejecuto la función que guarda el 
@@ -395,8 +396,10 @@ void save_score(){
         printf("Se guadro el nuevo score\n");
         #endif
     }
+    printf("Post-guardado. \n");
 
     my_menu();                                          // Precargo el menú antes de salir.
+    printf("Post mostrar menu. \n");
 }
 
 void saving_init()
