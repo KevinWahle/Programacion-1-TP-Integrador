@@ -327,40 +327,9 @@ void show_score (SCORE* score ,int size)
 /**
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
 */
-void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) {
-    /*char chscore[LEADERBOARD_SIZE];
-    char name[2]; //Letra a imprimir
-    name[1]='\0';
-    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
-                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
-                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
-                            0);
-    al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");
-    
-    for(int i=0;i<size;i++) {
-        name[0]=chscore[i];   
-        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+10*i, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, name);
-    }
-    al_draw_text(fontsc, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+10*letter_counter, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, name); //Imprime la legra a higligtear
-    intochar(score,chscore);
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
-    al_flip_display();
-   */
-  
+void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) 
+{
     char chscore[LENG_SC];
-    /*char mystring[NAME_SIZE+1];
-    int i=0;
-    for (; i<letter_counter; i++){
-        mystring[i]=' ';
-    } 
-    mystring[i]= actual_name[i];
-                
-    i++;
-    for (; i<NAME_SIZE; i++){
-        mystring[i]=' ';
-    mystring[i]= '\0';
-    printf("eL STRING ES: %s \n", mystring);
-    } */
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
@@ -379,8 +348,6 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-100, ALLEGRO_ALIGN_CENTER, "Partida actual:");
     al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-(40*(LENG_SC/2)), (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
-    
-
 }
 
 
