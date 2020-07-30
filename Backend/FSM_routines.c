@@ -56,7 +56,7 @@ MENU_ITEM pause_menu[] = {
 static int actual_option = 0;                            // Variable que marca la opcion del menú seleccionada.   
 static char actual_name[NAME_SIZE+1];
 static SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard  
-static int letter_counter;                               // Variable que da el indice de la letra a cargar.
+static int letter_counter=0;                               // Variable que da el indice de la letra a cargar.
 static int letter;                                       // Variable que retiene la letra que se quiere cargar.   
 /*******************************************************************************
  *******************************************************************************
@@ -316,36 +316,33 @@ void show_global_score(void) {
 
 void next_letter()
 {
-    if (letter < NAME_SIZE)                         // Si me quedan letras por guardar:
+    if (letter_counter < NAME_SIZE)                         // Si me quedan letras por guardar:
     {
         actual_name[letter_counter]=letter;                                              //Guardo la letra actual.
     
     #ifdef DEBUG
-        printf("Se confirmo la letra: %c. En total hay %d letras. \n", actual_name[letter_counter], letter_counter+1);
+        printf("Se confirmo la letra: %c. El arreglo quedó %s.\n", actual_name[letter_counter], actual_name);
     #endif
     
     letter_counter++;                              // Paso a la siguiente letra.                                           
     letter=actual_name[letter_counter];            // Cargo la siguiente letra de la nueva ubicación.
     }
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }      
 
 void previous_letter()
 {
-    if(letter>0)                                // Si no estoy en la primer letra:
+    if(letter_counter>0)                                // Si no estoy en la primer letra:
     {
     letter_counter--;                           //Retrocedo una letra.
-
     #ifdef DEBUG
         printf("Se retrocedió una letra \n");
     #endif
     
     letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
-    
-    #ifdef DEBUG
-        printf("Se retrocedio a la letra %c en la posición %d\n", letter, letter_counter+1);
-    #endif
 
-    }                                         
+    }   
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());                                      
 }
 
 void upper_letter()
@@ -361,7 +358,7 @@ void upper_letter()
     #ifdef DEBUG
         printf("Se pasó a la letra %c \n", letter);
     #endif
-
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }
 
 void lower_letter()
@@ -376,9 +373,16 @@ void lower_letter()
     #ifdef DEBUG
         printf("Se pasó a la letra %c\n", letter);
     #endif
+
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }
 
 void save_score(){
+
+    #ifdef DEBUG
+    printf("El nombre a guardar es: %s\n", actual_name);
+    #endif
+
     SCORE* p_leadboard=leadboard;                       // Coloco un puntero a su primer elemento
     int not_null_char=0;                                // Creo una variable que cuente los ' '.
 
@@ -414,6 +418,8 @@ void saving_init()
     #ifdef DEBUG
         printf("Se inicializó la carga \n");
     #endif
+
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
     
 }
 
