@@ -327,7 +327,7 @@ void show_score (SCORE* score ,int size)
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) {
     char chscore[LEADERBOARD_SIZE];
-    char name[2];
+    char name[2]; //Letra a imprrimir
     name[1]='\0';
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
@@ -339,7 +339,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         name[0]=chscore[i];   
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+10*i, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, name);
     }
-    al_draw_text(fontsc, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+10*letter_counter, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, actual_name[letter_counter]); //Imprime la legra a higligtear
+    al_draw_text(fontsc, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+10*letter_counter, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, name); //Imprime la legra a higligtear
     intochar(score,chscore);
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
