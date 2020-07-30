@@ -16,7 +16,8 @@
 #define NUMOFFSET   '0' //Offset de numero entero a char 
 #define SIZE_FMU    50
 #define SIZE_FSC    28
-#define LENG_SC     6
+
+#define LENG_SC     10
 
 #define CANON_FILE  "Frontend/Allegro/PNGs/Laser_Cannon.png"
 #define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"
@@ -433,9 +434,9 @@ void destroy_front()
                           0, 0, al_get_display_width(display), al_get_display_height(display), //a que tamaño queres que se dibuje la imagen
                           0);
     al_flip_display();
-    al_rest(1.5); // Tiempo de duracion random
+    al_rest(1.5); // Tiempo de duracion random */
     // Destrucción de recursos empleados
-    */
+
     destroy_invaders();         //Destruye la parte de loadim_game
     al_destroy_bitmap(canonPointer);
     al_destroy_bitmap(UFO_invader.invadersPointer); // Destruccion UFO

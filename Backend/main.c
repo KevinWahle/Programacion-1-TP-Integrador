@@ -38,9 +38,6 @@ int main(void)
 
         p_tabla_estado_actual = fsm_interprete(p_tabla_estado_actual, evento);  // Actualizo el estado
     }
-   
-    // DUDA: iria destroy resources?
-    // NOTA: incluir las respectivas funciones
 
     return 0;
 }

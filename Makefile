@@ -27,7 +27,7 @@ win: ${OBJS}
 #
 
 main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
-	${CC} ${OPTIONS} -c Backend/main.c
+	${CCD} ${OPTIONS} -c Backend/main.c
 	
 ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
 	${CCD} ${OPTIONS} -c Backend/ingame_stats.c 
