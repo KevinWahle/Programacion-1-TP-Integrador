@@ -324,6 +324,7 @@ void show_score (SCORE* score ,int size)
     }
     printf("Flippeame ESTA \n");
     al_flip_display();
+    printf("Ya te la flippie \n");
 }
 
 
