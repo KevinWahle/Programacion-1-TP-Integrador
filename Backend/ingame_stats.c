@@ -274,18 +274,15 @@ void kill_alien(const int tipo_alien)
 
     case UFO:
         srand(time(0));                 
-        int temp;
-        do {
-            temp= rand();                               
-        }while ( temp>=MIN_RAND && temp<=MAX_RAND);     // Elegimos un puntaje aleatorio multiplo de 50 entre los valores deseados
-        increase_points(temp*UFO_POINTS);               // Aumenta los puntos relacionados al "ufo"
-        break;                         
+        int temp= (rand()%(MAX_RAND-MIN_RAND))+MIN_RAND;    // Elegimos un puntaje aleatorio multiplo de 50 entre los valores deseados
+        increase_points(temp*UFO_POINTS);                   // Aumenta los puntos relacionados al "ufo"
+        break;                          
 
     }
-    if (tipo_alien>=CRAB && tipo_alien<=UFO)            // Corroboramos para evitar cualquier tipo de error
+    if (tipo_alien>=CRAB && tipo_alien<=UFO)                // Corroboramos para evitar cualquier tipo de error
     {
-        killed_invaders[tipo_alien]++;                  // Sumamos el contador de muertes relacionado al tipo de alien      
-    }
+        killed_invaders[tipo_alien]++;                      // Sumamos el contador de muertes relacionado al tipo de alien      
+    }   
     
     #ifdef DEBUG
         printf("Tipo de invader asesinado: %d \t Puntos: %lu \n\n", tipo_alien, get_points());
