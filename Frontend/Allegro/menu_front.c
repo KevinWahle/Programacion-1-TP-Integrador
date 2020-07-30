@@ -304,8 +304,8 @@ void show_score (SCORE* score ,int size)
     al_clear_to_color(al_map_rgb(0,0,0));
     printf("Dibujé fondo negro\n");     // DEBUG
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
-                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
-                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
+                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),
+                            0, 0, al_get_display_width(display), al_get_display_height(display),    
                             0);
      printf("Puse imagen de fondo\n");     // DEBUG
 
@@ -377,7 +377,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     letter[1]='\0';
     al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)-80+50*letter_counter, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
     intochar(score,chscore);
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-300, (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, "Partida actual:");
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-60, ALLEGRO_ALIGN_CENTER, "Partida actual:");
     al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
     
