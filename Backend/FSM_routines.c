@@ -18,7 +18,7 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define SPEED_LAPSE 1
+#define SPEED_LAPSE 5
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -345,7 +345,7 @@ void previous_letter()
     letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
     
     #ifdef DEBUG
-        printf("Se retrocedio a la letra %c en la posición \n", letter, letter_counter+1);
+        printf("Se retrocedio a la letra %c en la posición %d\n", letter, letter_counter+1);
     #endif
 
     }                                         
