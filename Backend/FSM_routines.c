@@ -416,8 +416,7 @@ void saving_init()
         printf("Se inicializó la carga \n");
     #endif
 
-    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
-    
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());    
 }
 
 
