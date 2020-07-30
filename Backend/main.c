@@ -22,7 +22,6 @@ int main(void)
         return -1;          
     }   
 
-
     show_splash();
 
     while (running)
