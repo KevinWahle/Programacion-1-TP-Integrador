@@ -346,9 +346,30 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
    */
-    /*
-
-    */
+    
+    char chscore[NAME_SIZE+1];
+    char letter;
+    char mystring[NAME_SIZE+1];
+    int i=0;
+    for (; i<letter_counter; i++){
+        mystring[i]=' ';
+    } 
+    mystring[i]= actual_name [i];
+    for (; i<NAME_SIZE; i++){
+        mystring[i]=' ';
+    } 
+    mystring[i]= '\0';
+    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
+                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
+                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0);
+    al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");  
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+10, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, actual_name);
+    al_draw_text(fontsc, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+10*letter_counter, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, mystring); //Imprime la legra a higligtear
+    intochar(score,chscore);
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
+    al_flip_display();
+    
 
 }
 
@@ -472,14 +493,24 @@ void destroy_front()
 /**
  * @brief Transforma un entero no signado a un string.
  */
-static void intochar(unsigned long int num, char chscore[LEADERBOARD_SIZE])
+static void intochar(unsigned long int num, char chscore[NAME_SIZE+1])
 {
     unsigned long int a = 0;
-    for(int i=LEADERBOARD_SIZE-1;i>=0;i--) {
-        a = num % 10;
-        chscore[i]=a+NUMOFFSET;
-        num = num / 10;
+    for(int i=NAME_SIZE;i>=0;i--) {
+        a = num % 10;                   // Tomo un digito a mostrar.
+        if(num>0)
+        {
+            chscore[i]=a+NUMOFFSET;     // Si sigo teniendo parte del numero disponible para mostrar
+                                        //muestro el nuevo digito.
+            num = num / 10;             // Recorto el número para mostrar el nuevo digito.    
+        }
+        
+        else
+        {
+           chscore[i]=' ';              // Si el numero que queda es = a 0, muestro espacios.
+        }
     }
+    chscore[NAME_SIZE+1]='\0';          // Agrego el terminador
 }
 
 /**
