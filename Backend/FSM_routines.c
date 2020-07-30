@@ -257,7 +257,7 @@ void start_game(void){
     reset_points();             // Reinicio el contador de puntos.
     reset_level();              // Reinicio el contador de niveles.
     reset_killed_aliens();      // Reinicio el contador de aliens asesinados.
-    
+    //NOTA: Resetear timers front.
     #ifdef DEBUG
         printf("Se revivieron todos los invaders. \n");
     #endif    

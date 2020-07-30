@@ -264,7 +264,7 @@ void splash_front()
 {
     al_draw_scaled_bitmap(firstImage,    // Imagen de bienvenida la juego
                             0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
-                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
                             0);
     al_flip_display();
     al_rest(1.5);
@@ -281,7 +281,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
-                          0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                          0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
                           0);
     for(int i=0;i<size;i++) {
         al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 200+(i*80), ALLEGRO_ALIGN_CENTER, menu_to_show[i].option);  //Imprime en pantalla todas las palabras
@@ -303,10 +303,10 @@ void show_score (SCORE* score ,int size)
     position[1]='\0'; //Es el circulo arriba del número
     al_clear_to_color(al_map_rgb(0,0,0));
     printf("Dibujé fondo negro\n");     // DEBUG
-    printf("Dibujé fondo negro %d\n", al_get_display_height(display));     // DEBUG
+    printf("Dibujé fondo negro %d\n", al_get_display_width(display));     // DEBUG
     // al_draw_scaled_bitmap(firstImage,    // Imagen de fondo de los puntajes
     //                         0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
-    //                         0, 0, al_get_display_width(display), al_get_display_height(display),    
+    //                         0, 0, D_WIDTH, D_HEIGHT,    
     //                         0);
      printf("Puse imagen de fondo\n");     // DEBUG
 
@@ -365,7 +365,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     } */
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
-                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
                             0);
     al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");  
     char letter[2];
@@ -378,7 +378,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     letter[1]='\0';
     al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)-80+50*letter_counter, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
     intochar(score,chscore);
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-60, ALLEGRO_ALIGN_CENTER, "Partida actual:");
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-80, ALLEGRO_ALIGN_CENTER, "Partida actual:");
     al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
     
@@ -393,7 +393,7 @@ void shows_inst ()
 {
     al_draw_scaled_bitmap(instImage,    // Imagen de instrucciones
                             0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),
-                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
                             0);
     al_flip_display();
 }
