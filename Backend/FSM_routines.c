@@ -385,13 +385,13 @@ void save_score(){
         if (actual_name[i] != ' ')                      // Reviso si NO es ' ' y si es así              
             not_null_char++;                            // incremento la cantidad de posiciones
     }                                                   // que tinen valor.
-    
+
     printf("Llegue a preguardado. \n");
     if (not_null_char>0)                                // Si afirmativamente hay algun caracter guardado:
     {
         put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard);   // Ejecuto la función que guarda el 
                                                                                 //puntaje ordenado en el archivo.
-        
+
         #ifdef DEBUG
         printf("Se guadro el nuevo score\n");
         #endif
