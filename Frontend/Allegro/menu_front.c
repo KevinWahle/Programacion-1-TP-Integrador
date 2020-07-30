@@ -298,16 +298,18 @@ void show_score (SCORE* score ,int size)
 {   
     printf("ENTRO A SHOW_SCORE");       // DEBUG
     char chscore[LEADERBOARD_SIZE]; //Variable temporal para convertir int a char
-    int num=0;
+    int num=0; 
     char position[2];   //Variable que indica la posición
     position[1]=167; //Es el circulo arriba del número
+    printf("ANTES DEL DRAW");  // DEBUG
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
-    
-    if (size>10)
+    printf("ANTES DEL IF");  // DEBUG
+    if (size>10) {
         size=10;
+    }
     printf("ANTES DEL FOR");  // DEBUG
     for(int i=0;i<size;i++) {
         position[0] = i+1+NUMOFFSET;  //Muestra el numero de la posicion del jugador  
