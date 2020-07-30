@@ -308,7 +308,6 @@ void show_global_score(void) {
     }
     put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se reordene la lista sí o sí.     
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
-    printf("Salgo de show_global_score\n");
 }
 
 void next_letter()
