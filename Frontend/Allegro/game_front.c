@@ -452,7 +452,7 @@ void redraw(void)
             drawCannon();
 
             //game_score_front(30 , 25, 20, 15, 3, 7);      // ESTA LA LLAMA EL BACK, DESCOMENTAR PARA DEBUG
-            
+
 
             al_flip_display(); 
         }
@@ -511,7 +511,6 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
     strcat (scoreText, stringScore );
 
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*1 , ALLEGRO_ALIGN_CENTER, scoreText);
-
 
     char levelText[] = "Level: ";
     char stringLevel[10];
@@ -1145,7 +1144,7 @@ static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
 
 static void shouldUFOappear(void)
 {
-    if(  !(rand() % MIN_POSIBILIY_OF_APPEAR_UFO ) && !UFO_invader.invaderState )   // Podria aparecer UFO o no. Si ya hay un UFO, no puede haber otro
+    if(  !(rand() % MIN_POSIBILIY_OF_APPEAR_UFO) && !UFO_invader.invaderState )   // Podria aparecer UFO o no. Si ya hay un UFO, no puede haber otro
     {
         UFO_invader.invaderState = 1;
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
@@ -1198,4 +1197,3 @@ void clean_shoots(void)
     invaderShotList[i].shotState = 0;
   }
 }
-

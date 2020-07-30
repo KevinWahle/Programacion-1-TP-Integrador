@@ -189,7 +189,7 @@ void click_menu()
     }
 
     #ifdef DEBUG
-        printf("Se agregó a la cola de eventos: %d \n", main_menu[actual_option].ID);
+        printf("Se agregó a la cola de eventos el ID: %d \n", main_menu[actual_option].ID);
     #endif      
     actual_option=0;
 }
@@ -309,6 +309,7 @@ void show_global_score(void) {
 
     put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se reordene la lista sí o sí.     
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
+    printf("Salgo de show_global_score");
 }
 
 void next_letter()
