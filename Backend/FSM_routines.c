@@ -256,8 +256,17 @@ void start_game(void){
     reset_points();             // Reinicio el contador de puntos.
     reset_level();              // Reinicio el contador de niveles.
     reset_killed_aliens();      // Reinicio el contador de aliens asesinados.
+    
+    #ifdef DEBUG
+        printf("Se revivieron todos los invaders. \n");
+    #endif    
+    
     clean_shoots();             // Limpio los disparos en pantalla. 
     
+    #ifdef DEBUG
+        printf("Se borraron los tiros de la pantalla. \n");
+    #endif
+
     //reset_front();              // Actualizo el front a formato partida. 
     //INCLUIR: Incluir en donde se encuentra reset_front.
     
@@ -297,32 +306,17 @@ void show_game_score(){
 }
 
 
-void show_global_score(void) {  
-    printf ("estoy aca");                           
+void show_global_score(void) {                             
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
     int cant= lect_score(p_leadboard);                // Coloco en memoria los datos del score y guardo la cantidad en cant
-    
-    #ifdef DEBUG
-        printf("Entre a show_global_score... \n");
-    #endif
-
     if (cant==LEADERBOARD_SIZE+1){
         cant=LEADERBOARD_SIZE;
     }
-
-    #ifdef DEBUG
-        printf("Voy al front \n");
-    #endif
-
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
         
     #ifdef DEBUG
-        printf("Volví del front. \n");
-    #endif
-
-    /*#ifdef DEBUG
         printf("Mostrando Leadboard. \n");
-    #endif*/
+    #endif
 }
 
 void next_letter()
@@ -353,7 +347,7 @@ void previous_letter()
     letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
     
     #ifdef DEBUG
-        printf("Se retrocedio a la letra %c en la posición %d \n", letter, letter_counter+1);
+        printf("Se retrocedio a la letra %c en la posición \n", letter, letter_counter+1);
     #endif
 
     }                                         
@@ -430,7 +424,7 @@ void saving_init()
 
 void show_name(void)
 {
-    //score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }
 
 /**********************************************************
@@ -485,18 +479,20 @@ void cannon_coll()
 **********************************************************/
 void move_cannon_left()
 {
-    move_cannon(LEFT);
+   // move_cannon(LEFT);
 }
 
 void move_cannon_right()
 {
-    move_cannon(RIGHT);
+   // move_cannon(RIGHT);
 }
 
 void stop_cannon()
 {
-    move_cannon(STOP);
+  //  move_cannon(STOP);
 }
+
+
 
 /**********************************************************
 *********************  VARIOUS   **************************

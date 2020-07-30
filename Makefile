@@ -76,3 +76,5 @@ clean:
 clean_eq:
 	rm Backend/event_queue/*.o
 
+cleanwin:
+	del *.o /S
