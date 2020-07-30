@@ -17,11 +17,11 @@
 #define SIZE_FMU    50
 #define SIZE_FSC    28
 
-#define CANON_FILE "Frontend/Allegro/PNGs/Laser_Cannon.png"
-#define CRAB_FILE "Frontend/Allegro/PNGs/Crab1.png"
-#define OCTO_FILE "Frontend/Allegro/PNGs/Octopus1.png"
-#define SQUID_FILE "Frontend/Allegro/PNGs/Squid1.png"
-#define UFO_FILE "Frontend/Allegro/PNGs/UFO.png"
+#define CANON_FILE  "Frontend/Allegro/PNGs/Laser_Cannon.png"
+#define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"
+#define OCTO_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
+#define SQUID_FILE  "Frontend/Allegro/PNGs/Squid1.png"
+#define UFO_FILE    "Frontend/Allegro/PNGs/UFO.png"
 
 #define MENU_FILE   "Frontend/Allegro/BMPs/menu-sp.bmp"
 #define FIRST_FILE  "Frontend/Allegro/BMPs/first-image.bmp"
@@ -29,7 +29,7 @@
 #define INST_FILE   "Frontend/Allegro/BMPs/instruction-sp.bmp"
 #define END_FILE    "Frontend/Allegro/BMPs/bye-image.bmp"
 
-#define FONTMU_FILE  "Frontend/Allegro/Fonts/SP-font-menu.ttf"
+#define FONTMU_FILE "Frontend/Allegro/Fonts/SP-font-menu.ttf"
 #define FONTSC_FILE "Frontend/Allegro/Fonts/SP-font-menu.ttf"
 
 #define SAMPLE_FILE "Frontend/Allegro/Songs/audio.wav"
@@ -295,7 +295,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
  * @brief Muestra los mejores puntajes, máximo 10.
 */
 void show_score (SCORE* score ,int size) 
-{   
+{  
     printf("Entro menú front\n");     // DEBUG
     char chscore[LEADERBOARD_SIZE]; //Variable temporal para convertir int a char
     unsigned long int num=0; 
@@ -303,10 +303,11 @@ void show_score (SCORE* score ,int size)
     position[1]='\0'; //Es el circulo arriba del número
     al_clear_to_color(al_map_rgb(0,0,0));
     printf("Dibujé fondo negro\n");     // DEBUG
-    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
-                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),
-                            0, 0, al_get_display_width(display), al_get_display_height(display),    
-                            0);
+    printf("Dibujé fondo negro %d\n", al_get_display_height(display));     // DEBUG
+    // al_draw_scaled_bitmap(firstImage,    // Imagen de fondo de los puntajes
+    //                         0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
+    //                         0, 0, al_get_display_width(display), al_get_display_height(display),    
+    //                         0);
      printf("Puse imagen de fondo\n");     // DEBUG
 
     if (size>10) {

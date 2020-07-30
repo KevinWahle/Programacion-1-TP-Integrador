@@ -452,6 +452,7 @@ void redraw(void)
             drawCannon();
 
             //game_score_front(30 , 25, 20, 15, 3, 7);      // ESTA LA LLAMA EL BACK, DESCOMENTAR PARA DEBUG
+            
 
             al_flip_display(); 
         }
