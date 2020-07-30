@@ -301,11 +301,13 @@ void show_score (SCORE* score ,int size)
     unsigned long int num=0; 
     char position[2];   //Variable que indica la posición
     position[1]=167; //Es el circulo arriba del número
+    al_clear_to_color(al_map_rgb(255,255,255));
+    printf("Dibujé fondo negro\n");     // DEBUG
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
-    printf("Dibujé fondo\n");     // DEBUG
+    printf("Puse imagen de fondo\n");     // DEBUG
 
     if (size>10) {
         size=10;
@@ -345,10 +347,8 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
    */
-    
-    /*char chscore[NAME_SIZE+1];
-    char letter;
-    char mystring[NAME_SIZE+1];
+    char chscore[NAME_SIZE+1];
+    /*char mystring[NAME_SIZE+1];
     int i=0;
     for (; i<letter_counter; i++){
         mystring[i]=' ';
@@ -358,9 +358,9 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     i++;
     for (; i<NAME_SIZE; i++){
         mystring[i]=' ';
-    } 
     mystring[i]= '\0';
     printf("eL STRING ES: %s \n", mystring);
+    } *//*
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
@@ -368,13 +368,16 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");  
     char letter[2];
     for (int i=0; i<NAME_SIZE; i++){
-        letter={actual_name[i],'\0'};
+        letter[0]=actual_name[i];
+        letter[1]='\0';
         al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+10*i, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, letter);
     }
+    letter[0]=actual_name[letter_counter];
+    letter[1]='\0'
     al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+10*letter_counter, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, mystring); //Imprime la legra a higligtear
-    intochar(score,chscore);
+    */intochar(score,chscore);
     al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
-    al_flip_display();*/
+    al_flip_display();
     
 
 }
