@@ -89,11 +89,11 @@ STATE instruction_state []= {
 
 STATE play_state[] = {
     {PAUSE_EVENT, menu_state, pause_game},    
-//    {CLICK_BTN, play_state, shoot_cannon},
-//    {MOVE_LEFT, play_state, move_cannon_left},
-//    {MOVE_RIGHT, play_state, move_cannon_right},
-//    {MOVE_RIGHT_REL, play_state, stop_cannon},
-//    {MOVE_LEFT_REL, play_state, stop_cannon},
+    {CLICK_BTN, play_state, shoot_cannon},
+    {MOVE_LEFT, play_state, move_cannon_left},
+    {MOVE_RIGHT, play_state, move_cannon_right},
+    {MOVE_RIGHT_REL, play_state, stop_cannon},
+    {MOVE_LEFT_REL, play_state, stop_cannon},
     {END_GAME_EVENT, game_score_state, show_game_score},
     {NEXT_LEVEL_EV, play_state, increase_level},
     {CRAB_COLL_EV, play_state, crab_coll},

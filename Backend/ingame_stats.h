@@ -14,6 +14,7 @@
 #include <time.h> 
 #include <stdlib.h>
 #include <stdio.h>
+#include "../Frontend/Allegro/headall.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE

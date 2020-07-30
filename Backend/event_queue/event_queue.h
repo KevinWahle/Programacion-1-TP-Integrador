@@ -19,7 +19,7 @@
 
 #define MAX_EVENTS  500                 // Máxima cantidad de eventos
 
-#define NULL_EVENT  ((event_t)(-1))     // Evento nulo (máximo valor de event_t)
+#define NULL_EVENT  65535 //((event_t)(-1))     // Evento nulo (máximo valor de event_t)
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS

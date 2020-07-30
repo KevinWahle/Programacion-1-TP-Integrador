@@ -165,7 +165,7 @@ void increase_lives()
 
 void increase_level(){
     level++;                // Incremento el nivel en uno.
-    update_level(get_level());
+    //update_level(get_level());
 
     increase_lives();       // Si me faltan vidas, recupero una.
     
@@ -210,7 +210,7 @@ void speed_update(const float seg)
 unsigned long int get_points()    
 {
     #ifdef DEBUG
-    printf("Se tienen %d puntos \n", points);
+    printf("Se tienen %ld puntos \n", points);
     #endif 
     return points;      // Devuelvo la cant de puntos de la partida.
 }

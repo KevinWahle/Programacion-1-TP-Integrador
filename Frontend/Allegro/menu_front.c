@@ -295,7 +295,8 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
  * @brief Muestra los mejores puntajes, máximo 10.
 */
 void show_score (SCORE* score ,int size) 
-{
+{   
+    printf("ENTRO A SHOW_SCORE");       // DEBUG
     char chscore[LEADERBOARD_SIZE]; //Variable temporal para convertir int a char
     int num=0;
     char position[2];   //Variable que indica la posición
@@ -317,6 +318,7 @@ void show_score (SCORE* score ,int size)
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
     al_flip_display();
+    printf("SALIO DE SHOW_SCORE");       // DEBUG
 }
 
 
@@ -459,6 +461,7 @@ void destroy_front()
  */
 static void intochar(int num, char chscore[LEADERBOARD_SIZE])
 {
+    printf("ENTRO A INTOCHAR");
     int a = 0;
     for(int i=LEADERBOARD_SIZE-1;i>=0;i--) {
         a = num % 10;
