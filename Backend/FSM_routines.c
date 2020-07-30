@@ -266,9 +266,7 @@ void start_game(void){
     #ifdef DEBUG
         printf("Se borraron los tiros de la pantalla. \n");
     #endif
-
-    //reset_front();              // Actualizo el front a formato partida. 
-    //INCLUIR: Incluir en donde se encuentra reset_front.
+    init_game();
     
     //NOTA: Agregar si se desea mostrar las vidas disponibles en pantalla.
 
