@@ -503,14 +503,14 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
     sprintf(stringScore, "%d", (int)score);
     strcat (scoreText, stringScore );
 
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*2 , ALLEGRO_ALIGN_CENTER, scoreText);
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*1 , ALLEGRO_ALIGN_CENTER, scoreText);
 
 
     char levelText[] = "Level: ";
     char stringLevel[10];
     sprintf(stringLevel, "%d", level);
     strcat (levelText, stringLevel ); 
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*3, ALLEGRO_ALIGN_CENTER, levelText); 
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*2, ALLEGRO_ALIGN_CENTER, levelText); 
 
     char killedCrabsText[] = "Killed crabs: ";
     char stringCrabs[28];

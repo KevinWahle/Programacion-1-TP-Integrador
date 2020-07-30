@@ -54,7 +54,7 @@ ALLEGRO_DISPLAY *display = NULL;
  * @param chscore[] Recibe el string dode transformara el numero a char
  * @return Devulve el string ya transformado.
 */
-static void intochar(int num, char chscore[LEADERBOARD_SIZE]);
+static void intochar(unsigned long int num, char chscore[LEADERBOARD_SIZE]);
 
 /**
  * @brief Destruye todos los invaders cargados.
@@ -298,7 +298,7 @@ void show_score (SCORE* score ,int size)
 {   
     printf("ENTRO A SHOW_SCORE");       // DEBUG
     char chscore[LEADERBOARD_SIZE]; //Variable temporal para convertir int a char
-    int num=0; 
+    unsigned long int num=0; 
     char position[2];   //Variable que indica la posición
     position[1]=167; //Es el circulo arriba del número
     printf("ANTES DEL DRAW");  // DEBUG
@@ -464,9 +464,9 @@ void destroy_front()
 /**
  * @brief Transforma un entero no signado a un string.
  */
-static void intochar(int num, char chscore[LEADERBOARD_SIZE])
+static void intochar(unsigned long int num, char chscore[LEADERBOARD_SIZE])
 {
-    int a = 0;
+    unsigned long int a = 0;
     for(int i=LEADERBOARD_SIZE-1;i>=0;i--) {
         a = num % 10;
         chscore[i]=a+NUMOFFSET;
