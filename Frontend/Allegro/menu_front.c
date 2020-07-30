@@ -300,14 +300,14 @@ void show_score (SCORE* score ,int size)
     char chscore[LEADERBOARD_SIZE]; //Variable temporal para convertir int a char
     unsigned long int num=0; 
     char position[2];   //Variable que indica la posición
-    position[1]=167; //Es el circulo arriba del número
-    al_clear_to_color(al_map_rgb(255,255,255));
+    position[1]='\0'; //Es el circulo arriba del número
+    al_clear_to_color(al_map_rgb(0,0,0));
     printf("Dibujé fondo negro\n");     // DEBUG
-    // al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
-    //                         0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
-    //                         0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
-    //                         0);
-    // printf("Puse imagen de fondo\n");     // DEBUG
+    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
+                            0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
+                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
+                            0);
+     printf("Puse imagen de fondo\n");     // DEBUG
 
     if (size>10) {
         size=10;
@@ -371,13 +371,14 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     for (int i=0; i<NAME_SIZE; i++){
         letter[0]=actual_name[i];
         letter[1]='\0';
-        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+40*i, (D_HEIGHT / 2)+30, ALLEGRO_ALIGN_CENTER, letter);
+        al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-80+50*i, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter);
     }
     letter[0]=actual_name[letter_counter];
     letter[1]='\0';
-    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+40*letter_counter, (D_HEIGHT / 2)+30, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)-80+50*letter_counter, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
     intochar(score,chscore);
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-300, (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, "Partida actual:");
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
     
 
@@ -508,11 +509,10 @@ static void intochar(unsigned long int num, char chscore[NAME_SIZE+1])
     unsigned long int a = 0;
     
     if(num==0){
-        for(int i=0;i<NAME_SIZE;i++){
+        for(int i=0;i<NAME_SIZE+1;i++){
             chscore[i]=' ';
         }
-        chscore[NAME_SIZE]='0';
-        printf("SCORE ES 0 \n");
+        chscore[NAME_SIZE/2]='0';           // Escribo el 0 en el medio de la pantalla.
     }
 
     else{
