@@ -301,7 +301,7 @@ void show_score (SCORE* score ,int size)
     unsigned long int num=0; 
     char position[2];   //Variable que indica la posición
     position[1]='\0'; //Es el circulo arriba del número
-    al_clear_to_color(al_map_rgb(0,0,0));
+    //al_clear_to_color(al_map_rgb(0,0,0));
     printf("Dibujé fondo negro\n");     // DEBUG
     al_draw_scaled_bitmap(firstImage,    // Imagen de fondo de los puntajes
                              0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
