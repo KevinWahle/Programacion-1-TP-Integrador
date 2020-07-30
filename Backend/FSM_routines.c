@@ -82,6 +82,7 @@ void show_splash(void){
 
 void my_menu(){
     actual_option=0;
+    printf("Pre show_menu \n");
     show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);  //Actualizo el menu, resaltando la opcion actualizada.  
     #ifdef DEBUG
         printf("Muestro el menú principal. \n");

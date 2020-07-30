@@ -373,8 +373,8 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     letter[1]='\0';
     al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)-80+50*letter_counter, (D_HEIGHT / 2)+40, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
     intochar(score,chscore);
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-80, ALLEGRO_ALIGN_CENTER, "Partida actual:");
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-100, ALLEGRO_ALIGN_CENTER, "Partida actual:");
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-(40*(NAME_SIZE/2)), (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
     
 
