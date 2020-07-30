@@ -16,7 +16,7 @@
  ******************************************************************************/
 
 #define NAME_SIZE    5 // Implica que cada nombre tiene que tener 5 letras como máximo
-#define LEADERBOARD_SIZE     5 // Tamaño del top
+#define LEADERBOARD_SIZE     10 // Tamaño del top
 
 
 /*******************************************************************************

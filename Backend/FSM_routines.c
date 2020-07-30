@@ -310,7 +310,9 @@ void show_global_score(void) {
     if (cant==LEADERBOARD_SIZE+1){
         cant=LEADERBOARD_SIZE;
     }
+
     
+    put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);    
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
         
     #ifdef DEBUG

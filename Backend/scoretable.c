@@ -55,9 +55,11 @@ void BubbleSort(SCORE arr[], int cont);
 void put_score (char* name, unsigned long int score, const int top, SCORE* my_pun)
 {
     FILE* fp;
-    fp = fopen ("score.txt","a+");                   // Abro el archivo con los puntajes
-    fprintf (fp,"%s %lu\n", name, score);           // Le escribo el nombre y puntaje que fue provisto
-    fclose(fp);                                     // Cierro el archivo
+    if (score!=0){
+        fp = fopen ("score.txt","a+");                   // Abro el archivo con los puntajes
+        fprintf (fp,"%s %lu\n", name, score);           // Le escribo el nombre y puntaje que fue provisto
+        fclose(fp);   
+    }                                               // Cierro el archivo
     int cant = lect_score (my_pun);                 // Cuento cuantos nombres hay y lo coloco en memoria
     if (cant<=top){                                 // Si la cantidad no supera el top   
         BubbleSort(my_pun, cant);                   // Lo agrego en el orden correspondiendte
