@@ -300,7 +300,8 @@ void show_game_score(){
 }
 
 
-void show_global_score(void) {                             
+void show_global_score(void) {  
+    printf("ENTRO a show_global_score\n");                           
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
     int cant= lect_score(p_leadboard);                // Coloco en memoria los datos del score y guardo la cantidad en cant
     if (cant==LEADERBOARD_SIZE+1){
@@ -309,7 +310,7 @@ void show_global_score(void) {
 
     put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se reordene la lista sí o sí.     
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
-    printf("Salgo de show_global_score");
+    printf("Salgo de show_global_score\n");
 }
 
 void next_letter()
