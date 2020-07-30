@@ -421,6 +421,7 @@ void saving_init()
 void show_name(void)
 {
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
+    //NOTA: Pasar a las funciones anteriores para optimizar y no llenar la consola de printfs al dope.
 }
 
 /**********************************************************
