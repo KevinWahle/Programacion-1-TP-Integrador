@@ -158,12 +158,12 @@ void down_menu_main()
 
 void up_menu_pause()
 {
-    up_menu(pause_menu, sizeof(main_menu));             // Subo en el menu de pausa
+    up_menu(pause_menu, sizeof(pause_menu));             // Subo en el menu de pausa
 }
 
 void down_menu_pause()
 {
-    down_menu(pause_menu, sizeof(main_menu));           // Bajo en el menu de pausa
+    down_menu(pause_menu, sizeof(pause_menu));           // Bajo en el menu de pausa
 }
 
 

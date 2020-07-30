@@ -282,11 +282,11 @@ void splash_front()
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     printf("Muestro MENU\n");       // DEBUG
-    int alt;
+    int altin;
     if (size=3) {
-        altin = 240 ;
+        altin = 240;
     } else
-        altin = 200
+        altin = 200;
     al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
                           0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
