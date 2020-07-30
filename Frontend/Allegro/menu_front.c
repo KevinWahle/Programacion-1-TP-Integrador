@@ -365,7 +365,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
                             0);
     al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");  
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2)+10, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, actual_name);
-    al_draw_text(fontsc, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+10*letter_counter, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, mystring); //Imprime la legra a higligtear
+    al_draw_text(fontsc, al_map_rgb(255, 165, 0), (D_WIDTH / 2)+10, (D_HEIGHT / 2)+10, ALLEGRO_ALIGN_CENTER, mystring); //Imprime la legra a higligtear
     intochar(score,chscore);
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-30, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
@@ -451,14 +451,14 @@ void update_front_event (void)
  **/
 void destroy_front()
 {
-    al_draw_scaled_bitmap(endImage,     // Imagen de despedida
+    /*al_draw_scaled_bitmap(endImage,     // Imagen de despedida
                           0, 0, al_get_bitmap_width(endImage), al_get_bitmap_height(endImage),     //imagen de finalizacion
                           0, 0, al_get_display_width(display), al_get_display_height(display), //a que tamaño queres que se dibuje la imagen
                           0);
     al_flip_display();
     al_rest(1.5); // Tiempo de duracion random
     // Destrucción de recursos empleados
-
+    */
     destroy_invaders();         //Destruye la parte de loadim_game
     al_destroy_bitmap(canonPointer);
     al_destroy_bitmap(UFO_invader.invadersPointer); // Destruccion UFO

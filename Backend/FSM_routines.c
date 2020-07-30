@@ -317,16 +317,14 @@ void show_global_score(void) {
 
 void next_letter()
 {
-    if (letter_counter < NAME_SIZE)                         // Si me quedan letras por guardar:
+    if (letter_counter < NAME_SIZE-1)                         // Si me quedan letras por guardar:
     {
-        actual_name[letter_counter]=letter;                                              //Guardo la letra actual.
-    
+    letter_counter++;                              // Paso a la siguiente letra.                                           
+    letter=actual_name[letter_counter];            // Cargo la siguiente letra de la nueva ubicación.
     #ifdef DEBUG
         printf("Se confirmo la letra: %c. El arreglo quedó %s.\n", actual_name[letter_counter], actual_name);
     #endif
     
-    letter_counter++;                              // Paso a la siguiente letra.                                           
-    letter=actual_name[letter_counter];            // Cargo la siguiente letra de la nueva ubicación.
     }
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }      
@@ -335,13 +333,12 @@ void previous_letter()
 {
     if(letter_counter>0)                                // Si no estoy en la primer letra:
     {
-    letter_counter--;                           //Retrocedo una letra.
-    #ifdef DEBUG
-        printf("Se retrocedió una letra \n");
-    #endif
-    
-    letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
-
+        letter_counter--;                           //Retrocedo una letra.
+        #ifdef DEBUG
+            printf("Se retrocedió una letra \n");
+        #endif
+        
+        letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
     }   
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());                                      
 }
@@ -359,6 +356,7 @@ void upper_letter()
     #ifdef DEBUG
         printf("Se pasó a la letra %c \n", letter);
     #endif
+    actual_name[letter_counter]=letter;
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }
 
@@ -374,7 +372,7 @@ void lower_letter()
     #ifdef DEBUG
         printf("Se pasó a la letra %c\n", letter);
     #endif
-
+    actual_name[letter_counter]=letter;
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }
 
