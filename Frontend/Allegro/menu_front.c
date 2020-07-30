@@ -302,8 +302,9 @@ void show_score (SCORE* score ,int size)
 {  
     char chscore[LENG_SC]; //Variable temporal para convertir int a char
     unsigned long int num = 0; 
-    char position[2];   //Variable que indica la posición
-    position[1]='\0'; //Es el circulo arriba del número
+    char position[2] = "1";   //Variable que indica la posición
+    //position[1]='\0'; //Es el circulo arriba del número
+    printf("Antes del antes del for\n");
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                              0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),
                              0, 0, D_WIDTH, D_HEIGHT,    
@@ -312,7 +313,7 @@ void show_score (SCORE* score ,int size)
     if (size>LEADERBOARD_SIZE) {
         size=LEADERBOARD_SIZE;
     }
-
+    printf("Antes del for2\n");
     for(int i=0;i<size;i++) {
         position[0] = i+1+NUMOFFSET;  //Muestra el numero de la posicion del jugador  
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*1, 180+(i*40), ALLEGRO_ALIGN_CENTER, position);
@@ -321,6 +322,7 @@ void show_score (SCORE* score ,int size)
         intochar(num,chscore);
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 180+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
+    printf("Flippeame ESTA \n");
     al_flip_display();
 }
 
