@@ -310,6 +310,7 @@ void show_global_score(void) {
     if (cant==LEADERBOARD_SIZE+1){
         cant=LEADERBOARD_SIZE;
     }
+    
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
         
     #ifdef DEBUG
@@ -478,17 +479,17 @@ void cannon_coll()
 **********************************************************/
 void move_cannon_left()
 {
-   // move_cannon(LEFT);
+   move_cannon(LEFT);
 }
 
 void move_cannon_right()
 {
-   // move_cannon(RIGHT);
+   move_cannon(RIGHT);
 }
 
 void stop_cannon()
 {
-  //  move_cannon(STOP);
+   move_cannon(STOP);
 }
 
 

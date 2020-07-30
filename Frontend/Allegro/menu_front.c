@@ -311,11 +311,11 @@ void show_score (SCORE* score ,int size)
 
     for(int i=0;i<size;i++) {
         position[0] = i+1+NUMOFFSET;  //Muestra el numero de la posicion del jugador  
-        al_draw_text(fontsc, al_map_rgb(255, 255, 255), 50, 220+(i*40), ALLEGRO_ALIGN_CENTER, position);
-        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 220+(i*40), ALLEGRO_ALIGN_CENTER, score[i].name);
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*1, 200+(i*40), ALLEGRO_ALIGN_CENTER, position);
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 200+(i*40), ALLEGRO_ALIGN_CENTER, score[i].name);
         num=score[i].pts;
         intochar(num,chscore);
-        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 220+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
+        al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 200+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
     }
     al_flip_display();
     printf("SALIO DE SHOW_SCORE");       // DEBUG
@@ -425,7 +425,7 @@ void destroy_front()
                           0, 0, al_get_display_width(display), al_get_display_height(display), //a que tamaño queres que se dibuje la imagen
                           0);
     al_flip_display();
-    al_rest(2); // Tiempo de duracion random
+    al_rest(1.5); // Tiempo de duracion random
     // Destrucción de recursos empleados
 
     destroy_invaders();         //Destruye la parte de loadim_game
