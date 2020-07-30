@@ -308,7 +308,7 @@ void show_score (SCORE* score ,int size)
     
     if (size>10)
         size=10;
-
+    printf("ANTES DEL FOR");  // DEBUG
     for(int i=0;i<size;i++) {
         position[0] = i+1+NUMOFFSET;  //Muestra el numero de la posicion del jugador  
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*1, 180+(i*40), ALLEGRO_ALIGN_CENTER, position);
