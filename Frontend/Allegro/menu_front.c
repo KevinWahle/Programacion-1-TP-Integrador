@@ -296,18 +296,14 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 */
 void show_score (SCORE* score ,int size) 
 {  
-    printf("Entro menú front\n");     // DEBUG
     char chscore[LEADERBOARD_SIZE]; //Variable temporal para convertir int a char
-    unsigned long int num=0; 
+    unsigned long int num = 0; 
     char position[2];   //Variable que indica la posición
     position[1]='\0'; //Es el circulo arriba del número
-    //al_clear_to_color(al_map_rgb(0,0,0));
-    printf("Dibujé fondo negro\n");     // DEBUG
-    al_draw_scaled_bitmap(firstImage,    // Imagen de fondo de los puntajes
-                             0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
+    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
+                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),
                              0, 0, D_WIDTH, D_HEIGHT,    
                              0);
-     printf("Puse imagen de fondo\n");     // DEBUG
 
     if (size>10) {
         size=10;
