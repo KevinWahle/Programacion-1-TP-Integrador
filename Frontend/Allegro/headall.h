@@ -111,7 +111,7 @@ void redraw();
  * @brief Actualiza la velocidad del juego
  * @param newSpeed El nuevo valor de velocidad para el juego
 */
-void update_speed_front(int newSpeed);
+void update_speed_front(int newSpeed, int maxSpeed);
 
 /**
  * @brief Coloca el cannon en la posición al revivir, debajo de un shield
@@ -139,6 +139,11 @@ void move_cannon(direction_t dir);
  * @brief Elimina los disparos actuales
 */
 void clean_shoots(void);
+
+/**
+ * @brief Imprime estadísticas de final de partida
+*/
+void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo);
 
 
 /*******************************************************************************

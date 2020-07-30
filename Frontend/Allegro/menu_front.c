@@ -329,13 +329,13 @@ void show_score (SCORE* score ,int size)
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) {
     char chscore[LEADERBOARD_SIZE];
-    char name[2]; //Letra a imprrimir
+    char name[2]; //Letra a imprimir
     name[1]='\0';
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, al_get_display_width(display), al_get_display_height(display),      // Con que tamaño queres que se dibuje la imagen
                             0);
-    al_draw_text(fontmu, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");
+    al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");
     
     for(int i=0;i<size;i++) {
         name[0]=chscore[i];   
@@ -466,7 +466,6 @@ void destroy_front()
  */
 static void intochar(int num, char chscore[LEADERBOARD_SIZE])
 {
-    printf("ENTRO A INTOCHAR");
     int a = 0;
     for(int i=LEADERBOARD_SIZE-1;i>=0;i--) {
         a = num % 10;

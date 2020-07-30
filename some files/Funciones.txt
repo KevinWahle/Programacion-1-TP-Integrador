@@ -73,7 +73,7 @@ LISTO	10) /**
 		*/
 		void shows_inst (void);
 		
-    11) void update_speed_front(int newSpeed);
+LISTO   11) void update_speed_front(int newSpeed, int maxSpeed);
         // El back llama a esta función con la velocidad actualizada
         // Adentro de la función el front actualiza su propia velocidad (invaders, frecuencia de tiros, etc)
 

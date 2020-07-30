@@ -111,7 +111,7 @@ void reset_points()
 
 void reset_level()
 {
-    set_level(0);        // Reinicio al nivel 0.
+    set_level(1);        // Reinicio al nivel 0.
     reset_speed();       // Reinicio la velocidad
     
     #ifdef DEBUG
@@ -313,6 +313,7 @@ static void reset_timer(void)
 static void reset_speed()
 {
     set_speed(MIN_SPEED);   // Reseteo la velocidad al mínimo.
+    update_speed_front(get_speed(), MAX_SPEED);
     reset_timer();          // Reseteo el valor de referencia.
 
     #ifdef DEBUG
@@ -333,9 +334,7 @@ static void increase_points(const int cant)
 static void set_speed(int new_speed){              
     
     speed=new_speed;                                // Actualizamos la velocidad localmente
-
-    //update_speed_front(speed);                      // Y se la pasamos al front.
-    //NOTA: descomentar
+    update_speed_front(get_speed(), MAX_SPEED);                      // Y se la pasamos al front.
     #ifdef DEBUG
         printf("La velocidad paso a ser: %d \n", speed);
     #endif 

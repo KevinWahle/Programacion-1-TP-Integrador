@@ -295,8 +295,7 @@ void show_game_score(){
     int killed_squid= get_killed_aliens(SQUID);     // Guardo los squids asesinados en la partida.
     int killed_ufo= get_killed_aliens(UFO);         // Guardo los UFOs asesinados en la partida.
     
-    //game_score_front(score, level, killed_crabs, killed_octo, killed_squid, killed_ufo);
-    //INCLUIR: Incluir en donde se encuentra game_score_front.
+    game_score_front(score, level, killed_crabs, killed_octo, killed_squid, killed_ufo);
 
     #ifdef DEBUG
         printf("Mostrando las estadisticas de la partida. \n");
@@ -311,7 +310,7 @@ void show_global_score(void) {
         cant=LEADERBOARD_SIZE;
     }
 
-    put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se     
+    put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se reordene la lista sí o sí.     
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
 }
 
