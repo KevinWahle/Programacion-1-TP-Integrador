@@ -314,14 +314,14 @@ void show_score (SCORE* score ,int size)
         size=LEADERBOARD_SIZE;
     }
     printf("Antes del for2\n");
-    for(int i=0;i<size;i++) {
+    /*for(int i=0;i<size;i++) {
         position[0] = i+1+NUMOFFSET;  //Muestra el numero de la posicion del jugador  
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*1, 180+(i*40), ALLEGRO_ALIGN_CENTER, position);
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 180+(i*40), ALLEGRO_ALIGN_CENTER, score[i].name);
         num=score[i].pts;
         intochar(num,chscore);
         al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*3, 180+(i*40), ALLEGRO_ALIGN_CENTER, chscore);
-    }
+    }*/
     printf("Flippeame ESTA \n");
     al_flip_display();
     printf("Ya te la flippie \n");
