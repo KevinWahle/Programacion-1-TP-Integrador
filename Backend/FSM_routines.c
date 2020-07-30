@@ -380,7 +380,7 @@ void save_score(){
     SCORE* p_leadboard=leadboard;                       // Coloco un puntero a su primer elemento
     int not_null_char=0;                                // Creo una variable que cuente los ' '.
     printf ("antes del for\n");
-    for(int i=0; i<NAME_SIZE-1; i++)                    // Para cada caracter no terminador de
+    for(int i=0; i<NAME_SIZE; i++)                    // Para cada caracter no terminador de
     {                                                   //actual_name:
         if (actual_name[i] != ' ')                      // Reviso si NO es ' ' y si es así              
             not_null_char++;                            // incremento la cantidad de posiciones
