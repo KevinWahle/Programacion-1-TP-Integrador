@@ -461,7 +461,7 @@ void redraw(void)
 
 void move_cannon(direction_t dir)
 {
-  cannonDir = dir;
+    cannonDir = dir;
 }
 
 void reviveCanon(void)
@@ -522,25 +522,25 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
     char stringCrabs[28];
     sprintf(stringCrabs, "%d", killed_crabs);
     strcat (killedCrabsText, stringCrabs ); 
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*4, ALLEGRO_ALIGN_CENTER, killedCrabsText); 
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*4-20, ALLEGRO_ALIGN_CENTER, killedCrabsText); 
     
     char killedOctoText[] = "Killed octo: ";
     char stringOcto[30];
     sprintf(stringOcto, "%d", killed_octo);
     strcat (killedOctoText, stringOcto ); 
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*5, ALLEGRO_ALIGN_CENTER, killedOctoText);
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*5-20, ALLEGRO_ALIGN_CENTER, killedOctoText);
 
     char killedSquidText[] = "Killed squid: ";
     char stringSquid[30];
     sprintf(stringSquid, "%d", killed_squid);
     strcat (killedSquidText, stringSquid ); 
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*6, ALLEGRO_ALIGN_CENTER, killedSquidText);
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*6-20, ALLEGRO_ALIGN_CENTER, killedSquidText);
 
     char killedUfoText[] = "Killed UFO: ";
     char stringUfo[30];
     sprintf(stringUfo, "%d", killed_ufo);
     strcat (killedUfoText, stringUfo ); 
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*7, ALLEGRO_ALIGN_CENTER, killedUfoText);
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), D_WIDTH / 2,  (D_HEIGHT / 8)*7-20, ALLEGRO_ALIGN_CENTER, killedUfoText);
 
     al_flip_display();
 }
