@@ -303,11 +303,10 @@ void show_score (SCORE* score ,int size)
     position[1]='\0'; //Es el circulo arriba del número
     al_clear_to_color(al_map_rgb(0,0,0));
     printf("Dibujé fondo negro\n");     // DEBUG
-    printf("Dibujé fondo negro %d\n", al_get_display_width(display));     // DEBUG
-    // al_draw_scaled_bitmap(firstImage,    // Imagen de fondo de los puntajes
-    //                         0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
-    //                         0, 0, D_WIDTH, D_HEIGHT,    
-    //                         0);
+    al_draw_scaled_bitmap(firstImage,    // Imagen de fondo de los puntajes
+                             0, 0, al_get_bitmap_width(firstImage), al_get_bitmap_height(firstImage),
+                             0, 0, D_WIDTH, D_HEIGHT,    
+                             0);
      printf("Puse imagen de fondo\n");     // DEBUG
 
     if (size>10) {
