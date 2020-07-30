@@ -103,7 +103,7 @@ int get_level(void);
  * la variable "lives".
  * @return Retorna la cantidad de vidas actuales.
 */
-int get_lives()
+int get_lives();
 
 /**
  * @brief Incrementa el contador de aliens asesinados y tambien los puntos
@@ -117,7 +117,6 @@ void kill_alien(const int tipo_alien);
  * @param seg cada cuantos segundos se quiere incrementar.
 */
 void speed_update(const float seg);
-
 
 /**
  * @brief contabilizala cantidd de aliens asesinados  
