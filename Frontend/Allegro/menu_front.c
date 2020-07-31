@@ -15,13 +15,24 @@
  ******************************************************************************/
 #define NUMOFFSET   '0' //Offset de numero entero a char 
 
-
 #define CANON_FILE  "Frontend/Allegro/PNGs/Laser_Cannon.png"
-#define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"
-#define OCTO_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
-#define SQUID_FILE  "Frontend/Allegro/PNGs/Squid1.png"
-#define UFO_FILE    "Frontend/Allegro/PNGs/UFO.png"
 
+#define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"           // Esto
+#define OCTO_FILE   "Frontend/Allegro/PNGs/Octopus1.png"        // cambiarlo por el 1 y 2
+#define SQUID_FILE  "Frontend/Allegro/PNGs/Squid1.png"          // y sacrlo de aca!!
+
+#define CRAB1_FILE   "Frontend/Allegro/PNGs/Crab1.png"
+#define OCTO1_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
+#define SQUID1_FILE  "Frontend/Allegro/PNGs/Squid1.png"
+
+#define CRAB2_FILE   "Frontend/Allegro/PNGs/Crab1.png"
+#define OCTO2_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
+#define SQUID2_FILE  "Frontend/Allegro/PNGs/Squid1.png"
+
+#define UFO_FILE    "Frontend/Allegro/PNGs/UFO.png"
+#define ARROW_FILE  "Frontend/Allegro/PNGs/arrows.png"
+
+#define ENGAME_FILE "Frontend/Allegro/BMPs/endgame-sp.bmp"
 #define MENU_FILE   "Frontend/Allegro/BMPs/menu-sp.bmp"
 #define FIRST_FILE  "Frontend/Allegro/BMPs/first-image.bmp"
 #define SCORE_FILE  "Frontend/Allegro/BMPs/puntaje-sp.bmp"
@@ -70,6 +81,9 @@ static ALLEGRO_BITMAP *firstImage = NULL;
 static ALLEGRO_BITMAP *endImage = NULL;
 static ALLEGRO_BITMAP *instImage = NULL;
 static ALLEGRO_BITMAP *scoreImage = NULL;
+
+static ALLEGRO_BITMAP *arrowpng = NULL;
+static ALLEGRO_BITMAP *endgmImage = NULL;
 
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 
@@ -160,35 +174,45 @@ int loadim_menu()
             if (scoreImage) {   
                 instImage = al_load_bitmap(INST_FILE);
                 if (instImage) {
-                    endImage = al_load_bitmap(END_FILE);
-                    if (endImage) {
-                        fontmu = al_load_ttf_font(FONTMU_FILE, SIZE_FMU, 0);
-                        if(fontmu){
-                            fontsc = al_load_ttf_font(FONTSC_FILE, SIZE_FSC, 0);
-                            if(fontsc){
-                                fontgm = al_load_ttf_font(FONTSC_FILE, SIZE_FGM, 0);
-                                if(fontgm){
-                                    sample1 = al_load_sample(SAMPLE_FILE);
-                                    if(sample1) {
-                                        if (!loadim_game()){
-                                            return false;
-                                        } else 
-                                            fprintf(stderr, "ERROR: failed to add game images!\n");
-                                        al_destroy_sample(sample1);
-                                    } else
-                                    fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
-                                al_destroy_font(fontgm);
-                                } else
-                                    fprintf(stderr, "ERROR: Could not load game font!\n");
-                                al_destroy_font(fontsc);
+                    endgmImage = al_load_bitmap(ENGAME_FILE);
+                    if (endgmImage) {
+                        arrowpng = al_load_bitmap(ARROW_FILE);
+                        if(arrowpng){
+                            endImage = al_load_bitmap(END_FILE);
+                            if (endImage) {
+                                fontmu = al_load_ttf_font(FONTMU_FILE, SIZE_FMU, 0);
+                                if(fontmu){
+                                    fontsc = al_load_ttf_font(FONTSC_FILE, SIZE_FSC, 0);
+                                    if(fontsc){
+                                        fontgm = al_load_ttf_font(FONTSC_FILE, SIZE_FGM, 0);
+                                        if(fontgm){
+                                            sample1 = al_load_sample(SAMPLE_FILE);
+                                            if(sample1) {
+                                                if (!loadim_game()){
+                                                    return false;
+                                                } else 
+                                                    fprintf(stderr, "ERROR: failed to add game images!\n");
+                                                al_destroy_sample(sample1);
+                                            } else
+                                            fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
+                                        al_destroy_font(fontgm);
+                                        } else
+                                            fprintf(stderr, "ERROR: Could not load game font!\n");
+                                        al_destroy_font(fontsc);
+                                    } else 
+                                        fprintf(stderr, "ERROR: Could not load score font!\n");
+                                    al_destroy_font(fontmu);
+                                } else 
+                                    fprintf(stderr, "ERROR: Could not load menu font!\n");  
+                                al_destroy_bitmap(endImage);   
                             } else 
-                                fprintf(stderr, "ERROR: Could not load score font!\n");
-                            al_destroy_font(fontmu);
-                        } else 
-                            fprintf(stderr, "ERROR: Could not load menu font!\n");  
-                        al_destroy_bitmap(endImage);   
-                    } else 
-                        fprintf(stderr, "ERROR: failed to load endImage!\n");
+                                fprintf(stderr, "ERROR: failed to load endImage!\n");
+                            al_destroy_bitmap(arrowpng);
+                        } else
+                            fprintf(stderr, "ERROR: failed to load arrow png!\n");
+                        al_destroy_bitmap(endgmImage);
+                    } else
+                        fprintf(stderr, "ERROR: failed to load end game Image!\n");
                     al_destroy_bitmap(instImage);
                 } else 
                     fprintf(stderr, "ERROR: failed to load instImage!\n");
@@ -326,11 +350,11 @@ void show_score (SCORE* score ,int size)
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) 
 {
     char chscore[LENG_SC];
-    al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
-                            0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
+    al_draw_scaled_bitmap(endgmImage,    // Imagen de fondo de los puntajes
+                            0, 0, al_get_bitmap_width(endgmImage), al_get_bitmap_height(endgmImage),   
                             0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
                             0);
-    al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje");  
+    al_draw_text(fontsc, al_map_rgb(255, 128, 0), (D_WIDTH / 2),(D_HEIGHT / 2)+200, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje");  
     char letter[2];
     for (int i=0; i<NAME_SIZE; i++){
         letter[0]=actual_name[i];
@@ -340,8 +364,9 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     letter[0]=actual_name[letter_counter];
     letter[1]='\0';
     al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)-(50*(2))+50*letter_counter, (D_HEIGHT / 2)+80, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
+    al_draw_bitmap(arrowpng,(D_WIDTH / 2)-(50*(2))+50*letter_counter-20, (D_HEIGHT / 2)+55, 0 );
     intochar(score,chscore);
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-100, ALLEGRO_ALIGN_CENTER, "Partida actual:");
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-100, ALLEGRO_ALIGN_CENTER, "Puntaje final:");
     al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-40, (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
 }

@@ -1,3 +1,0 @@
-C AY  390
-FC BA 270
-BOBO  250

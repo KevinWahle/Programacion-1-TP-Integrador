@@ -9,11 +9,6 @@
  ******************************************************************************/
 #include <stdint.h>
 #include <stdio.h>    // SOLO PARA DEBUGEAR
-// #include <time.h>
-// #include <allegro5/allegro.h>
-// #include <allegro5/allegro_color.h>
-// #include <allegro5/allegro_image.h>
-// #include <allegro5/allegro_primitives.h>
 #include <string.h>
 
 #include "headall.h"
@@ -24,7 +19,7 @@
  ******************************************************************************/
 #define TASA_DE_CAMBIO_CANON 3           // Velocidad del canon   
 #define TASA_DE_CAMBIO_BALA 4            // Velocidad de la bala
-#define TASA_DE_CAMBIO_INVADERS 0.5      // MAL!!! ES VARIABLE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#define TASA_DE_CAMBIO_INVADERS 0.5      // 
 #define TASA_DE_CAMBIO_NODRIZA 2         // Velocidad de la nave nodriza
 
 #define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
@@ -116,8 +111,6 @@ static char *blockColors[BLOCK_LIVES] = {   COLOR_STATE_0,
                                             COLOR_STATE_3,          // Despues, agregar aca, en el arreglo
                                         };
 
-
-// enum SHOT_TYPES {CANON_SHOT, INVADER_SHOT};                 // Esto avria que eliminarlo
 
 enum MYKEYS {
     KEY_SPACE, KEY_DOWN, KEY_LEFT, KEY_RIGHT //arrow keys
@@ -242,7 +235,7 @@ static void shouldInvaderShot(void);
  * @brief Crea un shield direction la ultima direccion con la que se movio el conjunto invader
  * @param1 x_shield  la coord en x
  * @param2 y_shield  la coord en y
- * @param3 shield_t* shield: ???????????????????????????????????????????????????
+ * @param3 shield_t* shield: Puntero a shield_t
 */
 static void createShield(int x_shield, int y_shield, shield_t *shield);
 
