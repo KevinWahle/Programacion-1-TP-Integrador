@@ -105,7 +105,13 @@ void init_game(void);
 /**
  * @brief Actualiza lo que se muestra en pantalla durante el juego
 */
-void redraw();
+void redraw(unsigned long int score, int lives, int level);
+
+
+/**
+ * @brief Pantalla entre niveles
+*/
+void show_level_screen (int level);
 
 /**
  * @brief Actualiza la velocidad del juego

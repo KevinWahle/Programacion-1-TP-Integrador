@@ -88,8 +88,8 @@
 #define MAX_SPEED_INVADER  5
 #define MIN_SPEED_INVADER  0.25
 
-#define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  50
-#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  900
+#define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     // Seria 1 posibilidad entre 50
+#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  500
 
 
 #define MAX_POSIBILIY_OF_APPEAR_UFO  500
@@ -317,7 +317,28 @@ static void shouldUFOappear(void);
 */
 static void drawCannon(void);
 
+/**
+ * @brief Muestra en pantalla los puntos de la partida.
+ **/
+void update_points(int score);
 
+/**
+ * @brief Muestra en pantalla las vidas restantes de la partida.
+ **/
+void update_lives(int lives);
+
+/**
+ * @brief Muestra en pantalla el nivel actual.
+ **/
+void update_level (int level);
+
+/**
+ * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
+ * @param1 score Puntaje a imptimir
+ * @param2 lives Vidas a imprimir
+ * @param3 level Nivel actual a imprimir
+ **/
+static void inGameStats(unsigned long int score, int lives, int level );
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -347,6 +368,13 @@ static float dxInvader;
 static float shotFromInvaderFrec;
 
 static shield_t shielders[TOTAL_SHIELDS];
+
+// Velocidades y probabilidades variables
+static float tasaDeCambioInvaders = MIN_SPEED_INVADER;
+static int probDisparoInvaders = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS;
+static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
+
+
 // #define PRUEBA
 #ifdef PRUEBA
 int main() {
@@ -406,21 +434,23 @@ int main() {
 
 void init_game(void) {
 
-  placeInvaders();
+    srand(time(0));
 
-  placeShields();
+    placeInvaders();
+
+    placeShields();
   
-  clean_shoots();
+    clean_shoots();
 
-  drawCannon();
+    drawCannon();
 
-  al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
+    al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
 
-  al_start_timer(timer); //Recien aca EMPIEZA el timer
+    al_start_timer(timer); //Recien aca EMPIEZA el timer
 
 }
 
-void redraw(void)
+void redraw(unsigned long int score, int lives, int level)
 {
     ALLEGRO_EVENT ev;
     if (al_get_next_event(timer_queue, &ev)) //Toma un evento de la timer_queue
@@ -451,19 +481,26 @@ void redraw(void)
 
             drawCannon();
 
-            //game_score_front(30 , 25, 20, 15, 3, 7);      // ESTA LA LLAMA EL BACK, DESCOMENTAR PARA DEBUG
-
+            inGameStats(score, lives, level);
 
             al_flip_display(); 
         }
     }
 }
 
+
+/**
+ * @brief ?????.
+ **/
 void move_cannon(direction_t dir)
 {
     cannonDir = dir;
 }
 
+
+/**
+ * @brief ?????.
+ **/
 void reviveCanon(void)
 {
     if(TOTAL_SHIELDS > 0)
@@ -475,6 +512,7 @@ void reviveCanon(void)
         cannonXpos = D_WIDTH/2;
     }
 }
+
 
 void shoot_cannon(void)
 {   
@@ -500,6 +538,18 @@ void shoot_cannon(void)
     }
     // ARRAY OVERFLOW
                   // TODO: Cambiar por codigo de error
+}
+
+void show_level_screen (int level) 
+{
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    char chlevel[LENG_SC];
+    char wlevel[] = "Nivel ";
+    char stringOcto[30];
+    intochar(level,chlevel);
+    strcat (wlevel, chlevel );
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2), ALLEGRO_ALIGN_CENTER, wlevel);
+    al_flip_display();
 }
 
 void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo)
@@ -546,8 +596,10 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
 }
 
 void update_speed_front(int newSpeed, int maxSpeed) {
-    //TODO
-    return;
+    //Si MIN speed es 0
+    tasaDeCambioInvaders = (MAX_SPEED_INVADER - MIN_SPEED_INVADER)*newSpeed/maxSpeed + MIN_SPEED_INVADER;
+    probDisparoInvaders =  ((MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS) - (MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_SHOT_FROM_INVADERS;
+    probUfo = ((MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO) - (MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_APPEAR_UFO;
 }
 
 void pause_game_front(void) {
@@ -819,11 +871,11 @@ static direction_t moveInvaders(direction_t direction)
         {
             if(nextDirection == LEFT)
             {
-                invaders[i][j].x -= TASA_DE_CAMBIO_INVADERS;
+                invaders[i][j].x -= tasaDeCambioInvaders;
             }
             else if(nextDirection == RIGHT)
             {
-                invaders[i][j].x += TASA_DE_CAMBIO_INVADERS;
+                invaders[i][j].x += tasaDeCambioInvaders;
             }
         }
     }
@@ -978,7 +1030,7 @@ static void shouldInvaderShot(void)
         }
         if( i >= 0)          // entonces se encontro algun invader vivo
         {
-            if(  !(rand() % MIN_POSIBILIY_OF_SHOT_FROM_INVADERS) )
+            if(  !(rand() % probDisparoInvaders) )
                 invaderShot(i, j);
         }
     }       
@@ -1144,7 +1196,7 @@ static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
 
 static void shouldUFOappear(void)
 {
-    if(  !(rand() % MIN_POSIBILIY_OF_APPEAR_UFO) && !UFO_invader.invaderState )   // Podria aparecer UFO o no. Si ya hay un UFO, no puede haber otro
+    if(  !(rand() % probUfo) && !UFO_invader.invaderState )   // Podria aparecer UFO o no. Si ya hay un UFO, no puede haber otro
     {
         UFO_invader.invaderState = 1;
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
@@ -1196,4 +1248,32 @@ void clean_shoots(void)
   {
     invaderShotList[i].shotState = 0;
   }
+}
+
+
+/**
+ * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
+ * @param1 score Puntaje a imptimir
+ * @param2 lives Vidas a imprimir
+ * @param3 level Nivel actual a imprimir
+ **/
+static void inGameStats(unsigned long int score, int lives, int level) 
+{
+    char chscore[LENG_SC];
+    char point[] = "Puntos ";
+    intochar(score,chscore);
+    strcat (point, chscore);
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 180 + 40  , ALLEGRO_ALIGN_CENTER, point);
+
+    char chlive[LENG_SC];
+    char wlives[] = "Vidas ";
+    intochar(lives,chlive);
+    strcat (wlives, chlive );
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 180+(2*40), ALLEGRO_ALIGN_CENTER, wlives);
+
+    char chlevel[LENG_SC];
+    char wlevel[] = "Nivel ";
+    intochar(level,chlevel);
+    strcat (wlevel, chlevel );
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 180+(3*40), ALLEGRO_ALIGN_CENTER, wlevel);
 }

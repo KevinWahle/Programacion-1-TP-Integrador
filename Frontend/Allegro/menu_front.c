@@ -17,8 +17,6 @@
 #define SIZE_FMU    50
 #define SIZE_FSC    28
 
-#define LENG_SC     10
-
 #define CANON_FILE  "Frontend/Allegro/PNGs/Laser_Cannon.png"
 #define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"
 #define OCTO_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
@@ -50,14 +48,6 @@ ALLEGRO_DISPLAY *display = NULL;
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-/**
- * @brief Transforma un entero no signado a un string para luego imprimir.
- * @param num Recibe el numero a transformar.
- * @param chscore[] Recibe el string dode transformara el numero a char
- * @return Devulve el string ya transformado.
-*/
-static void intochar(unsigned long int num, char chscore[LENG_SC]);
-
 /**
  * @brief Destruye todos los invaders cargados.
  */
@@ -475,7 +465,7 @@ void destroy_front()
 /**
  * @brief Transforma un entero no signado a un string.
  */
-static void intochar(unsigned long int num, char chscore[LENG_SC])
+void intochar(unsigned long int num, char chscore[LENG_SC])
 {
     unsigned long int a = 0;
     

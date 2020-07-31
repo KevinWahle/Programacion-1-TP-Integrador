@@ -24,6 +24,7 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
+#define LENG_SC     10
 
 #define D_WIDTH   800   //Ancho de pantalla
 #define D_HEIGHT  600   //Alto de pantalla
@@ -76,6 +77,18 @@ extern const int invadersDistribution[FIL_INVADERS];
 extern UFO_t UFO_invader;
 
 /*******************************************************************************
+ * FUNCTION PROTOTYPES
  ******************************************************************************/
+/**
+ * @brief Transforma un entero no signado a un string para luego imprimir.
+ * @param num Recibe el numero a transformar.
+ * @param chscore[] Recibe el string dode transformara el numero a char
+ * @return Devulve el string ya transformado.
+*/
+void intochar(unsigned long int num, char chscore[LENG_SC]);
+
+/*******************************************************************************
+ ******************************************************************************/
+
 
 #endif // _SHARED_RES_H_

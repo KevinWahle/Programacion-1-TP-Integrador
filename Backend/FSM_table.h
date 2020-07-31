@@ -51,6 +51,7 @@ extern STATE splash_state[];
 extern STATE menu_state[];
 extern STATE click_state[];
 extern STATE play_state[];
+extern STATE next_level_state[];
 extern STATE pause_state[];
 extern STATE instruction_state[];
 extern STATE game_score_state[];
@@ -95,7 +96,7 @@ STATE play_state[] = {
     {MOVE_RIGHT_REL, play_state, stop_cannon},
     {MOVE_LEFT_REL, play_state, stop_cannon},
     {END_GAME_EVENT, game_score_state, show_game_score},
-    {NEXT_LEVEL_EV, play_state, increase_level},
+    {NEXT_LEVEL_EV, next_level_state, increase_level},    
     {CRAB_COLL_EV, play_state, crab_coll},
     {OCTO_COLL_EV, play_state, octo_coll},
     {SQUID_COLL_EV, play_state, squid_coll},
@@ -103,6 +104,12 @@ STATE play_state[] = {
     {CANNON_COLL_EV, play_state, cannon_coll},
     {EXIT_EVENT, NULL, quit_game},
     {NULL_EVENT, play_state, refresh} 
+};
+
+STATE next_level_state[] ={
+    {CLICK_BTN, play_state, resume_game},
+    {EXIT_EVENT, NULL, quit_game},
+    {NULL_EVENT, next_level_state, doNothing}
 };
 
 STATE pause_state[] = {
@@ -126,7 +133,7 @@ STATE saving_score_state[] = {
     {MOVE_LEFT, saving_score_state, previous_letter}, 
     {MOVE_RIGHT, saving_score_state, next_letter},
     {EXIT_EVENT, NULL, quit_game}, 
-    {NULL_EVENT, saving_score_state, doNothing} //show_name
+    {NULL_EVENT, saving_score_state, show_name} 
 };
 
 STATE global_score_state[] = {

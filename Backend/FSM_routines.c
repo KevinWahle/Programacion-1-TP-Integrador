@@ -30,17 +30,17 @@
 BOOL running = 1;
 
 MENU_ITEM main_menu[] = {  
-                            {.option = "Play", .essential = TRUE, .ID = PLAY_ID},
-                            {.option = "Score", .essential = FALSE, .ID = SCORE_ID},
-                            {.option = "Instructions", .essential = FALSE, .ID = INSTUCTION_ID},
-                            {.option = "Exit", .essential = TRUE, .ID = EXIT_ID},
+                            {.option = "Jugar", .essential = TRUE, .ID = PLAY_ID},
+                            {.option = "Puntajes", .essential = FALSE, .ID = SCORE_ID},
+                            {.option = "Instrucciones", .essential = FALSE, .ID = INSTUCTION_ID},
+                            {.option = "Salir", .essential = TRUE, .ID = EXIT_ID},
                         };
  
 
 MENU_ITEM pause_menu[] = {  
-                            {.option = "Resume", .essential = TRUE, .ID = RESUME_ID},
-                            {.option = "Restart", .essential = TRUE, .ID = PLAY_ID},
-                            {.option = "Back to menu", .essential = TRUE, .ID= BACK_ID} ,
+                            {.option = "Continuar", .essential = TRUE, .ID = RESUME_ID},
+                            {.option = "Reiniciar", .essential = TRUE, .ID = PLAY_ID},
+                            {.option = "Volver al menu", .essential = TRUE, .ID= BACK_ID} ,
                         };
 
 /*******************************************************************************
@@ -236,9 +236,9 @@ void pause_game(void){
 }
 
 void resume_game(void){                 
-    //update_points(get_points());
-    //update_lives(get_lives());
-    //update_level(get_level());
+//    update_points(get_points());
+//    update_lives(get_lives());
+//    update_level(get_level());
     //INCLUIR: descomentar cuando existan
     resume_game_front();
     
@@ -262,9 +262,6 @@ void start_game(void){
         printf("Se borraron los tiros de la pantalla. \n");
     #endif
     init_game();
-    
-    //NOTA: Agregar si se desea mostrar las vidas disponibles en pantalla.
-
     
     #ifdef DEBUG
         printf("Iniciando partida. \n");
@@ -322,7 +319,6 @@ void next_letter()
     #endif
     
     }
-    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }      
 
 void previous_letter()
@@ -336,7 +332,6 @@ void previous_letter()
         
         letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
     }   
-    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());                                      
 }
 
 void upper_letter()
@@ -353,7 +348,6 @@ void upper_letter()
         printf("Se pasó a la letra %c \n", letter);
     #endif
     actual_name[letter_counter]=letter;
-    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }
 
 void lower_letter()
@@ -369,7 +363,6 @@ void lower_letter()
         printf("Se pasó a la letra %c\n", letter);
     #endif
     actual_name[letter_counter]=letter;
-    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
 }
 
 void save_score(){
@@ -413,16 +406,13 @@ void saving_init()
 
     #ifdef DEBUG
         printf("Se inicializó la carga \n");
-    #endif
-
-    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());    
+    #endif   
 }
 
 
 void show_name(void)
 {
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
-    //NOTA: Pasar a las funciones anteriores para optimizar y no llenar la consola de printfs al dope.
 }
 
 /**********************************************************
@@ -468,7 +458,7 @@ void cannon_coll()
 
     reviveCanon();
 
-    // update_lives(get_lives());
+//    update_lives(get_lives());
     // INCLUIR: el archivo con el prototipo de lo de arriba
 }
 
@@ -497,8 +487,8 @@ void stop_cannon()
 **********************************************************/
 
 void refresh(void){
-    speed_update(SPEED_LAPSE);      // Actualizo la velocidad con la que se mueven los invaders.
-    redraw();               // Redibujo la pantalla
+    speed_update(SPEED_LAPSE);                                  // Actualizo la velocidad con la que se mueven los invaders.
+    redraw(get_points(),get_lives(),get_level());               // Redibujo la pantalla
 }
 
 
