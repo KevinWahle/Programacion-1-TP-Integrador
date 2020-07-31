@@ -17,17 +17,13 @@
 
 #define CANON_FILE  "Frontend/Allegro/PNGs/Laser_Cannon.png"
 
-#define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"           // Esto
-#define OCTO_FILE   "Frontend/Allegro/PNGs/Octopus1.png"        // cambiarlo por el 1 y 2
-#define SQUID_FILE  "Frontend/Allegro/PNGs/Squid1.png"          // y sacrlo de aca!!
-
 #define CRAB1_FILE   "Frontend/Allegro/PNGs/Crab1.png"
 #define OCTO1_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
 #define SQUID1_FILE  "Frontend/Allegro/PNGs/Squid1.png"
 
-#define CRAB2_FILE   "Frontend/Allegro/PNGs/Crab1.png"
-#define OCTO2_FILE   "Frontend/Allegro/PNGs/Octopus1.png"
-#define SQUID2_FILE  "Frontend/Allegro/PNGs/Squid1.png"
+#define CRAB2_FILE   "Frontend/Allegro/PNGs/Crab2.png"
+#define OCTO2_FILE   "Frontend/Allegro/PNGs/Octopus2.png"
+#define SQUID2_FILE  "Frontend/Allegro/PNGs/Squid2.png"
 
 #define UFO_FILE    "Frontend/Allegro/PNGs/UFO.png"
 #define ARROW_FILE  "Frontend/Allegro/PNGs/arrows.png"
@@ -58,11 +54,6 @@ ALLEGRO_DISPLAY *display = NULL;
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-/**
- * @brief Destruye todos los invaders cargados.
- */
-static void destroy_invaders();
-
 /**
  * @brief Carga la imagenes, fuentes y sonidos para el menu.
 */
@@ -194,8 +185,8 @@ int loadim_menu()
                                                     fprintf(stderr, "ERROR: failed to add game images!\n");
                                                 al_destroy_sample(sample1);
                                             } else
-                                            fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
-                                        al_destroy_font(fontgm);
+                                                fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
+                                            al_destroy_font(fontgm);
                                         } else
                                             fprintf(stderr, "ERROR: Could not load game font!\n");
                                         al_destroy_font(fontsc);
@@ -228,44 +219,52 @@ int loadim_menu()
     return true;
 }
 
+/**
+ * @brief Carga la imagenes para el juego.
+*/
 int loadim_game () 
 {
     canonPointer = al_load_bitmap(CANON_FILE);
     if(canonPointer){
         UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
         if (UFO_invader.invadersPointer) {
-            for (int i = 0; i < FIL_INVADERS; i++)
-            {
-                for (int j = 0; j < COL_INVADERS; j++)      //Cargo el bitmap a todas las invaders
-                {
-                    invaders[i][j].invaderType = invadersDistribution[i]; //Ademas defino el tipo según la fila 
-                    const char *file;
-                    switch(invaders[i][j].invaderType)
-                    {
-                        case CRAB:
-                            file = CRAB_FILE;
-                            break;
-                        case OCTO:
-                            file = OCTO_FILE;
-                            break;
-                        case SQUID:
-                            file = SQUID_FILE;
-                            break;
-                        default:
-                            file = NULL;
-                            break;
+            squidPointer[0] = al_load_bitmap(SQUID1_FILE);
+            if (squidPointer[0]) {
+                squidPointer[1] = al_load_bitmap(SQUID2_FILE);
+                if (squidPointer[1]) {
+                    crabPointer[0] = al_load_bitmap(CRAB1_FILE);
+                    if (crabPointer[0]) {
+                        crabPointer[1] = al_load_bitmap(CRAB2_FILE);
+                        if (crabPointer[1]) {
+                            octoPointer[0] = al_load_bitmap(OCTO1_FILE);
+                            if (octoPointer[0]) {
+                                octoPointer[1] = al_load_bitmap(OCTO2_FILE);
+                                if (octoPointer[1]) {
+                                    return false;
+                                }
+                                else
+                                    fprintf(stderr, "ERROR: failed to load Octo2 !\n");
+                                al_destroy_bitmap(octoPointer[0]);
+                            }
+                            else
+                                fprintf(stderr, "ERROR: failed to load Octo1 !\n");
+                            al_destroy_bitmap(crabPointer[1]);
+                        }
+                        else
+                            fprintf(stderr, "ERROR: failed to load Crab2 !\n");
+                        al_destroy_bitmap(crabPointer[0]);
                     }
-                    invaders[i][j].invadersPointer = al_load_bitmap(file);
-                    if (!invaders[i][j].invadersPointer) {
-                        fprintf(stderr, "ERROR: failed to load invader image \"%s\"!\n", file);
-                        destroy_invaders();
-                        al_destroy_bitmap(UFO_invader.invadersPointer);
-                        al_destroy_bitmap(canonPointer);
-                        return true;
-                    }
+                    else
+                        fprintf(stderr, "ERROR: failed to load Crab1 !\n");
+                    al_destroy_bitmap(squidPointer[1]);
                 }
+                else
+                    fprintf(stderr, "ERROR: failed to load Squid2 !\n");
+                al_destroy_bitmap(squidPointer[0]);
             }
-            return false; //Cargó todo bien 
+            else
+                fprintf(stderr, "ERROR: failed to load Squid1 !\n");
+            al_destroy_bitmap(UFO_invader.invadersPointer);
         } else
             fprintf(stderr, "ERROR: failed to load UFO !\n");
         al_destroy_bitmap(canonPointer);
@@ -449,25 +448,34 @@ void update_front_event (void)
  **/
 void destroy_front()
 {
-    /*al_draw_scaled_bitmap(endImage,     // Imagen de despedida
+    al_draw_scaled_bitmap(endImage,     // Imagen de despedida
                           0, 0, al_get_bitmap_width(endImage), al_get_bitmap_height(endImage),     //imagen de finalizacion
                           0, 0, al_get_display_width(display), al_get_display_height(display), //a que tamaño queres que se dibuje la imagen
                           0);
     al_flip_display();
-    al_rest(1.5); // Tiempo de duracion random */
+    al_rest(1); // Tiempo de duracion random
     // Destrucción de recursos empleados
 
-    destroy_invaders();         //Destruye la parte de loadim_game
-    al_destroy_bitmap(canonPointer);
+    al_destroy_bitmap(canonPointer);    //Destruye la parte de loadim_game
+    al_destroy_bitmap(octoPointer[0]);
+    al_destroy_bitmap(octoPointer[1]);
+    al_destroy_bitmap(crabPointer[0]);
+    al_destroy_bitmap(crabPointer[1]);
+    al_destroy_bitmap(squidPointer[0]);
+    al_destroy_bitmap(squidPointer[1]);    
     al_destroy_bitmap(UFO_invader.invadersPointer); // Destruccion UFO
 
-
-    al_destroy_bitmap(menuImage);   //Destruye la parte de loadim_menu
     al_destroy_bitmap(firstImage);
+    al_destroy_bitmap(menuImage);   //Destruye la parte de loadim_menu
+    al_destroy_bitmap(scoreImage);
+    al_destroy_bitmap(instImage);
+    al_destroy_bitmap(endgmImage);
     al_destroy_bitmap(endImage);
+
     al_destroy_sample(sample1);
     al_destroy_font(fontmu);
     al_destroy_font(fontsc);
+    al_destroy_font(fontgm);
 
     al_destroy_timer(timer);        //Destruye la parte de inicialización
     al_destroy_display(display);
@@ -518,17 +526,4 @@ void intochar(unsigned long int num, char chscore[LENG_SC])
     }
 
     chscore[LENG_SC-1]='\0';          // Agrego el terminador
-}
-
-
-/**
- * @brief Destruye todos los invaders cargados.
- */
-static void destroy_invaders() 
-{
-    for (int i = 0; i < FIL_INVADERS; i++) {
-        for (int j = 0; j < COL_INVADERS; j++) {
-            al_destroy_bitmap(invaders[i][j].invadersPointer);
-        }
-    }
 }

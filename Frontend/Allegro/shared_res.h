@@ -37,6 +37,10 @@
 #define SIZE_FSC    28
 #define SIZE_FGM    20
 
+#define INVADERS_STATES 2
+
+#define BIG_INVADER_POINTER (octoPointer[0])
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -72,6 +76,9 @@ extern ALLEGRO_EVENT_QUEUE *timer_queue;
 extern ALLEGRO_TIMER *timer;
 extern ALLEGRO_FONT *fontsc;
 extern ALLEGRO_FONT *fontgm;
+extern ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
+extern ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
+extern ALLEGRO_BITMAP *octoPointer[INVADERS_STATES];
 
 // Invaders matrix
 extern invader_t invaders[FIL_INVADERS][COL_INVADERS];

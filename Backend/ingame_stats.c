@@ -326,7 +326,6 @@ static void increase_points(const int cant)
 static void set_speed(int new_speed){              
     
     speed=new_speed;                                                 // Actualizamos la velocidad localmente
-    printf("La nueva speed es %d \t \t", get_speed());
     update_speed_front(get_speed(), MAX_SPEED);                      // Y se la pasamos al front.
     #ifdef DEBUG
         printf("La velocidad paso a ser: %d \n", speed);
