@@ -339,9 +339,9 @@ void previous_letter()
 void upper_letter()
 {
     if (letter=='Z'){                           // Si tengo cargada una 'Z'                        
-        letter= ' ';                            //cargo el caracter ' '.
+        letter= '_';                            //cargo el caracter ' '.
     }  
-    else if (letter==' '){                      // Si tengo cargada un ' '                        
+    else if (letter=='_'){                      // Si tengo cargada un ' '                        
         letter= 'A';                            //cargo el caracter 'A'.
     }    
 
@@ -381,14 +381,19 @@ void save_score(){
 
     SCORE* p_leadboard=leadboard;                       // Coloco un puntero a su primer elemento
     int not_null_char=0;                                // Creo una variable que cuente los ' '.
-    for(int i=0; i<NAME_SIZE; i++)                    // Para cada caracter no terminador de
+    for(int i=0; i<NAME_SIZE; i++)                      // Para cada caracter no terminador de
     {                                                   //actual_name:
-        if (actual_name[i] != ' ')                      // Reviso si NO es ' ' y si es así              
-            not_null_char++;                            // incremento la cantidad de posiciones
-    }                                                   // que tinen valor.
+        if (actual_name[i] != '_'){                     // Reviso si NO es ' ' y si es así              
+            not_null_char++;}                           // incremento la cantidad de posiciones
+                                                        // que tinen valor.
+        else{
+            actual_name [i] = ' ';       
+        }
+    }                                                   
 
     if (not_null_char>0)                                // Si afirmativamente hay algun caracter guardado:
     {
+
         put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard);   // Ejecuto la función que guarda el 
                                                                                 //puntaje ordenado en el archivo.
 
@@ -406,7 +411,7 @@ void saving_init()
 
     for(int i=1; i<NAME_SIZE; i++)
     {
-        actual_name[i]= ' ';        // Inicio el arreglo con espacios.
+        actual_name[i]= '_';        // Inicio el arreglo con espacios.
     }
     actual_name[NAME_SIZE]=0;       // Cargo el terminador.
     letter_counter=0;               // Apunto al primer elemento del arreglo nombre

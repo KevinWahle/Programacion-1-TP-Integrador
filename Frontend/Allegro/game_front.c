@@ -521,6 +521,7 @@ void placeInvaders(void)
             invaders[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
         }
     }
+    proxDir = LEFT;
     UFO_invader.invaderState = 0;
 }
 
@@ -743,7 +744,7 @@ static void getInvaderShotCollison(void)
             if (invaderShotList[i].shotState == 1) {
                 foundShots++;
 
-                al_draw_line( invaderShotList[i].x, invaderShotList[i].y, invaderShotList[i].x , invaderShotList[i].y + 15, al_color_name("white"), 0 );
+                al_draw_line( invaderShotList[i].x, invaderShotList[i].y, invaderShotList[i].x , invaderShotList[i].y + 15, al_color_name("red"), 0 );
                 invaderShotList[i].y += TASA_DE_CAMBIO_BALA;
 
 
