@@ -370,6 +370,11 @@ static float tasaDeCambioInvaders = MIN_SPEED_INVADER;
 static int probDisparoInvaders = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS;
 static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 
+// Animaciones
+
+static int invadersAnimFreq = 60*1;     // Cantidad de frames entre cambio de imagenes
+// TODO: Hacer que dependa de la velocidad
+
 
 // #define PRUEBA
 #ifdef PRUEBA

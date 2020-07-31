@@ -40,14 +40,14 @@ mínimo de las coordenadas x e y.
 * @brief Sirve para inicializar el display.
 * Debe ser llamada únicamente una vez antes de empezar a usarlo 
 */
-void display_init(void);
+void disp_init(void);
 
 
 /**
 * @brief Permite, al mismo tiempo, borrar todo el contenido del buffer y apagar todos los LEDS
 * Nota: en el buffer se van almacenando los cambios hechos con disp_write(). 
 */
-void display_clear(void);
+void disp_clear(void);
 
 
 /**
@@ -60,7 +60,7 @@ automáticamente en el display. Para eso debemos usar disp_update().
 dcoord_t myPoint = {1,5};
 disp_write(myPoint, D_ON); 
 */
-void display_write(uint8_t x,uint8_t y, dlevel_t val);
+void disp_write(dcoord_t coord, dlevel_t val);
 
 
 /**
@@ -68,7 +68,7 @@ void display_write(uint8_t x,uint8_t y, dlevel_t val);
 * Nota: Notemos que con múltiples llamadas a disp_write() podemos modificar muchos LEDS y
 * luego mostrar el resultado con una llamada a disp_update().
 */
-void display_update(void);
+void disp_update(void);
 
 //ESTA FUNCION NO NOS LA NOMBRARON EN EL PDF:
 //void set_display_axis(uint8_t orientation);
