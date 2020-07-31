@@ -19,7 +19,7 @@ HFRONT_RAS = Frontend/Raspi/headras.h
 OBJS = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Allegro/menu_front.o Frontend/Allegro/game_front.o ${EVENTQ_OBJECT}
 
 game: ${OBJS}
-	${CC} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
+	${CCD} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
 
 # Para Windows, se compila con las librerias de otra manera
 win: ${OBJS} 

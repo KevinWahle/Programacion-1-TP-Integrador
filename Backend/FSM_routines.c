@@ -55,8 +55,8 @@ MENU_ITEM pause_menu[] = {
  ******************************************************************************/
 static int actual_option = 0;                            // Variable que marca la opcion del menú seleccionada.   
 static char actual_name[NAME_SIZE+1];
-static SCORE leadboard[LEADERBOARD_SIZE];                // Creo matriz con el leaderboard  
-static int letter_counter=0;                               // Variable que da el indice de la letra a cargar.
+static SCORE leadboard[LEADERBOARD_SIZE+1];                // Creo matriz con el leaderboard  
+static int letter_counter=0;                             // Variable que da el indice de la letra a cargar.
 static int letter;                                       // Variable que retiene la letra que se quiere cargar.   
 /*******************************************************************************
  *******************************************************************************
@@ -82,7 +82,6 @@ void show_splash(void){
 
 void my_menu(){
     actual_option=0;
-    printf("Pre show_menu \n");
     show_menu (main_menu, sizeof(main_menu)/sizeof(MENU_ITEM), actual_option);  //Actualizo el menu, resaltando la opcion actualizada.  
     #ifdef DEBUG
         printf("Muestro el menú principal. \n");
@@ -253,7 +252,6 @@ void start_game(void){
     reset_points();             // Reinicio el contador de puntos.
     reset_level();              // Reinicio el contador de niveles.
     reset_killed_aliens();      // Reinicio el contador de aliens asesinados.
-    //NOTA: Resetear timers front.
     #ifdef DEBUG
         printf("Se revivieron todos los invaders. \n");
     #endif    
@@ -285,7 +283,9 @@ void quit_game(void) {
 
 void show_game_score(){
 
-    unsigned long int score= get_points();     // Guardo la cantidad de puntos obtenidos en la partida.
+    pause_game_front();                             // Pauso los timers para que el front no escuche eventos no deseados.
+
+    unsigned long int score= get_points();          // Guardo la cantidad de puntos obtenidos en la partida.
     int level= get_level();                         // Guardo el nivel alcanzado en la partida.
     int killed_crabs= get_killed_aliens(CRAB);      // Guardo los crabs asesinados en la partida.   
     int killed_octo= get_killed_aliens(OCTO);       // Guardo los octopus asesinados en la partida.
@@ -316,6 +316,7 @@ void next_letter()
     {
     letter_counter++;                              // Paso a la siguiente letra.                                           
     letter=actual_name[letter_counter];            // Cargo la siguiente letra de la nueva ubicación.
+    
     #ifdef DEBUG
         printf("Se confirmo la letra: %c. El arreglo quedó %s.\n", actual_name[letter_counter], actual_name);
     #endif
@@ -379,14 +380,13 @@ void save_score(){
 
     SCORE* p_leadboard=leadboard;                       // Coloco un puntero a su primer elemento
     int not_null_char=0;                                // Creo una variable que cuente los ' '.
-    printf ("antes del for\n");
+
     for(int i=0; i<NAME_SIZE; i++)                    // Para cada caracter no terminador de
     {                                                   //actual_name:
         if (actual_name[i] != ' ')                      // Reviso si NO es ' ' y si es así              
             not_null_char++;                            // incremento la cantidad de posiciones
     }                                                   // que tinen valor.
 
-    printf("Llegue a preguardado. \n");
     if (not_null_char>0)                                // Si afirmativamente hay algun caracter guardado:
     {
         put_score (actual_name, get_points(), LEADERBOARD_SIZE, p_leadboard);   // Ejecuto la función que guarda el 
@@ -396,10 +396,8 @@ void save_score(){
         printf("Se guadro el nuevo score\n");
         #endif
     }
-    printf("Post-guardado. \n");
 
     my_menu();                                          // Precargo el menú antes de salir.
-    printf("Post mostrar menu. \n");
 }
 
 void saving_init()
@@ -411,6 +409,7 @@ void saving_init()
     actual_name[NAME_SIZE]=0;       // Cargo el terminador.
     letter_counter=0;               // Apunto al primer elemento del arreglo nombre
     letter= actual_name[letter_counter];
+
 
     #ifdef DEBUG
         printf("Se inicializó la carga \n");

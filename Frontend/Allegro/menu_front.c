@@ -56,7 +56,7 @@ ALLEGRO_DISPLAY *display = NULL;
  * @param chscore[] Recibe el string dode transformara el numero a char
  * @return Devulve el string ya transformado.
 */
-static void intochar(unsigned long int num, char chscore[LEADERBOARD_SIZE]);
+static void intochar(unsigned long int num, char chscore[LENG_SC]);
 
 /**
  * @brief Destruye todos los invaders cargados.
@@ -281,7 +281,6 @@ void splash_front()
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
-    printf("Muestro MENU\n");       // DEBUG
     int altin;
     if (size==3) {
         altin = 240;
@@ -293,7 +292,6 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
                           0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
                           0);
-    printf("Dibujé fondo menu\n");      // DEBUG
     for(int i=0;i<size;i++) {
         al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), altin+(i*80), ALLEGRO_ALIGN_CENTER, menu_to_show[i].option);  //Imprime en pantalla todas las palabras
     }
@@ -352,7 +350,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2)-(50*(2))+50*letter_counter, (D_HEIGHT / 2)+80, ALLEGRO_ALIGN_CENTER, letter); //Imprime la legra a higligtear
     intochar(score,chscore);
     al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2)-100, ALLEGRO_ALIGN_CENTER, "Partida actual:");
-    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-80, (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
+    al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2)-40, (D_HEIGHT / 2)-40, ALLEGRO_ALIGN_CENTER, chscore);
     al_flip_display();
 }
 
@@ -457,6 +455,7 @@ void destroy_front()
     al_destroy_timer(timer);        //Destruye la parte de inicialización
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
+    al_destroy_event_queue(timer_queue);
 
     al_uninstall_audio();
     al_uninstall_keyboard();
@@ -484,21 +483,18 @@ static void intochar(unsigned long int num, char chscore[LENG_SC])
         for(int i=0;i<LENG_SC-1;i++){
             chscore[i]=' ';
         }
-        chscore[NAME_SIZE/2]='0';           // Escribo el 0 en el medio de la pantalla.
+        chscore[LENG_SC/2]='0';           // Escribo el 0 en el medio de la pantalla.
     }
 
     else{
         for(int i=LENG_SC-2;i>=0;i--) {
             a = num % 10;                   // Tomo un digito a mostrar.
-            if(num>0)
-            {
+            if(num>0) {
                 chscore[i]=a+NUMOFFSET;     // Si sigo teniendo parte del numero disponible para mostrar
                                             //muestro el nuevo digito.
                 num = num / 10;             // Recorto el número para mostrar el nuevo digito.    
             }
-            
-            else
-            {
+            else {
             chscore[i]=' ';              // Si el numero que queda es = a 0, muestro espacios.
             }
         }  
@@ -506,6 +502,7 @@ static void intochar(unsigned long int num, char chscore[LENG_SC])
 
     chscore[LENG_SC-1]='\0';          // Agrego el terminador
 }
+
 
 /**
  * @brief Destruye todos los invaders cargados.
