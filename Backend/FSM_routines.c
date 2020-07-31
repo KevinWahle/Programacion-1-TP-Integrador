@@ -236,9 +236,6 @@ void pause_game(void){
 }
 
 void resume_game(void){                 
-//    update_points(get_points());
-//    update_lives(get_lives());
-//    update_level(get_level());
     //INCLUIR: descomentar cuando existan
     resume_game_front();
     
@@ -314,6 +311,11 @@ void next_letter()
     letter_counter++;                              // Paso a la siguiente letra.                                           
     letter=actual_name[letter_counter];            // Cargo la siguiente letra de la nueva ubicación.
     
+    if(letter=='_')    
+    {
+        actual_name[letter_counter]='A';
+    } 
+
     #ifdef DEBUG
         printf("Se confirmo la letra: %c. El arreglo quedó %s.\n", actual_name[letter_counter], actual_name);
     #endif
@@ -325,20 +327,23 @@ void previous_letter()
 {
     if(letter_counter>0)                                // Si no estoy en la primer letra:
     {
-        letter_counter--;                           //Retrocedo una letra.
+        letter_counter--;                               //Retrocedo una letra.
         #ifdef DEBUG
             printf("Se retrocedió una letra \n");
         #endif
         
-        letter=actual_name[letter_counter];         // Cargo la anterior letra de la nueva ubicación.
+        letter=actual_name[letter_counter];             // Cargo la anterior letra de la nueva ubicación.
     }   
 }
 
 void upper_letter()
 {
-    if (letter == 'Z' || letter==' '){          // Si no tengo letra cargada o llegue al final
-        letter='A';                             //del abcedario cargo la letra A
-    }
+    if (letter=='Z'){                           // Si tengo cargada una 'Z'                        
+        letter= ' ';                            //cargo el caracter ' '.
+    }  
+    else if (letter==' '){                      // Si tengo cargada un ' '                        
+        letter= 'A';                            //cargo el caracter 'A'.
+    }    
 
     else{
         letter++;                               // Si es una letra cualquiera paso a la siguiente del
@@ -352,8 +357,11 @@ void upper_letter()
 
 void lower_letter()
 {
-    if (letter=='A' || letter==' '){            // Si no tengo letra cargada o llegue al inicio                        
-        letter= 'Z';                            //del abcedario cargo la letra Z.
+    if (letter=='A'){                           // Si tengo cargada una 'A'                        
+        letter= '_';                            //cargo el caracter ' '.
+    }  
+    else if (letter=='_'){                      // Si tengo cargada un ' '                        
+        letter= 'Z';                            //cargo el caracter 'Z'.
     }    
     else 
     {                                           // Si es una letra cualquiera paso a la anterior del
@@ -373,7 +381,6 @@ void save_score(){
 
     SCORE* p_leadboard=leadboard;                       // Coloco un puntero a su primer elemento
     int not_null_char=0;                                // Creo una variable que cuente los ' '.
-
     for(int i=0; i<NAME_SIZE; i++)                    // Para cada caracter no terminador de
     {                                                   //actual_name:
         if (actual_name[i] != ' ')                      // Reviso si NO es ' ' y si es así              
@@ -395,7 +402,9 @@ void save_score(){
 
 void saving_init()
 {
-    for(int i=0; i<NAME_SIZE; i++)
+    actual_name[0]='A';
+
+    for(int i=1; i<NAME_SIZE; i++)
     {
         actual_name[i]= ' ';        // Inicio el arreglo con espacios.
     }
@@ -403,16 +412,17 @@ void saving_init()
     letter_counter=0;               // Apunto al primer elemento del arreglo nombre
     letter= actual_name[letter_counter];
 
-
     #ifdef DEBUG
         printf("Se inicializó la carga \n");
-    #endif   
+    #endif
+
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());    
 }
 
 
 void show_name(void)
 {
-    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
 }
 
 /**********************************************************
@@ -455,11 +465,7 @@ void cannon_coll()
             printf("El jugador se quedó sin vidas\n");
         #endif
     }
-
     reviveCanon();
-
-//    update_lives(get_lives());
-    // INCLUIR: el archivo con el prototipo de lo de arriba
 }
 
 /**********************************************************
@@ -480,17 +486,17 @@ void stop_cannon()
    move_cannon(STOP);
 }
 
-
-
 /**********************************************************
 *********************  VARIOUS   **************************
 **********************************************************/
 
 void refresh(void){
     speed_update(SPEED_LAPSE);                                  // Actualizo la velocidad con la que se mueven los invaders.
-    redraw(get_points(),get_lives(),get_level());               // Redibujo la pantalla
+    redraw(get_points(),get_lives(),get_level());               // Redibujo la pantalla.
+    if(checkWin()){                                             // Verifico si se pasó de nivel o no.
+        add_event(NEXT_LEVEL_EV);
+    }
 }
-
 
  void doNothing() {
     return;

@@ -42,11 +42,11 @@
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 8                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 100                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
-#define UFO_RESIZE_PERCENT    0.4        // idem anterior pero para la nodriza
+#define UFO_RESIZE_PERCENT    0.3        // idem anterior pero para la nodriza
 #define INVADERS_RESIZE_PERCENT  0.6     // idem anterior pero para los invaders
 
 //MACROS. Tienen el objetivo de facilitar la lectura en codigo del ancho y alto de los bitmap. Como el ancho y alto del bitmap no siempre es el que viene por default
@@ -58,7 +58,7 @@
 #define AL_GET_INVADER_HEIGHT(x)  (al_get_bitmap_height(x)*INVADERS_RESIZE_PERCENT)
 // Recordar que al_get_bitmap_???(??) se basa en la imagen cargada con al_load_bitmap
 
-#define UFO_HEIGHT_PERCENT  0.05
+#define UFO_HEIGHT_PERCENT  0.08
 #define UFO_HEIGHT  (UFO_HEIGHT_PERCENT * D_HEIGHT)
 
 //##### Blocks #####                              // Cada block seria justamente cada bloque que compone a un shield.
@@ -73,7 +73,7 @@
                                                   // y todos los estados posibles de los bloques
 //##### Shields ####
 
-#define TOTAL_SHIELDS 4                  // Para todo n, en particular n = 4
+#define TOTAL_SHIELDS 2                  // Para todo n, en particular n = 4
 
 #define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)   // Offset se refiere a la distancia en x que queda entre los puntos (0, y) y el shield que esta mas a la izquierda
@@ -176,6 +176,7 @@ ALLEGRO_BITMAP *canonPointer = NULL;
 ALLEGRO_EVENT_QUEUE *timer_queue = NULL;
 ALLEGRO_TIMER *timer = NULL;
 ALLEGRO_FONT * fontsc = NULL;
+ALLEGRO_FONT *fontgm = NULL;
 
 // Invaders matrix
 invader_t invaders[FIL_INVADERS][COL_INVADERS];
@@ -199,68 +200,59 @@ const int invadersDistribution [FIL_INVADERS] = {
 
 /**
  * @brief Ejecuta un disparo del invader
- * @param i fila de la matriz de invader
- * @param j columan de la matriza de invader
- * @return ???????????????????????????????????????????????????????????????????
+ * @param1 i fila de la matriz de invader
+ * @param2 j columan de la matriza de invader
 */
-static int invaderShot(int i, int j);
+static void invaderShot(int i, int j);
 
 /**
  * @brief Ve si hubo una colision del disparo ejecutado por algun invader
- * @return ???????????????????????????????????????????????????????????????????
 */
 static void getInvaderShotCollison(void);
 
 /**
  * @brief Ve si hubo una colision del disparo ejecutado por el canon
- * @return ???????????????????????????????????????????????????????????????????
 */
 static void getCanonShotCollision(void);
 
 /**
- * @brief mueve el conjunto invader
- * @param direction la ultima direccion con la que se movio el conjunto invader
- * @return la direccion con la que se movio
+ * @brief Mueve el conjunto invader
+ * @param direction La ultima direccion con la que se movio el conjunto invader
+ * @return La direccion con la que se movio
 */
 static direction_t moveInvaders(direction_t direction);
 
 /**
- * @brief mueve el conjunto para abajo
- * @return ????????????????????????????????????????????????????????????????????
+ * @brief Mueve el conjunto para abajo
 */
 static void moveInvadersDown(void);
 
 /**
- * @brief dice si toco piso o no algun invader
- * @return si algun invader toco la linea horizontal que se considere como "piso"
+ * @brief Dice si toco piso o no algun invader
+ * @return Si algun invader toco la linea horizontal que se considere como "piso"
 */
 static int is_invadersOnFloor(void);
 
 /**
- * @brief ejecuta o no un disparo de los invaders
- * @return ?????????????????????????????????????????????????????????????????????
+ * @brief Ejecuta o no un disparo de los invaders
 */
 static void shouldInvaderShot(void);
 
 /**
- * @brief Crea un shield
- * @param direction la ultima direccion con la que se movio el conjunto invader
- * @param x_shield  la coord en x
- * @param y_shield  la coord en y
- * @param shield_t* shield: ?????????????????????????????????????????????//????
- * @return lon la que se movio
+ * @brief Crea un shield direction la ultima direccion con la que se movio el conjunto invader
+ * @param1 x_shield  la coord en x
+ * @param2 y_shield  la coord en y
+ * @param3 shield_t* shield: ???????????????????????????????????????????????????
 */
 static void createShield(int x_shield, int y_shield, shield_t *shield);
 
 /**
  * @brief Ubica los shields en el mapa
- * @return ?????????????????????????????????????????????????????????????????????
 */
 static void placeShields(void);
 
 /**
  * @brief Dibuja los shields
- * @return ????????????????????????????????????????????????????????????????????
 */
 static void drawShields(void);
 
@@ -273,16 +265,15 @@ static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
 
 /**
  * @brief Ve si dos cajas estan chocando o no
- * @param collBox_t*  la direccion de la caja 1 
- * @param collBox_t* la direccion de la caja 2
+ * @param1 collBox_t*  la direccion de la caja 1 
+ * @param2 collBox_t* la direccion de la caja 2
  * @return 1 si chocan 0 si no
 */
 static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
 
 /**
  * @brief dibuja los invaders
- * @param invader_t recibe la matriz de los invaders 
- * @return ?????????????????????????????????????????????????????????????????????????
+ * @param invader_t recibe la matriz de los invaders
 */
 static void drawAliveInvaders(void);
 
@@ -333,10 +324,15 @@ void update_lives(int lives);
 void update_level (int level);
 
 /**
+ * @brief Resetea tasas de velocidades y probabilidades de disparo
+ **/
+static void restartTasas(void);
+
+/**
  * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
- * @param1 score Puntaje a imptimir
- * @param2 lives Vidas a imprimir
- * @param3 level Nivel actual a imprimir
+ * @param score Puntaje a imptimir
+ * @param lives Vidas a imprimir
+ * @param level Nivel actual a imprimir
  **/
 static void inGameStats(unsigned long int score, int lives, int level );
 
@@ -432,9 +428,14 @@ int main() {
  *******************************************************************************
  ******************************************************************************/
 
+/**
+ * @brief Inicializa lo necesario para empezar la partida
+*/
 void init_game(void) {
 
     srand(time(0));
+
+    restartTasas();
 
     placeInvaders();
 
@@ -450,6 +451,9 @@ void init_game(void) {
 
 }
 
+/**
+ * @brief Actualiza lo que se muestra en pantalla durante el juego
+*/
 void redraw(unsigned long int score, int lives, int level)
 {
     ALLEGRO_EVENT ev;
@@ -488,10 +492,42 @@ void redraw(unsigned long int score, int lives, int level)
     }
 }
 
+/**
+ * @brief Ubica a los invaders en la posición inicial
+*/
+void placeInvaders(void)
+{
+    // Guardo el ancho del invader más grande, que será el de la última fila
+    int max_inv_width = AL_GET_INVADER_WIDTH(invaders[FIL_INVADERS-1][0].invadersPointer);
+
+    for (int i = 0; i < FIL_INVADERS; i++)
+    {
+        for (int j = 0; j < COL_INVADERS; j++)
+        {
+            int inv_width = AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer);
+            int inv_height = AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer);
+            
+            // Cáclulo del centro en x de los invasores
+            int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
+            
+            int x_pos =  x_mid - inv_width/2;
+            int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
+            al_draw_scaled_bitmap(invaders[i][j].invadersPointer,
+                          0, 0, al_get_bitmap_width(invaders[i][j].invadersPointer), al_get_bitmap_height(invaders[i][j].invadersPointer),
+                          x_pos, y_pos, AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+                          0);
+            invaders[i][j].x = x_pos;
+            invaders[i][j].y = y_pos;
+            invaders[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
+        }
+    }
+    UFO_invader.invaderState = 0;
+}
 
 /**
- * @brief ?????.
- **/
+ * @brief Solicita un movimiento continuo del cannon en la direccion indicada
+ * @param dir la direccion a la que se desea mover. STOP si se desea parar
+*/
 void move_cannon(direction_t dir)
 {
     cannonDir = dir;
@@ -499,8 +535,8 @@ void move_cannon(direction_t dir)
 
 
 /**
- * @brief ?????.
- **/
+ * @brief Coloca el cannon en la posición al revivir, debajo de un shield
+*/
 void reviveCanon(void)
 {
     if(TOTAL_SHIELDS > 0)
@@ -513,7 +549,10 @@ void reviveCanon(void)
     }
 }
 
-
+/**
+ * @brief Ejecuta un disparo del canon
+ * @return TODO?: CODIGO DE ERROR?
+*/
 void shoot_cannon(void)
 {   
     int ship_width = AL_GET_CANNON_WIDTH(canonPointer);
@@ -540,6 +579,9 @@ void shoot_cannon(void)
                   // TODO: Cambiar por codigo de error
 }
 
+/**
+ * @brief Pantalla entre niveles
+*/
 void show_level_screen (int level) 
 {
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -550,6 +592,9 @@ void show_level_screen (int level)
     strcat (wlevel, chlevel );
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2), ALLEGRO_ALIGN_CENTER, wlevel);
     al_flip_display();
+
+    // REVISAR: No falta delay (al_rest())?
+
 }
 
 void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo)
@@ -595,15 +640,49 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
     al_flip_display();
 }
 
+void clean_shoots(void)
+{
+  for(int i = 0; i < MAX_CANON_SHOT; i++)
+  {
+    canonShotList[i].shotState = 0;
+  }
+  actualCanonShots = 0;
+  
+  for(int i = 0; i < MAX_INVADERS_SHOT; i++)
+  {
+    invaderShotList[i].shotState = 0;
+  }
+  actualInvadersShots = 0;
+}
+
 void update_speed_front(int newSpeed, int maxSpeed) {
     //Si MIN speed es 0
     tasaDeCambioInvaders = (MAX_SPEED_INVADER - MIN_SPEED_INVADER)*newSpeed/maxSpeed + MIN_SPEED_INVADER;
     probDisparoInvaders =  ((MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS) - (MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_SHOT_FROM_INVADERS;
     probUfo = ((MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO) - (MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_APPEAR_UFO;
+    printf("Nueva vel invaders: %f\n", tasaDeCambioInvaders);
+}
+
+int checkWin(void)
+{
+    int win = 1;
+    int i = 0;
+    while( i < FIL_INVADERS && win)
+    {
+        int j = 0;
+        while(j < COL_INVADERS && win)
+        {
+            win = invaders[i][j].invaderState ? 0 : 1;   //Si hay un vivo no puede haber ganado => win = 0
+            j++;
+        }
+        i++;
+    }
+    return win;
 }
 
 void pause_game_front(void) {
     al_stop_timer(timer);   // Para que deje de generar eventos durante la pausa
+    move_cannon(STOP);      // Dejo de mover wl canon
 }
 
 void resume_game_front(void) {
@@ -616,7 +695,7 @@ void resume_game_front(void) {
  *******************************************************************************
  ******************************************************************************/
 
-static int invaderShot(int i, int j)
+static void invaderShot(int i, int j)
 {
     invader_t invader = invaders[i][j];
     
@@ -639,10 +718,10 @@ static int invaderShot(int i, int j)
         invaderShotList[k] = shot;
         actualInvadersShots++;
         al_draw_line(x_shot, y_shot, x_shot, y_shot + 15 , al_color_name("white"), 0);
-        return 0;       // TODO: Cambiar por codigo OK
+               // TODO: Cambiar por codigo OK
     }
     // ARRAY OVERFLOW
-    return 1;           // TODO: Cambiar por codigo de error
+               // TODO: Cambiar por codigo de error
 }
 
 static void getInvaderShotCollison(void)
@@ -786,34 +865,6 @@ static void getCanonShotCollision(void)
             actualCanonShots++;
     }
 
-}
-
-void placeInvaders(void)
-{
-    // Guardo el ancho del invader más grande, que será el de la última fila
-    int max_inv_width = AL_GET_INVADER_WIDTH(invaders[FIL_INVADERS-1][0].invadersPointer);
-
-    for (int i = 0; i < FIL_INVADERS; i++)
-    {
-        for (int j = 0; j < COL_INVADERS; j++)
-        {
-            int inv_width = AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer);
-            int inv_height = AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer);
-            
-            // Cáclulo del centro en x de los invasores
-            int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
-            
-            int x_pos =  x_mid - inv_width/2;
-            int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
-            al_draw_scaled_bitmap(invaders[i][j].invadersPointer,
-                          0, 0, al_get_bitmap_width(invaders[i][j].invadersPointer), al_get_bitmap_height(invaders[i][j].invadersPointer),
-                          x_pos, y_pos, AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
-                          0);
-            invaders[i][j].x = x_pos;
-            invaders[i][j].y = y_pos;
-            invaders[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
-        }
-    }
 }
 
 static void drawAliveInvaders(void)
@@ -1238,42 +1289,37 @@ static void moveUFO(void)
     }
 }
 
-void clean_shoots(void)
-{
-  for(int i = 0; i < MAX_CANON_SHOT; i++)
-  {
-    canonShotList[i].shotState = 0;
-  }
-  for(int i = 0; i < MAX_INVADERS_SHOT; i++)
-  {
-    invaderShotList[i].shotState = 0;
-  }
-}
-
 
 /**
  * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
  * @param1 score Puntaje a imptimir
  * @param2 lives Vidas a imprimir
  * @param3 level Nivel actual a imprimir
- **/
+**/
 static void inGameStats(unsigned long int score, int lives, int level) 
 {
     char chscore[LENG_SC];
-    char point[] = "Puntos ";
+    char point[] = "Puntos";
     intochar(score,chscore);
     strcat (point, chscore);
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 180 + 40  , ALLEGRO_ALIGN_CENTER, point);
+    al_draw_text(fontgm, al_map_rgb(255, 255, 255), D_WIDTH / 4, SIZE_FGM-10  , ALLEGRO_ALIGN_CENTER, point);
 
     char chlive[LENG_SC];
-    char wlives[] = "Vidas ";
+    char wlives[] = "Vidas";
     intochar(lives,chlive);
     strcat (wlives, chlive );
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 180+(2*40), ALLEGRO_ALIGN_CENTER, wlives);
+    al_draw_text(fontgm, al_map_rgb(255, 255, 255), D_WIDTH / 2, SIZE_FGM-10 , ALLEGRO_ALIGN_CENTER, wlives);
 
     char chlevel[LENG_SC];
-    char wlevel[] = "Nivel ";
+    char wlevel[] = "Nivel";
     intochar(level,chlevel);
     strcat (wlevel, chlevel );
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 4)*2, 180+(3*40), ALLEGRO_ALIGN_CENTER, wlevel);
+    al_draw_text(fontgm, al_map_rgb(255, 255, 255), D_WIDTH * 3.0/4.0, SIZE_FGM-10 , ALLEGRO_ALIGN_CENTER, wlevel);
+}
+
+static void restartTasas(void)
+{
+    tasaDeCambioInvaders = MIN_SPEED_INVADER;
+    probDisparoInvaders = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS;
+    probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 }

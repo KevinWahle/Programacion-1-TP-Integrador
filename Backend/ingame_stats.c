@@ -93,7 +93,7 @@ static unsigned int killed_invaders[TYPES_INVADERS];
 void reset_lives()
 {
     lives=INIT_LIFES;   //Devuelvo la variable vidas a su valor inicial.
-//    update_lives(lives);     // INCLUIR: header con el prototipo
+    
     #ifdef DEBUG
         printf("Renuevo vidas. \n");
     #endif  
@@ -102,7 +102,6 @@ void reset_lives()
 void reset_points()
 {
     points=0;           //Devuelvo la variable puntos a su valor inicial.
-//    update_points(get_points());   //INCLUIR: header con el prototipo
 
     #ifdef DEBUG
         printf("Renuevo puntos. \n");
@@ -142,9 +141,7 @@ void reset_killed_aliens()
 int decrease_lives()      
 {
     lives--;                // Decremento la cantidad de vidas en uno.
-    
-//    update_lives(lives);     // INCLUIR: header con el prototipo
-    
+        
     #ifdef DEBUG
         printf("Decremento 1 vida, quedan %d vidas \n", lives);
     #endif  
@@ -154,30 +151,29 @@ int decrease_lives()
 
 void increase_lives()      
 {
-    if(lives<=2){           // Si perdi alguna vida:
-        lives++;            // Incremento la cantidad de vidas en uno. 
-    //    update_lives(lives);     // INCLUIR: header con el prototipo
-        #ifdef DEBUG
-        printf("Incremento 1 vida, quedan %d vidas \n", lives);
-        #endif          
-    }                  
+    if (lives<=2){
+    lives++;            // Incremento la cantidad de vidas en uno. 
+    #ifdef DEBUG
+    printf("Incremento 1 vida, quedan %d vidas \n", lives);
+    #endif
+    }                           
 }
 
 void increase_level(){
     pause_game_front();     // Pausar el timer para no escuchar eventos no deseados.
 
     level++;                // Incremento el nivel en uno.
-//    update_level(get_level());
 
     increase_lives();       // Si me faltan vidas, recupero una.
     
-    int newspeed = level*STEP_LEVEL_SPEED;  // Calculamos y actualizamos 
+    int newspeed = (level-1)*STEP_LEVEL_SPEED;  // Calculamos y actualizamos 
     set_speed(newspeed);                    // la velocidad.
     reset_timer();
 
     placeInvaders();                        // Reubico a los aliens 
-
     clean_shoots();                         // Limpio los disparos de la pantalla.
+
+    
 
     #ifdef DEBUG
         printf("Se incremento el nivel, esta en el nivel %d\n", level);
@@ -311,7 +307,6 @@ static void reset_timer(void)
 static void reset_speed()
 {
     set_speed(MIN_SPEED);   // Reseteo la velocidad al mínimo.
-//    update_speed_front(get_speed(), MAX_SPEED);
     reset_timer();          // Reseteo el valor de referencia.
 
     #ifdef DEBUG
@@ -322,7 +317,6 @@ static void reset_speed()
 static void increase_points(const int cant)
 {
     points += cant;         // Incremento los puntos en cant.
-//    update_points(get_points());   //INCLUIR: header con el prototipo
 
     #ifdef DEBUG
         printf("Incremento en %d los puntos, hay %lu puntos \n", cant, get_points());
@@ -332,7 +326,8 @@ static void increase_points(const int cant)
 static void set_speed(int new_speed){              
     
     speed=new_speed;                                                 // Actualizamos la velocidad localmente
-//    update_speed_front(get_speed(), MAX_SPEED);                      // Y se la pasamos al front.
+    printf("La nueva speed es %d \t \t", get_speed());
+    update_speed_front(get_speed(), MAX_SPEED);                      // Y se la pasamos al front.
     #ifdef DEBUG
         printf("La velocidad paso a ser: %d \n", speed);
     #endif 

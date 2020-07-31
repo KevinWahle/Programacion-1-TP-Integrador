@@ -54,7 +54,7 @@ LISTO    5) void game_score_front(unsigned long long int score, int level, int k
 LISTO    6) void update_front_event(void) agrega a la lista de eventos todos los 
     eventos que registre el front. 
 
-    7) reset_front(void) Se llama cada vez que se empieza una partida nueva (que incluya areset_aliens matrix y clean_shoots)
+        7) reset_front(void) Se llama cada vez que se empieza una partida nueva (que incluya areset_aliens matrix y clean_shoots)
 
 LISTO    8) void redraw(unsigned long int score, int lives, int level);
         Cede el control al front para imprimir en pantalla, detectar colisiones,
@@ -101,7 +101,11 @@ LISTO    19) void move_cannon(direction_t dir)
 LISTO    20) void init_game(); 
         Inicializa la pantalla de comienzo del juego (en allegro inicializa el timer)
 
-
+LISTO    21) int checkWin(void)
+            /**
+            * @brief Verifica si se mataron a todos los invaders
+            * @return 1 si se mataron, 0 si no.
+            */
 
         
 FRONT:

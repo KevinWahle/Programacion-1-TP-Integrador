@@ -14,8 +14,7 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 #define NUMOFFSET   '0' //Offset de numero entero a char 
-#define SIZE_FMU    50
-#define SIZE_FSC    28
+
 
 #define CANON_FILE  "Frontend/Allegro/PNGs/Laser_Cannon.png"
 #define CRAB_FILE   "Frontend/Allegro/PNGs/Crab1.png"
@@ -76,8 +75,6 @@ static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 
 static ALLEGRO_SAMPLE *sample1 = NULL;
 static ALLEGRO_FONT * fontmu = NULL;
-
-//static ALLEGRO_KEYBOARD_STATE ks;
 
 /*******************************************************************************
  *******************************************************************************
@@ -169,15 +166,20 @@ int loadim_menu()
                         if(fontmu){
                             fontsc = al_load_ttf_font(FONTSC_FILE, SIZE_FSC, 0);
                             if(fontsc){
-                                sample1 = al_load_sample(SAMPLE_FILE);
-                                if(sample1) {
-                                    if (!loadim_game()){
-                                        return false;
-                                    } else 
-                                        fprintf(stderr, "ERROR: failed to add game images!\n");
-                                    al_destroy_sample(sample1);
-                                } else
+                                fontgm = al_load_ttf_font(FONTSC_FILE, SIZE_FGM, 0);
+                                if(fontgm){
+                                    sample1 = al_load_sample(SAMPLE_FILE);
+                                    if(sample1) {
+                                        if (!loadim_game()){
+                                            return false;
+                                        } else 
+                                            fprintf(stderr, "ERROR: failed to add game images!\n");
+                                        al_destroy_sample(sample1);
+                                    } else
                                     fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
+                                al_destroy_font(fontgm);
+                                } else
+                                    fprintf(stderr, "ERROR: Could not load game font!\n");
                                 al_destroy_font(fontsc);
                             } else 
                                 fprintf(stderr, "ERROR: Could not load score font!\n");
@@ -276,7 +278,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
         altin = 240;
     } 
     else {
-        altin = 200;
+        altin = 220;
     }
     al_draw_scaled_bitmap(menuImage,    // Imagen de fondo del menu
                           0, 0, al_get_bitmap_width(menuImage), al_get_bitmap_height(menuImage),
@@ -328,7 +330,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
                             0, 0, al_get_bitmap_width(scoreImage), al_get_bitmap_height(scoreImage),   
                             0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
                             0);
-    al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje:");  
+    al_draw_text(fontsc, al_map_rgb(0, 128, 0), (D_WIDTH / 2), 150, ALLEGRO_ALIGN_CENTER, "Elija nombre para guardar puntaje");  
     char letter[2];
     for (int i=0; i<NAME_SIZE; i++){
         letter[0]=actual_name[i];

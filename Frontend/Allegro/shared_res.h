@@ -33,6 +33,9 @@
 #define FIL_INVADERS 5                   // Cantidad de filas de invaders
 #define COL_INVADERS 9                   // Cantidad de columnas de invaders
 
+#define SIZE_FMU    50
+#define SIZE_FSC    28
+#define SIZE_FGM    20
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -68,6 +71,7 @@ extern ALLEGRO_BITMAP *canonPointer;
 extern ALLEGRO_EVENT_QUEUE *timer_queue;
 extern ALLEGRO_TIMER *timer;
 extern ALLEGRO_FONT *fontsc;
+extern ALLEGRO_FONT *fontgm;
 
 // Invaders matrix
 extern invader_t invaders[FIL_INVADERS][COL_INVADERS];

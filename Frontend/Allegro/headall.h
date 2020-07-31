@@ -107,6 +107,10 @@ void init_game(void);
 */
 void redraw(unsigned long int score, int lives, int level);
 
+/**
+ * @brief Ubica a los invaders en la posición inicial
+*/
+void placeInvaders(void);
 
 /**
  * @brief Pantalla entre niveles
@@ -123,11 +127,6 @@ void update_speed_front(int newSpeed, int maxSpeed);
  * @brief Coloca el cannon en la posición al revivir, debajo de un shield
 */
 void reviveCanon(void);
-
-/**
- * @brief Ubica a los invaders en la posición inicial
-*/
-void placeInvaders(void);
 
 /**
  * @brief Ejecuta un disparo del canon
@@ -161,6 +160,11 @@ void pause_game_front(void);
 */
 void resume_game_front(void);
 
+/**
+ * @brief Verifica si se mataron a todos los invaders
+ * @return 1 si estan todos muertos, 0 si no.
+*/
+int checkWin(void);
 
 /*******************************************************************************
  ******************************************************************************/
