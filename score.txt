@@ -1,4 +1,7 @@
 CABEZ 630
+B     570
+SERGI 550
 NIK   430
 ABB   220
 PEPE  60
+A     30

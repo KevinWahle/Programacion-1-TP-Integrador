@@ -34,10 +34,11 @@
 #define INVADERS_WALL (D_WIDTH*0.01)     // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
 #define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
 
+#define BIG_INVADER_POINTER (octoPointer[0])    // El puntero al invader más grande
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 20 //1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
@@ -119,6 +120,16 @@ enum MYKEYS {
 
 
 
+// Objeto invader
+typedef struct 
+{
+    float x;
+    float y;
+    int invaderState;    // Si esta vivo o muerto 
+    int invaderType;    // Tipo de invader (SQUID, CRAB, OCTO)
+    ALLEGRO_BITMAP **invadersPointer;   // Puntero a puntero, para poder cambiarlo dinámicamente
+}invader_t;
+
 // Objeto shot
 typedef struct  
 {
@@ -171,26 +182,15 @@ ALLEGRO_EVENT_QUEUE *timer_queue = NULL;
 ALLEGRO_TIMER *timer = NULL;
 ALLEGRO_FONT * fontsc = NULL;
 ALLEGRO_FONT *fontgm = NULL;
+
 ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *octoPointer[INVADERS_STATES];
-
-
-// Invaders matrix
-invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
 UFO_t UFO_invader = {   .y = UFO_HEIGHT,
                         .invaderType = UFO,
                         .invaderState = 0     //Arranca muerta
                     };
-
-const int invadersDistribution [FIL_INVADERS] = {
-                                                  SQUID,
-                                                  CRAB,
-                                                  CRAB,
-                                                  OCTO,
-                                                  OCTO,
-                                                  };
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -339,6 +339,23 @@ static void setInvadersDraw(void);
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
+
+static ALLEGRO_BITMAP *actualSquidPointer;
+static ALLEGRO_BITMAP *actualCrabPointer;
+static ALLEGRO_BITMAP *actualOctoPointer;
+
+
+// Invaders matrix
+static invader_t invaders[FIL_INVADERS][COL_INVADERS];
+
+static const int invadersDistribution [FIL_INVADERS] = {
+                                                  SQUID,
+                                                  CRAB,
+                                                  CRAB,
+                                                  OCTO,
+                                                  OCTO,
+                                                  };
+
 
 // Lista de los disparos de los invaders.
 static shot_t invaderShotList[MAX_INVADERS_SHOT];
@@ -506,45 +523,49 @@ void redraw(unsigned long int score, int lives, int level)
 */
 void placeInvaders(void)
 {
+
+    // Actualizacion de los punteros a la imagen default:
+    actualSquidPointer = squidPointer[0];
+    actualCrabPointer = crabPointer[0];
+    actualOctoPointer = octoPointer[0];
+
     // Guardo el ancho del invader más grande, que será el de la última fila
     int max_inv_width = AL_GET_INVADER_WIDTH(BIG_INVADER_POINTER);
-    
+
     invaderDraw = HAND_DOWN;        // Animacion inicial
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for (int j = 0; j < COL_INVADERS; j++)
         {
-            // Primero, se le asigna el puntero a la imagen correspondiente
+            // Primero, se le asigna el puntero a puntero correspondiente
             invaders[i][j].invaderType = invadersDistribution[i]; // Define el tipo de invader según la fila 
-            ALLEGRO_BITMAP *invaderPointer;
             switch(invaders[i][j].invaderType)
             {
+                case SQUID:
+                    invaders[i][j].invadersPointer = &actualSquidPointer;
+                    break;
                 case CRAB:
-                    invaderPointer = crabPointer[invaderDraw];
+                    invaders[i][j].invadersPointer = &actualCrabPointer;    
                     break;
                 case OCTO:
-                    invaderPointer = octoPointer[invaderDraw];
-                    break;
-                case SQUID:
-                    invaderPointer = squidPointer[invaderDraw];
+                    invaders[i][j].invadersPointer = &actualOctoPointer;    
                     break;
                 default:
                     break;
             }
-            invaders[i][j].invadersPointer = invaderPointer;    // Apunta a la imagen del invader correspondiente
 
             // Ahora, se los ubica en el espacio
-            int inv_width = AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer);
-            int inv_height = AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer);
+            int inv_width = AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer);
+            int inv_height = AL_GET_INVADER_HEIGHT(*invaders[i][j].invadersPointer);
             
             // Cáclulo del centro en x de los invasores
             int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
             
             int x_pos =  x_mid - inv_width/2;
             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
-            al_draw_scaled_bitmap(invaders[i][j].invadersPointer,
-                          0, 0, al_get_bitmap_width(invaders[i][j].invadersPointer), al_get_bitmap_height(invaders[i][j].invadersPointer),
-                          x_pos, y_pos, AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+            al_draw_scaled_bitmap(*invaders[i][j].invadersPointer,
+                          0, 0, al_get_bitmap_width(*invaders[i][j].invadersPointer), al_get_bitmap_height(*invaders[i][j].invadersPointer),
+                          x_pos, y_pos, AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(*invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
                           0);
             invaders[i][j].x = x_pos;
             invaders[i][j].y = y_pos;
@@ -743,8 +764,8 @@ static void invaderShot(int i, int j)
 {
     invader_t invader = invaders[i][j];
     
-    int ship_width = AL_GET_INVADER_WIDTH( invader.invadersPointer );
-    int ship_height = AL_GET_INVADER_HEIGHT( invader.invadersPointer );
+    int ship_width = AL_GET_INVADER_WIDTH( *invader.invadersPointer );
+    int ship_height = AL_GET_INVADER_HEIGHT( *invader.invadersPointer );
     
     int x_shot = (ship_width + 2* invaders[i][j].x)/2;
     int y_shot = invaders[i][j].y + ship_height;
@@ -876,8 +897,8 @@ static void getCanonShotCollision(void)
                             {
                                 collBoxShot_t invaderBox = {  .x = invaders[i][j].x ,
                                                               .y = invaders[i][j].y ,           // TODO: Hacer una estructura o constante
-                                                              .height = AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer),
-                                                              .width = AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer)
+                                                              .height = AL_GET_INVADER_HEIGHT(*invaders[i][j].invadersPointer),
+                                                              .width = AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer)
                                                            };
 
                                 if( isCollision( &collBoxShotFromCanon, &invaderBox ) )
@@ -928,34 +949,10 @@ static void drawAliveInvaders(void)
     {
         for (int j = 0; j < COL_INVADERS; j++)
         {
-
-            /// ESTO SACARLO Y HACERLO BIEN!!!!!!!!
-
-            ALLEGRO_BITMAP *invaderPointer;
-            switch(invaders[i][j].invaderType)
-            {
-                case CRAB:
-                    invaderPointer = crabPointer[invaderDraw];
-                    break;
-                case OCTO:
-                    invaderPointer = octoPointer[invaderDraw];
-                    break;
-                case SQUID:
-                    invaderPointer = squidPointer[invaderDraw];
-                    break;
-                default:
-                    break;
-            }
-            invaders[i][j].invadersPointer = invaderPointer;
-
-            /////////////////////////////////////////////
-
-
-
             if( (invaders[i][j].invaderState) )
-                al_draw_scaled_bitmap(invaders[i][j].invadersPointer,
-                          0, 0, al_get_bitmap_width(invaders[i][j].invadersPointer), al_get_bitmap_height(invaders[i][j].invadersPointer),
-                          invaders[i][j].x, invaders[i][j].y, AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+                al_draw_scaled_bitmap(*invaders[i][j].invadersPointer,
+                          0, 0, al_get_bitmap_width(*invaders[i][j].invadersPointer), al_get_bitmap_height(*invaders[i][j].invadersPointer),
+                          invaders[i][j].x, invaders[i][j].y, AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(*invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
                           0);
         }
     }
@@ -1112,7 +1109,7 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
             }
             else   //Si no, hay al menos uno vivo
             {
-                if( invaders[i][j].x + AL_GET_INVADER_WIDTH(invaders[i][j].invadersPointer) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                if( invaders[i][j].x + AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 {
                     nextDirection = LEFT;
                 }
@@ -1420,5 +1417,9 @@ static void setInvadersDraw(void) {
         drawTicks = 0;      // Reseteo ticks
         ++invaderDraw;      // Siguiente dibujo
         invaderDraw %= INVADERS_STATES; // "Casteo" a maxima cantidad de estados
+
+        actualSquidPointer = squidPointer[invaderDraw];
+        actualCrabPointer = crabPointer[invaderDraw];
+        actualOctoPointer = octoPointer[invaderDraw];
     }
 }

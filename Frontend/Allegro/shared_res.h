@@ -39,21 +39,19 @@
 
 #define INVADERS_STATES 2
 
-#define BIG_INVADER_POINTER (octoPointer[0])
-
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-// Objeto invader
-typedef struct 
-{
-    float x;
-    float y;
-    int invaderState;    // Si esta vivo o muerto 
-    int invaderType;
-    ALLEGRO_BITMAP *invadersPointer;   // Puntero util para asociarlo al bitmap
-}invader_t;
+// // Objeto invader
+// typedef struct 
+// {
+//     float x;
+//     float y;
+//     int invaderState;    // Si esta vivo o muerto 
+//     int invaderType;    // Tipo de invader (SQUID, CRAB, OCTO)
+//     ALLEGRO_BITMAP **invadersPointer;   // Puntero a puntero, para poder cambiarlo dinámicamente
+// }invader_t;
 
 // Objeto UFO
 typedef struct 
@@ -76,14 +74,10 @@ extern ALLEGRO_EVENT_QUEUE *timer_queue;
 extern ALLEGRO_TIMER *timer;
 extern ALLEGRO_FONT *fontsc;
 extern ALLEGRO_FONT *fontgm;
+
 extern ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 extern ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
 extern ALLEGRO_BITMAP *octoPointer[INVADERS_STATES];
-
-// Invaders matrix
-extern invader_t invaders[FIL_INVADERS][COL_INVADERS];
-
-extern const int invadersDistribution[FIL_INVADERS];
 
 extern UFO_t UFO_invader;
 
