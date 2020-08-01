@@ -17,10 +17,17 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define TASA_DE_CAMBIO_CANON 3           // Velocidad del canon   
-#define TASA_DE_CAMBIO_BALA 4            // Velocidad de la bala
-#define TASA_DE_CAMBIO_INVADERS 0.5      // 
-#define TASA_DE_CAMBIO_NODRIZA 2         // Velocidad de la nave nodriza
+#define PPS_NODRIZA         120         // Pixeles por segundo (velocidad) de la nave nodriza
+#define PPS_CANON           180         // Pixeles por segundo (velocidad) del canon   
+#define PPS_BALA            240         // Pixeles por segundo (velocidad) de la bala
+#define MAX_PPS_INVADERS    300         // Máximos PPS (velocidad) de invaders
+#define MIN_PPS_INVADERS    15         // Mínimos PPS (velocidad) de invaders
+
+#define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
+#define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
+#define TASA_DE_CAMBIO_NODRIZA (PPS_NODRIZA/FPS)         // Pixeles por refresco (velocidad) de la nave nodriza
+
+//#define TASA_DE_CAMBIO_INVADERS 0.5      // NO SIRVE, es fija, SACAR
 
 #define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
 #define SHOT_WIDTH 4                     // idem
@@ -38,7 +45,7 @@
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 20 //1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
@@ -80,9 +87,9 @@
 #define DIST   ((SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1) )    // Cuenta que se usa en void placeShields(void), justamente para ubicarlos adecuadamente
 
 
-//TOPES MAXIMOS Y MINIMOS DE VELOCIDAD DE INVADERS Y 
-#define MAX_SPEED_INVADER  5
-#define MIN_SPEED_INVADER  0.25
+//TOPES MAXIMOS Y MINIMOS DE VELOCIDAD DE INVADERS Y PROBABILIDADES
+#define MAX_SPEED_INVADER  (MAX_PPS_INVADERS/FPS)
+#define MIN_SPEED_INVADER  (MIN_PPS_INVADERS/FPS)
 
 #define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     // Seria 1 posibilidad entre 50
 #define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  500
@@ -169,7 +176,7 @@ typedef struct
 }shield_t;
 
 
-typedef int cannonPosition_t;
+typedef float cannonPosition_t;
 
 
 /*******************************************************************************
@@ -389,8 +396,8 @@ static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 
 // Animaciones
 
-static int invadersAnimFreq = 60*1;     // Cantidad de frames entre cambio de imagenes
-// TODO: Hacer que dependa de la velocidad
+static int invadersAnimFreq = 1*FPS;     // Cantidad de frames entre cambio de imagenes
+// TODO: Hacer que ^^^^^ dependa de la velocidad
 static int invaderDraw = HAND_DOWN;
 static int drawTicks;
 
