@@ -1,0 +1,34 @@
+ALLEGRO_SAMPLE *al_create_sample(void *buf, unsigned int samples,
+   unsigned int freq, ALLEGRO_AUDIO_DEPTH depth,
+   ALLEGRO_CHANNEL_CONF chan_conf, bool free_buf)
+
+void *al_get_sample_data(const ALLEGRO_SAMPLE *spl)
+
+ALLEGRO_SAMPLE_INSTANCE *al_create_sample_instance(ALLEGRO_SAMPLE *sample_data)
+
+bool al_set_sample_instance_speed(ALLEGRO_SAMPLE_INSTANCE *spl, float val)
+
+ALLEGRO_SAMPLE *al_get_sample(ALLEGRO_SAMPLE_INSTANCE *spl)
+
+
+
+
+
+
+
+
+
+
+
+
+********************************************************************************
+
+
+ALLEGRO_SAMPLE *musica= al_create_sample(void *buf, unsigned int samples,
+   unsigned int freq, ALLEGRO_AUDIO_DEPTH depth,
+   ALLEGRO_CHANNEL_CONF chan_conf, bool free_buf)
+ 
+void* sample_data=al_set_sample_instance_speed(al_get_sample_data(), float val)
+
+
+IMPORTANTE:
