@@ -98,6 +98,9 @@
 #define MAX_POSIBILIY_OF_APPEAR_UFO  500
 #define MIN_POSIBILIY_OF_APPEAR_UFO  1200
 
+#define MAX_INVADERS_ANIM_PERIOD    1*FPS       // Máximos ticks necesearios hasta cambiar de imagen
+#define MIN_INVADERS_ANIM_PERIOD    0.1*FPS       // Mínimos ticks necesearios hasta cambiar de imagen
+
 #define DEATH_STATE STATE_4
 
 // Color de los escudos                     //Aca se deberian agregar los colores si se agregan vidas por ejemplo
@@ -396,7 +399,7 @@ static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 
 // Animaciones
 
-static int invadersAnimFreq = 1*FPS;     // Cantidad de frames entre cambio de imagenes
+static int invadersAnimPeriod = MAX_INVADERS_ANIM_PERIOD;   // Cantidad de frames entre cambio de imagenes
 // TODO: Hacer que ^^^^^ dependa de la velocidad
 static int invaderDraw = HAND_DOWN;
 static int drawTicks;
@@ -466,6 +469,8 @@ void init_game(void) {
     srand(time(0));
 
     drawTicks = 0;
+
+    cannonXpos = 0;
 
     restartTasas();
 
@@ -726,6 +731,7 @@ void update_speed_front(int newSpeed, int maxSpeed)
     tasaDeCambioInvaders = (MAX_SPEED_INVADER - MIN_SPEED_INVADER)*newSpeed/maxSpeed + MIN_SPEED_INVADER;
     probDisparoInvaders =  ((MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS) - (MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_SHOT_FROM_INVADERS;
     probUfo = ((MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO) - (MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_APPEAR_UFO;
+    invadersAnimPeriod = MAX_INVADERS_ANIM_PERIOD - (MAX_INVADERS_ANIM_PERIOD - MIN_INVADERS_ANIM_PERIOD)*newSpeed/maxSpeed;
 }
 
 
@@ -1416,10 +1422,11 @@ static void restartTasas(void)
     tasaDeCambioInvaders = MIN_SPEED_INVADER;
     probDisparoInvaders = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS;
     probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
+    invadersAnimPeriod = MAX_INVADERS_ANIM_PERIOD;
 }
 
 static void setInvadersDraw(void) {
-    if (++drawTicks >= invadersAnimFreq)        // Aumento ticks y me fijo si hay que cambiar
+    if (++drawTicks >= invadersAnimPeriod)        // Aumento ticks y me fijo si hay que cambiar
     {
         drawTicks = 0;      // Reseteo ticks
         ++invaderDraw;      // Siguiente dibujo
