@@ -841,7 +841,7 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
             {
                 if( invaders[i][j].x + INVADER_WIDTH > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 //!!!!!!!!!! REVISAR: Agregar invader width 
-                //!!!!!!!!!! INCAgregar invader width * caca
+                //!!!!!!!!!! REVISAR: Agregar invader width
                 {
                     nextDirection = LEFT;
                 }
