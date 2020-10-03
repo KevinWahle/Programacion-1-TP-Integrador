@@ -434,11 +434,11 @@ void reviveCanon(void)
 {
     if(TOTAL_SHIELDS > 0)
     {
-        cannonXpos = shielders[0].block_1.x;
+        canon.x = shielders[0].block_1.x;
     }
     else
     {
-        cannonXpos = D_WIDTH/2;
+        canon.x = D_WIDTH/2;
     }
 }
 
