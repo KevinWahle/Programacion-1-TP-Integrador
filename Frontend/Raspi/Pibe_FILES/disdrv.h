@@ -54,7 +54,7 @@ void disp_clear(void);
 * @brief Prende o apaga (según val) el LED indicado en coord.
 * @param dcoord_t es una estructura que contiene las coordenadas x e y. 
 * @param dlevel_t tiene dos valores posibles: D_OFF o D_ON, para apagado o prendido. 
-* Nota:  disp_write() escribe en el buffer. Por lo tanto, las llamadas a disp_write() no se ven
+*  Nota:  disp_write() escribe en el buffer. Por lo tanto, las llamadas a disp_write() no se ven
 automáticamente en el display. Para eso debemos usar disp_update().
  Ejemplo:
 dcoord_t myPoint = {1,5};

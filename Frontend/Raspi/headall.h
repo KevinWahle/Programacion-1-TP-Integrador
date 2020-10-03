@@ -16,10 +16,14 @@
 #include <stdbool.h>
 
 
+#include <disdrv.h>
+#include <joydrv.h>
+#include <libaudio.h>
+
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-
+#define ONLY_ESSENTIAL 
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -86,7 +90,7 @@ void update_front_event();
 /**
  * @brief Destruye los recursos empleados.
  **/
-void destroy_front();
+void destroy_front(); //  REVISAR SI SE DESTRUYEN LOS RECURSOS 
 
 
 /*******************************************************************************

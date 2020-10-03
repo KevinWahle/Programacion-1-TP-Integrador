@@ -425,7 +425,7 @@ void update_front_event (void)
                 break;
             }
         }
-        else if (ev.type == ALLEGRO_EVENT_KEY_UP )    // Eventos de release
+        else if (ev.type == ALLEGRO_EVENT_KEY_UP)    // Eventos de release
         {
             switch (ev.keyboard.keycode)
             {

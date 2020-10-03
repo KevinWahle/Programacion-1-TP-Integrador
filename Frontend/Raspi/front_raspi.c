@@ -332,7 +332,6 @@ updateCanonBlocksPos();       //Siempre que se actualize la posicion, hay que ac
 
 static shot_t canonShotList[MAX_CANON_SHOT];
 static direction_t proxDir = LEFT;
-
 // El UFO
 
 UFO_t UFO_invader = {   .y = UFO_Y_POS,
@@ -361,6 +360,7 @@ static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
  *******************************************************************************
  ******************************************************************************/
 
+
 static void updateCanonBlocksPos(void)
 {
     canon.block[0].x = canon.x + 1;
@@ -372,8 +372,8 @@ static void updateCanonBlocksPos(void)
     canon.block[2].x = canon.x + 1;
     canon.block[2].y = canon.y + 1;
 
-    canon.block[2].x = canon.x + 2;
-    canon.block[2].y = canon.y + 1;
+    canon.block[3].x = canon.x + 2;
+    canon.block[3].y = canon.y + 1;
 }
 
 void move_cannon(direction_t dir)
@@ -449,9 +449,9 @@ void reviveCanon(void)
 */
 void shoot_cannon(void)
 {   
-    
-    float x_shot = canon.blocks[0].x;
-    float y_shot = canon.blocks[0].y + 1;
+                                           
+    float x_shot = canon.blocks[0].x;      
+    float y_shot = canon.blocks[0].y - 1; 
     
     shot_t shot = { .x = x_shot,
                     .y = y_shot,
@@ -520,6 +520,8 @@ int checkWin(void)
 /**
  * @brief Ejecuta un disparo del invader
  */
+
+
 static void invaderShot(int i, int j)
 {       
     float x_shot = invaders[i][j].blocks[0].x; 
@@ -560,14 +562,14 @@ static void getInvaderShotCollison(void)
                 foundShots++;
                 //Aca en allegro dibujaba la bala:
                 dcoord_t coord = { .x = invaderShotList[i].x, .y = invaderShotList[i].y  }
-                disp_write( coord, D_ON);
+                disp_write( coord, D_ON);       // REVISAR si hay que dibujarla aca
 
                 invaderShotList[i].y += TASA_DE_CAMBIO_BALA;
 
 
                 collBoxShot_t collBoxShotFromInvader = {  .x = invaderShotList[i].x ,
                                                           .y = invaderShotList[i].y ,
-                                                          .height = 0 , 
+                                                          .height = 0 , //Dimensiones 0 (es un punto)
                                                           .width = 0
                                                        };
                 for(int k = 0; k < CANON_BLOCKS; k++)   // seria k < CANON_BLOCKS - 1 porque el bloque de abajo en el medio no choca nunca
@@ -627,7 +629,7 @@ static void getCanonShotCollision(void)
 
                 collBoxShot_t collBoxShotFromCanon =   {  .x = canonShotList[iCont].x ,
                                                           .y = canonShotList[iCont].y ,
-                                                          .height = 0 , 
+                                                          .height = 0 , // Dimensiones 0 (es un punto)
                                                           .width = 0
                                                        };
                 if( canonShotList[iCont].y <= 0 )
@@ -656,10 +658,10 @@ static void getCanonShotCollision(void)
                             {
                                 collBoxShot_t invaderBox = {  .x = invaders[i][j].blocks[0].x ,
                                                               .y = invaders[i][j].blocks[0].y ,           // TODO: Hacer una estructura o constante
-                                                              .height = 0,
-                                                              .width = 0
+                                                              .height = 0,                                // TODO: Cambiar por tamaño invader
+                                                              .width = 1
                                                            };
-
+                                                           
                                 if( isCollision( &collBoxShotFromCanon, &invaderBox ) )
                                 {
                                     canonShotList[iCont].shotState = 0;
@@ -709,8 +711,9 @@ static void drawAliveInvaders(void)
         {
             if( (invaders[i][j].invaderState) )
               {
-                   dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };
-                   disp_write(coord, D_ON);    
+                   dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };     // Revisar por el tamaño de invaders
+                   disp_write(coord, D_ON); 
+                   // TODO: Ver de hacer un for para dibujar rectangulos.   
               }  
         }
     }
@@ -752,8 +755,10 @@ static void moveInvadersDown(void)
     {
         for(int j = 0; j < COL_INVADERS; j++)
         {
-            invaders[i][j].y += INVADERS_FALL;
-            invaders[i][j].block[0].y += INVADERS_FALL;    //Aca es el caso que peor queda lo de los blocks pero bue lo deje asi quedan todos los objetos iguales 
+            invaders[i][j].y += INVADERS_FALL;          
+            // TODO: Hacer un for por cada bloque de invader   updateblockinvader(); 
+            //invaders[i][j].block[0].y += INVADERS_FALL;    //Aca es el caso que peor queda lo de los blocks pero bue lo deje asi quedan todos los objetos iguales 
+        
         }
     }
 }
@@ -784,6 +789,7 @@ static direction_t moveInvaders(direction_t direction)
             }
         }
     }
+    //INCLUIR: updateblockinvader(); 
     return nextDirection;
 }
 
@@ -833,7 +839,9 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
             }
             else   //Si no, hay al menos uno vivo
             {
-                if( invaders[i][j].x + AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                if( invaders[i][j].x + INVADER_WIDTH > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                //!!!!!!!!!! REVISAR: Agregar invader width 
+                //!!!!!!!!!! INCAgregar invader width * caca
                 {
                     nextDirection = LEFT;
                 }
@@ -987,7 +995,7 @@ static void drawShields(void)
 }
 
 
-static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
+static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)     // NO esta tocada, REVISAR
 {
     int colision = 0;
     int i = 0;
