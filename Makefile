@@ -47,6 +47,7 @@ menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Fronten
 game_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
 	${CCD} ${OPTIONS} -c Frontend/Allegro/game_front.c
 
+
 ################################################Terminar raspi
 # raspi: Backend\FSM_talbe.h main.c ingame_stats.o scoretable.o FSM_routines.o ${HFRONT_RAS}
 # 	${CC} ${OPTIONS} ${OBJS} main.c -o spg -D RASPI
@@ -58,6 +59,7 @@ game_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Fronten
 # 	${CC} ${OPTIONS} -c Frontend/Raspi/menu_front.c
 
 ################################################
+
 
 # allegro: Frontend/Allegro/game_front.o Frontend/Allegro/menu_front.o ${EVENTQ_OBJECT}
 # 	gcc Frontend/Allegro/game_front.o  Frontend/Allegro/menu_front.o ${EVENTQ_OBJECT} ${LDLIBSOPTIONS} -Wall -o allegro

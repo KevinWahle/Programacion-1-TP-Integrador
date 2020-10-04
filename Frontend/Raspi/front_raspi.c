@@ -1,8 +1,15 @@
+// https://www.tutorialspoint.com/c_standard_library/time_h.htm
+
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 
-#include "raspi_front_hder.h"
+// #include "raspi_front_hder.h"
 #include "disdrv.h"
+#include "joydrv.h"
+#include "../../const.h"
+#include "../../Backend/event_queue/event_queue.h"
 
 #define D_WIDTH 16
 #define D_HEIGHT 16
@@ -21,8 +28,9 @@
 
 #define CANON_Y_POS D_HEIGHT-CANON_HEIGHT
 
-#define UFO_WIDTH 2
+#define UFO_WIDTH 1
 #define UFO_HEIGHT 1
+#define INVADER_WIDTH 1
 
 #define UFO_Y_POS 3
 
@@ -35,6 +43,7 @@
 #define PPS_BALA            4         // Pixeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    5         // Máximos PPS (velocidad) de invaders
 #define MIN_PPS_INVADERS    1         // Mínimos PPS (velocidad) de invaders
+#define FPS 60.0
 
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
 #define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
@@ -53,7 +62,8 @@
 #define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
 #define INVADERS_WALL (D_WIDTH*0.01)     // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
 #define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
-#define INVADERS_SPACE_BETWEEN  1        // Cantiad de pixeles entre invaders
+#define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
+#define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
 
 #define BIG_INVADER_POINTER (octoPointer[0])    // El puntero al invader más grande
 
@@ -77,7 +87,6 @@
 
 #define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)   // Offset se refiere a la distancia en x que queda entre los puntos (0, y) y el shield que esta mas a la izquierda
-#define SHIELD_WIDTH  (B_WIDTH * 3) // Ancho del shield. No es un parametro para cambiar, pues no se pueden agregar blockes al shield asi porque si, porque a cada bloque se le debe hardcodear su posicion relativa a los demas bloques del shield
 #define SHIELDERS_WIDTH_ABSOLUTE  (SHIELDERS_WIDTH_PERCENT * D_WIDTH)
 #define OFFSET_FROM_WALL_ABSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
 
@@ -98,17 +107,34 @@
 #define MAX_INVADERS_ANIM_PERIOD    1*FPS       // Máximos ticks necesearios hasta cambiar de imagen
 #define MIN_INVADERS_ANIM_PERIOD    0.1*FPS       // Mínimos ticks necesearios hasta cambiar de imagen
 
-#define DEATH_STATE STATE_4
+#define DEATH_STATE STATE_1
+
+//********************CONSTANTES DE RASPI, EN PARTICULAR LA DE BLOQUES****************************/
+
+#define PIXELS_B2IN_SHIELDS 2
+#define PIXELS_MARGIN 1
+#define SHIELD_WIDTH 2
+#define SHIELD_HEIGHT 2
+
+#define SHIELDS_Y1 11
+
+#define DIST_2 (SHIELD_WIDTH + PIXELS_B2IN_SHIELDS)
+
+#define UFO_WIDTH 1
 
 //***********************************FIN REVISAR CONSTANTES*****************************************/
 
+//************** LO SAQUE DEL HEADALL LO DE ABAJO *******************
+
+enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
+
+typedef uint8_t direction_t;  // Necesario para move_cannon()
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-enum blockStates {STATE_0, STATE_1, STATE_2, STATE_3, STATE_4};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
-
+enum blockStates {STATE_0, STATE_1};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
 
 enum MYKEYS {
     KEY_SPACE, KEY_DOWN, KEY_LEFT, KEY_RIGHT //arrow keys
@@ -153,7 +179,7 @@ typedef struct
     float x;                                 // Cuidado la posicion es flotante. Para la la colision debe ser int, pero no pasa nada porque se castea
     block_t blocks[CANON_BLOCKS];            // cuando dibuja tambien castea asi que no pasa nada
     direction_t direction;
-}canon_t;
+} canon_t;
 
 // Objeto invader
 typedef struct 
@@ -345,7 +371,8 @@ void update_level (int level);
 /**
  * @brief Resetea tasas de velocidades y probabilidades de disparo
  **/
-static void restartTasas(void);
+// static void restartTasas(void);
+// CONTINUAR:
 
 /**
  * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
@@ -353,6 +380,8 @@ static void restartTasas(void);
  * @param2 lives Vidas a imprimir
  * @param3 level Nivel actual a imprimir
  **/
+
+// CONTINUAR:
 static void inGameStats(unsigned long int score, int lives, int level );
 static void updateCannonPos(void);
 
@@ -367,16 +396,6 @@ static void cleanDisplay(void);
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-// Invaders matrix
-static invader_t invaders[FIL_INVADERS][COL_INVADERS];
-
-static const int invadersDistribution [FIL_INVADERS] = {
-                                                  SQUID,
-                                                  CRAB,
-                                                  CRAB,
-                                                  OCTO,
-                                                  OCTO,
-                                                  };
 
 
 // Lista de los disparos de los invaders.
@@ -390,30 +409,20 @@ static int actualCanonShots;
 // El cañón
 
 static canon_t canon;    // Creo el canon
-canon.x = 0;             // Lo pongo al costado de todo a la izquierda
-canon.y = CANON_Y_POS;   // Lo seteo en el piso
-canon.direction = STOP;  // Al principio arranca parado
-
-for (int i = 0; i < CANON_BLOCKS; i++)   // La altura y ancho de los bloques son 0, porque cada bloque es realidad son puntos 
-{
-    canon.block[i].width = 0;            // Un punto es un caso particular de un bloque
-    canon.block[i].height = 0;
-    canon.block[i].state = 1;    // No creo que importe mucho el state
-}
+                          // Lo pongo al costado de todo a la izquierda
+                          // Lo seteo en el piso
+                          // Al principio arranca parado
 
 
-updateCanonBlocksPos();       //Siempre que se actualize la posicion, hay que actualizar la posicion de todos los bloques que forman el objeto
 
 static shot_t canonShotList[MAX_CANON_SHOT];
 static direction_t proxDir = LEFT;
 // El UFO
 
 UFO_t UFO_invader = {   .y = UFO_Y_POS,
-                        .invaderType = UFO,   // .x y .blocks may not be initialized
+                        .invaderType = 7,   // ACA IBA UN "UFO" EN LUGAR DEL 7, QUIEN CARAJO HIZO ESO NO ENTIENDO
                         .invaderState = 0     //Arranca muerta
                     };
-
-
 
 //TASAS DE CAMBIO VARIABLES:
 
@@ -434,56 +443,58 @@ static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
  *******************************************************************************
  ******************************************************************************/
 
+void initCanon(void)
+{
+    for (int i = 0; i < CANON_BLOCKS; i++)   // La altura y ancho de los bloques son 0, porque cada bloque es realidad son puntos 
+    {
+        canon.blocks[i].width = 0;            // Un punto es un caso particular de un bloque
+        canon.blocks[i].height = 0;
+        canon.blocks[i].state = 1;    // No creo que importe mucho el state
+    }
+    updateCanonBlocksPos();       //Siempre que se actualize la posicion, hay que actualizar la posicion de todos los bloques que forman el objeto
+}
+
 
 /**
  * @brief Ubica a los invaders en la posición inicial
 */
-void placeInvaders(void)        // TERMINAR
+void placeInvaders(void)
 {
+    int x_init = D_WIDTH/2-(INVADERS_WIDTH*COL_INVADERS)/2; // Donde empiezo a colocar los invaders (calcular)
+    int y_init = INVADERS_START_HEIGHT;
+
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for (int j = 0; j < COL_INVADERS; j++)
         {
-            
-            int x_init = 0; // Donde empiezo a colocar los invaders (calcular)
-            
-            int x_inv = x_init+j*(INVADERS_WIDTH+INVADERS_SPACE_BETWEEN);
-
-            // Cáclulo del centro en x de los invasores
-            int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
-
-            int x_pos =  x_mid - inv_width/2;
-            int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
-            al_draw_scaled_bitmap(*invaders[i][j].invadersPointer,
-                          0, 0, al_get_bitmap_width(*invaders[i][j].invadersPointer), al_get_bitmap_height(*invaders[i][j].invadersPointer),
-                          x_pos, y_pos, AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(*invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
-                          0);
-            invaders[i][j].x = x_pos;
-            invaders[i][j].y = y_pos;
+            int x_inv = x_init + j*(INVADERS_WIDTH+INVADERS_WIDTH_BETWEEN);
+            int y_inv = y_init + i*(INVADERS_HEIGHT+INVADERS_HEIGHT_BETWEEN);
+            invaders[i][j].x = x_inv;
+            invaders[i][j].y = y_inv;
             invaders[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
         }
     }
-    proxDir = LEFT;
+    proxDir = RIGHT;
     UFO_invader.invaderState = 0;
 }
 
 
 static void updateCanonBlocksPos(void)
 {
-    canon.block[0].x = canon.x + 1;
-    canon.block[0].y = canon.y;
+    canon.blocks[0].x = canon.x + 1;
+    canon.blocks[0].y = canon.y;
 
-    canon.block[1].x = canon.x;
-    canon.block[1].y = canon.y + 1;
+    canon.blocks[1].x = canon.x;
+    canon.blocks[1].y = canon.y + 1;
 
-    canon.block[2].x = canon.x + 1;
-    canon.block[2].y = canon.y + 1;
+    canon.blocks[2].x = canon.x + 1;
+    canon.blocks[2].y = canon.y + 1;
 
-    canon.block[3].x = canon.x + 2;
-    canon.block[3].y = canon.y + 1;
+    canon.blocks[3].x = canon.x + 2;
+    canon.blocks[3].y = canon.y + 1;
 }
 
-static void updateInvadersBlocksPos(int i, int j, )
+static void updateInvadersBlocksPos(int i, int j)
 {
     // Actualizo el primer bloque de la estructura.
     invaders[i][j].blocks[0].x = invaders[i][j].x;
@@ -492,6 +503,15 @@ static void updateInvadersBlocksPos(int i, int j, )
     // Actualizo el segundo bloque de la estructura.
     invaders[i][j].blocks[1].x = invaders[i][j].x + 1;
     invaders[i][j].blocks[1].y = invaders[i][j].y;
+}
+
+static void updateUfoBlocksPos(void)
+{   
+    UFO_invader.blocks[0].x = UFO_invader.x;
+    UFO_invader.blocks[0].x = UFO_invader.y;
+
+    UFO_invader.blocks[1].x = UFO_invader.x + 1;
+    UFO_invader.blocks[1].y = UFO_invader.y;
 }
 
 void move_cannon(direction_t dir)
@@ -529,7 +549,7 @@ static void drawCannon(void)
     updateCannonPos();
     for (int i = 0; i < CANON_BLOCKS; i++)
     {
-      dcoord_t coord = { .x = (int)canon.block[i].x, .y = (int)canon.block[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
+      dcoord_t coord = { .x = (int)canon.blocks[i].x, .y = (int)canon.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
       disp_write(coord , D_ON );
     }
 }
@@ -552,7 +572,7 @@ void reviveCanon(void)
 {
     if(TOTAL_SHIELDS > 0)
     {
-        canon.x = shielders[0].block_1.x;
+        canon.x = shielders[0].blocks[0].x;
     }
     else
     {
@@ -583,11 +603,7 @@ void shoot_cannon(void)
         canonShotList[k] = shot;
         actualCanonShots++;
         //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
-
-               // TODO: Cambiar por codigo OK
     }
-    // ARRAY OVERFLOW
-                  // TODO: Cambiar por codigo de error
 }
 
 void clean_shoots(void)
@@ -657,11 +673,7 @@ static void invaderShot(int i, int j)
     if (k < MAX_INVADERS_SHOT) {
         invaderShotList[k] = shot;
         actualInvadersShots++;
-                                    //ALLEGRO DIBUJA AHORA NO DIBUJA MAS ACA !!!!!!!!!!!!!!
-               // TODO: Cambiar por codigo OK
     }
-    // ARRAY OVERFLOW
-               // TODO: Cambiar por codigo de error
 }
 
 /**
@@ -679,7 +691,7 @@ static void getInvaderShotCollison(void)
             if (invaderShotList[i].shotState == 1) {
                 foundShots++;
                 //Aca en allegro dibujaba la bala:
-                dcoord_t coord = { .x = invaderShotList[i].x, .y = invaderShotList[i].y  }
+                dcoord_t coord = { .x = invaderShotList[i].x, .y = invaderShotList[i].y  };
                 disp_write( coord, D_ON);       // REVISAR si hay que dibujarla aca
 
                 invaderShotList[i].y += TASA_DE_CAMBIO_BALA;
@@ -740,7 +752,7 @@ static void getCanonShotCollision(void)
 
                 //Aca en allegro dibuja la bala:
 
-                dcoord_t coord = { .x = canonShotList[iCont].x, .y = canonShotList[iCont].y  }
+                dcoord_t coord = { .x = canonShotList[iCont].x, .y = canonShotList[iCont].y  };
                 disp_write( coord, D_ON);
 
                 canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA;
@@ -840,7 +852,7 @@ static void drawAliveInvaders(void)
 
     if (UFO_invader.invaderState) 
     {
-        if( UFO_invader.x >= ( (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) )  && UFO_invader.x <= (D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer)) )
+        if( UFO_invader.x >= ( (-1)*UFO_WIDTH )  && UFO_invader.x <= (D_WIDTH + UFO_WIDTH) )
         {
             //dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };
             //disp_write(coord, D_ON);     NO PENSE EL UFOOO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -959,7 +971,7 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
             }
             else   //Si no, hay al menos uno vivo
             {
-                if( invaders[i][j].x + INVADER_WIDTH > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                if( (invaders[i][j].x + INVADER_WIDTH) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 //!!!!!!!!!! REVISAR: Agregar invader width 
                 //!!!!!!!!!! REVISAR: Agregar invader wall
                 {
@@ -1046,9 +1058,9 @@ static void placeShields(void)
 {
     for (int i = 0; i < TOTAL_SHIELDS; i++)
     {
-        int x_shield =  i * ( SHIELD_WIDTH + DIST ) + OFFSET_FROM_WALL_ABSOLUTE ;  // Calcula la posicion en x de los shields
+        int x_shield =  i * DIST_2 + PIXELS_MARGIN ;  // Calcula la posicion en x de los shields
 
-        int y_shield = Y1;
+        int y_shield = SHIELDS_Y1;                     // OJO QUE POR LA CUENTA EL USUARIO LA PUEDE CAGAR Y DIBUJAR AFUERA DEL MAPA
 
         createShield(x_shield, y_shield, &shielders[i] );
     }
@@ -1059,25 +1071,25 @@ static void drawShields(void)
 {
     for (int i = 0; i < TOTAL_SHIELDS; i++)
     {
-        if( shielders[i].block_1.state != DEATH_STATE)   // Si el bloque no esta muerto, lo dibujo. Recordar que el color se lo asocia con el estado de la vida
+        if( shielders[i].blocks[0].state != DEATH_STATE)   // Si el bloque no esta muerto, lo dibujo. Recordar que el color se lo asocia con el estado de la vida
         {
-            al_draw_filled_rectangle(shielders[i].block_1.x, shielders[i].block_1.y, shielders[i].block_1.x + B_WIDTH, shielders[i].block_1.y + B_HEIGHT, al_color_name( shielders[i].block_1.color  )  );
+            dcoord_t coord = { .x = shielders[i].blocks[0].x, .y = shielders[i].blocks[0].y };     // Revisar por el tamaño de invaders
+            disp_write(coord, D_ON);
         }
-        if( shielders[i].block_2.state != DEATH_STATE)
+        if( shielders[i].blocks[1].state != DEATH_STATE)
         {
-            al_draw_filled_rectangle(shielders[i].block_2.x, shielders[i].block_2.y, shielders[i].block_2.x + B_WIDTH, shielders[i].block_2.y + B_HEIGHT, al_color_name( shielders[i].block_2.color  )  );
+            dcoord_t coord = { .x = shielders[i].blocks[1].x, .y = shielders[i].blocks[1].y };     // Revisar por el tamaño de invaders
+            disp_write(coord, D_ON);
         }
-        if( shielders[i].block_3.state != DEATH_STATE)
+        if( shielders[i].blocks[2].state != DEATH_STATE)
         {
-            al_draw_filled_rectangle(shielders[i].block_3.x, shielders[i].block_3.y, shielders[i].block_3.x + B_WIDTH, shielders[i].block_3.y + B_HEIGHT, al_color_name( shielders[i].block_3.color  )  );
+            dcoord_t coord = { .x = shielders[i].blocks[2].x, .y = shielders[i].blocks[2].y };     // Revisar por el tamaño de invaders
+            disp_write(coord, D_ON);
         }
-        if( shielders[i].block_4.state != DEATH_STATE)
+        if( shielders[i].blocks[3].state != DEATH_STATE)
         {
-            al_draw_filled_rectangle(shielders[i].block_4.x, shielders[i].block_4.y, shielders[i].block_4.x + B_WIDTH, shielders[i].block_4.y + B_HEIGHT, al_color_name( shielders[i].block_4.color  )  );
-        }
-        if( shielders[i].block_5.state != DEATH_STATE)
-        {
-            al_draw_filled_rectangle(shielders[i].block_5.x, shielders[i].block_5.y, shielders[i].block_5.x + B_WIDTH, shielders[i].block_5.y + B_HEIGHT, al_color_name( shielders[i].block_5.color  )  );
+            dcoord_t coord = { .x = shielders[i].blocks[3].x, .y = shielders[i].blocks[3].y };     // Revisar por el tamaño de invaders
+            disp_write(coord, D_ON);
         }
     }
 }
@@ -1089,69 +1101,90 @@ static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)     // NO esta tocad
     int i = 0;
     while(i < TOTAL_SHIELDS && !colision)                 //Chequea en cada shield si hubo colision o no
     {
-        
-        collBoxShot_t boxOfBlock1 = {  .x = shielders[i].block_1.x,
-                                       .y = shielders[i].block_1.y,
-                                       .height = shielders[i].block_1.height,
-                                       .width = shielders[i].block_1.width,           
+
+        collBoxShot_t boxOfBlock1 = {  .x = shielders[i].blocks[0].x,
+                                       .y = shielders[i].blocks[0].y,
+                                       .height = 0,
+                                       .width = 0,           
                                    };            
-        collBoxShot_t boxOfBlock2 = {  .x = shielders[i].block_2.x,
-                                       .y = shielders[i].block_2.y,
-                                       .height = shielders[i].block_2.height,
-                                       .width = shielders[i].block_2.width,           
+        collBoxShot_t boxOfBlock2 = {  .x = shielders[i].blocks[1].x,
+                                       .y = shielders[i].blocks[1].y,
+                                       .height = 0,
+                                       .width = 0,           
                                    };
-        collBoxShot_t boxOfBlock3 = {  .x = shielders[i].block_3.x,
-                                       .y = shielders[i].block_3.y,
-                                       .height = shielders[i].block_3.height,
-                                       .width = shielders[i].block_3.width,           
+        collBoxShot_t boxOfBlock3 = {  .x = shielders[i].blocks[2].x,
+                                       .y = shielders[i].blocks[2].y,
+                                       .height = 0,
+                                       .width = 0,           
                                    };
-        collBoxShot_t boxOfBlock4 = {  .x = shielders[i].block_4.x,
-                                       .y = shielders[i].block_4.y,
-                                       .height = shielders[i].block_4.height,
-                                       .width = shielders[i].block_4.width,           
+        collBoxShot_t boxOfBlock4 = {  .x = shielders[i].blocks[3].x,
+                                       .y = shielders[i].blocks[3].y,
+                                       .height = 0,
+                                       .width = 0,           
                                    };
-        collBoxShot_t boxOfBlock5 = {  .x = shielders[i].block_5.x,
-                                       .y = shielders[i].block_5.y,
-                                       .height = shielders[i].block_5.height,
-                                       .width = shielders[i].block_5.width,           
-                                   };
-        
-        if(  shielders[i].block_1.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock1) )
+
+        if(  shielders[i].blocks[0].state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock1) )
         {
             colision = 1;
-            shielders[i].block_1.state++;
-            if( shielders[i].block_1.state != DEATH_STATE )
-                shielders[i].block_1.color = blockColors[ shielders[i].block_1.state ];
+            shielders[i].blocks[0].state++;
         }
-        else if(  shielders[i].block_2.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock2) )
+        else if(  shielders[i].blocks[1].state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock2) )
         {
             colision = 1;
-            shielders[i].block_2.state++;
-            if( shielders[i].block_2.state != DEATH_STATE )
-                shielders[i].block_2.color = blockColors[ shielders[i].block_2.state ];
+            shielders[i].blocks[0].state++;
         }
-        else if(  shielders[i].block_3.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock3) )
+        else if(  shielders[i].blocks[2].state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock3) )
         {
             colision = 1;
-            shielders[i].block_3.state++;
-            if( shielders[i].block_3.state != DEATH_STATE )
-                shielders[i].block_3.color = blockColors[ shielders[i].block_3.state ];
+            shielders[i].blocks[0].state++;
         }
-        else if(  shielders[i].block_4.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock4) )
+        else if(  shielders[i].blocks[3].state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock4) )
         {
             colision = 1;
-            shielders[i].block_4.state++;
-            if( shielders[i].block_4.state != DEATH_STATE )
-                shielders[i].block_4.color = blockColors[ shielders[i].block_4.state ];
-        }
-        else if(  shielders[i].block_5.state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock5) )
-        {
-            colision = 1;
-            shielders[i].block_5.state++;
-            if( shielders[i].block_5.state != DEATH_STATE )
-                shielders[i].block_5.color = blockColors[ shielders[i].block_5.state ];
+            shielders[i].blocks[0].state++;
         }
         i++;
     }
     return colision;
+}
+
+static void shouldUFOappear(void)
+{
+    if(  !(rand() % probUfo) && !UFO_invader.invaderState )   // Podria aparecer UFO o no. Si ya hay un UFO, no puede haber otro
+    {
+        UFO_invader.invaderState = 1;
+        UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
+        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*2 : D_WIDTH + 2; // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
+    }                                                     // MAGIC NUMBER EN EL 2 IBA EL UFO WIDTH. MAY START WITH LEDS OUT OF THE DISP
+}
+static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
+{
+    int colision = 0;
+    if(UFO_invader.invaderState)                            // Si hay un ufo entonces puede llegar a haber una colsion, entonces chequeo
+    {
+        collBoxShot_t boxOfUFO = {  .x = UFO_invader.x,
+                                    .y = UFO_invader.y,
+                                    .width = 1,           // MAGIC NUMBER, OMG SUENA MAL 1 
+                                    .height = 0,          // MAGIC NUMBER, OMG SUENA MAL 1  SHOULDNT IT BE 2?
+                                 };
+        if( (colision = isCollision( &boxOfUFO, boxOfTheShot )) )
+        {
+            UFO_invader.invaderState = 0;
+        }
+    }
+    return colision;
+}
+static void moveUFO(void)
+{
+    if (UFO_invader.invaderState) 
+    {
+        if (UFO_invader.direction == RIGHT) 
+        {
+            UFO_invader.x += TASA_DE_CAMBIO_NODRIZA;
+        }
+        else
+        {
+            UFO_invader.x -= TASA_DE_CAMBIO_NODRIZA;
+        }
+    }
 }

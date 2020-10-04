@@ -245,13 +245,15 @@ const int SPLASH[16][16] = {
 const int CANNON[][3] = {   {0, 1, 0},      //   1 
                             {1, 1, 1}};     // 1 1 1
 
-const int UFO[][2] = {{1, 1}};     // 1 1   
 
-const int SQUID[][1] = {{1}};    // 1
-const int CRAB[][1] = {{1}};     // 1
-const int OCTO[][1] = {{1}};     // 1   
+//! REVISAR: ESTOS NOMBRES SE REPITEN, CAMBIARLOS
+// const int UFO[][2] = {{1, 1}};     // 1 1   
 
-const int BULLET[][1] = {{1}};     // 1
+// const int SQUID[][1] = {{1}};    // 1
+// const int CRAB[][1] = {{1}};     // 1
+// const int OCTO[][1] = {{1}};     // 1   
+
+// const int BULLET[][1] = {{1}};     // 1
 
 /*
 void dibujar_splash();
