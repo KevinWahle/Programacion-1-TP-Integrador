@@ -36,7 +36,7 @@ jswitch_t mySwitch;
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-void diplay (int x, int y, mat[][]);
+void show_matrix (int *matrix, int col, int row, myPoint coord)
 
 /*******************************************************************************
  *******************************************************************************
@@ -55,7 +55,7 @@ int init_front()       // Inicializo y verifico que no falle
 */
 void splash_front() 
 {   
-    myPoint = {0,0};
+    myPoint = {0,0};   //CAMBIAR POR FUNCION SHOW_MATRIX
     int state = 0;
     for(int i=0; i<16; i++) {
         for(int j=0; j<16; j++) {
@@ -81,13 +81,6 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
 
 }
-
-void show_matrix (int *matrix, int col, myPoint coord)
-{
-
-}
-
-
 
 
 /**
@@ -132,3 +125,20 @@ void update_front_event (void)
 }
 
 
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+/**
+ * @brief Muestra imagen de menu y coloca palabras que recibe y colorea la palabra que se indica.
+*/
+void show_matrix (int *matrix, int col, int row, myPoint coord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
+{
+    for int (j=0; j<row; j++){  
+        for (int i=0; i<col; i++){
+            myPoint={i+coord.x,j+coord.y};          //Cargo la matriz que me pasan desde la cordanada indicada
+            disp_update();
+        }
+    }
+}

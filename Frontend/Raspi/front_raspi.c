@@ -46,13 +46,14 @@
 #define SHOT_WIDTH 4                     // idem
 
 // INVADERS POSITION
-#define INVADERS_WIDTH_PERCENT  0.6      // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
-#define INVADERS_HEIGHT_PERCENT  0.3     // Porcentaje de los invaders a lo alto de la pantalla (0-1)
-#define INVADERS_START_HEIGHT_PERCENT  0.15    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
+#define INVADERS_WIDTH  2           // Ancho de los invaders en pixeles
+#define INVADERS_HEIGHT  1          // Alto de los invaders en pixeles
+#define INVADERS_START_HEIGHT 1      // Pixel inician los invaders (desde arriba)
 
 #define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
 #define INVADERS_WALL (D_WIDTH*0.01)     // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
 #define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
+#define INVADERS_SPACE_BETWEEN  1        // Cantiad de pixeles entre invaders
 
 #define BIG_INVADER_POINTER (octoPointer[0])    // El puntero al invader más grande
 
@@ -437,15 +438,20 @@ static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 /**
  * @brief Ubica a los invaders en la posición inicial
 */
-void placeInvaders(void)
+void placeInvaders(void)        // TERMINAR
 {
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for (int j = 0; j < COL_INVADERS; j++)
         {
+            
+            int x_init = 0; // Donde empiezo a colocar los invaders (calcular)
+            
+            int x_inv = x_init+j*(INVADERS_WIDTH+INVADERS_SPACE_BETWEEN);
+
             // Cáclulo del centro en x de los invasores
             int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
-            
+
             int x_pos =  x_mid - inv_width/2;
             int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
             al_draw_scaled_bitmap(*invaders[i][j].invadersPointer,
@@ -1021,57 +1027,20 @@ static void shouldInvaderShot(void)
     }       
 }
 
-static void createShield(void)
-{
-    shielders[i].blocks
-}
-
 static void createShield(int x_shield, int y_shield, shield_t *shield)
-//REVISAR: Hacer de 0.
 {
-    shield->block_1.x = x_shield;
-    shield->block_1.y = y_shield;     // Algunos pensaran que esta hardcodeado, pues si, cada bloque se debe decidir, no hay patron generico
-    shield->block_1.state = STATE_0;
-    shield->block_1.color = blockColors[STATE_0];
-    shield->block_1.width = B_WIDTH;
-    shield->block_1.height = B_HEIGHT;
+    shield->blocks[0].x = x_shield;
+    shield->blocks[0].y = y_shield;
 
-    shield->block_2.x = x_shield + B_WIDTH;
-    shield->block_2.y = y_shield;
-    shield->block_2.state = STATE_0;
-    shield->block_2.color = blockColors[STATE_0];
-    shield->block_2.width = B_WIDTH;
-    shield->block_2.height = B_HEIGHT;
+    shield->blocks[1].x = x_shield + 1;
+    shield->blocks[1].y = y_shield;
 
-    shield->block_3.x = x_shield + 2*B_WIDTH;
-    shield->block_3.y = y_shield;
-    shield->block_3.state = STATE_0;
-    shield->block_3.color = blockColors[STATE_0];
-    shield->block_3.width = B_WIDTH;
-    shield->block_3.height = B_HEIGHT;
+    shield->blocks[2].x = x_shield;
+    shield->blocks[2].y = y_shield + 1;
 
-    shield->block_4.x = x_shield;
-    shield->block_4.y = y_shield + B_HEIGHT;
-    shield->block_4.state = STATE_0;
-    shield->block_4.color = blockColors[STATE_0];
-    shield->block_4.width = B_WIDTH;
-    shield->block_4.height = B_HEIGHT;
-
-    shield->block_5.x = x_shield + 2*B_WIDTH;
-    shield->block_5.y = y_shield + B_HEIGHT;
-    shield->block_5.state = STATE_0;
-    shield->block_5.color = blockColors[STATE_0];
-    shield->block_5.width = B_WIDTH;
-    shield->block_5.height = B_HEIGHT;
-
-
-    // al_draw_filled_rectangle(shield->block_1.x, shield->block_1.y, shield->block_1.x + B_WIDTH, shield->block_1.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
-    // al_draw_filled_rectangle(shield->block_2.x, shield->block_2.y, shield->block_2.x + B_WIDTH, shield->block_2.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
-    // al_draw_filled_rectangle(shield->block_3.x, shield->block_3.y, shield->block_3.x + B_WIDTH, shield->block_3.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
-    // al_draw_filled_rectangle(shield->block_4.x, shield->block_4.y, shield->block_4.x + B_WIDTH, shield->block_4.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
-    // al_draw_filled_rectangle(shield->block_5.x, shield->block_5.y, shield->block_5.x + B_WIDTH, shield->block_5.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    shield->blocks[3].x = x_shield + 1;
+    shield->blocks[3].y = y_shield + 1;
 }
-
 
 static void placeShields(void)
 {
