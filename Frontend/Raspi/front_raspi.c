@@ -11,16 +11,15 @@
 #define UFO_BLOCKS 2
 #define INVADER_BLOCK 1  // Es al pedo porque para evaluar la colision solo hay que ver si tienen la misma posicion, pero para no confundir 
                          // Es al pedo que la estructura de invader tenga un bloque
-#define SHIELDS_BLOCKS 2
+#define SHIELDS_BLOCKS 4
 
 #define FIL_INVADERS 5                   // Cantidad de filas de invaders
 #define COL_INVADERS 9                   // Cantidad de columnas de invaders
 
-#define CANON_Y_POS 14
-
 #define CANON_WIDTH 3
 #define CANON_HEIGHT 2
 
+#define CANON_Y_POS D_HEIGHT-CANON_HEIGHT
 
 #define UFO_WIDTH 2
 #define UFO_HEIGHT 1
@@ -28,6 +27,80 @@
 #define UFO_Y_POS 3
 
 #define TOTAL_SHIELDS 4
+
+//*********************************REVISAR CONSTANTES************************  
+
+#define PPS_NODRIZA         2         // Pixeles por segundo (velocidad) de la nave nodriza
+#define PPS_CANON           3         // Pixeles por segundo (velocidad) del canon   
+#define PPS_BALA            4         // Pixeles por segundo (velocidad) de la bala
+#define MAX_PPS_INVADERS    5         // Máximos PPS (velocidad) de invaders
+#define MIN_PPS_INVADERS    1         // Mínimos PPS (velocidad) de invaders
+
+#define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
+#define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
+#define TASA_DE_CAMBIO_NODRIZA (PPS_NODRIZA/FPS)         // Pixeles por refresco (velocidad) de la nave nodriza
+
+//#define TASA_DE_CAMBIO_INVADERS 0.5      // NO SIRVE, es fija, SACAR
+
+#define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
+#define SHOT_WIDTH 4                     // idem
+
+// INVADERS POSITION
+#define INVADERS_WIDTH_PERCENT  0.6      // Porcentaje de los invaders a lo ancho de la pantalla (0-1)
+#define INVADERS_HEIGHT_PERCENT  0.3     // Porcentaje de los invaders a lo alto de la pantalla (0-1)
+#define INVADERS_START_HEIGHT_PERCENT  0.15    // Porcentaje de la pantalla donde inician los invaders (desde arriba)
+
+#define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
+#define INVADERS_WALL (D_WIDTH*0.01)     // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
+
+#define BIG_INVADER_POINTER (octoPointer[0])    // El puntero al invader más grande
+
+#define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
+
+#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+
+//##### Blocks #####                              // Cada block seria justamente cada bloque que compone a un shield.
+#define B_WIDTH_PERCENT  0.03                     // Porcentaje que ocupa el block por sobre el tamanio del display
+#define B_HEIGHT_PERCENT  0.03                    // 
+#define B_WIDTH    (D_WIDTH * B_WIDTH_PERCENT)
+#define B_HEIGHT   (D_WIDTH * B_HEIGHT_PERCENT)
+#define Y_PERCENT  0.76
+
+#define Y1  (D_HEIGHT * Y_PERCENT)                // Posicion en y en la que van a estar alineados los shields
+#define BLOCK_LIVES 4                             //Vidas del bloque, se puede modificar, pero si se la modifica se debe modificar la cantidad de colores
+                                                  // y todos los estados posibles de los bloques
+//##### Shields ####
+
+#define TOTAL_SHIELDS 4                  // Para todo n, en particular n = 4
+
+#define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
+#define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)   // Offset se refiere a la distancia en x que queda entre los puntos (0, y) y el shield que esta mas a la izquierda
+#define SHIELD_WIDTH  (B_WIDTH * 3) // Ancho del shield. No es un parametro para cambiar, pues no se pueden agregar blockes al shield asi porque si, porque a cada bloque se le debe hardcodear su posicion relativa a los demas bloques del shield
+#define SHIELDERS_WIDTH_ABSOLUTE  (SHIELDERS_WIDTH_PERCENT * D_WIDTH)
+#define OFFSET_FROM_WALL_ABSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
+
+#define DIST   ((SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1) )    // Cuenta que se usa en void placeShields(void), justamente para ubicarlos adecuadamente
+
+
+//TOPES MAXIMOS Y MINIMOS DE VELOCIDAD DE INVADERS Y PROBABILIDADES
+#define MAX_SPEED_INVADER  (MAX_PPS_INVADERS/FPS)
+#define MIN_SPEED_INVADER  (MIN_PPS_INVADERS/FPS)
+
+#define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     // Seria 1 posibilidad entre 50
+#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  500
+
+
+#define MAX_POSIBILIY_OF_APPEAR_UFO  500
+#define MIN_POSIBILIY_OF_APPEAR_UFO  1200
+
+#define MAX_INVADERS_ANIM_PERIOD    1*FPS       // Máximos ticks necesearios hasta cambiar de imagen
+#define MIN_INVADERS_ANIM_PERIOD    0.1*FPS       // Mínimos ticks necesearios hasta cambiar de imagen
+
+#define DEATH_STATE STATE_4
+
+//***********************************FIN REVISAR CONSTANTES*****************************************/
+
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -361,6 +434,34 @@ static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
  ******************************************************************************/
 
 
+/**
+ * @brief Ubica a los invaders en la posición inicial
+*/
+void placeInvaders(void)
+{
+    for (int i = 0; i < FIL_INVADERS; i++)
+    {
+        for (int j = 0; j < COL_INVADERS; j++)
+        {
+            // Cáclulo del centro en x de los invasores
+            int x_mid =  j * (D_WIDTH*INVADERS_WIDTH_PERCENT-max_inv_width)/(COL_INVADERS-1) + max_inv_width/2 + D_WIDTH*(1-INVADERS_WIDTH_PERCENT)/2 ;
+            
+            int x_pos =  x_mid - inv_width/2;
+            int y_pos = i * (D_HEIGHT*INVADERS_HEIGHT_PERCENT-inv_height)/(FIL_INVADERS-1) + D_HEIGHT*INVADERS_START_HEIGHT_PERCENT;
+            al_draw_scaled_bitmap(*invaders[i][j].invadersPointer,
+                          0, 0, al_get_bitmap_width(*invaders[i][j].invadersPointer), al_get_bitmap_height(*invaders[i][j].invadersPointer),
+                          x_pos, y_pos, AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer), AL_GET_INVADER_HEIGHT(*invaders[i][j].invadersPointer),      // Con que tamaño queres que se dibuje la imagen
+                          0);
+            invaders[i][j].x = x_pos;
+            invaders[i][j].y = y_pos;
+            invaders[i][j].invaderState = 1; //Ademas de colocar las naves, tambien les doy vida en el juego 
+        }
+    }
+    proxDir = LEFT;
+    UFO_invader.invaderState = 0;
+}
+
+
 static void updateCanonBlocksPos(void)
 {
     canon.block[0].x = canon.x + 1;
@@ -374,6 +475,17 @@ static void updateCanonBlocksPos(void)
 
     canon.block[3].x = canon.x + 2;
     canon.block[3].y = canon.y + 1;
+}
+
+static void updateInvadersBlocksPos(int i, int j, )
+{
+    // Actualizo el primer bloque de la estructura.
+    invaders[i][j].blocks[0].x = invaders[i][j].x;
+    invaders[i][j].blocks[0].y = invaders[i][j].y;
+
+    // Actualizo el segundo bloque de la estructura.
+    invaders[i][j].blocks[1].x = invaders[i][j].x + 1;
+    invaders[i][j].blocks[1].y = invaders[i][j].y;
 }
 
 void move_cannon(direction_t dir)
@@ -711,8 +823,10 @@ static void drawAliveInvaders(void)
         {
             if( (invaders[i][j].invaderState) )
               {
-                   dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };     // Revisar por el tamaño de invaders
-                   disp_write(coord, D_ON); 
+                    dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };     // Revisar por el tamaño de invaders
+                    disp_write(coord, D_ON);
+                    coord.x++;  
+                    disp_write(coord, D_ON);
                    // TODO: Ver de hacer un for para dibujar rectangulos.   
               }  
         }
@@ -758,7 +872,7 @@ static void moveInvadersDown(void)
             invaders[i][j].y += INVADERS_FALL;          
             // TODO: Hacer un for por cada bloque de invader   updateblockinvader(); 
             //invaders[i][j].block[0].y += INVADERS_FALL;    //Aca es el caso que peor queda lo de los blocks pero bue lo deje asi quedan todos los objetos iguales 
-        
+            updateInvadersBlocksPos(i, j);
         }
     }
 }
@@ -780,12 +894,12 @@ static direction_t moveInvaders(direction_t direction)
             if(nextDirection == LEFT)
             {
                 invaders[i][j].x -= tasaDeCambioInvaders;
-                invaders[i][j].blocks[0].x -= tasaDeCambioInvaders;  // RANCIO TAMBIEN SEGURO LO SAQUE NO SE
+                updateInvadersBlocksPos(i, j);
             }
             else if(nextDirection == RIGHT)
             {
                 invaders[i][j].x += tasaDeCambioInvaders;
-                invaders[i][j].blocks[0].x += tasaDeCambioInvaders;
+                updateInvadersBlocksPos(i, j);
             }
         }
     }
@@ -841,7 +955,7 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
             {
                 if( invaders[i][j].x + INVADER_WIDTH > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 //!!!!!!!!!! REVISAR: Agregar invader width 
-                //!!!!!!!!!! REVISAR: Agregar invader width
+                //!!!!!!!!!! REVISAR: Agregar invader wall
                 {
                     nextDirection = LEFT;
                 }
@@ -907,8 +1021,13 @@ static void shouldInvaderShot(void)
     }       
 }
 
+static void createShield(void)
+{
+    shielders[i].blocks
+}
 
 static void createShield(int x_shield, int y_shield, shield_t *shield)
+//REVISAR: Hacer de 0.
 {
     shield->block_1.x = x_shield;
     shield->block_1.y = y_shield;     // Algunos pensaran que esta hardcodeado, pues si, cada bloque se debe decidir, no hay patron generico
@@ -946,11 +1065,11 @@ static void createShield(int x_shield, int y_shield, shield_t *shield)
     shield->block_5.height = B_HEIGHT;
 
 
-    al_draw_filled_rectangle(shield->block_1.x, shield->block_1.y, shield->block_1.x + B_WIDTH, shield->block_1.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
-    al_draw_filled_rectangle(shield->block_2.x, shield->block_2.y, shield->block_2.x + B_WIDTH, shield->block_2.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
-    al_draw_filled_rectangle(shield->block_3.x, shield->block_3.y, shield->block_3.x + B_WIDTH, shield->block_3.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
-    al_draw_filled_rectangle(shield->block_4.x, shield->block_4.y, shield->block_4.x + B_WIDTH, shield->block_4.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
-    al_draw_filled_rectangle(shield->block_5.x, shield->block_5.y, shield->block_5.x + B_WIDTH, shield->block_5.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    // al_draw_filled_rectangle(shield->block_1.x, shield->block_1.y, shield->block_1.x + B_WIDTH, shield->block_1.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    // al_draw_filled_rectangle(shield->block_2.x, shield->block_2.y, shield->block_2.x + B_WIDTH, shield->block_2.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    // al_draw_filled_rectangle(shield->block_3.x, shield->block_3.y, shield->block_3.x + B_WIDTH, shield->block_3.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    // al_draw_filled_rectangle(shield->block_4.x, shield->block_4.y, shield->block_4.x + B_WIDTH, shield->block_4.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
+    // al_draw_filled_rectangle(shield->block_5.x, shield->block_5.y, shield->block_5.x + B_WIDTH, shield->block_5.y + B_HEIGHT, al_color_name(COLOR_STATE_0)  );
 }
 
 

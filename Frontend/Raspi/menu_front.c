@@ -82,6 +82,13 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 
 }
 
+void show_matrix (int *matrix, int col, myPoint coord)
+{
+
+}
+
+
+
 
 /**
  * @brief Muestra los mejores puntajes, máximo 10.
@@ -97,17 +104,31 @@ void show_score (SCORE* score ,int size)
  **/
 void update_front_event (void)
 {
-    joy_update();
-    myCoords = joy_get_coord();
-    mySwitch = joy_get_switch();
-    if (myCoords.x>RANGE || myCoords<-RANGE){
-     
-       add_event();         
+    static BOOL was_moving=FALSE;   // Indica  si se estaba moviendo el cannon 
+    joy_update();                   // Actualizo los valores de joystick
+    myCoords = joy_get_coord();     // Tomo las coordenadas actuales
+    mySwitch = joy_get_switch();    // Tomo el estado de pulsación del switch
+
+    if (myCoords.x>RAGE){           
+        add_event(MOVE_RIGHT);      // El joytick se mueve hacia la derecha
+        was_moving=TRUE;
     }
-    if (myCoords.x>RAGE){
-        add_event(MOVE)
+    else if (myCoords.x<-RAGE){
+        add_event(MOVE_LEFT);       // El joytick se mueve hacia la izquierda
+        was_moving=TRUE;
     }
-    "HAY QUE VER COMO LO HACEMOS"
+    else if (was_moving==TRUE){     // Si cannon estaba en movimiento y se suelta el joystick, debe parar de moverse
+        add_event(MOVE_LEFT_REL);    
+        add_event (MOVE_RIGHT_REL);
+        was_moving=FALSE;
+    }
+    
+    if (myCoords.y>RAGE){
+        add_event(MOVE_UP);         // El joytick se mueve hacia la arriba
+    }
+    else if (myCoords.y<-RAGE){
+        add_event(MOVE_DOWN);       // El joytick se mueve hacia abajo
+    }
 }
 
 
