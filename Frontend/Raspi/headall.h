@@ -98,7 +98,7 @@ void destroy_front(); //  REVISAR SI SE DESTRUYEN LOS RECURSOS
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR IN-GAME
  ******************************************************************************/
-
+//SI VAN IN-GAME HAY QUE HACER UN .H APARTE COMO SHARED RES
 /**
  * @brief Inicializa lo necesario para empezar la partida
 */

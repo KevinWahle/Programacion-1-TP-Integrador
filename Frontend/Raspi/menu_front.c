@@ -31,12 +31,19 @@ jswitch_t mySwitch;
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-
+/**
+ * @brief Muestra en pantalla la matriz seleccionada.
+ * @param matrix matriz a mostrar 
+ * @param col Cantidad de columnas
+ * @param row Cantidad de filas
+ * @param myPoint ubicacion del display para colocar la matriz
+*/
+void show_matrix (int *matrix, int col, int row, myPoint coord);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-void show_matrix (int *matrix, int col, int row, myPoint coord)
+
 
 /*******************************************************************************
  *******************************************************************************
@@ -131,14 +138,24 @@ void update_front_event (void)
  *******************************************************************************
  ******************************************************************************/
 /**
- * @brief Muestra imagen de menu y coloca palabras que recibe y colorea la palabra que se indica.
+ * @brief Muestra en pantalla la matriz seleccionada.
+ * @param matrix matriz a mostrar. La primera componente es la columna y la segunda fila.
+ * @param col Cantidad de columnas
+ * @param row Cantidad de filas
+ * @param myPoint ubicacion del display para colocar la matriz
 */
 void show_matrix (int *matrix, int col, int row, myPoint coord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
 {
-    for int (j=0; j<row; j++){  
+    for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
             myPoint={i+coord.x,j+coord.y};          //Cargo la matriz que me pasan desde la cordanada indicada
-            disp_update();
+            if (matrix[i][j]==1) {
+                disp_write(myPoint, D_ON);
+            }
+            else {
+                disp_write(myPoint, D_OFF);
+            }
         }
     }
+    disp_update();
 }
