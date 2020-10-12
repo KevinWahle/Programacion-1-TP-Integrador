@@ -8,15 +8,12 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include "headall.h"
 
 // #include "raspi_front_hder.h"
 #include "disdrv.h"
 #include "joydrv.h"
-#include "../../const.h"
-#include "../../Backend/event_queue/event_queue.h"
+
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE

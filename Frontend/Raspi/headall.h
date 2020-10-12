@@ -12,19 +12,20 @@
  ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <stdint.h>
 #include <stdbool.h>
-
+#include <time.h>
 
 #include <disdrv.h>
 #include <joydrv.h>
 #include <libaudio.h>
-
 /*#include "../../../libs/joydisp/disdrv.h"
 #include "../../../libs/joydisp/joydrv.h"
 #include "../../../libs/audio/SDL1/libaudio.h"*/
 
 #include "../../const.h"
+#include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
+#include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
