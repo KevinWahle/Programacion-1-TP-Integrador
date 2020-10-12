@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     +headall.h+
-  @brief    +header principal de allegro+
+  @brief    +Header principal de allegro+
   @author   +Grupo 3+
  ******************************************************************************/
 
@@ -20,6 +20,10 @@
 #include <joydrv.h>
 #include <libaudio.h>
 
+/*#include "../../../libs/joydisp/disdrv.h"
+#include "../../../libs/joydisp/joydrv.h"
+#include "../../../libs/audio/SDL1/libaudio.h"*/
+
 #include "../../const.h"
 
 /*******************************************************************************
@@ -30,11 +34,9 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-
 enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
 typedef uint8_t direction_t;  // Necesario para move_cannon()
-
 
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
@@ -80,25 +82,13 @@ void show_score (SCORE* score ,int size);
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score);
 
 /**
- * @brief Muestra las instrucciones.
-*/
-void shows_inst ();
-
-/**
  * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".
  **/
 void update_front_event();
 
-/**
- * @brief Destruye los recursos empleados.
- **/
-void destroy_front(); //  REVISAR SI SE DESTRUYEN LOS RECURSOS 
-
-
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR IN-GAME
  ******************************************************************************/
-//SI VAN IN-GAME HAY QUE HACER UN .H APARTE COMO SHARED RES
 /**
  * @brief Inicializa lo necesario para empezar la partida
 */

@@ -1,12 +1,11 @@
 /***************************************************************************//**
-  @file     +Nombre del archivo (ej: template.h)+
-  @brief    +Descripcion del archivo+
-  @author   +Nombre del autor (ej: Salvador Allende)+
+  @file     +digits.h+
+  @brief    +Templates para numeros y figuras especiales para mostrar en la pantalla de raspi
+  @author   +Grupo 3+
  ******************************************************************************/
 
 #ifndef _DIGITS_H_
 #define _DIGITS_H_
-
 
 /*******************************************************************************
  * NUMBERS

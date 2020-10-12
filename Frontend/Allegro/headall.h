@@ -97,7 +97,6 @@ void destroy_front();
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR IN-GAME
  ******************************************************************************/
-
 /**
  * @brief Inicializa lo necesario para empezar la partida
 */

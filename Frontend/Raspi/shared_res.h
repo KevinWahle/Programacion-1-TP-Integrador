@@ -6,7 +6,7 @@
 
 #ifndef _SHARED_RES_H_
 #define _SHARED_RES_H_
-
+//Está creado por si las dudas, si es necesario lo pueden usar
 /*******************************************************************************
  * INCLUDE HEADER FILES 
  *******************************************************************************/
