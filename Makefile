@@ -45,7 +45,7 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 #menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
 #	${CCD} ${OPTIONS} -c Frontend/Allegro/menu_front.c
 
-#game_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
+#game_front.o: Frontend/Allegro/game_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
 #	${CCD} ${OPTIONS} -c Frontend/Allegro/game_front.c
 ################################################
 
@@ -72,7 +72,7 @@ event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD}
 menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
 	${CCD} ${OPTIONS} -c Frontend/Raspi/menu_front.c
 
-game_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
+game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
 	${CCD} ${OPTIONS} -c Frontend/Raspi/game_front.c
 ################################################
 
