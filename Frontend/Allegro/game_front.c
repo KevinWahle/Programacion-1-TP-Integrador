@@ -1,7 +1,7 @@
 /***************************************************************************//**
-  @file     +gameall+
-  @brief    +Todos ls recursos para el funcionamiento del juego+
-  @author   +Grupor3+
+  @file     +game_front+
+  @brief    +Todos los recursos para el funcionamiento del juego+
+  @author   +Grupo3+
  ******************************************************************************/
 
 /*******************************************************************************

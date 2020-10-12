@@ -56,10 +56,10 @@ int init_front();
 void splash_front(); 
 
 /**
- * @brief Muestra imagen del menu y coloca las palabras que reciba.
- * @param texto[] Recibe un puntero a esturctura de strings
- * @param size Recibe cantidad de palabras a imprimir
- * @param option Recibe un entero indicando que palabra colorear
+ * @brief Coloca la palabra que recibe segun item. Una palabra de 4 letras como maximo por pantalla.
+ * @param *menu_to_show Recibe un puntero a esturctura de strings
+ * @param size Recibe cantidad de palabras a imprimir, no es necesaria en raspi ya que muestra una palabra por pantalla
+ * @param item Recibe un entero indicando que palabra mostrar
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item);
 

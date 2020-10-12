@@ -56,9 +56,9 @@ void splash_front();
 
 /**
  * @brief Muestra imagen del menu y coloca las palabras que reciba.
- * @param texto[] Recibe un puntero a esturctura de strings
+ * @param *menu_to_show Recibe un puntero a esturctura de strings
  * @param size Recibe cantidad de palabras a imprimir
- * @param option Recibe un entero indicando que palabra colorear
+ * @param item Recibe un entero indicando que palabra colorear
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item);
 
@@ -71,7 +71,7 @@ void show_score (SCORE* score ,int size);
 
 /**
  * @brief Muestra imagen de score y muestra el punjate final de partida
- * @param actual_name Recibe un puntero a el nombre que quiere ingresar el usiario
+ * @param actual_name Recibe un puntero a el nombre que quiere ingresar el usuario
  * @param size Recibe el largo del arreglo
  * @param letter_counter  Recibe la letra a resaltar (va de 0 a size-1)
  * @param score Puntaje de final de partida

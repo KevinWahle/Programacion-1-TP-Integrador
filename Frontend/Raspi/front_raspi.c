@@ -1,6 +1,13 @@
 // https://www.tutorialspoint.com/c_standard_library/time_h.htm
+/***************************************************************************//**
+  @file     +game_front+
+  @brief    +Todos los recursos para el funcionamiento del juego+
+  @author   +Grupo3+
+ ******************************************************************************/
 
-
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -11,6 +18,9 @@
 #include "../../const.h"
 #include "../../Backend/event_queue/event_queue.h"
 
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
 #define D_WIDTH 16
 #define D_HEIGHT 16
 
