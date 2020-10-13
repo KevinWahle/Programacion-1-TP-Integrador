@@ -23,17 +23,17 @@
 
 #define CANON_BLOCKS 4
 #define UFO_BLOCKS 2
-#define INVADER_BLOCK 1  // Es al pedo porque para evaluar la colision solo hay que ver si tienen la misma posicion, pero para no confundir 
+#define INVADER_BLOCK 2  // Es al pedo porque para evaluar la colision solo hay que ver si tienen la misma posicion, pero para no confundir 
                          // Es al pedo que la estructura de invader tenga un bloque
 #define SHIELDS_BLOCKS 4
 
-#define FIL_INVADERS 5                   // Cantidad de filas de invaders
-#define COL_INVADERS 9                   // Cantidad de columnas de invaders
+#define FIL_INVADERS 4                   // Cantidad de filas de invaders
+#define COL_INVADERS 3                   // Cantidad de columnas de invaders
 
-#define CANON_WIDTH 3
-#define CANON_HEIGHT 2
+#define CANON_WIDTH 2
+#define CANON_HEIGHT 1
 
-#define CANON_Y_POS D_HEIGHT-CANON_HEIGHT
+#define CANON_Y_POS  D_HEIGHT-CANON_HEIGHT
 
 #define UFO_WIDTH 1
 #define UFO_HEIGHT 1
@@ -1194,4 +1194,74 @@ static void moveUFO(void)
             UFO_invader.x -= TASA_DE_CAMBIO_NODRIZA;
         }
     }
+}
+void redraw(unsigned long int score, int lives, int level)
+{
+    ALLEGRO_EVENT ev;
+    if (al_get_next_event(timer_queue, &ev)) //Toma un evento de la timer_queue
+    {
+        if (ev.type == ALLEGRO_EVENT_TIMER)   // NOMBRE EVENTOOOO
+        {
+            cleanDisplay();
+
+            shouldUFOappear();
+            moveUFO();
+
+            getCanonShotCollision();
+
+            shouldInvaderShot();
+            getInvaderShotCollison();
+
+            if( !is_invadersOnFloor()  )
+            {
+                proxDir = moveInvaders(proxDir);
+            }
+            else
+            {
+                add_event(END_GAME_EVENT);
+            }
+            drawShields();
+
+
+            drawAliveInvaders();  //broken
+            drawCannon();
+
+            inGameStats(score, lives, level);
+
+            //al_flip_display(); se flipea automaticamente, esencialmente 
+        }
+    }
+}
+void init_game(void) {
+
+    srand(time(0));
+
+    //drawTicks = 0;
+
+    cleanDisplay();
+
+    canon.x = 0;
+    canon.y = D_HEIGHT - CANON_HEIGHT - 1; // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 < Y < 15
+
+    restartTasas();
+
+    placeInvaders();
+
+    placeShields();
+  
+    clean_shoots();
+
+    drawCannon();
+
+   // al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
+
+    //al_start_timer(timer); //Recien aca EMPIEZA el timer. ATEEENCION RASPI
+
+}
+static void restartTasas(void)
+{
+    tasaDeCambioInvaders = MIN_SPEED_INVADER;
+    probDisparoInvaders = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS;
+    probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
+    //invadersAnimPeriod = MAX_INVADERS_ANIM_PERIOD;
 }

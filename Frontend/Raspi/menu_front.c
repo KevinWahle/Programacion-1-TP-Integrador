@@ -21,7 +21,7 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-
+    
 
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
@@ -206,7 +206,7 @@ int** whatisit (int caracter)
         break;
     case B:
         my_char=LETTER_B;
-        break; 
+        break;
     case C:
         my_char=LETTER_C;
         break; 
