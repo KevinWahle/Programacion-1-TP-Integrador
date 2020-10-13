@@ -84,7 +84,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     myPoint = (dcoord_t) {0,4};
     for(int i=0; menu_to_show[item].option[i]=!'\0' && i<4; i++){
-        whatisit (menu_to_show[item].option[i])
+        whatisit (menu_to_show[item].option[i]);
         show_matrix (my_char[][3], 3, 5, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero dos posiciones (el espacio + la nueva letra)
     }   
