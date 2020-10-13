@@ -9,6 +9,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "headall.h"
+#include "../../Backend/event_queue/event_queue.h"
 
 // #include "raspi_front_hder.h"
 #include "disdrv.h"
@@ -45,7 +46,7 @@
 
 //*********************************REVISAR CONSTANTES************************  
 
-#define PPS_NODRIZA         2         // Pixeles por segundo (velocidad) de la nave nodriza
+#define PPS_NODRIZA         5         // Pixeles por segundo (velocidad) de la nave nodriza
 #define PPS_CANON           3         // Pixeles por segundo (velocidad) del canon   
 #define PPS_BALA            4         // Pixeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    5         // Máximos PPS (velocidad) de invaders
@@ -133,9 +134,9 @@
 
 //************** LO SAQUE DEL HEADALL LO DE ABAJO *******************
 
-enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
+// enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
-typedef uint8_t direction_t;  // Necesario para move_cannon()
+// typedef uint8_t direction_t;  // Necesario para move_cannon()
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -239,13 +240,12 @@ typedef struct
 invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
 const int invadersDistribution [FIL_INVADERS] = {
-                                                  SQUID,
-                                                  CRAB,
-                                                  CRAB,
+                                                  OCTO,
+                                                  OCTO,
                                                   OCTO,
                                                   OCTO,
                                                   };
-
+        /// VER SI TODOS VALEN LO MISMO O NO
 
 
 /*******************************************************************************
@@ -378,8 +378,7 @@ void update_level (int level);
 /**
  * @brief Resetea tasas de velocidades y probabilidades de disparo
  **/
-// static void restartTasas(void);
-// CONTINUAR:
+static void restartTasas(void);
 
 /**
  * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
@@ -389,7 +388,6 @@ void update_level (int level);
  **/
 
 // CONTINUAR:
-static void inGameStats(unsigned long int score, int lives, int level );
 static void updateCannonPos(void);
 
 //######################################################
@@ -443,6 +441,7 @@ static float tasaDeCambioInvaders = MIN_SPEED_INVADER;
 static int probDisparoInvaders = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS;
 static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 
+static own_timer_t fpsTimer;
 
 /*******************************************************************************
  *******************************************************************************
@@ -853,7 +852,7 @@ static void drawAliveInvaders(void)
                     coord.x++;  
                     disp_write(coord, D_ON);
                    // TODO: Ver de hacer un for para dibujar rectangulos.   
-              }  
+              }
         }
     }
 
@@ -1195,48 +1194,37 @@ static void moveUFO(void)
         }
     }
 }
+
 void redraw(unsigned long int score, int lives, int level)
 {
-    ALLEGRO_EVENT ev;
-    if (al_get_next_event(timer_queue, &ev)) //Toma un evento de la timer_queue
+  
+    if (checkTimer(&fpsTimer))   // NOMBRE EVENTOOOO
     {
-        if (ev.type == ALLEGRO_EVENT_TIMER)   // NOMBRE EVENTOOOO
+        cleanDisplay();
+        shouldUFOappear();
+        moveUFO();
+        getCanonShotCollision();
+        shouldInvaderShot();
+        getInvaderShotCollison();
+        if( !is_invadersOnFloor()  )
         {
-            cleanDisplay();
-
-            shouldUFOappear();
-            moveUFO();
-
-            getCanonShotCollision();
-
-            shouldInvaderShot();
-            getInvaderShotCollison();
-
-            if( !is_invadersOnFloor()  )
-            {
-                proxDir = moveInvaders(proxDir);
-            }
-            else
-            {
-                add_event(END_GAME_EVENT);
-            }
-            drawShields();
-
-
-            drawAliveInvaders();  //broken
-            drawCannon();
-
-            inGameStats(score, lives, level);
-
-            //al_flip_display(); se flipea automaticamente, esencialmente 
+            proxDir = moveInvaders(proxDir);
         }
+        else
+        {
+            add_event(END_GAME_EVENT);
+        }
+        drawShields();
+        drawAliveInvaders();  //broken
+        drawCannon();
+        
+        //al_flip_display(); se flipea automaticamente, esencialmente 
     }
+    
 }
 void init_game(void) {
 
     srand(time(0));
-
-    //drawTicks = 0;
 
     cleanDisplay();
 
@@ -1253,11 +1241,23 @@ void init_game(void) {
 
     drawCannon();
 
-   // al_flip_display(); //Flip del backbuffer, pasa a verse a la pantalla
-
-    //al_start_timer(timer); //Recien aca EMPIEZA el timer. ATEEENCION RASPI
+    setTimer(&fpsTimer, 1/FPS);     // Aca declaro el timer y el tiempo
+    
+    startTimer(&fpsTimer);      // Recien aca empieza el timer
 
 }
+
+void pause_game_front(void) 
+{
+    stopTimer(&fpsTimer);   // Para que deje de generar eventos durante la pausa
+    move_cannon(STOP);      // Dejo de mover wl canon
+}
+
+void resume_game_front(void) 
+{
+    startTimer(&fpsTimer);   // Para que vuelva a generar eventos
+}
+
 static void restartTasas(void)
 {
     tasaDeCambioInvaders = MIN_SPEED_INVADER;

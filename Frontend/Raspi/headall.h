@@ -16,12 +16,11 @@
 #include <stdbool.h>
 #include <time.h>
 
-#include <disdrv.h>
-#include <joydrv.h>
-#include <libaudio.h>
-/*#include "../../../libs/joydisp/disdrv.h"
-#include "../../../libs/joydisp/joydrv.h"
-#include "../../../libs/audio/SDL1/libaudio.h"*/
+#include "../../RPi_Files/joydisp/disdrv.h"
+#include "../../RPi_Files/joydisp/joydrv.h"
+#include "../../RPi_Files/audio/SDL1/libaudio.h"
+
+#include "timer/timer.h"
 
 #include "../../const.h"
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE

@@ -12,13 +12,6 @@
  ******************************************************************************/
 #include <time.h>
 
-
-/*******************************************************************************
- * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
- ******************************************************************************/
-
-
-
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -44,19 +37,38 @@ typedef struct {
 void setTimer(own_timer_t* timer, double delta_time);
 
 /**
+ * @brief Inicia el contador del timer
+ * @param timer: Timer a iniciar
+ **/
+void startTimer(own_timer_t* timer);
+
+/**
  * @brief Verifica si se cumplio el tiempo del timer
  * @param timer el timer a verificar
  * @return 1 si se completo, 0 si no
 */
 int checkTimer (own_timer_t *timer);
 
-/**
- * @brief Pausa el contador de un timer
- * @param timer el timer a pausar
-*/
-void pauseTimer (own_timer_t *timer);
+// /**
+//  * @brief Pausa el contador de un timer
+//  * @param timer el timer a pausar
+// */
+// void pauseTimer (own_timer_t *timer);
+
+// /**
+//  * @brief Retome el contador de un timer
+//  * @param timer el timer a pausar
+// */
+// void resumeTimer (own_timer_t *timer);
 
 /**
+ * @brief Detiene el timer
+ * @param timer el timer a detener
+*/
+void stopTimer (own_timer_t *timer);
+
+/**
+ * @brief Resetea el contador de un timer, no modifica el estado del timer
  * @brief Resetea el contador de un timer
  * @param timer el timer a resetear
 */

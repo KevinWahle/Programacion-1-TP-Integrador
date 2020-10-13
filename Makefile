@@ -12,11 +12,14 @@ RPILINUXLIB = ../libs/joydisp/disdrv.h ../libs/joydisp/joydrv.h ../libs/audio/SD
 EVENTQ_OBJECT = Backend/event_queue/event_queue.o
 EVENTQ_HEAD = Backend/event_queue/event_queue.h
 ################################################
+TIMER_OBJECT = Frontend/Raspi/timer/timer.o
+TIMER_HEAD	= Frontend/Raspi/timer/timer.h
+################################################
 HFRONT_ALL = Frontend/Allegro/headall.h 
 HFRONT_RAS = Frontend/Raspi/headall.h
 ################################################
 OBJS = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Allegro/menu_front.o Frontend/Allegro/game_front.o ${EVENTQ_OBJECT}
-OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Raspi/menu_front.o Frontend/Raspi/game_front.o ${EVENTQ_OBJECT} ../libs/joydisp/disdrv.o ../libs/joydisp/joydrv.o ../libs/audio/SDL1/libAudioSDL1.o
+OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Raspi/menu_front.o Frontend/Raspi/game_front.o ${EVENTQ_OBJECT} ${TIMER_OBJECT} ../libs/joydisp/disdrv.o ../libs/joydisp/joydrv.o ../libs/audio/SDL1/libAudioSDL1.o
 
 ################# ALLEGRO ######################
 #game: ${OBJS}
@@ -25,7 +28,6 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 # Para Windows, se compila con las librerias de otra manera
 #win: ${OBJS} 
 #	${CC} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
-
 
 #main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
 #	${CCD} ${OPTIONS} -c Backend/main.c
@@ -69,11 +71,14 @@ FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Bac
 event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
 	${CCD} ${OPTIONS} -c Backend/event_queue/event_queue.c 
 
-menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
-	${CCD} ${OPTIONS} -c Frontend/Raspi/menu_front.c
+timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD} 
+	${CCD} ${OPTIONS} -c Frontend/Raspi/timer/timer.c
 
 game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
 	${CCD} ${OPTIONS} -c Frontend/Raspi/game_front.c
+
+menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
+	${CCD} ${OPTIONS} -c Frontend/Raspi/menu_front.c
 ################################################
 
 clean: 
