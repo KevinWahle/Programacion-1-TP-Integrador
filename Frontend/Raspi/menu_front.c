@@ -40,13 +40,13 @@ jswitch_t mySwitch;
  * @param row Cantidad de filas
  * @param cord ubicacion del display para colocar la matriz
 */
-void show_matrix (int **matrix, int col, int row, dcoord_t coord);
+void show_matrix (int matrix[][3], int col, int row, dcoord_t coord);
 
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
  * @param caracter Caracter que se analiza
 */
-int** whatisit (int caracter);
+int whatisit (int caracter);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -70,9 +70,10 @@ int init_front()       // Inicializo y verifico que no falle
 */
 void splash_front() 
 {   
+    //Hacer un spalsh distinto!!!
     int relacion=1;   //Determina la relacion entre base y altura del splash (base/altura)
     myPoint = (dcoord_t) {0,0};  // REVISAR: Si funca cambiar a macro, sino lo cambiamos a 16!!!
-    show_matrix (SPLASH[sizeof(SPLASH)*relacion/(2*seizeof(int))][sizeof(SPLASH)-sizeof(SPLASH)*relacion/(2*seizeof(int))], sizeof(SPLASH)*relacion/(2*seizeof(int)), sizeof(SPLASH)-sizeof(SPLASH)*relacion/(2*seizeof(int)), myPoint);
+    show_matrix (CANNON, sizeof(SPLASH)*relacion/(2*sizeof(int)), sizeof(SPLASH)-sizeof(SPLASH)*relacion/(2*sizeof(int)), myPoint);
 }
 
 
@@ -83,7 +84,8 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     myPoint = (dcoord_t) {0,4};
     for(int i=0; menu_to_show[item].option[i]=!'\0' && i<4; i++){
-        show_matrix (whatisit (menu_to_show[item].option[i]), 3, 5, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        whatisit (menu_to_show[item].option[i])
+        show_matrix (my_char[][3], 3, 5, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero dos posiciones (el espacio + la nueva letra)
     }   
 /*  if(menu_to_show[item].option=="Jugar") {
@@ -147,7 +149,7 @@ void update_front_event (void)
 /**
  * @brief Muestra en pantalla la matriz seleccionada.
 */
-void show_matrix (int **matrix, int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
+void show_matrix (int matrix[][3], int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
 {
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
@@ -167,11 +169,10 @@ void show_matrix (int **matrix, int col, int row, dcoord_t cord)  //NOTA: NO VER
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
 */
-int** whatisit (int caracter) 
+int whatisit (int caracter) 
 {
-    int**my_char;
     enum {A=10,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
-    caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9 ? caracter = caracter - NUMOFFSET : caracter = caracter - LETOFFSET+10;    //Los números van de 0 a 9, las letras comienzan desde 10
+    caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9 ? (caracter = caracter - NUMOFFSET) : (caracter = caracter - LETOFFSET + 10);    //Los números van de 0 a 9, las letras comienzan desde 10
     switch (caracter)
     {
     case 1:
@@ -282,5 +283,4 @@ int** whatisit (int caracter)
     default:
         break;
     }
-    return my_char;
 }

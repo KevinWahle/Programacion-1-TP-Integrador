@@ -243,7 +243,7 @@ const int SPLASH[16][16] = {
 const int CANNON[][3] = {   {0, 1, 0},      //   1 
                             {1, 1, 1}};     // 1 1 1
 
-
+int my_char[][3];
 //! REVISAR: ESTOS NOMBRES SE REPITEN, CAMBIARLOS
 // const int UFO[][2] = {{1, 1}};     // 1 1   
 
