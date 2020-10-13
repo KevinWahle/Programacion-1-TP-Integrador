@@ -78,7 +78,8 @@ game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
 
 clean: 
 	rm Backend/*.o
-	rm Frontend/Allegro/*.o
+	rm Frontend/Raspi/*.o
+#rm Frontend/Allegro/*.o
 	rm Backend/event_queue/*.o
 
 clean_eq:
