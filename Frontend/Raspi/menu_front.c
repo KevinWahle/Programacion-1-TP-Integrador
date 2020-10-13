@@ -21,7 +21,7 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-    
+
 
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
@@ -40,7 +40,7 @@ jswitch_t mySwitch;
  * @param row Cantidad de filas
  * @param cord ubicacion del display para colocar la matriz
 */
-void show_matrix (int *matrix, int col, int row, dcoord_t coord);
+void show_matrix (int **matrix, int col, int row, dcoord_t coord);
 
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
@@ -71,7 +71,7 @@ int init_front()       // Inicializo y verifico que no falle
 void splash_front() 
 {   
     int relacion=1;   //Determina la relacion entre base y altura del splash (base/altura)
-    myPoint = {0,0};  // REVISAR: Si funca cambiar a macro, sino lo cambiamos a 16!!!
+    myPoint = (dcoord_t) {0,0};  // REVISAR: Si funca cambiar a macro, sino lo cambiamos a 16!!!
     show_matrix (SPLASH[sizeof(SPLASH)*relacion/(2*seizeof(int))][sizeof(SPLASH)-sizeof(SPLASH)*relacion/(2*seizeof(int))], sizeof(SPLASH)*relacion/(2*seizeof(int)), sizeof(SPLASH)-sizeof(SPLASH)*relacion/(2*seizeof(int)), myPoint);
 }
 
@@ -81,9 +81,9 @@ void splash_front()
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
-    myPoint = {0,4};
+    myPoint = (dcoord_t) {0,4};
     for(int i=0; menu_to_show[item].option[i]=!'\0' && i<4; i++){
-        show_matrix (whatisit (int menu_to_show[item].option[i]), 3, 5, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        show_matrix (whatisit (menu_to_show[item].option[i]), 3, 5, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero dos posiciones (el espacio + la nueva letra)
     }   
 /*  if(menu_to_show[item].option=="Jugar") {
@@ -151,7 +151,7 @@ void show_matrix (int **matrix, int col, int row, dcoord_t cord)  //NOTA: NO VER
 {
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
-            myPoint={i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
+            myPoint= (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
             if (matrix[i][j]==1) {
                 disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
             }
@@ -206,7 +206,7 @@ int** whatisit (int caracter)
         break;
     case B:
         my_char=LETTER_B;
-        break;
+        break; 
     case C:
         my_char=LETTER_C;
         break; 

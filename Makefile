@@ -25,7 +25,7 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 # Para Windows, se compila con las librerias de otra manera
 #win: ${OBJS} 
 #	${CC} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
-#
+
 
 #main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
 #	${CCD} ${OPTIONS} -c Backend/main.c
@@ -51,12 +51,12 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 
 
 ################## RASPI #######################
-gameraspi: ${OBJ2} 
+gameraspi: ${OBJS2} 
 	${CCD} ${OPTIONS} ${OBJS2} ${RPILINUXLIB} -o gameraspi
 
 main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
 	${CCD} ${OPTIONS} -c Backend/main.c
-	
+
 ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
 	${CCD} ${OPTIONS} -c Backend/ingame_stats.c 
 
