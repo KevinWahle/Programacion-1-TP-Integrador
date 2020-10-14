@@ -1,7 +1,7 @@
 // https://www.tutorialspoint.com/c_standard_library/time_h.htm
 /***************************************************************************//**
   @file     +game_front+
-  @brief    +Todos los recursos para el funcionamiento del juego+
+  @brief    +Todos los reCcursos para el funcionamiento del juego+
   @author   +Grupo3+
  ******************************************************************************/
 
@@ -10,10 +10,11 @@
  ******************************************************************************/
 #include "headall.h"
 #include "../../Backend/event_queue/event_queue.h"
+#include "timer/timer.h"
 
 // #include "raspi_front_hder.h"
-#include "disdrv.h"
-#include "joydrv.h"
+// #include "disdrv.h"      // Ya estan en headall.h
+// #include "joydrv.h"
 
 
 /*******************************************************************************
@@ -57,7 +58,7 @@
 #define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
 #define TASA_DE_CAMBIO_NODRIZA (PPS_NODRIZA/FPS)         // Pixeles por refresco (velocidad) de la nave nodriza
 
-//#define TASA_DE_CAMBIO_INVADERS 0.5      // NO SIRVE, es fija, SACAR
+//#define TASA_DE_CAMBIO_INCVADERS 0.5      // NO SIRVE, es fija, SACAR
 
 #define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
 #define SHOT_WIDTH 4                     // idem
@@ -96,7 +97,7 @@
 #define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)   // Offset se refiere a la distancia en x que queda entre los puntos (0, y) y el shield que esta mas a la izquierda
 #define SHIELDERS_WIDTH_ABSOLUTE  (SHIELDERS_WIDTH_PERCENT * D_WIDTH)
-#define OFFSET_FROM_WALL_ABSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
+#define OFFSET_FROM_WALL_ABCSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
 
 #define DIST   ((SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1) )    // Cuenta que se usa en void placeShields(void), justamente para ubicarlos adecuadamente
 
@@ -132,11 +133,6 @@
 
 //***********************************FIN REVISAR CONSTANTES*****************************************/
 
-//************** LO SAQUE DEL HEADALL LO DE ABAJO *******************
-
-// enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
-
-// typedef uint8_t direction_t;  // Necesario para move_cannon()
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -149,7 +145,7 @@ enum MYKEYS {
 };
 
 // Objeto shot
-typedef struct  
+typedef struct
 {
     float x;              // su posicion
     float y;
@@ -209,7 +205,7 @@ typedef struct
     direction_t direction;      //  El UFO puede aparecer desde la izquierda o desde la derecha
 } UFO_t;
 
-// En la raspberry, en el caso de las colisones, modelizar a cada objeto con una caja de colision puede no ser la forma mas optima ->
+// En la raspberry, en el cCaso de las colisones, modelizar a cada objeto con una caja de colision puede no ser la forma mas optima ->
 // -> pues al tener menos resolucion se nota mucho en la experiencia al usario. ->
 // -> lo mas natural que se puede pensar, es que cada objeto (invaders, shields, canon, nodriza) se puede pensar como una estructura formada por ->
 // -> la posicion r = (x, y) y un arreglo de bloques, de dimension definida por el programador. Cada bloque a su vez, es una estructura que ->
@@ -253,7 +249,7 @@ const int invadersDistribution [FIL_INVADERS] = {
  ******************************************************************************/
 
 /**
- * @brief Ejecuta un disparo del invader
+ * @brief Ejecuta unC disparo del invader
  * @param1 i fila de la matriz de invader
  * @param2 j columan de la matriza de invader
 */
@@ -360,20 +356,20 @@ static void shouldUFOappear(void);
 */
 static void drawCannon(void);
 
-/**
- * @brief Muestra en pantalla los puntos de la partida.
- **/
-void update_points(int score);
+// /**
+//  * @brief Muestra en pantalla los puntos de la partida.
+//  **/
+// void update_points(int score);
 
-/**
- * @brief Muestra en pantalla las vidas restantes de la partida.
- **/
-void update_lives(int lives);
+// /**
+//  * @brief Muestra en pantalla las vidas restantes de la partida.
+//  **/
+// void update_lives(int lives);
 
-/**
- * @brief Muestra en pantalla el nivel actual.
- **/
-void update_level (int level);
+// /**
+//  * @brief Muestra en pantalla el nivel actual.
+//  **/
+// void update_level (int level);
 
 /**
  * @brief Resetea tasas de velocidades y probabilidades de disparo
@@ -400,8 +396,6 @@ static void cleanDisplay(void);
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-
-
 
 // Lista de los disparos de los invaders.
 static shot_t invaderShotList[MAX_INVADERS_SHOT];
@@ -449,17 +443,58 @@ static own_timer_t fpsTimer;
  *******************************************************************************
  ******************************************************************************/
 
-void initCanon(void)
-{
-    for (int i = 0; i < CANON_BLOCKS; i++)   // La altura y ancho de los bloques son 0, porque cada bloque es realidad son puntos 
-    {
-        canon.blocks[i].width = 0;            // Un punto es un caso particular de un bloque
-        canon.blocks[i].height = 0;
-        canon.blocks[i].state = 1;    // No creo que importe mucho el state
-    }
-    updateCanonBlocksPos();       //Siempre que se actualize la posicion, hay que actualizar la posicion de todos los bloques que forman el objeto
+void init_game(void) {
+
+    srand(time(0));
+
+    cleanDisplay();
+
+    canon.x = 0;
+    canon.y = D_HEIGHT - CANON_HEIGHT - 1; // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 < Y < 15
+
+    restartTasas();
+
+    placeInvaders();
+
+    placeShields();
+  
+    clean_shoots();
+
+    drawCannon();
+
+    setTimer(&fpsTimer, 1/FPS);     // Aca declaro el timer y el tiempo
+    
+    startTimer(&fpsTimer);      // Recien aca empieza el timer
+
 }
 
+void redraw(unsigned long int score, int lives, int level)
+{
+  
+    if (checkTimer(&fpsTimer))   // NOMBRE EVENTOOOO
+    {
+        cleanDisplay();
+        shouldUFOappear();
+        moveUFO();
+        getCanonShotCollision();
+        shouldInvaderShot();
+        getInvaderShotCollison();
+        if( !is_invadersOnFloor()  )
+        {
+            proxDir = moveInvaders(proxDir);
+        }
+        else
+        {
+            add_event(END_GAME_EVENT);
+        }
+        drawShields();
+        drawAliveInvaders();  //broken
+        drawCannon();
+        
+        //al_flip_display(); se flipea automaticamente, esencialmente 
+    }
+    
+}
 
 /**
  * @brief Ubica a los invaders en la posición inicial
@@ -484,6 +519,124 @@ void placeInvaders(void)
     UFO_invader.invaderState = 0;
 }
 
+/**
+ * @brief Pantalla entre niveles
+*/
+void show_level_screen (int level) {
+    // TODO: Pantalla entre niveles
+}
+
+/**
+ * @brief Actualiza la velocidad del juego
+ * @param newSpeed El nuevo valor de velocidad para el juego
+*/
+void update_speed_front(int newSpeed, int maxSpeed) 
+{
+    //Si MIN speed es 0
+    tasaDeCambioInvaders = (MAX_SPEED_INVADER - MIN_SPEED_INVADER)*newSpeed/maxSpeed + MIN_SPEED_INVADER;
+    probDisparoInvaders =  ((MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS) - (MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_SHOT_FROM_INVADERS;
+    probUfo = ((MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO) - (MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_APPEAR_UFO;
+}
+
+/**
+ * @brief Coloca el cannon en la posición al revivir, debajo de un shield
+*/
+void reviveCanon(void)
+{
+    if(TOTAL_SHIELDS > 0)
+    {
+        canon.x = shielders[0].blocks[0].x;
+    }
+    else
+    {
+        canon.x = D_WIDTH/2;
+    }
+}
+
+/**
+ * @brief Ejecuta un disparo del canon
+ * @return TODO?: CODIGO DE ERROR?
+*/
+void shoot_cannon(void)
+{   
+                                           
+    float x_shot = canon.blocks[0].x;      
+    float y_shot = canon.blocks[0].y - 1; 
+    
+    shot_t shot = { .x = x_shot,
+                    .y = y_shot,
+                    .shotState = 1
+                  };
+    int k = 0;
+    while (canonShotList[k].shotState != 0 && k < MAX_CANON_SHOT) {
+        k++;        // Busco un lugar en la lista (donde el disparo no este activo)
+    }
+    if (k < MAX_CANON_SHOT) {
+        canonShotList[k] = shot;
+        actualCanonShots++;
+        //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
+    }
+}
+
+/**
+ * @brief Solicita un movimiento continuo del cannon en la direccion indicada
+ * @param dir la direccion a la que se desea mover. STOP si se desea parar
+*/
+void move_cannon(direction_t dir)
+{
+    canon.direction = dir;
+}
+
+/**
+ * @brief Elimina los disparos actuales
+*/
+void clean_shoots(void)
+{
+  for(int i = 0; i < MAX_CANON_SHOT; i++)
+  {
+    canonShotList[i].shotState = 0;
+  }
+  actualCanonShots = 0;
+  
+  for(int i = 0; i < MAX_INVADERS_SHOT; i++)
+  {
+    invaderShotList[i].shotState = 0;
+  }
+  actualInvadersShots = 0;
+}
+
+/**
+ * @brief Imprime estadísticas de final de partida
+*/
+void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo) {
+
+    //TODO: Imprimir estadisticas de final de partida?
+
+}
+
+void pause_game_front(void) 
+{
+    stopTimer(&fpsTimer);   // Para que deje de generar eventos durante la pausa
+    move_cannon(STOP);      // Dejo de mover wl canon
+}
+
+void resume_game_front(void) 
+{
+    startTimer(&fpsTimer);   // Para que vuelva a generar eventos
+}
+
+
+
+void initCanon(void)
+{
+    for (int i = 0; i < CANON_BLOCKS; i++)   // La altura y ancho de los bloques son 0, porque cada bloque es realidad son puntos 
+    {
+        canon.blocks[i].width = 0;            // Un punto es un caso particular de un bloque
+        canon.blocks[i].height = 0;
+        canon.blocks[i].state = 1;    // No creo que importe mucho el state
+    }
+    updateCanonBlocksPos();       //Siempre que se actualize la posicion, hay que actualizar la posicion de todos los bloques que forman el objeto
+}
 
 static void updateCanonBlocksPos(void)
 {
@@ -518,11 +671,6 @@ static void updateUfoBlocksPos(void)
 
     UFO_invader.blocks[1].x = UFO_invader.x + 1;
     UFO_invader.blocks[1].y = UFO_invader.y;
-}
-
-void move_cannon(direction_t dir)
-{
-    canon.direction = dir;
 }
 
 static void updateCannonPos(void)
@@ -572,67 +720,6 @@ static void cleanDisplay(void)
             disp_write( coord, D_OFF );
         }
     }
-}
-
-void reviveCanon(void)
-{
-    if(TOTAL_SHIELDS > 0)
-    {
-        canon.x = shielders[0].blocks[0].x;
-    }
-    else
-    {
-        canon.x = D_WIDTH/2;
-    }
-}
-
-
-/**
- * @brief Ejecuta un disparo del canon
- * @return TODO?: CODIGO DE ERROR?
-*/
-void shoot_cannon(void)
-{   
-                                           
-    float x_shot = canon.blocks[0].x;      
-    float y_shot = canon.blocks[0].y - 1; 
-    
-    shot_t shot = { .x = x_shot,
-                    .y = y_shot,
-                    .shotState = 1
-                  };
-    int k = 0;
-    while (canonShotList[k].shotState != 0 && k < MAX_CANON_SHOT) {
-        k++;        // Busco un lugar en la lista (donde el disparo no este activo)
-    }
-    if (k < MAX_CANON_SHOT) {
-        canonShotList[k] = shot;
-        actualCanonShots++;
-        //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
-    }
-}
-
-void clean_shoots(void)
-{
-  for(int i = 0; i < MAX_CANON_SHOT; i++)
-  {
-    canonShotList[i].shotState = 0;
-  }
-  actualCanonShots = 0;
-  
-  for(int i = 0; i < MAX_INVADERS_SHOT; i++)
-  {
-    invaderShotList[i].shotState = 0;
-  }
-  actualInvadersShots = 0;
-}
-
-void update_speed_front(int newSpeed, int maxSpeed) 
-{
-    //Si MIN speed es 0
-    tasaDeCambioInvaders = (MAX_SPEED_INVADER - MIN_SPEED_INVADER)*newSpeed/maxSpeed + MIN_SPEED_INVADER;
-    probDisparoInvaders =  ((MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS) - (MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_SHOT_FROM_INVADERS;
-    probUfo = ((MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO) - (MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_APPEAR_UFO;
 }
 
 int checkWin(void)
@@ -1193,69 +1280,6 @@ static void moveUFO(void)
             UFO_invader.x -= TASA_DE_CAMBIO_NODRIZA;
         }
     }
-}
-
-void redraw(unsigned long int score, int lives, int level)
-{
-  
-    if (checkTimer(&fpsTimer))   // NOMBRE EVENTOOOO
-    {
-        cleanDisplay();
-        shouldUFOappear();
-        moveUFO();
-        getCanonShotCollision();
-        shouldInvaderShot();
-        getInvaderShotCollison();
-        if( !is_invadersOnFloor()  )
-        {
-            proxDir = moveInvaders(proxDir);
-        }
-        else
-        {
-            add_event(END_GAME_EVENT);
-        }
-        drawShields();
-        drawAliveInvaders();  //broken
-        drawCannon();
-        
-        //al_flip_display(); se flipea automaticamente, esencialmente 
-    }
-    
-}
-void init_game(void) {
-
-    srand(time(0));
-
-    cleanDisplay();
-
-    canon.x = 0;
-    canon.y = D_HEIGHT - CANON_HEIGHT - 1; // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 < Y < 15
-
-    restartTasas();
-
-    placeInvaders();
-
-    placeShields();
-  
-    clean_shoots();
-
-    drawCannon();
-
-    setTimer(&fpsTimer, 1/FPS);     // Aca declaro el timer y el tiempo
-    
-    startTimer(&fpsTimer);      // Recien aca empieza el timer
-
-}
-
-void pause_game_front(void) 
-{
-    stopTimer(&fpsTimer);   // Para que deje de generar eventos durante la pausa
-    move_cannon(STOP);      // Dejo de mover wl canon
-}
-
-void resume_game_front(void) 
-{
-    startTimer(&fpsTimer);   // Para que vuelva a generar eventos
 }
 
 static void restartTasas(void)

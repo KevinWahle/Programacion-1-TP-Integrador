@@ -54,7 +54,7 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 
 ################## RASPI #######################
 gameraspi: ${OBJS2} 
-	${CCD} ${OPTIONS} ${OBJS2} ${RPILINUXLIB} -o gameraspi
+	${CCD} ${OPTIONS} ${OBJS2} -o gameraspi
 
 main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
 	${CCD} ${OPTIONS} -c Backend/main.c
@@ -74,10 +74,10 @@ event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD}
 timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD} 
 	${CCD} ${OPTIONS} -c Frontend/Raspi/timer/timer.c
 
-game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
+game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
 	${CCD} ${OPTIONS} -c Frontend/Raspi/game_front.c
 
-menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${EVENTQ_HEAD} const.h
+menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
 	${CCD} ${OPTIONS} -c Frontend/Raspi/menu_front.c
 ################################################
 

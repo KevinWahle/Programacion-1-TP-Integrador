@@ -20,8 +20,6 @@
 #include "../../RPi_Files/joydisp/joydrv.h"
 #include "../../RPi_Files/audio/SDL1/libaudio.h"
 
-#include "timer/timer.h"
-
 #include "../../const.h"
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
 #include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event

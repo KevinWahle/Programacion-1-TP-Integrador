@@ -15,13 +15,14 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 #define NUMOFFSET   '0' //Offset de numero entero a char
-#define LETOFFSET   'a' //Offset de letra ascci  
+#define MAYUSOFFSET   'A' //Offset de letra ascci  
+#define MINUSOFFSET   'a' //Offset de letra ascci  
 #define RANGE       20  //Rango mínimo de detección del joytick 
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-
+enum {A=10,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
 
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
@@ -30,23 +31,24 @@ dcoord_t myPoint;
 jcoord_t myCoords;
 jswitch_t mySwitch;
 
+const int (*my_char)[DIGIT_COL];        // Puntero que apuntara a cada digito a mostrar
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
 /**
- * @brief Muestra en pantalla la matriz seleccionada.
- * @param matrix matriz a mostrar 
+ * @brief Muestra en pantalla la matriz seleccionada. 
  * @param col Cantidad de columnas
  * @param row Cantidad de filas
  * @param cord ubicacion del display para colocar la matriz
 */
-void show_matrix (int matrix[][3], int col, int row, dcoord_t coord);
+void show_matrix (int col, int row, dcoord_t coord);
 
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
  * @param caracter Caracter que se analiza
 */
-int whatisit (int caracter);
+void whatisit (char caracter);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -70,10 +72,22 @@ int init_front()       // Inicializo y verifico que no falle
 */
 void splash_front() 
 {   
-    //Hacer un spalsh distinto!!!
-    int relacion=1;   //Determina la relacion entre base y altura del splash (base/altura)
-    myPoint = (dcoord_t) {0,0};  // REVISAR: Si funca cambiar a macro, sino lo cambiamos a 16!!!
-    show_matrix (CANNON, sizeof(SPLASH)*relacion/(2*sizeof(int)), sizeof(SPLASH)-sizeof(SPLASH)*relacion/(2*sizeof(int)), myPoint);
+    int state;
+    myPoint = (dcoord_t) {0,0};
+    for(int i=0; i<16; i++) {
+        for(int j=0; j<16; j++) {
+            state = SPLASH[i][j];
+            if (state==1) {
+                disp_write(myPoint, D_ON);
+            }
+            else {
+                disp_write(myPoint, D_OFF);
+            }
+            myPoint.x++;
+        }
+        myPoint.y++;
+    }
+    disp_update();
 }
 
 
@@ -83,20 +97,11 @@ void splash_front()
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     myPoint = (dcoord_t) {0,4};
-    for(int i=0; menu_to_show[item].option[i]=!'\0' && i<4; i++){
+    for(int i=0; menu_to_show[item].option[i]=!'\0' && i<4; i++){   //Maximo 4 letras por palabra
         whatisit (menu_to_show[item].option[i]);
-        show_matrix (my_char[][3], 3, 5, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
-        myPoint.x = myPoint.x+4; //muevo el puntero dos posiciones (el espacio + la nueva letra)
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
     }   
-/*  if(menu_to_show[item].option=="Jugar") {
-        imprimir play;
-    }
-    else if(menu_to_show[item].option=="Puntajes") {
-        inprimir score;
-    }
-    else if(menu_to_show[item].option=="Salir") {
-        imprimir exit;
-    }*/
 }
 
 
@@ -149,12 +154,12 @@ void update_front_event (void)
 /**
  * @brief Muestra en pantalla la matriz seleccionada.
 */
-void show_matrix (int matrix[][3], int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
+void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
 {
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
             myPoint= (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
-            if (matrix[i][j]==1) {
+            if (my_char[i][j]==1) {
                 disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
             }
             else {
@@ -169,14 +174,24 @@ void show_matrix (int matrix[][3], int col, int row, dcoord_t cord)  //NOTA: NO 
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
 */
-int whatisit (int caracter) 
-{
-    enum {A=10,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
-    caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9 ? (caracter = caracter - NUMOFFSET) : (caracter = caracter - LETOFFSET + 10);    //Los números van de 0 a 9, las letras comienzan desde 10
-    switch (caracter)
-    {
+void whatisit (char caracter) 
+{    
+    if (caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9) {     //Los números van de 0 a 9
+        caracter = caracter - NUMOFFSET;
+    }
+    else {                                                      // Las letras comienzan desde 10
+        if (caracter>=MINUSOFFSET){
+            caracter = caracter - MINUSOFFSET + 10;             // En minúscula         
+        }
+        else{
+            caracter= caracter - MAYUSOFFSET + 10;               // En mayuscula
+        }
+    }
+
+    switch (caracter)                                           // Guardo los punteros al caracter seleccionado 
+    {    
     case 1:
-        my_char=NUMBER_1;
+        my_char=NUMBER_1;           
         break;
     case 2:
         my_char=NUMBER_2;
@@ -283,4 +298,5 @@ int whatisit (int caracter)
     default:
         break;
     }
+   
 }
