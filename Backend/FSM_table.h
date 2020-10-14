@@ -75,7 +75,7 @@ STATE menu_state []= {
 STATE click_state[]= {
     {PLAY_EVENT, play_state, start_game}, 
     {SCORE_EVENT, global_score_state, show_global_score},
-    {INSTRUCTION_EVENT, instruction_state, shows_inst}, 
+    {INSTRUCTION_EVENT, instruction_state, show_inst}, 
     {EXIT_EVENT, NULL, quit_game},
     {RESUME_EVENT, play_state, resume_game}, 
     {BACK_EVENT, menu_state, my_menu}, 
