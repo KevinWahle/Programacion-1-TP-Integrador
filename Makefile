@@ -86,6 +86,7 @@ clean:
 	rm Frontend/Raspi/*.o
 #rm Frontend/Allegro/*.o
 	rm Backend/event_queue/*.o
+	rm Frontend/Raspi/timer/*.o
 
 clean_eq:
 	rm Backend/event_queue/*.o
