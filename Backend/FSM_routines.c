@@ -13,7 +13,9 @@
 #include "event_queue/event_queue.h"
 #include "../const.h"
 #include <stdio.h>
-#include "../Frontend/Allegro/headall.h"
+
+// #include "../Frontend/Allegro/headall.h"
+// #include "../Frontend/Raspi/headall.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE

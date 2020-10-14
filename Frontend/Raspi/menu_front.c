@@ -305,8 +305,6 @@ void whatisit (char caracter)
 
 // SOLO PARA PODER COMPILAR:
 
-void quit_game(){}
-
 void show_inst(){}
 
 void destroy_front(){}
