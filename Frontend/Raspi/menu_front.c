@@ -73,7 +73,9 @@ int init_front()       // Inicializo y verifico que no falle
 */
 void splash_front() 
 {   
+    printf("Entro a splash\n");
     int state;
+    disp_clear();
     myPoint = (dcoord_t) {0,0};
     for(int i=0; i<16; i++) {
         for(int j=0; j<16; j++) {
@@ -88,7 +90,9 @@ void splash_front()
         }
         myPoint.y++;
     }
+    printf("Entro a disp \n");
     disp_update();
+    printf("Salgo de splash\n");
 }
 
 

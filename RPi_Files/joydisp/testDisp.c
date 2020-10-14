@@ -12,6 +12,7 @@ int main(void)
 	dcoord_t myPoint = {};		//inicializa myPoint en (0,0). Recordemos que está arriba a la izquierda.
 	disp_init();				//inicializa el display
 	disp_clear();				//limpia todo el display
+	printf("IM ABOUT TO PASS THE SPLASH\n");
 	for (myPoint.y = DISP_MIN; myPoint.y <= (DISP_MAX_Y); myPoint.y++)	//para cada coordenada en y...
 	{
 		for ( myPoint.x = DISP_MIN; myPoint.x <= (DISP_MAX_X) ; myPoint.x++)	//para cada coordenada en x...
