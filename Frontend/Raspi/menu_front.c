@@ -14,10 +14,11 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define NUMOFFSET   '0' //Offset de numero entero a char
-#define MAYUSOFFSET   'A' //Offset de letra ascci  
-#define MINUSOFFSET   'a' //Offset de letra ascci  
-#define RANGE       20  //Rango mínimo de detección del joytick 
+#define NUMOFFSET   '0'     //Offset de numero entero a char
+#define MAYUSOFFSET   'A'   //Offset de letra ascii  
+#define MINUSOFFSET   'a'   //Offset de letra ascii  
+#define RANGE       20      //Rango mínimo de detección del joytick 
+#define SPLASH_DELAY   3    //Tiempo que se muestra el splash
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -73,12 +74,10 @@ int init_front()       // Inicializo y verifico que no falle
 */
 void splash_front() 
 {   
-    printf("Entro a splash\n");
     int state;
     disp_clear();
-    //myPoint = (dcoord_t) {0,0};
-    for(int i=0; i<16; i++) {
-        myPoint.y = i;
+    for(int i=0; i<8; i++) {
+        myPoint.y = i+4;
         for(int j=0; j<16; j++) {
             myPoint.x = j;
             state = SPLASH[i][j];
@@ -90,15 +89,16 @@ void splash_front()
             }
         }
     }
-    printf("Entro a disp \n");
     disp_update();
 
 /// PAUSA
+    own_timer_t timer_splash;
 
-
-
+    setTimer(&timer_splash, SPLASH_DELAY);
+    startTimer(&timer_splash);
+    while (!checkTimer(&timer_splash));
 /////
-
+    disp_clear();
     printf("Salgo de splash\n");
 }
 
@@ -108,12 +108,14 @@ void splash_front()
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
+    printf("Entra a menu\n");
     myPoint = (dcoord_t) {0,4};
     for(int i=0; menu_to_show[item].option[i]!='\0' && i<4; i++){   //Maximo 4 letras por palabra
         whatisit (menu_to_show[item].option[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
-    }   
+    }
+    printf("Salgo de menu\n");   
 }
 
 
@@ -168,6 +170,7 @@ void update_front_event (void)
 */
 void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
 {
+    printf("Entra a show matrix\n");
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
             myPoint= (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
@@ -188,6 +191,7 @@ void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO T
 */
 void whatisit (char caracter) 
 {    
+    printf("Entra a whatisit\n");
     if (caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9) {     //Los números van de 0 a 9
         caracter = caracter - NUMOFFSET;
     }

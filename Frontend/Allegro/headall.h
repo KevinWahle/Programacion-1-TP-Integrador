@@ -15,7 +15,6 @@
 #include <time.h>
 #include <stdbool.h>
 
-
 #include "../../const.h"
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
 #include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event

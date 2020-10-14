@@ -10,7 +10,6 @@
  ******************************************************************************/
 #include "headall.h"
 #include "../../Backend/event_queue/event_queue.h"
-#include "timer/timer.h"
 
 // #include "raspi_front_hder.h"
 // #include "disdrv.h"      // Ya estan en headall.h
@@ -487,7 +486,7 @@ void redraw(unsigned long int score, int lives, int level)
             add_event(END_GAME_EVENT);
         }
         drawShields();
-        drawAliveInvaders();  //broken
+        drawAliveInvaders();  
         drawCannon();
         
         //al_flip_display(); se flipea automaticamente, esencialmente 
