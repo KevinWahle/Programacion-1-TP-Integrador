@@ -76,9 +76,11 @@ void splash_front()
     printf("Entro a splash\n");
     int state;
     disp_clear();
-    myPoint = (dcoord_t) {0,0};
+    //myPoint = (dcoord_t) {0,0};
     for(int i=0; i<16; i++) {
+        myPoint.y = i;
         for(int j=0; j<16; j++) {
+            myPoint.x = j;
             state = SPLASH[i][j];
             if (state==1) {
                 disp_write(myPoint, D_ON);
@@ -86,12 +88,17 @@ void splash_front()
             else {
                 disp_write(myPoint, D_OFF);
             }
-            myPoint.x++;
         }
-        myPoint.y++;
     }
     printf("Entro a disp \n");
     disp_update();
+
+/// PAUSA
+
+
+
+/////
+
     printf("Salgo de splash\n");
 }
 
