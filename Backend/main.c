@@ -1,8 +1,3 @@
-
-enum { ALLEGRO, RASPI };
-
-#define PLATFORM ALLEGRO
-
 #include <stdio.h>
 #include "../const.h"
 #include "FSM_table.h"

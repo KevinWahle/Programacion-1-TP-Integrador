@@ -1,8 +1,8 @@
 ################################################
 CC = gcc
 CCD = gcc -D DEBUG
-CCA = gcc -D ALLEGRO
-CCR = gcc -D RASPI
+CCA = gcc -D PLATFORM=ALLEGRO
+CCR = gcc -D PLATFORM=RASPI
 OPTIONS = -O2 -g -Wall	# -g for debug, -O2 for optimise and -Wall additional messages
 ################################################
 ALLLINUXLIB =`pkg-config --libs allegro-5` `pkg-config --libs allegro_acodec-5` `pkg-config --libs allegro_audio-5` `pkg-config --libs allegro_color-5` `pkg-config --libs allegro_dialog-5` `pkg-config --libs allegro_font-5` `pkg-config --libs allegro_image-5` `pkg-config --libs allegro_main-5` `pkg-config --libs allegro_memfile-5` `pkg-config --libs allegro_physfs-5` `pkg-config --libs allegro_primitives-5` `pkg-config --libs allegro_ttf-5` `pkg-config --libs allegro_video-5`
@@ -20,6 +20,8 @@ HFRONT_RAS = Frontend/Raspi/headall.h
 ################################################
 OBJS = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Allegro/menu_front.o Frontend/Allegro/game_front.o ${EVENTQ_OBJECT}
 OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Raspi/menu_front.o Frontend/Raspi/game_front.o ${EVENTQ_OBJECT} ${TIMER_OBJECT} ../libs/joydisp/disdrv.o ../libs/joydisp/joydrv.o #../libs/audio/SDL1/libAudioSDL1.o
+################################################
+
 
 ################# ALLEGRO ######################
 #game: ${OBJS}
@@ -30,7 +32,7 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 #	${CC} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
 
 #main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
-#	${CCD} ${OPTIONS} -c Backend/main.c
+#	${CCD} ${OPTIONS} -D PLATFORM=ALLEGRO -c Backend/main.c
 	
 #ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
 #	${CCD} ${OPTIONS} -c Backend/ingame_stats.c 
@@ -54,31 +56,31 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 
 ################## RASPI #######################
 gameraspi: ${OBJS2} 
-	${CCD} ${OPTIONS} ${OBJS2} -o gameraspi
+	${CCR} ${OPTIONS} ${OBJS2} -o gameraspi
 
-main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
-	${CCD} ${OPTIONS} -c Backend/main.c
+Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
+	${CCR} ${OPTIONS} -c Backend/main.c -o Backend/main.o
 
 ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
-	${CCD} ${OPTIONS} -c Backend/ingame_stats.c 
+	${CCR} ${OPTIONS} -c Backend/ingame_stats.c 
 
 scoretable.o: Backend/scoretable.c Backend/scoretable.h
-	${CC} ${OPTIONS} -c Backend/scoretable.c
+	${CCR} ${OPTIONS} -c Backend/scoretable.c
 
 FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_RAS} const.h
-	${CCD} ${OPTIONS} -c Backend/FSM_routines.c
+	${CCR} ${OPTIONS} -c Backend/FSM_routines.c
 
 event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
-	${CCD} ${OPTIONS} -c Backend/event_queue/event_queue.c 
+	${CCR} ${OPTIONS} -c Backend/event_queue/event_queue.c 
 
 timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD} 
-	${CCD} ${OPTIONS} -c Frontend/Raspi/timer/timer.c
+	${CCR} ${OPTIONS} -c Frontend/Raspi/timer/timer.c
 
 game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
-	${CCD} ${OPTIONS} -c Frontend/Raspi/game_front.c
+	${CCR} ${OPTIONS} -c Frontend/Raspi/game_front.c
 
 menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
-	${CCD} ${OPTIONS} -c Frontend/Raspi/menu_front.c
+	${CCR} ${OPTIONS} -c Frontend/Raspi/menu_front.c
 ################################################
 
 clean: 
@@ -93,3 +95,6 @@ clean_eq:
 
 cleanwin:
 	del *.o /S
+
+# NOTA: Habria que cambiar todos los targets agregando las carpetas donde estan
+#	MOTIVO: Evitar Implicit Rules de make
