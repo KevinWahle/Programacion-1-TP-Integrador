@@ -447,6 +447,7 @@ void init_game(void) {
 
     printf("OSTRAS SE VA A INICIALIZAR EL JUEGO\n");
     cleanDisplay();
+    printf("NO SE BORRO EL DISPLAY\n");
 
     canon.x = 0;
     canon.y = D_HEIGHT - CANON_HEIGHT - 1; // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 < Y < 15
