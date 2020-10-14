@@ -17,7 +17,7 @@
 #define NUMOFFSET       '0'     //Offset de numero entero a char
 #define MAYUSOFFSET     'A'     //Offset de letra ascii  
 #define MINUSOFFSET     'a'     //Offset de letra ascii  
-#define RANGE           100      //Rango mínimo de detección del joytick 
+#define RANGE           75      //Rango mínimo de detección del joytick 
 #define SCREEN_DELAY    1       //Tiempo que se muestra el splash
 
 /*******************************************************************************
