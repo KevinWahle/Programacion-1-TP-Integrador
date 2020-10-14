@@ -184,15 +184,16 @@ void update_front_event (void)
 */
 void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
 {
+    dcoord_t myPunto;
     printf("Entra a show matrix\n");
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
-            myPoint = (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
+            myPunto = (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
             if (my_char[j][i]==1) {
-                disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
+                disp_write(myPunto, D_ON);             // Enciendo el led correspondiente
             }
             else {
-                disp_write(myPoint, D_OFF);           // Enciendo el led correspondiente
+                disp_write(myPunto, D_OFF);           // Enciendo el led correspondiente
             }
         }
     }
