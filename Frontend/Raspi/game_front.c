@@ -446,7 +446,9 @@ void init_game(void) {
     srand(time(0));
 
     printf("OSTRAS SE VA A INICIALIZAR EL JUEGO\n");
-    cleanDisplay();
+    
+    disp_clear();
+    
     printf("NO SE BORRO EL DISPLAY\n");
 
     canon.x = 0;
@@ -462,6 +464,8 @@ void init_game(void) {
 
     drawCannon();
 
+    disp_update();
+
     setTimer(&fpsTimer, 1/FPS);     // Aca declaro el timer y el tiempo
     
     startTimer(&fpsTimer);      // Recien aca empieza el timer
@@ -469,8 +473,7 @@ void init_game(void) {
 }
 
 void redraw(unsigned long int score, int lives, int level)
-{
-  
+{ 
     if (checkTimer(&fpsTimer))   // NOMBRE EVENTOOOO
     {
         cleanDisplay();
@@ -490,7 +493,7 @@ void redraw(unsigned long int score, int lives, int level)
         drawShields();
         drawAliveInvaders();  
         drawCannon();
-        
+        disp_update();
         //al_flip_display(); se flipea automaticamente, esencialmente 
     }
     

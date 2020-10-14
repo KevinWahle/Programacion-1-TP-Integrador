@@ -17,8 +17,8 @@
 #define NUMOFFSET       '0'     //Offset de numero entero a char
 #define MAYUSOFFSET     'A'     //Offset de letra ascii  
 #define MINUSOFFSET     'a'     //Offset de letra ascii  
-#define RANGE           100      //Rango mínimo de detección del joytick 
-#define SPLASH_DELAY    3       //Tiempo que se muestra el splash
+#define RANGE           150      //Rango mínimo de detección del joytick 
+#define SCREEN_DELAY    1       //Tiempo que se muestra el splash
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -104,8 +104,13 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
         whatisit (menu_to_show[item].option[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
-
     } 
+    /// PAUSA
+    own_timer_t timer_splash;
+    setTimer(&timer_splash, SCREEN_DELAY);
+    startTimer(&timer_splash);
+    while (!checkTimer(&timer_splash));
+    /////
 }
 
 

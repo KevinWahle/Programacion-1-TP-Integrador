@@ -15,6 +15,12 @@
 	#error La plataforma no es valida o no ha sido definida. Defina la plataforma compilando con -D PLATFORM=[ALLEGRO/RASPI]
 #endif
 
+#ifdef PLATFORM==ALLEGRO 
+    #undef	ONLY_ESSENTIAL 
+#elif  PLATFORM==RASPI
+    #define ONLY_ESSENTIAL
+#endif
+
 #include <stdint.h>
 
 /*******************************************************************************
