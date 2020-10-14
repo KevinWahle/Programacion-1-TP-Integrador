@@ -8,7 +8,7 @@ int main(void)
 {
     STATE* p_tabla_estado_actual = splash_state;
 
-    if (init_front()) {                         // init_front inicializa el front sea cual sea la plataforma,       
+    if (init_front()!=NO_ERROR) {                         // init_front inicializa el front sea cual sea la plataforma,       
                                                 //si hay error de inicialización corta el programa.
         #ifdef DEBUG
             printf("Error de inicialización\n");

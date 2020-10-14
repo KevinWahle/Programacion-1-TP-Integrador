@@ -110,7 +110,7 @@ int init_front()       // Inicializo y verifico que no falle
                                                     if (timer_queue) {
                                                         al_register_event_source(timer_queue, al_get_timer_event_source(timer));
                                                         if (!loadim_menu()){
-                                                            return false;
+                                                            return NO_ERROR;
                                                         } else 
                                                             fprintf(stderr, "ERROR: failed to add thing!\n");
                                                         al_destroy_event_queue(timer_queue);
@@ -148,7 +148,7 @@ int init_front()       // Inicializo y verifico que no falle
 			fprintf(stderr, "ERROR: failed to load primitives addon \n");
     } else
         fprintf(stderr, "ERROR: failed to initialize allegro system\n");
-    return true;
+    return ERROR;
 }
 
 
@@ -180,7 +180,7 @@ int loadim_menu()
                                             sample1 = al_load_sample(SAMPLE_FILE);
                                             if(sample1) {
                                                 if (!loadim_game()){
-                                                    return false;
+                                                    return NO_ERROR;
                                                 } else 
                                                     fprintf(stderr, "ERROR: failed to add game images!\n");
                                                 al_destroy_sample(sample1);
@@ -216,7 +216,7 @@ int loadim_menu()
         al_destroy_bitmap(menuImage);	
     } else 
         fprintf(stderr, "ERROR: failed to load menuImage!\n");
-    return true;
+    return ERROR;
 }
 
 /**
@@ -240,7 +240,7 @@ int loadim_game ()
                             if (octoPointer[0]) {
                                 octoPointer[1] = al_load_bitmap(OCTO2_FILE);
                                 if (octoPointer[1]) {
-                                    return false;
+                                    return NO_ERROR;
                                 }
                                 else
                                     fprintf(stderr, "ERROR: failed to load Octo2 !\n");
@@ -270,7 +270,7 @@ int loadim_game ()
         al_destroy_bitmap(canonPointer);
     } else
         fprintf(stderr, "ERROR: failed to load canon !\n");
-    return true;
+    return ERROR;
 }
 
 

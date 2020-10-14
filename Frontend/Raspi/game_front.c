@@ -425,8 +425,7 @@ UFO_t UFO_invader = {   .y = UFO_Y_POS,
 
 //TASAS DE CAMBIO VARIABLES:
 
-static float dxInvader;
-static float shotFromInvaderFrec;
+
 
 static shield_t shielders[TOTAL_SHIELDS];
 
@@ -949,6 +948,11 @@ static void drawAliveInvaders(void)
         {
             //dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };
             //disp_write(coord, D_ON);     NO PENSE EL UFOOO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            for (int i = 0; i < UFO_BLOCKS; i++)
+            {
+                dcoord_t coord = { .x = (int)UFO_invader.blocks[i].x, .y = (int)UFO_invader.blocks[i].y };
+                disp_write(coord, D_ON);
+            }
         }
         else
         {
@@ -1280,6 +1284,7 @@ static void moveUFO(void)
             UFO_invader.x -= TASA_DE_CAMBIO_NODRIZA;
         }
     }
+    updateUfoBlocksPos();
 }
 
 static void restartTasas(void)

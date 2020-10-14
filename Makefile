@@ -61,26 +61,26 @@ gameraspi: ${OBJS2}
 Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
 	${CCR} ${OPTIONS} -c Backend/main.c -o Backend/main.o
 
-ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
-	${CCR} ${OPTIONS} -c Backend/ingame_stats.c 
+Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
+	${CCR} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
 
-scoretable.o: Backend/scoretable.c Backend/scoretable.h
-	${CCR} ${OPTIONS} -c Backend/scoretable.c
+Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
+	${CCR} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
 
-FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_RAS} const.h
-	${CCR} ${OPTIONS} -c Backend/FSM_routines.c
+Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_RAS} const.h
+	${CCR} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
 
-event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
-	${CCR} ${OPTIONS} -c Backend/event_queue/event_queue.c 
+Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
+	${CCR} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
 
-timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD} 
-	${CCR} ${OPTIONS} -c Frontend/Raspi/timer/timer.c
+Frontend/Raspi/timer/timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD} 
+	${CCR} ${OPTIONS} -c Frontend/Raspi/timer/timer.c -o Frontend/Raspi/timer/timer.o
 
-game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
-	${CCR} ${OPTIONS} -c Frontend/Raspi/game_front.c
+Frontend/Raspi/game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
+	${CCR} ${OPTIONS} -c Frontend/Raspi/game_front.c -o Frontend/Raspi/game_front.o
 
-menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
-	${CCR} ${OPTIONS} -c Frontend/Raspi/menu_front.c
+Frontend/Raspi/menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
+	${CCR} ${OPTIONS} -c Frontend/Raspi/menu_front.c -o Frontend/Raspi/menu_front.o
 ################################################
 
 clean: 
@@ -95,6 +95,3 @@ clean_eq:
 
 cleanwin:
 	del *.o /S
-
-# NOTA: Habria que cambiar todos los targets agregando las carpetas donde estan
-#	MOTIVO: Evitar Implicit Rules de make

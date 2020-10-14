@@ -64,6 +64,7 @@ int init_front()       // Inicializo y verifico que no falle
 {
     disp_init();
     joy_init();
+    return NO_ERROR;
 }
 
 
@@ -97,7 +98,7 @@ void splash_front()
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     myPoint = (dcoord_t) {0,4};
-    for(int i=0; menu_to_show[item].option[i]=!'\0' && i<4; i++){   //Maximo 4 letras por palabra
+    for(int i=0; menu_to_show[item].option[i]!='\0' && i<4; i++){   //Maximo 4 letras por palabra
         whatisit (menu_to_show[item].option[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
@@ -302,11 +303,8 @@ void whatisit (char caracter)
 }
 
 
-
 // SOLO PARA PODER COMPILAR:
 
 void show_inst(){}
 
 void destroy_front(){}
-
-void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo){}

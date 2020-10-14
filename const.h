@@ -11,8 +11,6 @@
 #define ALLEGRO 'A'
 #define RASPI  'R'
 
-// #define PLATFORM ALLEGRO     // Mejor hacerlo desde el Makefile con -D PLATFORM=[ALLEGRO/RASPI]
-
 #if (PLATFORM!=ALLEGRO && PLATFORM!=RASPI)
 	#error La plataforma no es valida o no ha sido definida. Defina la plataforma compilando con -D PLATFORM=[ALLEGRO/RASPI]
 #endif
