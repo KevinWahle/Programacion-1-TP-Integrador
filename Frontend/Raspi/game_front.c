@@ -445,7 +445,6 @@ void init_game(void) {
 
     srand(time(0));
 
-
     cleanDisplay();
 
     canon.x = 0;

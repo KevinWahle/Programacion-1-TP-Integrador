@@ -98,22 +98,14 @@ void splash_front()
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
-    printf("Entra a menu\n");
+    disp_clear();
     myPoint = (dcoord_t) {0,4};
     for(int i=0; menu_to_show[item].option[i]!='\0' && i<4; i++){   //Maximo 4 letras por palabra
         whatisit (menu_to_show[item].option[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
-        printf("my point.x %d\n",myPoint.x);
-        printf("my point.y %d\n",myPoint.y);
-    }
-    /// PAUSA
-    own_timer_t timer_splash;
-    setTimer(&timer_splash, SPLASH_DELAY);
-    startTimer(&timer_splash);
-    while (!checkTimer(&timer_splash));
-    /////
-    printf("Salgo de menu\n");   
+
+    } 
 }
 
 
@@ -327,6 +319,9 @@ void whatisit (char caracter)
 
 void show_inst(){}
 
-void destroy_front(){}
+void destroy_front(){
+    disp_clear();
+    printf("Nos vimos!\n");
+}
 
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score){}
