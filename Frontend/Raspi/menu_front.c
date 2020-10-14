@@ -14,11 +14,11 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define NUMOFFSET   '0'     //Offset de numero entero a char
-#define MAYUSOFFSET   'A'   //Offset de letra ascii  
-#define MINUSOFFSET   'a'   //Offset de letra ascii  
-#define RANGE       20      //Rango mínimo de detección del joytick 
-#define SPLASH_DELAY   3    //Tiempo que se muestra el splash
+#define NUMOFFSET       '0'     //Offset de numero entero a char
+#define MAYUSOFFSET     'A'     //Offset de letra ascii  
+#define MINUSOFFSET     'a'     //Offset de letra ascii  
+#define RANGE           20      //Rango mínimo de detección del joytick 
+#define SPLASH_DELAY    3       //Tiempo que se muestra el splash
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -113,6 +113,12 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
     }
+    /// PAUSA
+    own_timer_t timer_splash;
+    setTimer(&timer_splash, SPLASH_DELAY);
+    startTimer(&timer_splash);
+    while (!checkTimer(&timer_splash));
+    /////
     printf("Salgo de menu\n");   
 }
 
@@ -177,6 +183,7 @@ void update_front_event (void)
 void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
 {
     printf("Entra a show matrix\n");
+    myPoint= (dcoord_t) {0,0};
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
             myPoint= (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
