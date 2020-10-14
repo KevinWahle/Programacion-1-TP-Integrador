@@ -445,6 +445,7 @@ void init_game(void) {
 
     srand(time(0));
 
+    printf("OSTRAS SE VA A INICIALIZAR EL JUEGO\n");
     cleanDisplay();
 
     canon.x = 0;
