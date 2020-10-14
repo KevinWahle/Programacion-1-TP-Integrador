@@ -112,6 +112,8 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
         whatisit (menu_to_show[item].option[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
+        printf("my point.x %d\n",myPoint.x);
+        printf("my point.y %d\n",myPoint.y);
     }
     /// PAUSA
     own_timer_t timer_splash;
@@ -183,11 +185,10 @@ void update_front_event (void)
 void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
 {
     printf("Entra a show matrix\n");
-    myPoint= (dcoord_t) {0,0};
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
-            myPoint= (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
-            if (my_char[i][j]==1) {
+            myPoint = (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
+            if (my_char[j][i]==1) {
                 disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
             }
             else {
