@@ -311,4 +311,4 @@ void show_inst(){}
 
 void destroy_front(){}
 
-void score_name_front(){}
+void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo){}
