@@ -90,14 +90,6 @@ void splash_front()
         }
     }
     disp_update();
-/// PAUSA
-    own_timer_t timer_splash;
-    setTimer(&timer_splash, SPLASH_DELAY);
-    startTimer(&timer_splash);
-    while (!checkTimer(&timer_splash));
-/////
-    disp_clear();
-    printf("Salgo de splash\n");
 }
 
 
@@ -185,7 +177,6 @@ void update_front_event (void)
 void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
 {
     dcoord_t myPunto;
-    printf("Entra a show matrix\n");
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
             myPunto = (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
@@ -206,7 +197,6 @@ void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO T
 */
 void whatisit (char caracter) 
 {    
-    printf("Entra a whatisit\n");
     if (caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9) {     //Los números van de 0 a 9
         caracter = caracter - NUMOFFSET;
     }
