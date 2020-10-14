@@ -308,3 +308,5 @@ void whatisit (char caracter)
 void show_inst(){}
 
 void destroy_front(){}
+
+void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score){}
