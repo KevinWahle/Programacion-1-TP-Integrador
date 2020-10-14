@@ -90,10 +90,8 @@ void splash_front()
         }
     }
     disp_update();
-
 /// PAUSA
     own_timer_t timer_splash;
-
     setTimer(&timer_splash, SPLASH_DELAY);
     startTimer(&timer_splash);
     while (!checkTimer(&timer_splash));
@@ -133,7 +131,8 @@ void show_score (SCORE* score ,int size)
  **/
 void update_front_event (void)
 {
-    static BOOL was_moving=FALSE;   // Indica  si se estaba moviendo el cannon 
+    static BOOL was_moving = FALSE;   // Indica  si se estaba moviendo el cannon
+    static BOOL press = FALSE;
     joy_update();                   // Actualizo los valores de joystick
     myCoords = joy_get_coord();     // Tomo las coordenadas actuales
     mySwitch = joy_get_switch();    // Tomo el estado de pulsación del switch
@@ -157,6 +156,13 @@ void update_front_event (void)
     }
     else if (myCoords.y<-RANGE){
         add_event(MOVE_DOWN);       // El joytick se mueve hacia abajo
+    }
+    if (mySwitch == J_PRESS) {
+        press = TRUE;
+    }
+    if (press && mySwitch == J_NOPRESS) {
+        add_event(CLICK_BTN);
+        press = FALSE;
     }
 }
 
