@@ -17,7 +17,7 @@
 #define NUMOFFSET       '0'     //Offset de numero entero a char
 #define MAYUSOFFSET     'A'     //Offset de letra ascii  
 #define MINUSOFFSET     'a'     //Offset de letra ascii  
-#define RANGE           70      //Rango mínimo de detección del joytick 
+#define RANGE           50      //Rango mínimo de detección del joytick 
 #define SCREEN_DELAY    1       //Tiempo que se muestra el splash
 
 /*******************************************************************************
@@ -148,7 +148,7 @@ void update_front_event (void)
     }
     else if (myCoords.x>-RANGE && myCoords.x<RANGE) {
         add_event(MOVE_LEFT_REL);    
-        add_event (MOVE_RIGHT_REL);
+        add_event (MOVE_RIGHT_REL);     // El joytick se soltó
         was_moving_x=FALSE;
     }
 

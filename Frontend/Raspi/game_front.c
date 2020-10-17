@@ -959,7 +959,7 @@ static void drawAliveInvaders(void)
 
     if (UFO_invader.invaderState) 
     {
-        if( UFO_invader.x >= ( (-1)*2 )  && UFO_invader.x <= (D_WIDTH) )  // MAGIC NUMBERS
+        if( UFO_invader.x >= ( (-1)*2 )  && UFO_invader.x < (D_WIDTH-1) )  // MAGIC NUMBERS
         {
             //dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };
             //disp_write(coord, D_ON);     NO PENSE EL UFOOO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
