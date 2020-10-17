@@ -36,7 +36,7 @@ BOOL running = 1;
 
 MENU_ITEM main_menu[] = {  
                             {.option = "Jugar", .essential = TRUE, .ID = PLAY_ID},
-                            {.option = "Puntajes", .essential = FALSE, .ID = SCORE_ID},
+                            {.option = "Puntajes", .essential = TRUE, .ID = SCORE_ID},
                             {.option = "Instrucciones", .essential = FALSE, .ID = INSTUCTION_ID},
                             {.option = "Salir", .essential = TRUE, .ID = EXIT_ID},
                         };

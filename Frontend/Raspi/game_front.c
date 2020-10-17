@@ -49,7 +49,7 @@
 #define PPS_CANON           14         // Pixeles por segundo (velocidad) del canon   
 #define PPS_BALA            14         // Pixeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    14         // Máximos PPS (velocidad) de invaders
-#define MIN_PPS_INVADERS    12         // Mínimos PPS (velocidad) de invaders
+#define MIN_PPS_INVADERS    7         // Mínimos PPS (velocidad) de invaders
 #define FPS 60.0
 
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
@@ -105,7 +105,7 @@
 #define MIN_SPEED_INVADER  (MIN_PPS_INVADERS/FPS)
 
 #define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     // Seria 1 posibilidad entre 50
-#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  500
+#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  50
 
 
 #define MAX_POSIBILIY_OF_APPEAR_UFO  500
