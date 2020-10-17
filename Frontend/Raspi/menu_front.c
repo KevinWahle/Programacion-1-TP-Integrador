@@ -134,11 +134,11 @@ void update_front_event (void)
     myCoords = joy_get_coord();     // Tomo las coordenadas actuales
     mySwitch = joy_get_switch();    // Tomo el estado de pulsación del switch
 
-    if (myCoords.x>RANGE){           
+    if (myCoords.x>RANGE && was_moving==FALSE){           
         add_event(MOVE_RIGHT);      // El joytick se mueve hacia la derecha
         was_moving=TRUE;
     }
-    else if (myCoords.x<-RANGE){
+    else if (myCoords.x<-RANGE && was_moving==FALSE){
         add_event(MOVE_LEFT);       // El joytick se mueve hacia la izquierda
         was_moving=TRUE;
     }
