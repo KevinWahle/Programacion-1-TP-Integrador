@@ -467,6 +467,7 @@ void init_game(void) {
 
 }
 
+
 void redraw(unsigned long int score, int lives, int level)
 { 
     if (checkTimer(&fpsTimer))   // NOMBRE EVENTOOOO
@@ -494,6 +495,7 @@ void redraw(unsigned long int score, int lives, int level)
     
 }
 
+
 /**
  * @brief Ubica a los invaders en la posición inicial
 */
@@ -517,12 +519,14 @@ void placeInvaders(void)
     UFO_invader.invaderState = 0;
 }
 
+
 /**
  * @brief Pantalla entre niveles
 */
 void show_level_screen (int level) {
     // TODO: Pantalla entre niveles
 }
+
 
 /**
  * @brief Actualiza la velocidad del juego
@@ -535,6 +539,7 @@ void update_speed_front(int newSpeed, int maxSpeed)
     probDisparoInvaders =  ((MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS) - (MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_SHOT_FROM_INVADERS;
     probUfo = ((MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO) - (MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_APPEAR_UFO;
 }
+
 
 /**
  * @brief Coloca el cannon en la posición al revivir, debajo de un shield
@@ -550,6 +555,7 @@ void reviveCanon(void)
         canon.x = D_WIDTH/2;
     }
 }
+
 
 /**
  * @brief Ejecuta un disparo del canon
@@ -576,14 +582,16 @@ void shoot_canon(void)
     }
 }
 
+
 /**
  * @brief Solicita un movimiento continuo del cannon en la direccion indicada
  * @param dir la direccion a la que se desea mover. STOP si se desea parar
 */
-void move_canon(direction_t dir)
+void move_cannon(direction_t dir)
 {
     canon.direction = dir;
 }
+
 
 /**
  * @brief Elimina los disparos actuales
@@ -603,6 +611,7 @@ void clean_shoots(void)
   actualInvadersShots = 0;
 }
 
+
 /**
  * @brief Imprime estadísticas de final de partida
 */
@@ -611,6 +620,7 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
     //TODO: Imprimir estadisticas de final de partida?
 
 }
+
 
 void pause_game_front(void) 
 {
@@ -624,7 +634,6 @@ void resume_game_front(void)
 }
 
 
-
 void initCanon(void)
 {
     for (int i = 0; i < CANON_BLOCKS; i++)   // La altura y ancho de los bloques son 0, porque cada bloque es realidad son puntos 
@@ -635,6 +644,7 @@ void initCanon(void)
     }
     updateCanonBlocksPos();       //Siempre que se actualize la posicion, hay que actualizar la posicion de todos los bloques que forman el objeto
 }
+
 
 static void updateCanonBlocksPos(void)
 {
@@ -651,6 +661,7 @@ static void updateCanonBlocksPos(void)
     canon.blocks[3].y = canon.y + 1;
 }
 
+
 static void updateInvadersBlocksPos(int i, int j)
 {
     // Actualizo el primer bloque de la estructura.
@@ -662,6 +673,7 @@ static void updateInvadersBlocksPos(int i, int j)
     invaders[i][j].blocks[1].y = invaders[i][j].y;
 }
 
+
 static void updateUfoBlocksPos(void)
 {   
     UFO_invader.blocks[0].x = UFO_invader.x;
@@ -670,6 +682,7 @@ static void updateUfoBlocksPos(void)
     UFO_invader.blocks[1].x = UFO_invader.x + 1;
     UFO_invader.blocks[1].y = UFO_invader.y;
 }
+
 
 static void updateCanonPos(void)
 {
@@ -696,6 +709,7 @@ static void updateCanonPos(void)
   updateCanonBlocksPos();
 }
 
+
 static void drawCanon(void)
 {
     updateCanonPos();
@@ -705,6 +719,7 @@ static void drawCanon(void)
       disp_write(coord , D_ON );
     }
 }
+
 
 static void cleanDisplay(void)
 {
@@ -719,6 +734,7 @@ static void cleanDisplay(void)
         }
     }
 }
+
 
 int checkWin(void)
 {
