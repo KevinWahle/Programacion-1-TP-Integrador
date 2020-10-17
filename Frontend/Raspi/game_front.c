@@ -46,10 +46,10 @@
 //*********************************REVISAR CONSTANTES************************  
 
 #define PPS_NODRIZA         7         // Pixeles por segundo (velocidad) de la nave nodriza
-#define PPS_CANON           7         // Pixeles por segundo (velocidad) del canon   
-#define PPS_BALA            9         // Pixeles por segundo (velocidad) de la bala
-#define MAX_PPS_INVADERS    9         // Máximos PPS (velocidad) de invaders
-#define MIN_PPS_INVADERS    7         // Mínimos PPS (velocidad) de invaders
+#define PPS_CANON           14         // Pixeles por segundo (velocidad) del canon   
+#define PPS_BALA            14         // Pixeles por segundo (velocidad) de la bala
+#define MAX_PPS_INVADERS    14         // Máximos PPS (velocidad) de invaders
+#define MIN_PPS_INVADERS    12         // Mínimos PPS (velocidad) de invaders
 #define FPS 60.0
 
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   

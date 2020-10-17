@@ -167,10 +167,10 @@ void update_front_event (void)
     }
 
     if (mySwitch == J_PRESS) {
-        press = TRUE;
+        press = TRUE;                   // Me fijo si esta presionado
     }
     if (press && mySwitch == J_NOPRESS) {
-        add_event(CLICK_BTN);
+        add_event(CLICK_BTN);           // Me fijo si esta 
         press = FALSE;
     }
 }
