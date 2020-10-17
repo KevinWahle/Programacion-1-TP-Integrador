@@ -949,9 +949,11 @@ static void drawAliveInvaders(void)
             if( (invaders[i][j].invaderState) )
               {
                     dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };     // Revisar por el tamaño de invaders
-                    disp_write(coord, D_ON);
-                    coord.x++;  
-                    disp_write(coord, D_ON);
+                    if( coord.x >=0 && coord.x <= (D_WIDTH -1) )
+                        disp_write(coord, D_ON);
+                    coord.x++;
+                    if( coord.x >=0 && coord.x <= (D_WIDTH -1) )  
+                        disp_write(coord, D_ON);
                    // TODO: Ver de hacer un for para dibujar rectangulos.   
               }
         }

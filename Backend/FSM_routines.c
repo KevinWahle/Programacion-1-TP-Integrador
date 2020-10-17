@@ -101,7 +101,7 @@ void up_menu(MENU_ITEM* menu, int menu_size){
                 if(actual_option>0){                            // Si el front solo permite mostrar las opciones esenciales:
                     actual_option--;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
                 }                                                                           //y cuando haya una arriba.
-            } while ((menu[actual_option]).essential==FALSE && sizeof(menu)/sizeof(MENU_ITEM) > actual_option);
+            } while ((menu[actual_option]).essential==FALSE && menu_size/sizeof(MENU_ITEM) > actual_option); //REVISAR: Lo cambiamos recien.
     
     #else                                                                   // Si el front permite mostrar las opciones no esenciales:
         if(actual_option > 0){        
