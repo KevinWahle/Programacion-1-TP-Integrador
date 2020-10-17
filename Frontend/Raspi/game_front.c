@@ -39,7 +39,7 @@
 #define UFO_HEIGHT 1
 #define INVADER_WIDTH 1
 
-#define UFO_Y_POS 3
+#define UFO_Y_POS 0
 
 #define TOTAL_SHIELDS 4
 

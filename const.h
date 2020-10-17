@@ -17,7 +17,7 @@
 
 #if PLATFORM==ALLEGRO 
     #undef	ONLY_ESSENTIAL 
-#elif  PLATFORM==RASPI
+#elif PLATFORM==RASPI
     #define ONLY_ESSENTIAL
 #endif
 
