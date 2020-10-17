@@ -561,7 +561,7 @@ void reviveCanon(void)
  * @brief Ejecuta un disparo del canon
  * @return TODO?: CODIGO DE ERROR?
 */
-void shoot_canon(void)
+void shoot_cannon(void)
 {   
                                            
     float x_shot = canon.blocks[0].x;      
