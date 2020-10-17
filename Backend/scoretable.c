@@ -96,8 +96,8 @@ int lect_score (SCORE* my_pun)
         num=0;
 
         fgets(str, NAME_SIZE+1, fp);            //Leo el string con el nombre
-        char temp=fgetc (fp);                   // Leo el espacio (basura)
-
+    //    char temp=fgetc (fp);                   // Leo el espacio (basura)
+        fgetc(fp);
 
         while ((c=fgetc (fp))!=EOF && c!='\n'){ // Mientras que no Lea un enter, o el archivo se termine
             num=num*10+(c-OFFSET);              // vamos conformando el numero con los caracteres

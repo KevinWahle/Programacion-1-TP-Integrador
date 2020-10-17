@@ -45,11 +45,11 @@
 
 //*********************************REVISAR CONSTANTES************************  
 
-#define PPS_NODRIZA         5         // Pixeles por segundo (velocidad) de la nave nodriza
-#define PPS_CANON           3         // Pixeles por segundo (velocidad) del canon   
-#define PPS_BALA            4         // Pixeles por segundo (velocidad) de la bala
-#define MAX_PPS_INVADERS    5         // Máximos PPS (velocidad) de invaders
-#define MIN_PPS_INVADERS    1         // Mínimos PPS (velocidad) de invaders
+#define PPS_NODRIZA         7         // Pixeles por segundo (velocidad) de la nave nodriza
+#define PPS_CANON           7         // Pixeles por segundo (velocidad) del canon   
+#define PPS_BALA            9         // Pixeles por segundo (velocidad) de la bala
+#define MAX_PPS_INVADERS    9         // Máximos PPS (velocidad) de invaders
+#define MIN_PPS_INVADERS    7         // Mínimos PPS (velocidad) de invaders
 #define FPS 60.0
 
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
@@ -1256,17 +1256,17 @@ static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)     // NO esta tocad
         else if(  shielders[i].blocks[1].state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock2) )
         {
             colision = 1;
-            shielders[i].blocks[0].state++;
+            shielders[i].blocks[1].state++;
         }
         else if(  shielders[i].blocks[2].state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock3) )
         {
             colision = 1;
-            shielders[i].blocks[0].state++;
+            shielders[i].blocks[2].state++;
         }
         else if(  shielders[i].blocks[3].state != DEATH_STATE && isCollision(boxOfTheShot, &boxOfBlock4) )
         {
             colision = 1;
-            shielders[i].blocks[0].state++;
+            shielders[i].blocks[3].state++;
         }
         i++;
     }

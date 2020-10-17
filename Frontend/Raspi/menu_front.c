@@ -17,7 +17,7 @@
 #define NUMOFFSET       '0'     //Offset de numero entero a char
 #define MAYUSOFFSET     'A'     //Offset de letra ascii  
 #define MINUSOFFSET     'a'     //Offset de letra ascii  
-#define RANGE           75      //Rango mínimo de detección del joytick 
+#define RANGE           70      //Rango mínimo de detección del joytick 
 #define SCREEN_DELAY    1       //Tiempo que se muestra el splash
 
 /*******************************************************************************
@@ -105,12 +105,12 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
     } 
-    /// PAUSA
+    /*/// PAUSA
     own_timer_t timer_splash;
     setTimer(&timer_splash, SCREEN_DELAY);
     startTimer(&timer_splash);
     while (!checkTimer(&timer_splash));
-    ///
+    /// */
 }
 
 
@@ -128,32 +128,44 @@ void show_score (SCORE* score ,int size)
  **/
 void update_front_event (void)
 {
-    static BOOL was_moving = FALSE;   // Indica  si se estaba moviendo el cannon
+    static BOOL was_moving_x = FALSE;   // Indica  si se estaba moviendo el cannon
+    static BOOL was_moving_y = FALSE;
     static BOOL press = FALSE;
     joy_update();                   // Actualizo los valores de joystick
     myCoords = joy_get_coord();     // Tomo las coordenadas actuales
     mySwitch = joy_get_switch();    // Tomo el estado de pulsación del switch
 
-    if (myCoords.x>RANGE && was_moving==FALSE){           
-        add_event(MOVE_RIGHT);      // El joytick se mueve hacia la derecha
-        was_moving=TRUE;
+
+    if (!was_moving_x) {
+        if (myCoords.x>RANGE){           
+            add_event(MOVE_RIGHT);      // El joytick se mueve hacia la derecha
+            was_moving_x=TRUE;
+        }
+        else if (myCoords.x<-RANGE){
+            add_event(MOVE_LEFT);       // El joytick se mueve hacia la izquierda
+            was_moving_x=TRUE;
+        }
     }
-    else if (myCoords.x<-RANGE && was_moving==FALSE){
-        add_event(MOVE_LEFT);       // El joytick se mueve hacia la izquierda
-        was_moving=TRUE;
-    }
-    else if (was_moving==TRUE){     // Si cannon estaba en movimiento y se suelta el joystick, debe parar de moverse
+    else if (myCoords.x>-RANGE && myCoords.x<RANGE) {
         add_event(MOVE_LEFT_REL);    
         add_event (MOVE_RIGHT_REL);
-        was_moving=FALSE;
+        was_moving_x=FALSE;
     }
-    
-    if (myCoords.y>RANGE){
-        add_event(MOVE_UP);         // El joytick se mueve hacia la arriba
+
+    if (!was_moving_y) {
+        if (myCoords.y>RANGE){           
+            add_event(MOVE_UP);      // El joytick se mueve hacia arriba
+            was_moving_y=TRUE;
+        }
+        else if (myCoords.y<-RANGE){
+            add_event(MOVE_DOWN);       // El joytick se mueve hacia abajo
+            was_moving_y=TRUE;
+        }
     }
-    else if (myCoords.y<-RANGE){
-        add_event(MOVE_DOWN);       // El joytick se mueve hacia abajo
+    else if (myCoords.y>-RANGE && myCoords.y<RANGE) {
+        was_moving_y=FALSE;
     }
+
     if (mySwitch == J_PRESS) {
         press = TRUE;
     }
@@ -321,7 +333,6 @@ void whatisit (char caracter)
 
 
 // SOLO PARA PODER COMPILAR:
-
 void show_inst(){}
 
 void destroy_front(){
