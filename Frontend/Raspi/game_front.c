@@ -15,7 +15,6 @@
 // #include "disdrv.h"      // Ya estan en headall.h
 // #include "joydrv.h"
 
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
@@ -110,7 +109,7 @@
 
 
 #define MAX_POSIBILIY_OF_APPEAR_UFO  500
-#define MIN_POSIBILIY_OF_APPEAR_UFO  1200
+#define MIN_POSIBILIY_OF_APPEAR_UFO  700
 
 #define MAX_INVADERS_ANIM_PERIOD    1*FPS       // Máximos ticks necesearios hasta cambiar de imagen
 #define MIN_INVADERS_ANIM_PERIOD    0.1*FPS       // Mínimos ticks necesearios hasta cambiar de imagen
@@ -353,7 +352,7 @@ static void shouldUFOappear(void);
 /**
  * @brief Actualiza la posicion y dibuja el cannon
 */
-static void drawCannon(void);
+static void drawCanon(void);
 
 // /**
 //  * @brief Muestra en pantalla los puntos de la partida.
@@ -383,7 +382,7 @@ static void restartTasas(void);
  **/
 
 // CONTINUAR:
-static void updateCannonPos(void);
+static void updateCanonPos(void);
 
 //######################################################
 //############## FUNCIONES ONLY RASPBERRY ##############
@@ -444,15 +443,11 @@ static own_timer_t fpsTimer;
 void init_game(void) {
 
     srand(time(0));
-
-    printf("OSTRAS SE VA A INICIALIZAR EL JUEGO\n");
     
     disp_clear();
-    
-    printf("NO SE BORRO EL DISPLAY\n");
 
-    canon.x = 0;
-    canon.y = D_HEIGHT - CANON_HEIGHT - 1; // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 < Y < 15
+    canon.x = 4;  // MAGIC NUMBER
+    canon.y = D_HEIGHT - CANON_HEIGHT - 1; // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 <= Y <= 15
 
     restartTasas();
 
@@ -462,7 +457,7 @@ void init_game(void) {
   
     clean_shoots();
 
-    drawCannon();
+    drawCanon();
 
     disp_update();
 
@@ -492,7 +487,7 @@ void redraw(unsigned long int score, int lives, int level)
         }
         drawShields();
         drawAliveInvaders();  
-        drawCannon();
+        drawCanon();
         disp_update();
         //al_flip_display(); se flipea automaticamente, esencialmente 
     }
@@ -560,7 +555,7 @@ void reviveCanon(void)
  * @brief Ejecuta un disparo del canon
  * @return TODO?: CODIGO DE ERROR?
 */
-void shoot_cannon(void)
+void shoot_canon(void)
 {   
                                            
     float x_shot = canon.blocks[0].x;      
@@ -585,7 +580,7 @@ void shoot_cannon(void)
  * @brief Solicita un movimiento continuo del cannon en la direccion indicada
  * @param dir la direccion a la que se desea mover. STOP si se desea parar
 */
-void move_cannon(direction_t dir)
+void move_canon(direction_t dir)
 {
     canon.direction = dir;
 }
@@ -620,7 +615,7 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
 void pause_game_front(void) 
 {
     stopTimer(&fpsTimer);   // Para que deje de generar eventos durante la pausa
-    move_cannon(STOP);      // Dejo de mover wl canon
+    move_canon(STOP);      // Dejo de mover wl canon
 }
 
 void resume_game_front(void) 
@@ -670,18 +665,18 @@ static void updateInvadersBlocksPos(int i, int j)
 static void updateUfoBlocksPos(void)
 {   
     UFO_invader.blocks[0].x = UFO_invader.x;
-    UFO_invader.blocks[0].x = UFO_invader.y;
+    UFO_invader.blocks[0].y = UFO_invader.y;
 
     UFO_invader.blocks[1].x = UFO_invader.x + 1;
     UFO_invader.blocks[1].y = UFO_invader.y;
 }
 
-static void updateCannonPos(void)
+static void updateCanonPos(void)
 {
     switch(canon.direction)
     {
       case LEFT:
-        if((canon.x - TASA_DE_CAMBIO_CANON) > 0)
+        if((canon.x - TASA_DE_CAMBIO_CANON) >= 0)
         {
           canon.x -= TASA_DE_CAMBIO_CANON;
         }
@@ -701,9 +696,9 @@ static void updateCannonPos(void)
   updateCanonBlocksPos();
 }
 
-static void drawCannon(void)
+static void drawCanon(void)
 {
-    updateCannonPos();
+    updateCanonPos();
     for (int i = 0; i < CANON_BLOCKS; i++)
     {
       dcoord_t coord = { .x = (int)canon.blocks[i].x, .y = (int)canon.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
@@ -848,7 +843,7 @@ static void getCanonShotCollision(void)
 
                 //Aca en allegro dibuja la bala:
 
-                dcoord_t coord = { .x = canonShotList[iCont].x, .y = canonShotList[iCont].y  };
+                dcoord_t coord = { .x = (int)canonShotList[iCont].x, .y = (int)canonShotList[iCont].y  };  // Castia bien pa
                 disp_write( coord, D_ON);
 
                 canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA;
@@ -948,14 +943,15 @@ static void drawAliveInvaders(void)
 
     if (UFO_invader.invaderState) 
     {
-        if( UFO_invader.x >= ( (-1)*UFO_WIDTH )  && UFO_invader.x <= (D_WIDTH + UFO_WIDTH) )
+        if( UFO_invader.x >= ( (-1)*2 )  && UFO_invader.x <= (D_WIDTH) )  // MAGIC NUMBERS
         {
             //dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };
             //disp_write(coord, D_ON);     NO PENSE EL UFOOO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             for (int i = 0; i < UFO_BLOCKS; i++)
             {
                 dcoord_t coord = { .x = (int)UFO_invader.blocks[i].x, .y = (int)UFO_invader.blocks[i].y };
-                disp_write(coord, D_ON);
+                if(coord.x >=0 && coord.x <= (D_WIDTH -1) )
+                    disp_write(coord, D_ON);
             }
         }
         else
@@ -1144,15 +1140,27 @@ static void createShield(int x_shield, int y_shield, shield_t *shield)
 {
     shield->blocks[0].x = x_shield;
     shield->blocks[0].y = y_shield;
+    shield->blocks[0].height = 0;
+    shield->blocks[0].width = 0;
+    shield->blocks[0].state = STATE_0;
 
     shield->blocks[1].x = x_shield + 1;
     shield->blocks[1].y = y_shield;
+    shield->blocks[1].height = 0;
+    shield->blocks[1].width = 0;
+    shield->blocks[1].state = STATE_0;
 
     shield->blocks[2].x = x_shield;
     shield->blocks[2].y = y_shield + 1;
+    shield->blocks[2].height = 0;
+    shield->blocks[2].width = 0;
+    shield->blocks[2].state = STATE_0;
 
     shield->blocks[3].x = x_shield + 1;
     shield->blocks[3].y = y_shield + 1;
+    shield->blocks[3].height = 0;
+    shield->blocks[3].width = 0;
+    shield->blocks[3].state = STATE_0;
 }
 
 static void placeShields(void)
@@ -1255,7 +1263,7 @@ static void shouldUFOappear(void)
     {
         UFO_invader.invaderState = 1;
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
-        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*2 : D_WIDTH + 2; // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
+        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*2 : D_WIDTH; // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
     }                                                     // MAGIC NUMBER EN EL 2 IBA EL UFO WIDTH. MAY START WITH LEDS OUT OF THE DISP
 }
 static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
