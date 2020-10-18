@@ -109,7 +109,7 @@ int init_front()       // Inicializo y verifico que no falle
                                                     timer_queue = al_create_event_queue();
                                                     if (timer_queue) {
                                                         al_register_event_source(timer_queue, al_get_timer_event_source(timer));
-                                                        if (!loadim_menu()){
+                                                        if (loadim_menu() == NO_ERROR){
                                                             return NO_ERROR;
                                                         } else 
                                                             fprintf(stderr, "ERROR: failed to add thing!\n");
@@ -179,7 +179,7 @@ int loadim_menu()
                                         if(fontgm){
                                             sample1 = al_load_sample(SAMPLE_FILE);
                                             if(sample1) {
-                                                if (!loadim_game()){
+                                                if (loadim_game()==NO_ERROR){
                                                     return NO_ERROR;
                                                 } else 
                                                     fprintf(stderr, "ERROR: failed to add game images!\n");
