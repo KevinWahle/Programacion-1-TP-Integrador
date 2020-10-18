@@ -591,30 +591,19 @@ void shoot_cannon(void)
                     .y = y_shot,
                     .shotState = 1
                   };
-    int k = 0;    
-    printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!!!!!!!\n", canonShotList[0].shotState );
-    while (canonShotList[k].shotState != 0 && k < MAX_CANON_SHOT) {
-        k++;        // Busco un lugar en la lista (donde el disparo no este activo)
-        printf("ENTRO AL WHILE!! k =%d\n", k);
+    int kaka = 0;    
+    printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!\n", canonShotList[0].shotState );
+    while ((canonShotList[kaka].shotState != 0) && (kaka < MAX_CANON_SHOT)) {
+        kaka++;        // Busco un lugar en la lista (donde el disparo no este activo)
+        printf("ENTRO AL WHILE!! k =%d\n", kaka);
     }
-    if (k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
-        printf("Creo nuevo disparo en k=%d\n", k);
-        printf("El estado antes de crear el disparo era %d:\n", canonShotList[k].shotState);
-        canonShotList[k] = shot;
+    if (kaka < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
+        printf("Creo nuevo disparo en k=%d\n", kaka);
+        printf("El estado antes de crear el disparo era %d:\n", canonShotList[kaka].shotState);
+        canonShotList[kaka] = shot;
         actualCanonShots++;
         //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
     }
-
-
-    // // ############### DEBUG:
-    // int auxiliar = 0; 
-    // for (int i = 0; i < MAX_CANON_SHOT; i++)
-    // {
-    //     if( canonShotList[i].shotState  )
-    //         auxiliar++;
-    // }
-    // printf("DEL CANON, HAY %d BALAS VIVAS\n",auxiliar );
-    // /////////###########
 
 }
 

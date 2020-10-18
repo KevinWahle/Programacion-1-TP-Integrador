@@ -208,7 +208,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     {
         printf("Imprimiendo %d caracter\n", elemento);
         whatisit (actual_name[elemento]);
-        if(elemento==letter_counter)
+      /*  if(elemento==letter_counter)
         {
             dcoord_t myPunto;
                 for (int j=0; j<DIGIT_ROW; j++){  
@@ -225,11 +225,14 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
             disp_update();
         }
         else 
-        {
+        {*/
             show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
-        }
+        //}
         myPoint.x = myPoint.x + 4;
         printf ("salí del nombre\n");
+    }
+    for (int i=0; i<3; i++){
+        myPoint = (dcoord_t) {0,7+i};
     }
 
     intochar(score,chscore);
