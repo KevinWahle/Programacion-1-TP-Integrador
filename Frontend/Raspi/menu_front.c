@@ -146,7 +146,7 @@ void update_front_event (void)
     joy_update();                   // Actualizo los valores de joystick
     myCoords = joy_get_coord();     // Tomo las coordenadas actuales
     mySwitch = joy_get_switch();    // Tomo el estado de pulsación del switch
-
+    
 
     if (!was_moving_x) {
         if (myCoords.x>RANGE){           

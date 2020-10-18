@@ -596,7 +596,7 @@ void shoot_cannon(void)
     while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
     {
         k++;        // Busco un lugar en la lista (donde el disparo no este activo)
-        printf("ENTRO AL WHILE!! k =%d\n", k);
+        //printf("ENTRO AL WHILE!! k =%d\n", k);
     }
     printf("Between el while y el if, k=%d\n", k);
     if(k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
