@@ -593,7 +593,7 @@ void shoot_cannon(void)
                   };
     int k = 0;    
     printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!\n", canonShotList[0].shotState );
-    while((k <= MAX_CANON_SHOT) && (canonShotList[k].shotState != 0)) 
+    while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
     {
         k++;        // Busco un lugar en la lista (donde el disparo no este activo)
         printf("ENTRO AL WHILE!! k =%d\n", k);

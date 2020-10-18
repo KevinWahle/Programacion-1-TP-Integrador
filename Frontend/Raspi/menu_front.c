@@ -231,13 +231,9 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         myPoint.x = myPoint.x + 4;
         printf ("salí del nombre\n");
     }
-    for (int i=0; i<3; i++){
-         myPoint = (dcoord_t) {letter_counter*4,7+i};
-         dcoord_t myPunto; 
-        for (int i=0; i<DIGIT_COL; i++){
-            myPunto = (dcoord_t) {i+myPoint.x,myPoint.y};           //Cargo la matriz que me pasan desde la cordanada calculada anteriormente
-            disp_write(myPunto, D_ON);             // Enciendo el led correspondiente
-        }
+    for (int i=0; i<DIGIT_COL; i++){
+         myPoint = (dcoord_t) {letter_counter*4+i,2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
+         disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
     }
 
     intochar(score,chscore);
@@ -469,4 +465,4 @@ void intochar(unsigned long int num, char chscore[LENG_SC])
 }
 
 //TO COMPILE
-void show_inst () {}+
+void show_inst () {}
