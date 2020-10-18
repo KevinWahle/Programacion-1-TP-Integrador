@@ -204,7 +204,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     disp_clear();
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,2};
-    for(int elemento=0; elemento<LENG_SC; elemento++)
+    for(int elemento=0; elemento<size-1; elemento++)
     {
         printf("Imprimiendo %d caracter\n", elemento);
         whatisit (actual_name[elemento]);
