@@ -201,11 +201,13 @@ void update_front_event (void)
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
 {   
+    printf ("entré a score_name_front\n");
     disp_clear();
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,2};
     for(int elemento=0; elemento<size; elemento++)
     {
+        print("Imprimiendo %d caracter\n", elemento);
         whatisit (actual_name[elemento]);
         if(elemento==letter_counter)
         {
@@ -218,11 +220,19 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
                     else {
                         disp_write(myPoint, D_ON);              // Enciendo el led correspondiente
                     }
+                    printf("X: %d \t", myPoint.x);
+                    printf("Y: %d \t", myPoint.y);
+                    printf("Led_status: %d \n", !my_char[i][j]);
                 }
             }
+            disp_update();
         }
-        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
+        else 
+        {
+            show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
+        }
         myPoint.x += 4;
+        printf ("salí de score_name_front\n");
     }
 
     intochar(score,chscore);

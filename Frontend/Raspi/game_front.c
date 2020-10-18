@@ -411,6 +411,11 @@ static canon_t canon;    // Creo el canon
                           // Al principio arranca parado
 
 
+/////// MEMORIA DE RELLONO, PARA PREVENIR BUG
+
+static double dummyMem[100];
+
+///////////////////////////////////////////////////////////
 
 static shot_t canonShotList[MAX_CANON_SHOT];
 static direction_t proxDir = LEFT;
@@ -461,6 +466,22 @@ void init_game(void) {
 
     disp_update();
 
+
+    //////// PRUEBA DE MOMORIA BASURA
+
+    for (int i = 0 ; i < 100; i++) {
+        dummyMem [i] = 1.0;
+    }
+
+    if (dummyMem[0] < 10.0) {
+        dummyMem[1] = 2.0;
+    }
+
+    /////////////////////////////////
+
+
+
+
     setTimer(&fpsTimer, 1/FPS);     // Aca declaro el timer y el tiempo
     
     startTimer(&fpsTimer);      // Recien aca empieza el timer
@@ -490,6 +511,7 @@ void redraw(unsigned long int score, int lives, int level)
         drawAliveInvaders();  
         drawCanon();
         disp_update();
+        printf("La vida de la bala es: %d\n", canonShotList[0].shotState);
     }
     
 }
@@ -562,7 +584,6 @@ void reviveCanon(void)
 */
 void shoot_cannon(void)
 {   
-                                           
     float x_shot = canon.blocks[0].x;      
     float y_shot = canon.blocks[0].y - 1; 
     
@@ -582,15 +603,15 @@ void shoot_cannon(void)
     }
 
 
-    // ############### DEBUG:
-    int auxiliar = 0; 
-    for (int i = 0; i < MAX_CANON_SHOT; i++)
-    {
-        if( canonShotList[i].shotState  )
-            auxiliar++;
-    }
-    printf("DEL CANON, HAY %d BALAS VIVAS\n",auxiliar );
-    /////////###########
+    // // ############### DEBUG:
+    // int auxiliar = 0; 
+    // for (int i = 0; i < MAX_CANON_SHOT; i++)
+    // {
+    //     if( canonShotList[i].shotState  )
+    //         auxiliar++;
+    // }
+    // printf("DEL CANON, HAY %d BALAS VIVAS\n",auxiliar );
+    // /////////###########
 
 
 }
