@@ -181,8 +181,8 @@ void update_front_event (void)
     if (mySwitch == J_PRESS) {
         press = TRUE;                   // Me fijo si esta presionado
     }
-    if (press && mySwitch == J_NOPRESS) {
-        add_event(CLICK_BTN);           // Me fijo si esta 
+    if (press && (mySwitch == J_NOPRESS)) {
+        add_event(CLICK_BTN);           // Me fijo si se solto
         press = FALSE;
     }
 }
@@ -201,7 +201,6 @@ void update_front_event (void)
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
 {   
-    printf ("entré a score_name_front\n");
     disp_clear();
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,2};
@@ -211,28 +210,27 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         whatisit (actual_name[elemento]);
         if(elemento==letter_counter)
         {
-            for (int j=0; j<DIGIT_ROW; j++){  
-                for (int i=0; i<DIGIT_COL; i++){
-                    myPoint = (dcoord_t) {i+myPoint.x,j+myPoint.y};    //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
-                    if (my_char[j][i]==1) {
-                        disp_write(myPoint, D_OFF);             // Enciendo el led correspondiente
+            dcoord_t myPunto;
+                for (int j=0; j<DIGIT_ROW; j++){  
+                    for (int i=0; i<DIGIT_COL; i++){
+                        myPunto = (dcoord_t) {i+myPoint.x,j+myPoint.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
+                        if (my_char[j][i]==1) {
+                            disp_write(myPunto, D_OFF);             // Enciendo el led correspondiente
+                        }
+                        else {
+                            disp_write(myPunto, D_ON);           // Enciendo el led correspondiente
+                        }
                     }
-                    else {
-                        disp_write(myPoint, D_ON);              // Enciendo el led correspondiente
-                    }
-                    printf("X: %d \t", myPoint.x);
-                    printf("Y: %d \t", myPoint.y);
-                    printf("Led_status: %d \n", !my_char[i][j]);
                 }
-            }
             disp_update();
         }
         else 
         {
             show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
         }
-        myPoint.x += 4;
-        printf ("salí de score_name_front\n");
+        //show matrix
+        myPoint.x = myPoint.x + 4;
+        printf ("salí del nombre\n");
     }
 
     intochar(score,chscore);
@@ -242,6 +240,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += 4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
     }
+    printf("salí de ")
 } 
 
 /**

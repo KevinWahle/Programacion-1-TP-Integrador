@@ -511,7 +511,7 @@ void redraw(unsigned long int score, int lives, int level)
         drawAliveInvaders();  
         drawCanon();
         disp_update();
-        printf("La vida de la bala es: %d\n", canonShotList[0].shotState);
+        // printf("La vida de la bala es: %d\n", canonShotList[0].shotState);
     }
     
 }
@@ -597,6 +597,7 @@ void shoot_cannon(void)
     }
     if (k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
         printf("Creo nuevo disparo en k=%d\n", k);
+        printf("El estado antes de crear el disparo era %d:", canonShotList[k].shotState);
         canonShotList[k] = shot;
         actualCanonShots++;
         //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
@@ -612,7 +613,6 @@ void shoot_cannon(void)
     // }
     // printf("DEL CANON, HAY %d BALAS VIVAS\n",auxiliar );
     // /////////###########
-
 
 }
 
