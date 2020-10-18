@@ -20,6 +20,7 @@
 #define LENG_SC         4  
 #define RANGE           50      //Rango mínimo de detección del joytick 
 #define SCREEN_DELAY    2       //Tiempo que se muestra el splash
+#define PAUSE_LAPSE     1       //Tiempo que se apreta el analógico para acceder al menu de pausa
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -32,6 +33,7 @@ enum {A=10,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
 dcoord_t myPoint;
 jcoord_t myCoords;
 jswitch_t mySwitch;
+own_timer_t clickTimer; // Timer para ver cuanto se apretó el joystick.  
 
 const int (*my_char)[DIGIT_COL];        // Puntero que apuntara a cada digito a mostrar
 
@@ -178,14 +180,21 @@ void update_front_event (void)
         was_moving_y=FALSE;
     }
 
-    if (mySwitch == J_PRESS) {
+    if (mySwitch == J_PRESS && press==FALSE) {
         press = TRUE;                   // Me fijo si esta presionado
+        setTimer(&clickTimer, PAUSE_LAPSE);
+        startTimer(&clickTimer);
     }
-    if (press && (mySwitch == J_NOPRESS)) {
-        add_event(CLICK_BTN);           // Me fijo si se solto
-        press = FALSE;
+    if (press && (mySwitch == J_NOPRESS) && !checkTimer(&clickTimer)) {
+        add_event(CLICK_BTN);           // Me fijo si se solto en MENOS del 
+        press = FALSE;                  //tiempo para considerarlo pausa.
     }
-}
+    else if (press && (mySwitch == J_NOPRESS) && checkTimer(&clickTimer)){
+        add_event(PAUSE_BTN);           // Me fijo si se solto en MAS del
+        press = FALSE;                  //tiempo para considerarlo pausa.
+        
+    }
+}   
 
 
 /**
@@ -286,9 +295,15 @@ void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO T
 
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
+ * REVISAR: Que pasa si llega un caracter nulo?
 */
 void whatisit (char caracter) 
 {    
+    if (caracter==' ')
+    {
+        caracter=-1;                                            // Basili: ALTO magic number pero tenia que irme a comer
+    }
+    
     if (caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9) {     //Los números van de 0 a 9
         caracter = caracter - NUMOFFSET;
     }
@@ -303,6 +318,12 @@ void whatisit (char caracter)
 
     switch (caracter)                                           // Guardo los punteros al caracter seleccionado 
     {    
+    case -1:                                                    // Basili: ALTO magic number pero tenia que irme a comer
+        my_char=NULL_CHAR;           
+        break;
+    case 0:
+        my_char=NUMBER_0;           
+        break;
     case 1:
         my_char=NUMBER_1;           
         break;
@@ -409,6 +430,7 @@ void whatisit (char caracter)
         my_char=LETTER_Z;
         break;    
     default:
+        my_char=NULL_CHAR;
         break;
     }
    

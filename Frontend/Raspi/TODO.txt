@@ -19,3 +19,4 @@ struct {
     int 
 }
 
+REVISAR: intochar para raspi porque se ven mal los numeros.
