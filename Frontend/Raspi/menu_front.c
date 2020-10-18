@@ -240,7 +240,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += 4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
     }
-    printf("salí de ")
+    printf("salí de score_game_front");
 } 
 
 /**
