@@ -452,4 +452,5 @@ void intochar(unsigned long int num, char chscore[LENG_SC])
     chscore[LENG_SC-1]='\0';          // Agrego el terminador
 }
 
-
+//TO COMPILE
+void shows_inst () {}
