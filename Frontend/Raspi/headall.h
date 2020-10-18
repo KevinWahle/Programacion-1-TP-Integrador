@@ -85,6 +85,11 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
  **/
 void update_front_event();
 
+/**
+ * @brief Finaliza el programa y muestra la imagen de finalización
+ **/
+void destroy_front();
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR IN-GAME
  ******************************************************************************/
@@ -159,12 +164,5 @@ int checkWin(void);
 
 /*******************************************************************************
  ******************************************************************************/
-
-// SOLO PARA PODER COMPILAR
-
-void show_inst();
-
-void destroy_front();
-
 
 #endif // HEADALL_H_

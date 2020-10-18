@@ -16,9 +16,10 @@
  ******************************************************************************/
 #define NUMOFFSET       '0'     //Offset de numero entero a char
 #define MAYUSOFFSET     'A'     //Offset de letra ascii  
-#define MINUSOFFSET     'a'     //Offset de letra ascii  
+#define MINUSOFFSET     'a'     //Offset de letra ascii
+#define LENG_SC         4  
 #define RANGE           50      //Rango mínimo de detección del joytick 
-#define SCREEN_DELAY    1       //Tiempo que se muestra el splash
+#define SCREEN_DELAY    2       //Tiempo que se muestra el splash
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -51,6 +52,14 @@ void show_matrix (int col, int row, dcoord_t coord);
 */
 void whatisit (char caracter);
 
+/**
+ * @brief Transforma un entero no signado a un string para luego imprimir.
+ * @param num Recibe el numero a transformar.
+ * @param chscore[] Recibe el string dode transformara el numero a char
+ * @return Devulve el string ya transformado.
+*/
+void intochar(unsigned long int num, char chscore[LENG_SC]);
+
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -61,7 +70,10 @@ void whatisit (char caracter);
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-int init_front()       // Inicializo y verifico que no falle
+/**
+ * @brief Inicializa los recursos a emplear.
+*/
+int init_front()
 {
     disp_init();
     joy_init();
@@ -100,10 +112,10 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     disp_clear();
     myPoint = (dcoord_t) {0,6};
-    for(int i=0; menu_to_show[item].option[i]!='\0' && i<4; i++){   //Maximo 4 letras por palabra
+    for(int i=0; menu_to_show[item].option[i]!='\0' && i<LENG_SC; i++){   //Maximo 4 letras por palabra
         whatisit (menu_to_show[item].option[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
-        myPoint.x = myPoint.x+4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
+        myPoint.x += 4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
     } 
     /*/// PAUSA
     own_timer_t timer_splash;
@@ -173,6 +185,83 @@ void update_front_event (void)
         add_event(CLICK_BTN);           // Me fijo si esta 
         press = FALSE;
     }
+}
+
+
+/**
+ * @brief Muestra imagen de score y muestra el punjate final de partida
+ * @param actual_name Recibe un puntero a el nombre que quiere ingresar el usiario
+ * @param size Recibe el largo del arreglo
+ * @param letter_counter  Recibe la letra a resaltar (va de 0 a size-1)
+ * @param score Puntaje de final de partida
+*/
+
+/**
+ * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
+*/
+void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
+{   
+    disp_clear();
+    char chscore[LENG_SC];
+    myPoint = (dcoord_t) {0,2};
+    for(int elemento=0; elemento<size; elemento++)
+    {
+        whatisit (actual_name[elemento]);
+        if(elemento==letter_counter)
+        {
+            for (int j=0; j<DIGIT_ROW; j++){  
+                for (int i=0; i<DIGIT_COL; i++){
+                    myPoint = (dcoord_t) {i+myPoint.x,j+myPoint.y};    //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
+                    if (my_char[j][i]==1) {
+                        disp_write(myPoint, D_OFF);             // Enciendo el led correspondiente
+                    }
+                    else {
+                        disp_write(myPoint, D_ON);              // Enciendo el led correspondiente
+                    }
+                }
+            }
+        }
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
+        myPoint.x += 4;
+    }
+
+    intochar(score,chscore);
+    myPoint = (dcoord_t) {0,10};
+    for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
+        whatisit (chscore[i]);
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        myPoint.x += 4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
+    }
+} 
+
+/**
+ * @brief Finaliza el programa y muestra la imagen de finalización
+ **/
+void destroy_front(){
+    int state;
+    disp_clear();
+    for(int i=0; i<8; i++) {
+        myPoint.y = i+4;
+        for(int j=0; j<16; j++) {
+            myPoint.x = j;
+            state = END_IMG[i][j];
+            if (state==1) {
+                disp_write(myPoint, D_ON);
+            }
+            else {
+                disp_write(myPoint, D_OFF);
+            }
+        }
+    }
+    disp_update();
+
+    own_timer_t timer_splash;
+    setTimer(&timer_splash, SCREEN_DELAY);
+    startTimer(&timer_splash);
+    while (!checkTimer(&timer_splash));
+
+    disp_clear();
+    fprintf(stderr, "See you next time...\n\n");
 }
 
 /*******************************************************************************
@@ -332,12 +421,35 @@ void whatisit (char caracter)
 }
 
 
-// SOLO PARA PODER COMPILAR:
-void show_inst(){}
+/**
+ * @brief Transforma un entero no signado a un string.
+ */
+void intochar(unsigned long int num, char chscore[LENG_SC])
+{
+    unsigned long int a = 0;
+    
+    if(num==0){
+        for(int i=0;i<LENG_SC-1;i++){
+            chscore[i]=' ';
+        }
+        chscore[LENG_SC/2]='0';           // Escribo el 0 en el medio de la pantalla.
+    }
 
-void destroy_front(){
-    disp_clear();
-    printf("Nos vimos!\n");
+    else{
+        for(int i=LENG_SC-2;i>=0;i--) {
+            a = num % 10;                   // Tomo un digito a mostrar.
+            if(num>0) {
+                chscore[i]=a+NUMOFFSET;     // Si sigo teniendo parte del numero disponible para mostrar
+                                            //muestro el nuevo digito.
+                num = num / 10;             // Recorto el número para mostrar el nuevo digito.    
+            }
+            else {
+            chscore[i]=' ';              // Si el numero que queda es = a 0, muestro espacios.
+            }
+        }  
+    }
+
+    chscore[LENG_SC-1]='\0';          // Agrego el terminador
 }
 
-void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score){}
+

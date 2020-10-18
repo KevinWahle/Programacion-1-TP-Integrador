@@ -46,7 +46,7 @@
 //*********************************REVISAR CONSTANTES************************  
 
 #define PPS_NODRIZA         7         // Pixeles por segundo (velocidad) de la nave nodriza
-#define PPS_CANON           14         // Pixeles por segundo (velocidad) del canon   
+#define PPS_CANON           20         // Pixeles por segundo (velocidad) del canon   
 #define PPS_BALA            14         // Pixeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    14         // Máximos PPS (velocidad) de invaders
 #define MIN_PPS_INVADERS    7         // Mínimos PPS (velocidad) de invaders
@@ -490,7 +490,6 @@ void redraw(unsigned long int score, int lives, int level)
         drawAliveInvaders();  
         drawCanon();
         disp_update();
-        //al_flip_display(); se flipea automaticamente, esencialmente 
     }
     
 }
@@ -575,11 +574,25 @@ void shoot_cannon(void)
     while (canonShotList[k].shotState != 0 && k < MAX_CANON_SHOT) {
         k++;        // Busco un lugar en la lista (donde el disparo no este activo)
     }
-    if (k < MAX_CANON_SHOT) {
+    if (k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
+        printf("Creo nuevo disparo en k=%d\n", k);
         canonShotList[k] = shot;
         actualCanonShots++;
         //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
     }
+
+
+    // ############### DEBUG:
+    int auxiliar = 0; 
+    for (int i = 0; i < MAX_CANON_SHOT; i++)
+    {
+        if( canonShotList[i].shotState  )
+            auxiliar++;
+    }
+    printf("DEL CANON, HAY %d BALAS VIVAS\n",auxiliar );
+    /////////###########
+
+
 }
 
 
@@ -713,6 +726,7 @@ static void updateCanonPos(void)
 static void drawCanon(void)
 {
     updateCanonPos();
+
     for (int i = 0; i < CANON_BLOCKS; i++)
     {
       dcoord_t coord = { .x = (int)canon.blocks[i].x, .y = (int)canon.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
