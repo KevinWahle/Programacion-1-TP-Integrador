@@ -76,7 +76,7 @@
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 4                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 //##### Blocks #####                              // Cada block seria justamente cada bloque que compone a un shield.
 #define B_WIDTH_PERCENT  0.03                     // Porcentaje que ocupa el block por sobre el tamanio del display
@@ -595,6 +595,7 @@ void shoot_cannon(void)
     printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!!!!!!!\n", canonShotList[0].shotState );
     while (canonShotList[k].shotState != 0 && k < MAX_CANON_SHOT) {
         k++;        // Busco un lugar en la lista (donde el disparo no este activo)
+        printf("ENTRO AL WHILE!! k =%d\n", k);
     }
     if (k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
         printf("Creo nuevo disparo en k=%d\n", k);
