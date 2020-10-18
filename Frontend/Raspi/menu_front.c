@@ -146,7 +146,7 @@ void update_front_event (void)
     joy_update();                   // Actualizo los valores de joystick
     myCoords = joy_get_coord();     // Tomo las coordenadas actuales
     mySwitch = joy_get_switch();    // Tomo el estado de pulsación del switch
-    
+
 
     if (!was_moving_x) {
         if (myCoords.x>RANGE){           
@@ -206,11 +206,9 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     myPoint = (dcoord_t) {0,2};
     
     for(int elemento=0; elemento<size-1; elemento++){
-        printf("Imprimiendo %d caracter\n", elemento);
         whatisit (actual_name[elemento]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
         myPoint.x += DIGIT_COL+1;
-        printf ("salí del nombre\n");
     }
 
     for (int i=0; i<DIGIT_COL; i++){
@@ -220,12 +218,14 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
 
     intochar(score,chscore);
     myPoint = (dcoord_t) {0,10};
+    printf("Puntaje: \t");
     for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
         whatisit (chscore[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
+        printf("%c",chscore[i]);
     }
-    printf("salí de score_game_front");
+    printf("\n");
 } 
 
 /**
