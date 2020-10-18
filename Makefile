@@ -24,37 +24,37 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 
 
 ################# ALLEGRO ######################
-#game: ${OBJS}
-#	${CCD} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
+# game: ${OBJS}
+# 	${CCA} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
 
-# Para Windows, se compila con las librerias de otra manera
-#win: ${OBJS} 
-#	${CC} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
+# #Para Windows, se compila con las librerias de otra manera
+# win: ${OBJS} 
+# 	${CC} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
 
-#main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
-#	${CCD} ${OPTIONS} -D PLATFORM=ALLEGRO -c Backend/main.c
+# Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
+# 	${CCA} ${OPTIONS} -D PLATFORM=ALLEGRO -c Backend/main.c -o Backend/main.o
 	
-#ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
-#	${CCD} ${OPTIONS} -c Backend/ingame_stats.c 
+# Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
+# 	${CCA} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o 
 
-#scoretable.o: Backend/scoretable.c Backend/scoretable.h
-#	${CCD} ${OPTIONS} -c Backend/scoretable.c
+# Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
+# 	${CCA} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
 
-#FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_ALL} const.h
-#	${CCD} ${OPTIONS} -c Backend/FSM_routines.c
+# Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_ALL} const.h
+# 	${CCA} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
 
-#event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
-#	${CCD} ${OPTIONS} -c Backend/event_queue/event_queue.c 
+# Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
+# 	${CCA} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
 
-#menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
-#	${CCD} ${OPTIONS} -c Frontend/Allegro/menu_front.c
+# Frontend/Allegro/menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
+# 	${CCA} ${OPTIONS} -c Frontend/Allegro/menu_front.c -o Frontend/Allegro/menu_front.o
 
-#game_front.o: Frontend/Allegro/game_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
-#	${CCD} ${OPTIONS} -c Frontend/Allegro/game_front.c
-################################################
+# Frontend/Allegro/game_front.o: Frontend/Allegro/game_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
+# 	${CCA} ${OPTIONS} -c Frontend/Allegro/game_front.c -o Frontend/Allegro/game_front.o
+###############################################
 
 
-################## RASPI #######################
+################### RASPI #######################
 gameraspi: ${OBJS2} 
 	${CCR} ${OPTIONS} ${OBJS2} -o gameraspi
 
@@ -81,7 +81,7 @@ Frontend/Raspi/game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINU
 
 Frontend/Raspi/menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
 	${CCR} ${OPTIONS} -c Frontend/Raspi/menu_front.c -o Frontend/Raspi/menu_front.o
-################################################
+#################################################
 
 clean: 
 	rm Backend/*.o

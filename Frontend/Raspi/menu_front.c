@@ -228,11 +228,11 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         {*/
             show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
         //}
-        myPoint.x = myPoint.x + 4;
+        myPoint.x = myPoint.x + DIGIT_COL+1;
         printf ("salí del nombre\n");
     }
     for (int i=0; i<DIGIT_COL; i++){
-         myPoint = (dcoord_t) {letter_counter*4+i,2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
+         myPoint = (dcoord_t) {letter_counter*4+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
          disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
     }
 

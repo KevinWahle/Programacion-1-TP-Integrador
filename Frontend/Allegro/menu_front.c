@@ -285,7 +285,7 @@ void splash_front()
                             0);
     al_flip_display();
     al_rest(1.5);
-    shows_inst ();
+    show_inst ();       // REVISAR: ACA DECIA shows_inst()
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 500, ALLEGRO_ALIGN_CENTER, "Presione la tecla espacio para continuar...");
     al_flip_display();
 }
