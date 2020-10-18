@@ -80,7 +80,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
 /**
  * @brief Muestra las instrucciones.
 */
-void shows_inst ();
+void show_inst ();
 
 /**
  * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".

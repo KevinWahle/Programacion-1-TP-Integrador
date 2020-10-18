@@ -45,7 +45,7 @@ typedef uint8_t direction_t;  // Necesario para move_cannon()
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR MENU AND KEYBOARD
  ******************************************************************************/
-void shows_inst ();
+void show_inst ();
 
 /**
  * @brief Inicializa los recursos a emplear.

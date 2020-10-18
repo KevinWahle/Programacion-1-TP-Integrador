@@ -374,7 +374,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
 /**
  * @brief Muestra las instrucciones.
 */
-void shows_inst () 
+void show_inst () 
 {
     al_draw_scaled_bitmap(instImage,    // Imagen de instrucciones
                             0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),

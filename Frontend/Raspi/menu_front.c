@@ -453,4 +453,4 @@ void intochar(unsigned long int num, char chscore[LENG_SC])
 }
 
 //TO COMPILE
-void shows_inst () {}
+void show_inst () {}
