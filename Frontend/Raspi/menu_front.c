@@ -204,35 +204,17 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     disp_clear();
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,2};
-    for(int elemento=0; elemento<size-1; elemento++)
-    {
+    
+    for(int elemento=0; elemento<size-1; elemento++){
         printf("Imprimiendo %d caracter\n", elemento);
         whatisit (actual_name[elemento]);
-      /*  if(elemento==letter_counter)
-        {
-            dcoord_t myPunto;
-                for (int j=0; j<DIGIT_ROW; j++){  
-                    for (int i=0; i<DIGIT_COL; i++){
-                        myPunto = (dcoord_t) {i+myPoint.x,j+myPoint.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
-                        if (my_char[j][i]==1) {
-                            disp_write(myPunto, D_OFF);             // Enciendo el led correspondiente
-                        }
-                        else {
-                            disp_write(myPunto, D_ON);           // Enciendo el led correspondiente
-                        }
-                    }
-                }
-            disp_update();
-        }
-        else 
-        {*/
-            show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
-        //}
-        myPoint.x = myPoint.x + DIGIT_COL+1;
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
+        myPoint.x += DIGIT_COL+1;
         printf ("salí del nombre\n");
     }
+
     for (int i=0; i<DIGIT_COL; i++){
-         myPoint = (dcoord_t) {letter_counter*4+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
+         myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
          disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
     }
 
@@ -241,7 +223,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
         whatisit (chscore[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
-        myPoint.x += 4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
+        myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
     printf("salí de score_game_front");
 } 
