@@ -15,7 +15,7 @@ EVENTQ_HEAD = Backend/event_queue/event_queue.h
 TIMER_OBJECT = Frontend/Raspi/timer/timer.o
 TIMER_HEAD	= Frontend/Raspi/timer/timer.h
 ################################################
-HFRONT_ALL = Frontend/Allegro/headall.h 
+HFRONT_ALL = Frontend/Allegro/headall.h
 HFRONT_RAS = Frontend/Raspi/headall.h
 ################################################
 OBJS = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_routines.o Frontend/Allegro/menu_front.o Frontend/Allegro/game_front.o ${EVENTQ_OBJECT}

@@ -25,7 +25,7 @@
 
 typedef struct     // Estructura que contiene al nombre del usuario con su correspondiente puntaje 
 {
-    char name[NAME_SIZE];
+    char name[NAME_SIZE+1];   //REVISAR: EN EL FUTURO ;)
     unsigned long int pts;
 } SCORE;
 

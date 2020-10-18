@@ -22,8 +22,6 @@
 #include "../Frontend/Raspi/headall.h" 
 #endif
 
-#include "../Frontend/Raspi/headall.h"   // Sacar de aca, rancio
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/

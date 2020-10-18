@@ -586,7 +586,7 @@ void shoot_cannon(void)
 {   
     float x_shot = canon.blocks[0].x;      
     float y_shot = canon.blocks[0].y - 1; 
-    unsigned int k = 0;
+    // unsigned int k = 0;
 
     shot_t shot = { .x = x_shot,
                     .y = y_shot,
