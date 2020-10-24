@@ -219,6 +219,7 @@ void update_front_event (void)
 /**
  * @brief Pantalla entre niveles
 */
+/*
 void show_level_screen (int level) {
     disp_clear();
     //char ch[]="NL";
@@ -232,6 +233,7 @@ void show_level_screen (int level) {
     }
 
 }
+*/
 
 /**
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.

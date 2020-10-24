@@ -35,7 +35,7 @@
 
 #define CANON_Y_POS  D_HEIGHT-CANON_HEIGHT-1 // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 <= Y <= 15
 
-#define UFO_WIDTH 1
+#define UFO_WIDTH 2
 #define UFO_HEIGHT 1
 #define INVADER_WIDTH 1
 
@@ -1340,7 +1340,7 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
     {
         collBoxShot_t boxOfUFO = {  .x = UFO_invader.x,
                                     .y = UFO_invader.y,
-                                    .width = 1,           // MAGIC NUMBER, OMG SUENA MAL 1 
+                                    .width = UFO_WIDTH,           // MAGIC NUMBER, OMG SUENA MAL 1 
                                     .height = 0,          // MAGIC NUMBER, OMG SUENA MAL 1  SHOULDNT IT BE 2?
                                  };
         if( (colision = isCollision( &boxOfUFO, boxOfTheShot )) )
