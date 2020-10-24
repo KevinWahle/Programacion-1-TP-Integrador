@@ -246,17 +246,17 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     myPoint = (dcoord_t) {0,1};
     
     for(int elemento=0; elemento<LENG_SC; elemento++){
+        printf("X1= %d\n", myPoint.x);       
         whatisit (actual_name[elemento]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
         myPoint.x += DIGIT_COL+1;
-        printf("X1= %d\n", myPoint.x);       
     }
     printf("\n");
     
     for (int i=0; i<DIGIT_COL; i++){
+        printf("X2= %d\n", myPoint.x);
         if(letter_counter<3){
             myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
-            printf("X2= %d\n", myPoint.x);
             disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
         }    
     }
@@ -268,7 +268,6 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
-    printf()
 } 
 
 
