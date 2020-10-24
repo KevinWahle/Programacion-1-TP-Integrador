@@ -106,7 +106,7 @@
 
 #define SHIELDS_Y1 11               // Posicion en y donde van los shields
 
-#define DIST_2 (SHIELD_WIDTH + PIXELS_B2IN_SHIELDS)
+#define DIST_2 (SHIELD_PIXELS_WIDTH + PIXELS_B2IN_SHIELDS)
 
 
 //***********************************FIN REVISAR CONSTANTES*****************************************/
@@ -117,10 +117,6 @@
  ******************************************************************************/
 
 enum blockStates {STATE_0, STATE_1};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
-
-enum MYKEYS {
-    KEY_SPACE, KEY_DOWN, KEY_LEFT, KEY_RIGHT //arrow keys
-};
 
 // Objeto shot
 typedef struct
@@ -182,26 +178,6 @@ typedef struct
     int invaderType;
     direction_t direction;      //  El UFO puede aparecer desde la izquierda o desde la derecha
 } UFO_t;
-
-// En la raspberry, en el cCaso de las colisones, modelizar a cada objeto con una caja de colision puede no ser la forma mas optima ->
-// -> pues al tener menos resolucion se nota mucho en la experiencia al usario. ->
-// -> lo mas natural que se puede pensar, es que cada objeto (invaders, shields, canon, nodriza) se puede pensar como una estructura formada por ->
-// -> la posicion r = (x, y) y un arreglo de bloques, de dimension definida por el programador. Cada bloque a su vez, es una estructura que ->
-// -> tiene la posicion, ancho y alto (siempre 0 va a ser en raspi) y state (para colision). ->
-// -> Que el usuario dibuje en una matriz la forma de los invaders, canon, shield? ->
-// -> Sobre shields, puede ser...
-// -> Pero naves, no se, porque cuantas formas posibles podes hacer... O sea no se si vale la pena. Estaria bueno que cuando haces:
-// -> canon_t myCanon; ahi a cada bloque le harcodeas su posicion relatva al (x,y) del canon. Asi hize los bloques de cada shields.
-// -> Si el usuario hace el canon dibujando en una matriz => La estructura bloque cambiarla, que tenga un campo que diga si ese bloque es el bloque
-// -> por donde va a salir el disparo, funcion que calcule el ancho de lo que el usuario modelo, y no se si el alto, no se. Funcion que setee el 
-// -> X0 en bloque (puede existir o no), que este mas a la izq y arriba: ej arr[][2] = { {0,1,0} ,
-//                                                                                       {1,1,1} };
-// -> En este caso el X0 va en el primer 0 de todos porque es el vertice de la caja, aunque no confundirse porque no se trata al canon como caja
-// -> se lo trata como un conjunto de bloques. Con una funcion recorres la matriz y te fijas la relacion de la posicion entre el X0 y y los demas
-// -> 1s, y te sirve para despues, a la hora de mover el conjunto , ver colisiones, etc.  
-// -> Cuando la funcion que fabrica el canon a partir del dibujo por Ej, para que detecte cual es el bloque que va a disparar, si lo hay, que sea
-// -> poniendo un 2 en la matriz en vez de uno
-// -> Que opinas?                                                                        
 
 
 /*******************************************************************************
