@@ -230,7 +230,6 @@ void show_level_screen (int level) {
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
-
 }
 
 /**
@@ -246,7 +245,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,1};
     
-    for(int elemento=0; elemento<size-1; elemento++){
+    for(int elemento=0; elemento<LENG_SC; elemento++){
         whatisit (actual_name[elemento]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
         myPoint.x += DIGIT_COL+1;

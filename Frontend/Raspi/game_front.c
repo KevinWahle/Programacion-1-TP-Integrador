@@ -105,11 +105,11 @@
 #define MIN_SPEED_INVADER  (MIN_PPS_INVADERS/FPS)
 
 #define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     // Seria 1 posibilidad entre 50
-#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  500
+#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  150
 
 
-#define MAX_POSIBILIY_OF_APPEAR_UFO  500
-#define MIN_POSIBILIY_OF_APPEAR_UFO  700
+#define MAX_POSIBILIY_OF_APPEAR_UFO  50
+#define MIN_POSIBILIY_OF_APPEAR_UFO  70
 
 #define MAX_INVADERS_ANIM_PERIOD    1*FPS       // Máximos ticks necesearios hasta cambiar de imagen
 #define MIN_INVADERS_ANIM_PERIOD    0.1*FPS       // Mínimos ticks necesearios hasta cambiar de imagen
@@ -1322,9 +1322,10 @@ static void shouldUFOappear(void)
     {
         UFO_invader.invaderState = 1;
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
-        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*(D) : D_WIDTH; // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
+        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*(UFO_WIDTH + 1) : D_WIDTH; // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
     }                                                     // MAGIC NUMBER EN EL 2 IBA EL UFO WIDTH. MAY START WITH LEDS OUT OF THE DISP
-} 
+}
+
 static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
 {
     int colision = 0;
