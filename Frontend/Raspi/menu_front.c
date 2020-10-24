@@ -133,7 +133,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 */
 void show_score (SCORE* score ,int size)  
 { 
-    printf("ENTRE");                        //NOT
+    printf("ENTRE");                        //NOTA: sacar
     disp_clear();
     char chscore[LENG_SC];
     unsigned long int num = 0;
@@ -144,7 +144,7 @@ void show_score (SCORE* score ,int size)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
 
-    num=score[0].pts
+    num=score[0].pts;
     intochar(num,chscore);
     myPoint = (dcoord_t) {0,10};
     for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
