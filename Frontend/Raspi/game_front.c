@@ -718,21 +718,21 @@ static void updateUfoBlocksPos(void)
 }
 
 
-static void updateCanonPos(void)
+static void updateCanonPos(canon_t *canon)
 {
-    switch(canon.direction)
+    switch(canon->direction)
     {
       case LEFT:
-        if((canon.x - TASA_DE_CAMBIO_CANON) >= 0)
+        if((canon->x - TASA_DE_CAMBIO_CANON) >= 0)
         {
-          canon.x -= TASA_DE_CAMBIO_CANON;
+          canon->x -= TASA_DE_CAMBIO_CANON;
         }
         break;
 
       case RIGHT:
-        if((canon.x  +  CANON_WIDTH + TASA_DE_CAMBIO_CANON) < D_WIDTH)
+        if((canon->x  +  CANON_WIDTH + TASA_DE_CAMBIO_CANON) < D_WIDTH)
         {
-          canon.x += TASA_DE_CAMBIO_CANON;
+          canon->x += TASA_DE_CAMBIO_CANON;
         }
         break;
 
@@ -746,11 +746,13 @@ static void updateCanonPos(void)
 
 static void drawCanon(void)
 {
-    updateCanonPos();
-
+    canon_t canonAux = canon;
+    updateCanonPos(&canon);
+    canonAux.x = (int)canonAux.x;  // CHADsteo deberia ser a uint8_t
+    updateCanonPos(&canonAux);
     for (int i = 0; i < CANON_BLOCKS; i++)
     {
-      dcoord_t coord = { .x = (int)canon.blocks[i].x, .y = (int)canon.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
+      dcoord_t coord = { .x = (int)canonAux.blocks[i].x, .y = (int)canonAux.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
       disp_write(coord , D_ON );
     }
 }
@@ -1336,6 +1338,7 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
     }
     return colision;
 }
+
 static void moveUFO(void)
 {
     if (UFO_invader.invaderState) 
