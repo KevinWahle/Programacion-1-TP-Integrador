@@ -219,7 +219,6 @@ void update_front_event (void)
 /**
  * @brief Pantalla entre niveles
 */
-/*
 void show_level_screen (int level) {
     disp_clear();
     //char ch[]="NL";
@@ -233,7 +232,6 @@ void show_level_screen (int level) {
     }
 
 }
-*/
 
 /**
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
@@ -246,7 +244,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
 //    }
 
     char chscore[LENG_SC];
-    myPoint = (dcoord_t) {0,2};
+    myPoint = (dcoord_t) {0,1};
     
     for(int elemento=0; elemento<size-1; elemento++){
         whatisit (actual_name[elemento]);

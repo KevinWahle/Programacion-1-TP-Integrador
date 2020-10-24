@@ -36,7 +36,7 @@
 #define CANON_Y_POS  D_HEIGHT-CANON_HEIGHT-1 // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 <= Y <= 15
 
 #define UFO_WIDTH 2
-#define UFO_HEIGHT 1
+#define UFO_HEIGHT 0
 #define INVADER_WIDTH 1
 
 #define UFO_Y_POS 0
@@ -538,14 +538,6 @@ void placeInvaders(void)
     }
     proxDir = RIGHT;
     UFO_invader.invaderState = 0;
-}
-
-
-/**
- * @brief Pantalla entre niveles
-*/
-void show_level_screen (int level) {
-    // TODO: Pantalla entre niveles
 }
 
 
@@ -1330,9 +1322,9 @@ static void shouldUFOappear(void)
     {
         UFO_invader.invaderState = 1;
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
-        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*2 : D_WIDTH; // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
+        UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*(D) : D_WIDTH; // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
     }                                                     // MAGIC NUMBER EN EL 2 IBA EL UFO WIDTH. MAY START WITH LEDS OUT OF THE DISP
-}
+} 
 static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
 {
     int colision = 0;
@@ -1341,7 +1333,7 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
         collBoxShot_t boxOfUFO = {  .x = UFO_invader.x,
                                     .y = UFO_invader.y,
                                     .width = UFO_WIDTH,           // MAGIC NUMBER, OMG SUENA MAL 1 
-                                    .height = 0,          // MAGIC NUMBER, OMG SUENA MAL 1  SHOULDNT IT BE 2?
+                                    .height = UFO_HEIGHT,          // MAGIC NUMBER, OMG SUENA MAL 1  SHOULDNT IT BE 2?
                                  };
         if( (colision = isCollision( &boxOfUFO, boxOfTheShot )) )
         {
