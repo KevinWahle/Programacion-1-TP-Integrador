@@ -67,7 +67,7 @@
 #define INVADERS_START_HEIGHT 1      // Pixel inician los invaders (desde arriba)
 
 #define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
-#define INVADERS_WALL (D_WIDTH*0.01)     // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_WALL 0                 // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
 #define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
 #define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
 #define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
@@ -1128,8 +1128,6 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
             else   //Si no, hay al menos uno vivo
             {
                 if( (invaders[i][j].x + INVADER_WIDTH) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
-                //!!!!!!!!!! REVISAR: Agregar invader width 
-                //!!!!!!!!!! REVISAR: Agregar invader wall
                 {
                     nextDirection = LEFT;
                 }
