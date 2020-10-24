@@ -724,6 +724,9 @@ static void updateUfoBlocksPos(void)
 
     UFO_invader.blocks[1].x = UFO_invader.x + 1;
     UFO_invader.blocks[1].y = UFO_invader.y;
+
+    UFO_invader.blocks[2].x = UFO_invader.x + 2;
+    UFO_invader.blocks[2].y = UFO_invader.y;
 }
 
 

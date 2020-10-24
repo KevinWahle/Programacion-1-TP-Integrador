@@ -221,7 +221,7 @@ void update_front_event (void)
 */
 void show_level_screen (int level) {
     disp_clear();
-    char ch[]="NL";
+    //char ch[]="NL";
     char chscore[LENG_SC];
     intochar(level,chscore);
     myPoint = (dcoord_t) {0,10};

@@ -326,7 +326,7 @@ void next_letter()
     #ifdef DEBUG
         printf("Se confirmo la letra: %c. El arreglo quedó %s.\n", actual_name[letter_counter], actual_name);
     #endif
-    
+
     //REVISAR:
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.    
     
