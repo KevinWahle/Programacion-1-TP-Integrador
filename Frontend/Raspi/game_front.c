@@ -105,7 +105,7 @@
 #define MIN_SPEED_INVADER  (MIN_PPS_INVADERS/FPS)
 
 #define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     // Seria 1 posibilidad entre 50
-#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  50
+#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  500
 
 
 #define MAX_POSIBILIY_OF_APPEAR_UFO  500
@@ -598,31 +598,31 @@ void shoot_cannon(void)
     //}
 ///////////////////////////////////////////////////////////
 
-    unsigned int k = 0;
-    //printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!\n", canonShotList[0].shotState );
-    while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
-    {
-        k++;        // Busco un lugar en la lista (donde el disparo no este activo)
-        //printf("ENTRO AL WHILE!! k =%d\n", k);
-    }
-    //printf("Between el while y el if, k=%d\n", k);
-    if(k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
-        // //printf("Creo nuevo disparo en k=%d\n", k);
-        // printf("El estado antes de crear el disparo era %d:\n", canonShotList[k].shotState);
-        canonShotList[k] = shot;
-        actualCanonShots++;
-        //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
-    }
+    // unsigned int k = 0;
+    // //printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!\n", canonShotList[0].shotState );
+    // while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
+    // {
+    //     k++;        // Busco un lugar en la lista (donde el disparo no este activo)
+    //     //printf("ENTRO AL WHILE!! k =%d\n", k);
+    // }
+    // //printf("Between el while y el if, k=%d\n", k);
+    // if(k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
+    //     // //printf("Creo nuevo disparo en k=%d\n", k);
+    //     // printf("El estado antes de crear el disparo era %d:\n", canonShotList[k].shotState);
+    //     canonShotList[k] = shot;
+    //     actualCanonShots++;
+    //     //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
+    // }
 
     // OTRA FORMA DE RECORRER LA LISTA DE DISPAROS:
 
-    // for (int i = 0; i < MAX_CANON_SHOT; i++) {
-    //     if (!canonShotList[i].shotState) {
-    //         canonShotList[i] = shot;
-    //         actualCanonShots++;
-    //         break;
-    //     }
-    // }
+    for (int i = 0; i < MAX_CANON_SHOT; i++) {
+        if (!canonShotList[i].shotState) {
+            canonShotList[i] = shot;
+            actualCanonShots++;
+            break;
+        }
+    }
 
     //////////////////////////
 
