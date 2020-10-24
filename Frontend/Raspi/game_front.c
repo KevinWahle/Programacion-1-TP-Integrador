@@ -388,7 +388,7 @@ static void updateCanonPos(void);
 //############## FUNCIONES ONLY RASPBERRY ##############
 //######################################################
 
-static void updateCanonBlocksPos(void);
+static void updateCanonBlocksPos(canon);
 static void cleanDisplay(void);
 
 /*******************************************************************************
@@ -740,7 +740,7 @@ static void updateCanonPos(canon_t *canon)
       default:
         break;
   }
-  updateCanonBlocksPos();
+  updateCanonBlocksPos(canon);
 }
 
 
@@ -752,7 +752,7 @@ static void drawCanon(void)
     updateCanonPos(&canonAux);
     for (int i = 0; i < CANON_BLOCKS; i++)
     {
-      dcoord_t coord = { .x = (int)canonAux.blocks[i].x, .y = (int)canonAux.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
+      dcoord_t coord = { .x = canonAux.blocks[i].x, .y = canonAux.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
       disp_write(coord , D_ON );
     }
 }

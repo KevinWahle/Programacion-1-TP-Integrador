@@ -24,63 +24,63 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 
 
 ################# ALLEGRO ######################
-game: ${OBJS}
-	${CCA} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
+#game: ${OBJS}
+#	${CCA} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
 
 #Para Windows, se compila con las librerias de otra manera
-win: ${OBJS} 
-	${CCA} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
+#win: ${OBJS} 
+#	${CCA} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
 
-Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
-	${CCA} ${OPTIONS} -c Backend/main.c -o Backend/main.o
+#Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
+#	${CCA} ${OPTIONS} -c Backend/main.c -o Backend/main.o
 	
-Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
-	${CCA} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o 
+#Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
+#	${CCA} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o 
 
-Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
-	${CCA} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
+#Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
+#	${CCA} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
 
-Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_ALL} const.h
-	${CCA} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
+#Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_ALL} const.h
+#	${CCA} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
 
-Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
-	${CCA} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
+#Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
+#	${CCA} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
 
-Frontend/Allegro/menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
-	${CCA} ${OPTIONS} -c Frontend/Allegro/menu_front.c -o Frontend/Allegro/menu_front.o
+#Frontend/Allegro/menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
+#	${CCA} ${OPTIONS} -c Frontend/Allegro/menu_front.c -o Frontend/Allegro/menu_front.o
 
-Frontend/Allegro/game_front.o: Frontend/Allegro/game_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
-	${CCA} ${OPTIONS} -c Frontend/Allegro/game_front.c -o Frontend/Allegro/game_front.o
+#Frontend/Allegro/game_front.o: Frontend/Allegro/game_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
+#	${CCA} ${OPTIONS} -c Frontend/Allegro/game_front.c -o Frontend/Allegro/game_front.o
 ###############################################
 
 
 ################### RASPI #######################
-# gameraspi: ${OBJS2} 
-# 	${CCR} ${OPTIONS} ${OBJS2} -o gameraspi
+gameraspi: ${OBJS2} 
+	${CCR} ${OPTIONS} ${OBJS2} -o gameraspi
 
-# Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
-# 	${CCR} ${OPTIONS} -c Backend/main.c -o Backend/main.o
+Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
+	${CCR} ${OPTIONS} -c Backend/main.c -o Backend/main.o
 
-# Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
-# 	${CCR} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
+Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
+	${CCR} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
 
-# Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
-# 	${CCR} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
+Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
+	${CCR} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
 
-# Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_RAS} const.h
-# 	${CCR} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
+Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_RAS} const.h
+	${CCR} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
 
-# Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
-# 	${CCR} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
+Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD} 
+	${CCR} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
 
-# Frontend/Raspi/timer/timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD} 
-# 	${CCR} ${OPTIONS} -c Frontend/Raspi/timer/timer.c -o Frontend/Raspi/timer/timer.o
+Frontend/Raspi/timer/timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD} 
+	${CCR} ${OPTIONS} -c Frontend/Raspi/timer/timer.c -o Frontend/Raspi/timer/timer.o
 
-# Frontend/Raspi/game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
-# 	${CCR} ${OPTIONS} -c Frontend/Raspi/game_front.c -o Frontend/Raspi/game_front.o
+Frontend/Raspi/game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
+	${CCR} ${OPTIONS} -c Frontend/Raspi/game_front.c -o Frontend/Raspi/game_front.o
 
-# Frontend/Raspi/menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
-# 	${CCR} ${OPTIONS} -c Frontend/Raspi/menu_front.c -o Frontend/Raspi/menu_front.o
+Frontend/Raspi/menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
+	${CCR} ${OPTIONS} -c Frontend/Raspi/menu_front.c -o Frontend/Raspi/menu_front.o
 #################################################
 
 clean: 
