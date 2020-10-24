@@ -248,12 +248,14 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     for(int elemento=0; elemento<LENG_SC; elemento++){
         whatisit (actual_name[elemento]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
-        myPoint.x += DIGIT_COL+1;
+        if(elemento<LENG_SC){
+            myPoint.x += DIGIT_COL+1;
+        }
     }
 
     for (int i=0; i<DIGIT_COL; i++){
-         myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
-         disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
+        myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
+        disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
     }
 
     intochar(score,chscore);
