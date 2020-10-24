@@ -134,6 +134,14 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 void show_score (SCORE* score ,int size) 
 { 
     disp_clear();
+    myPoint = (dcoord_t) {0,2};
+
+    for(int i=0; i<LENG_SC; i++) {
+        whatisit(score[0].name[i]);
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
+    }
+     
     // NOTA: COMMING SOON!
 }
 
@@ -199,19 +207,12 @@ void update_front_event (void)
 
 
 /**
- * @brief Muestra imagen de score y muestra el punjate final de partida
- * @param actual_name Recibe un puntero a el nombre que quiere ingresar el usiario
- * @param size Recibe el largo del arreglo
- * @param letter_counter  Recibe la letra a resaltar (va de 0 a size-1)
- * @param score Puntaje de final de partida
-*/
-
-/**
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
-{   
+{   //if pepe=0
     disp_clear();
+    //pepe=1
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,2};
     
@@ -237,6 +238,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     }
     printf("\n");
 } 
+
 
 /**
  * @brief Finaliza el programa y muestra la imagen de finalización

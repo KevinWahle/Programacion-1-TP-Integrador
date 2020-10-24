@@ -127,7 +127,7 @@
 
 #define DIST_2 (SHIELD_WIDTH + PIXELS_B2IN_SHIELDS)
 
-#define UFO_WIDTH 1
+// #define UFO_WIDTH 1 (Ya estaba definida mas arriba)
 
 //***********************************FIN REVISAR CONSTANTES*****************************************/
 
@@ -382,13 +382,13 @@ static void restartTasas(void);
  **/
 
 // CONTINUAR:
-static void updateCanonPos(canon_t *canon);
+static void updateCanonPos(canon_t *canonPointer);
 
 //######################################################
 //############## FUNCIONES ONLY RASPBERRY ##############
 //######################################################
 
-static void updateCanonBlocksPos(canon_t *canon);
+static void updateCanonBlocksPos(canon_t *canonPointer);
 static void cleanDisplay(void);
 
 /*******************************************************************************
@@ -718,21 +718,21 @@ static void updateUfoBlocksPos(void)
 }
 
 
-static void updateCanonPos(canon_t *canon)
+static void updateCanonPos(canon_t *canonPointer)
 {
-    switch(canon->direction)
+    switch(canonPointer->direction)
     {
       case LEFT:
-        if((canon->x - TASA_DE_CAMBIO_CANON) >= 0)
+        if((canonPointer->x - TASA_DE_CAMBIO_CANON) >= 0)
         {
-          canon->x -= TASA_DE_CAMBIO_CANON;
+          canonPointer->x -= TASA_DE_CAMBIO_CANON;
         }
         break;
 
       case RIGHT:
-        if((canon->x  +  CANON_WIDTH + TASA_DE_CAMBIO_CANON) < D_WIDTH)
+        if((canonPointer->x  +  CANON_WIDTH + TASA_DE_CAMBIO_CANON) < D_WIDTH)
         {
-          canon->x += TASA_DE_CAMBIO_CANON;
+          canonPointer->x += TASA_DE_CAMBIO_CANON;
         }
         break;
 
@@ -740,7 +740,7 @@ static void updateCanonPos(canon_t *canon)
       default:
         break;
     }
-    updateCanonBlocksPos(canon);
+    updateCanonBlocksPos(canonPointer);
 }
 
 
