@@ -66,11 +66,19 @@
 #define INVADERS_HEIGHT  1          // Alto de los invaders en pixeles
 #define INVADERS_START_HEIGHT 1      // Pixel inician los invaders (desde arriba)
 
-#define INVADERS_FLOOR  9.5  // Espacio desde el techo hasta "piso" de los invasores
-#define INVADERS_WALL 0.1                  // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
-#define INVADERS_FALL 0.34           // Espacio de caida de los invaders al llegar a cada tope 
+//#define INVADERS_FLOOR  9.5  // Espacio desde el techo hasta "piso" de los invasores
+//#define INVADERS_WALL 0.1                  // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+//#define INVADERS_FALL 0.34           // Espacio de caida de los invaders al llegar a cada tope 
+//#define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
+//#define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
+
+#define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
+#define INVADERS_WALL (D_WIDTH*0.01)     // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
 #define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
 #define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
+
+
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 

@@ -10,6 +10,7 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
+#include "../../const.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -18,7 +19,7 @@
 #if PLATFORM==ALLEGRO 
     #define NAME_SIZE            5 // Implica que cada nombre tiene que tener 5 letras como máximo en allegro.
     #define LEADERBOARD_SIZE     8 // Tamaño del top de allegro
-#elif  PLATFORM==RASPI
+#elif PLATFORM==RASPI
     #define NAME_SIZE            4 // Implica que cada nombre tiene que tener 5 letras como máximo en raspi.
     #define LEADERBOARD_SIZE     1 // Tamaño del top de raspi
 #endif

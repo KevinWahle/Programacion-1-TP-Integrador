@@ -112,7 +112,7 @@ const int LETTER_E[][DIGIT_COL] = { {1, 1, 1},      // 1 1 1
 const int LETTER_F[][DIGIT_COL] = { {1, 1, 1},      // 1 1 1
                                     {1, 0, 0},      // 1   
                                     {1, 1, 1},      // 1 1 1
-                                    {1, 0, 1},      // 1
+                                    {1, 0, 0},      // 1
                                     {1, 0, 0} };    // 1 
 
 const int LETTER_G[][DIGIT_COL] = { {1, 1, 1},      // 1 1 1
@@ -129,7 +129,7 @@ const int LETTER_H[][DIGIT_COL] = { {1, 0, 1},      // 1   1
 
 const int LETTER_I[][DIGIT_COL] = { {0, 1, 0},      //   1 
                                     {0, 1, 0},      //   1  
-                                     {0, 1, 0},      //   1
+                                    {0, 1, 0},      //   1
                                     {0, 1, 0},      //   1  
                                     {0, 1, 0} };    //   1       
 
