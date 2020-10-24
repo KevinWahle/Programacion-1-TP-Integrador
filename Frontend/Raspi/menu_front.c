@@ -221,10 +221,18 @@ void update_front_event (void)
 */
 void show_level_screen (int level) {
     disp_clear();
-    //char ch[]="NL";
+    char ch[]="NL";
     char chscore[LENG_SC];
-    intochar(level,chscore);
-    myPoint = (dcoord_t) {0,10};
+    
+    myPoint = (dcoord_t) {0,2};     //Imprime el las letras de NEW LEVEL "NL"
+    for(int i=0; chs[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
+        whatisit (ch[i]);
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        myPoint.x += DIGIT_COL+1;   //muevo el puntero el grosor de la letra + el espacio.
+    }
+
+    intochar(level,chscore);        
+    myPoint = (dcoord_t) {0,10};    //Imprime el numero del proximo nivel
     for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
         whatisit (chscore[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
@@ -232,33 +240,30 @@ void show_level_screen (int level) {
     }
 }
 
+
 /**
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
-{   
-//    if(end_game==FALSE){             // La primera vez que salgo 
-        disp_clear();
-//        end_game = TRUE;
-//    }
-
+{    
+    disp_clear();
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,1};
     
-    for(int elemento=0; elemento<LENG_SC; elemento++){
-        printf("X1= %d\n", myPoint.x);       
+    for(int elemento=0; elemento<LENG_SC; elemento++){              // Imprime los caracteres del nombre.      
         whatisit (actual_name[elemento]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
         myPoint.x += DIGIT_COL+1;
     }
-    printf("\n");
     
-    for (int i=0; i<DIGIT_COL; i++){
-        printf("X2= %d\n", myPoint.x);
-        if(letter_counter<3){
+    for (int i=0; i<DIGIT_COL; i++){        //Imprime la barra que indica la letra
+        printf("letter_counter: %d \n, letter_counter");
+        printf("columna: %d \n, letter_counter*(DIGIT_COL+1)+i");    
+        if(letter_counter<=3){
             myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
             disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
-        }    
+        }
+            
     }
 
     intochar(score,chscore);

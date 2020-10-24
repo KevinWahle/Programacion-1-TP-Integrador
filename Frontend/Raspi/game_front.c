@@ -66,38 +66,20 @@
 #define INVADERS_HEIGHT  1          // Alto de los invaders en pixeles
 #define INVADERS_START_HEIGHT 1      // Pixel inician los invaders (desde arriba)
 
-#define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
-#define INVADERS_WALL 0             // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
-#define INVADERS_FALL 1    // Espacio de caida de los invaders al llegar a cada tope 
+#define INVADERS_FLOOR  10  // Espacio desde el techo hasta "piso" de los invasores
+#define INVADERS_WALL 0                  // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_FALL 1                    // Espacio de caida de los invaders al llegar a cada tope 
 #define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
 #define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
-
-#define BIG_INVADER_POINTER (octoPointer[0])    // El puntero al invader más grande
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
 #define MAX_CANON_SHOT 3                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
-//##### Blocks #####                              // Cada block seria justamente cada bloque que compone a un shield.
-#define B_WIDTH_PERCENT  0.03                     // Porcentaje que ocupa el block por sobre el tamanio del display
-#define B_HEIGHT_PERCENT  0.03                    // 
-#define B_WIDTH    (D_WIDTH * B_WIDTH_PERCENT)
-#define B_HEIGHT   (D_WIDTH * B_HEIGHT_PERCENT)
-#define Y_PERCENT  0.76
 
-#define Y1  (D_HEIGHT * Y_PERCENT)                // Posicion en y en la que van a estar alineados los shields
-#define BLOCK_LIVES 4                             //Vidas del bloque, se puede modificar, pero si se la modifica se debe modificar la cantidad de colores
-                                                  // y todos los estados posibles de los bloques
 //##### Shields ####
 
 #define TOTAL_SHIELDS 4                  // Para todo n, en particular n = 4
-
-#define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
-#define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)   // Offset se refiere a la distancia en x que queda entre los puntos (0, y) y el shield que esta mas a la izquierda
-#define SHIELDERS_WIDTH_ABSOLUTE  (SHIELDERS_WIDTH_PERCENT * D_WIDTH)
-#define OFFSET_FROM_WALL_ABCSOLUTE  (OFFSET_FROM_WALL_PERCENT * D_WIDTH)
-
-#define DIST   ((SHIELDERS_WIDTH_ABSOLUTE - TOTAL_SHIELDS * SHIELD_WIDTH)/(TOTAL_SHIELDS - 1) )    // Cuenta que se usa en void placeShields(void), justamente para ubicarlos adecuadamente
 
 
 //TOPES MAXIMOS Y MINIMOS DE VELOCIDAD DE INVADERS Y PROBABILIDADES
@@ -270,10 +252,7 @@ static void getCanonShotCollision(void);
 */
 static direction_t moveInvaders(direction_t direction);
 
-/**
- * @brief Mueve el conjunto para abajo
-*/
-static void moveInvadersDown(void);
+/**B_WIDTH_PERCENTnvadersDown(void);
 
 /**
  * @brief Dice si toco piso o no algun invader
