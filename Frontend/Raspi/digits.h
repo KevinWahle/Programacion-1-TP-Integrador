@@ -129,7 +129,7 @@ const int LETTER_H[][DIGIT_COL] = { {1, 0, 1},      // 1   1
 
 const int LETTER_I[][DIGIT_COL] = { {0, 1, 0},      //   1 
                                     {0, 1, 0},      //   1  
-                                    {0, 1, 0},      //   1
+                                     {0, 1, 0},      //   1
                                     {0, 1, 0},      //   1  
                                     {0, 1, 0} };    //   1       
 
@@ -235,7 +235,7 @@ const int LETTER_Z[][DIGIT_COL] = { {1, 1, 1},      // 1 1 1
                                     {1, 0, 0},      // 1      
                                     {1, 1, 1} };    // 1 1 1
 
-const int NULL_CHAR[][DIGIT_COL] = { {0, 0, 0},     //
+const int NULL_CHAR[][DIGIT_COL] = {{0, 0, 0},      //
                                     {0, 0, 0},      // 
                                     {0, 0, 0},      // 
                                     {0, 0, 0},      // 

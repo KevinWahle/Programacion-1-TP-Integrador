@@ -129,10 +129,11 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 
 
 /**
- * @brief Muestra los mejores puntajes, máximo 10.
+ * @brief Muestra el mejor puntaje
 */
 void show_score (SCORE* score ,int size) 
 { 
+    disp_clear();
     // NOTA: COMMING SOON!
 }
 
@@ -295,15 +296,9 @@ void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO T
 
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
- * REVISAR: Que pasa si llega un caracter nulo?
 */
 void whatisit (char caracter) 
-{    
-    if (caracter==' ')
-    {
-        caracter=-1;                                            // Basili: ALTO magic number pero tenia que irme a comer
-    }
-    
+{     
     if (caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9) {     //Los números van de 0 a 9
         caracter = caracter - NUMOFFSET;
     }
@@ -318,9 +313,6 @@ void whatisit (char caracter)
 
     switch (caracter)                                           // Guardo los punteros al caracter seleccionado 
     {    
-    case -1:                                                    // Basili: ALTO magic number pero tenia que irme a comer
-        my_char=NULL_CHAR;           
-        break;
     case 0:
         my_char=NUMBER_0;           
         break;

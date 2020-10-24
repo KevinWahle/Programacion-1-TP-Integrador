@@ -33,7 +33,7 @@
 #define CANON_WIDTH 2
 #define CANON_HEIGHT 1
 
-#define CANON_Y_POS  D_HEIGHT-CANON_HEIGHT
+#define CANON_Y_POS  D_HEIGHT-CANON_HEIGHT-1 // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 <= Y <= 15
 
 #define UFO_WIDTH 1
 #define UFO_HEIGHT 1
@@ -382,13 +382,13 @@ static void restartTasas(void);
  **/
 
 // CONTINUAR:
-static void updateCanonPos(void);
+static void updateCanonPos(canon_t *canon);
 
 //######################################################
 //############## FUNCIONES ONLY RASPBERRY ##############
 //######################################################
 
-static void updateCanonBlocksPos(canon);
+static void updateCanonBlocksPos(canon_t *canon);
 static void cleanDisplay(void);
 
 /*******************************************************************************
@@ -452,7 +452,7 @@ void init_game(void) {
     disp_clear();
 
     canon.x = 4;  // MAGIC NUMBER
-    canon.y = D_HEIGHT - CANON_HEIGHT - 1; // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 <= Y <= 15
+    canon.y = CANON_Y_POS;
 
     restartTasas();
 
@@ -676,23 +676,23 @@ void initCanon(void)
         canon.blocks[i].height = 0;
         canon.blocks[i].state = 1;    // No creo que importe mucho el state
     }
-    updateCanonBlocksPos();       //Siempre que se actualize la posicion, hay que actualizar la posicion de todos los bloques que forman el objeto
+    updateCanonBlocksPos(&canon);       //Siempre que se actualize la posicion, hay que actualizar la posicion de todos los bloques que forman el objeto
 }
 
 
-static void updateCanonBlocksPos(void)
+static void updateCanonBlocksPos(canon_t *canon)
 {
-    canon.blocks[0].x = canon.x + 1;
-    canon.blocks[0].y = canon.y;
+    canon->blocks[0].x = canon->x + 1;
+    canon->blocks[0].y = canon->y;
 
-    canon.blocks[1].x = canon.x;
-    canon.blocks[1].y = canon.y + 1;
+    canon->blocks[1].x = canon->x;
+    canon->blocks[1].y = canon->y + 1;
 
-    canon.blocks[2].x = canon.x + 1;
-    canon.blocks[2].y = canon.y + 1;
+    canon->blocks[2].x = canon->x + 1;
+    canon->blocks[2].y = canon->y + 1;
 
-    canon.blocks[3].x = canon.x + 2;
-    canon.blocks[3].y = canon.y + 1;
+    canon->blocks[3].x = canon->x + 2;
+    canon->blocks[3].y = canon->y + 1;
 }
 
 
@@ -739,17 +739,16 @@ static void updateCanonPos(canon_t *canon)
       case STOP:
       default:
         break;
-  }
-  updateCanonBlocksPos(canon);
+    }
+    updateCanonBlocksPos(canon);
 }
 
 
 static void drawCanon(void)
 {
     canon_t canonAux = canon;
-    updateCanonPos(&canon);
-    canonAux.x = (int)canonAux.x;  // CHADsteo deberia ser a uint8_t
-    updateCanonPos(&canonAux);
+    canonAux.x = (int)canon.x;
+    updateCanonBlocksPos(&canonAux);
     for (int i = 0; i < CANON_BLOCKS; i++)
     {
       dcoord_t coord = { .x = canonAux.blocks[i].x, .y = canonAux.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
