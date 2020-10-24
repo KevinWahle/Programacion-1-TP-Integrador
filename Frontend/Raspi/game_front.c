@@ -67,7 +67,7 @@
 #define INVADERS_START_HEIGHT 1      // Pixel inician los invaders (desde arriba)
 
 #define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
-#define INVADERS_WALL 0                 // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_WALL 0             // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
 #define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
 #define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
 #define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
