@@ -131,18 +131,27 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 /**
  * @brief Muestra el mejor puntaje
 */
-void show_score (SCORE* score ,int size) 
+void show_score (SCORE* score ,int size)  
 { 
+    printf("ENTRE");                        //NOT
     disp_clear();
+    char chscore[LENG_SC];
+    unsigned long int num = 0;
     myPoint = (dcoord_t) {0,2};
-
     for(int i=0; i<LENG_SC; i++) {
         whatisit(score[0].name[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
-     
-    // NOTA: COMMING SOON!
+
+    num=score[0].pts
+    intochar(num,chscore);
+    myPoint = (dcoord_t) {0,10};
+    for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
+        whatisit (chscore[i]);
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
+    }
 }
 
 

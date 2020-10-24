@@ -746,8 +746,9 @@ static void updateCanonPos(canon_t *canonPointer)
 
 static void drawCanon(void)
 {
+    updateCanonPos(&canon);
     canon_t canonAux = canon;
-    canonAux.x = (int)canon.x;
+    canonAux.x = (int)canon.x;      // Para castear a int
     updateCanonBlocksPos(&canonAux);
     for (int i = 0; i < CANON_BLOCKS; i++)
     {
