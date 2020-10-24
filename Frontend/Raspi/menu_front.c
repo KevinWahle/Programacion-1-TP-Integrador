@@ -30,6 +30,7 @@ enum {A=10,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
+
 dcoord_t myPoint;
 jcoord_t myCoords;
 jswitch_t mySwitch;
