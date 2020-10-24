@@ -258,9 +258,9 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     
     for (int i=0; i<DIGIT_COL; i++){        //Imprime la barra que indica la letra
         printf("letter_counter: %d \n", letter_counter);
-        printf("columna: %d \n", letter_counter*(DIGIT_COL+1)+i-1);    
+        printf("columna: %d \n", letter_counter*(DIGIT_COL+1)+i);    
         if(letter_counter<=3){
-            myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i-1, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
+            myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
             disp_write(myPoint, D_ON);             // Enciendo el led correspondiente    
         }  
     }
