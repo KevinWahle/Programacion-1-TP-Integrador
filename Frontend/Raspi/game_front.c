@@ -100,16 +100,14 @@
 
 //********************CONSTANTES DE RASPI, EN PARTICULAR LA DE BLOQUES****************************/
 
-#define PIXELS_B2IN_SHIELDS 2
+#define PIXELS_B2IN_SHIELDS 2       // Cantidad de pixeles entre los escudos
 #define PIXELS_MARGIN 1
-#define SHIELD_WIDTH 2
-#define SHIELD_HEIGHT 2
+#define SHIELD_PIXELS_WIDTH 2
 
-#define SHIELDS_Y1 11
+#define SHIELDS_Y1 11               // Posicion en y donde van los shields
 
 #define DIST_2 (SHIELD_WIDTH + PIXELS_B2IN_SHIELDS)
 
-// #define UFO_WIDTH 1 (Ya estaba definida mas arriba)
 
 //***********************************FIN REVISAR CONSTANTES*****************************************/
 

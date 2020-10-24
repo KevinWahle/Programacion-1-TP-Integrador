@@ -225,7 +225,7 @@ void show_level_screen (int level) {
     char chscore[LENG_SC];
     
     myPoint = (dcoord_t) {0,2};     //Imprime el las letras de NEW LEVEL "NL"
-    for(int i=0; chs[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
+    for(int i=0; ch[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
         whatisit (ch[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1;   //muevo el puntero el grosor de la letra + el espacio.
@@ -257,8 +257,8 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
     }
     
     for (int i=0; i<DIGIT_COL; i++){        //Imprime la barra que indica la letra
-        printf("letter_counter: %d \n, letter_counter");
-        printf("columna: %d \n, letter_counter*(DIGIT_COL+1)+i");    
+        printf("letter_counter: %d \n", letter_counter);
+        printf("columna: %d \n", letter_counter*(DIGIT_COL+1)+i);    
         if(letter_counter<=3){
             myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
             disp_write(myPoint, D_ON);             // Enciendo el led correspondiente
