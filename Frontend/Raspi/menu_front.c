@@ -30,7 +30,7 @@ enum {A=10,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
-
+//static BOOL end_game=FALSE;
 dcoord_t myPoint;
 jcoord_t myCoords;
 jswitch_t mySwitch;
@@ -114,6 +114,7 @@ void splash_front()
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
     disp_clear();
+   // end_game=FALSE;
     myPoint = (dcoord_t) {0,6};
     for(int i=0; menu_to_show[item].option[i]!='\0' && i<LENG_SC; i++){   //Maximo 4 letras por palabra
         whatisit (menu_to_show[item].option[i]);
@@ -216,11 +217,32 @@ void update_front_event (void)
 
 
 /**
+ * @brief Pantalla entre niveles
+*/
+void show_level_screen (int level) {
+    disp_clear();
+    char ch[]="NL";
+    char chscore[LENG_SC];
+    intochar(level,chscore);
+    myPoint = (dcoord_t) {0,10};
+    for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
+        whatisit (chscore[i]);
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
+    }
+
+}
+
+/**
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
 {   
-    disp_clear();
+//    if(end_game==FALSE){             // La primera vez que salgo 
+        disp_clear();
+//        end_game = TRUE;
+//    }
+
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,2};
     

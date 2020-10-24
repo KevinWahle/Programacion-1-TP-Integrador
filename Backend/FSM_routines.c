@@ -327,6 +327,9 @@ void next_letter()
         printf("Se confirmo la letra: %c. El arreglo quedó %s.\n", actual_name[letter_counter], actual_name);
     #endif
     
+    //REVISAR:
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.    
+    
     }
 }      
 
@@ -340,6 +343,10 @@ void previous_letter()
         #endif
         
         letter=actual_name[letter_counter];             // Cargo la anterior letra de la nueva ubicación.
+
+    //REVISAR:
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
+
     }   
 }
 
@@ -360,6 +367,9 @@ void upper_letter()
         printf("Se pasó a la letra %c \n", letter);
     #endif
     actual_name[letter_counter]=letter;
+
+    //REVISAR:
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
 }
 
 void lower_letter()
@@ -378,6 +388,9 @@ void lower_letter()
         printf("Se pasó a la letra %c\n", letter);
     #endif
     actual_name[letter_counter]=letter;
+
+    //REVISAR:
+    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
 }
 
 void save_score(){

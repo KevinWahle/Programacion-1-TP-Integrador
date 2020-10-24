@@ -134,7 +134,7 @@ STATE saving_score_state[] = {
     {MOVE_RIGHT, saving_score_state, next_letter},
     {EXIT_EVENT, NULL, quit_game}, 
     {PAUSE_BTN, menu_state, my_menu},
-    {NULL_EVENT, saving_score_state, show_name} 
+    {NULL_EVENT, saving_score_state, doNothing} //REVISAR: show_name
 };
 
 STATE global_score_state[] = {

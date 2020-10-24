@@ -22,7 +22,7 @@
 #define D_HEIGHT 16
 
 #define CANON_BLOCKS 4
-#define UFO_BLOCKS 2
+#define UFO_BLOCKS 3
 #define INVADER_BLOCK 2  // Es al pedo porque para evaluar la colision solo hay que ver si tienen la misma posicion, pero para no confundir 
                          // Es al pedo que la estructura de invader tenga un bloque
 #define SHIELDS_BLOCKS 4
@@ -623,11 +623,6 @@ void shoot_cannon(void)
             break;
         }
     }
-
-    //////////////////////////
-
-
-
 }
 
 

@@ -83,6 +83,12 @@ void show_score (SCORE* score ,int size);
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score);
 
 /**
+ * @brief Pantalla entre niveles
+ * @param level nivel en el que se encuentra
+*/
+void show_level_screen (int level);
+
+/**
  * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".
  **/
 void update_front_event();
@@ -91,6 +97,7 @@ void update_front_event();
  * @brief Finaliza el programa y muestra la imagen de finalización
  **/
 void destroy_front();
+
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR IN-GAME
