@@ -133,7 +133,6 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 */
 void show_score (SCORE* score ,int size)  
 { 
-    printf("ENTRE");                        //NOTA: sacar
     disp_clear();
     char chscore[LENG_SC];
     unsigned long int num = 0;
@@ -219,9 +218,8 @@ void update_front_event (void)
  * @brief Muestra el puntaje al final de la partida y el ingreso del nombre.
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
-{   //if pepe=0
+{   
     disp_clear();
-    //pepe=1
     char chscore[LENG_SC];
     myPoint = (dcoord_t) {0,2};
     
@@ -238,14 +236,11 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
 
     intochar(score,chscore);
     myPoint = (dcoord_t) {0,10};
-    printf("Puntaje: \t");
     for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
         whatisit (chscore[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
-        printf("%c",chscore[i]);
     }
-    printf("\n");
 } 
 
 

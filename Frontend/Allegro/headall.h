@@ -113,6 +113,7 @@ void placeInvaders(void);
 
 /**
  * @brief Pantalla entre niveles
+ * @param level nivel en el que se encuentra
 */
 void show_level_screen (int level);
 

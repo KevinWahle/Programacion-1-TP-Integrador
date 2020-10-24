@@ -586,33 +586,47 @@ void shoot_cannon(void)
 {   
     float x_shot = canon.blocks[0].x;      
     float y_shot = canon.blocks[0].y - 1; 
-    // unsigned int k = 0;
 
     shot_t shot = { .x = x_shot,
                     .y = y_shot,
                     .shotState = 1
                   };
 
-/// SOLUCION RANCIA Y POCO ESCALABLE QUE SOLO LA USAMOS PORQUE SE ROMPIO TODO /////////////////
-    if (canonShotList[0].shotState == 0) {
-        canonShotList[0] = shot;
-    }
+/// //SOLUCION RANCIA Y POCO ESCALABLE QUE SOLO LA USAMOS PORQUE SE ROMPIO TODO /////////////////
+    //if (canonShotList[0].shotState == 0) {
+    //    canonShotList[0] = shot;
+    //}
 ///////////////////////////////////////////////////////////
 
-    // //printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!\n", canonShotList[0].shotState );
-    // while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
-    // {
-    //     k++;        // Busco un lugar en la lista (donde el disparo no este activo)
-    //     //printf("ENTRO AL WHILE!! k =%d\n", k);
+    unsigned int k = 0;
+    //printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!\n", canonShotList[0].shotState );
+    while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
+    {
+        k++;        // Busco un lugar en la lista (donde el disparo no este activo)
+        //printf("ENTRO AL WHILE!! k =%d\n", k);
+    }
+    //printf("Between el while y el if, k=%d\n", k);
+    if(k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
+        // //printf("Creo nuevo disparo en k=%d\n", k);
+        // printf("El estado antes de crear el disparo era %d:\n", canonShotList[k].shotState);
+        canonShotList[k] = shot;
+        actualCanonShots++;
+        //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
+    }
+
+    // OTRA FORMA DE RECORRER LA LISTA DE DISPAROS:
+
+    // for (int i = 0; i < MAX_CANON_SHOT; i++) {
+    //     if (!canonShotList[i].shotState) {
+    //         canonShotList[i] = shot;
+    //         actualCanonShots++;
+    //         break;
+    //     }
     // }
-    // //printf("Between el while y el if, k=%d\n", k);
-    // if(k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
-    //     // //printf("Creo nuevo disparo en k=%d\n", k);
-    //     // printf("El estado antes de crear el disparo era %d:\n", canonShotList[k].shotState);
-    //     canonShotList[k] = shot;
-    //     actualCanonShots++;
-    //     //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
-    // }
+
+    //////////////////////////
+
+
 
 }
 
