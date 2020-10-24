@@ -15,8 +15,13 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 
-#define NAME_SIZE    5 // Implica que cada nombre tiene que tener 5 letras como máximo
-#define LEADERBOARD_SIZE     8 // Tamaño del top
+#if PLATFORM==ALLEGRO 
+    #define NAME_SIZE            5 // Implica que cada nombre tiene que tener 5 letras como máximo en allegro.
+    #define LEADERBOARD_SIZE     8 // Tamaño del top de raspi
+#elif  PLATFORM==RASPI
+    #define NAME_SIZE            4 // Implica que cada nombre tiene que tener 5 letras como máximo en raspi.
+    #define LEADERBOARD_SIZE     1 // Tamaño del top de ras
+#endif
 
 
 /*******************************************************************************
