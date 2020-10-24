@@ -85,7 +85,6 @@ Frontend/Raspi/menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINU
 
 clean: 
 	rm Backend/*.o
-	rm Backend/event_queue/*.o
 	rm Frontend/Raspi/*.o
 #rm Frontend/Allegro/*.o
 	rm Backend/event_queue/*.o
