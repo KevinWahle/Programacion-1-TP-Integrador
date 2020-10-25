@@ -1102,7 +1102,38 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
     }
     return nextDirection;
 }
-
+static int is_invadersOnFloor(void)
+{
+    int i = FIL_INVADERS - 1;
+    int state = 0;
+    int onFloor = 0;
+    while( i >= 0 && !state )                                         //Arranco en la fila de mas abajo, que seria la primera en tocar el piso
+    {
+        int j = 0;
+        while(   j < COL_INVADERS  && !invaders[i][j].invaderState  ) // Busco el primer invader vivo de la columna, 
+        {
+            j++;
+        }
+        if( j == COL_INVADERS  ) // Entonces estaban todos muertos
+        {
+            i--;
+        }
+        else   //Si no, hay al menos uno vivo
+        {
+            if( invaders[i][j].y > INVADERS_FLOOR )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+            {
+                state = 1;
+                onFloor = 1;
+            }
+            else
+            {
+                state = 1;   //Encontraste un vivo tal que todavia no paso la linea => me mantengo en el sentido
+                onFloor = 0;
+            }
+        }
+    }    
+    return onFloor;
+}
 
 static void shouldInvaderShot(void)
 {
