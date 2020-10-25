@@ -308,7 +308,7 @@ void show_global_score(void) {
     if (cant==LEADERBOARD_SIZE+1){
         cant=LEADERBOARD_SIZE;
     }
-    printf("Ordeno el leadscore \n")
+    printf("Ordeno el leadscore \n");
     put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se reordene la lista sí o sí. 
     printf ("Llamo a la funcion show_score\n");    
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
