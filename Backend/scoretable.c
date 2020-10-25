@@ -51,7 +51,6 @@ void BubbleSort(SCORE arr[], int cont);
  *******************************************************************************
  ******************************************************************************/
 
-
 void put_score (char* name, unsigned long int score, const int top, SCORE* my_pun)
 {
     FILE* fp;
@@ -81,6 +80,7 @@ void put_score (char* name, unsigned long int score, const int top, SCORE* my_pu
     }
 	
 }
+
 
 int lect_score (SCORE* my_pun)
 {
@@ -117,8 +117,8 @@ int lect_score (SCORE* my_pun)
             *my_pun=score_data;
             printf ("cargo el puntaje en la memoria\n");
             my_pun++;                               // Apuntamos al siguiente nombre y puntaje
-            cant++;                               
         }
+        cant++;                               
     } while (c!=EOF);                            // Repetimos lo anterior hasta que hayamos leido todo el archivo
     printf ("salgo del while \n");
     fclose(fp);                                 // Cerramos el archivo
@@ -127,12 +127,12 @@ int lect_score (SCORE* my_pun)
 }
 
 
-
 /*******************************************************************************
  *******************************************************************************
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+
 
 void BubbleSort (SCORE arr[], int cont){
 	SCORE temp;
