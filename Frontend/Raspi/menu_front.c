@@ -213,7 +213,7 @@ void update_front_event (void)
         add_event(PAUSE_BTN);           // Me fijo si se solto en MAS del
         press = FALSE;                  //tiempo para considerarlo pausa.
     }
-    
+
 }   
 
 
