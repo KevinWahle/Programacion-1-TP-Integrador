@@ -1023,22 +1023,22 @@ static direction_t moveInvaders(direction_t direction)
         moveInvadersDown();
     }
     else {
-    for (int i = 0; i < FIL_INVADERS; i++)
-    {
-        for(int j = 0; j < COL_INVADERS; j++ )
+        for (int i = 0; i < FIL_INVADERS; i++)
         {
-            if(nextDirection == LEFT)
+            for(int j = 0; j < COL_INVADERS; j++ )
             {
-                invaders[i][j].x -= tasaDeCambioInvaders;
-                updateInvadersBlocksPos(i, j);
-            }
-            else if(nextDirection == RIGHT)
-            {
-                invaders[i][j].x += tasaDeCambioInvaders;
-                updateInvadersBlocksPos(i, j);
+                if(nextDirection == LEFT)
+                {
+                    invaders[i][j].x -= tasaDeCambioInvaders;
+                    updateInvadersBlocksPos(i, j);
+                }
+                else if(nextDirection == RIGHT)
+                {
+                    invaders[i][j].x += tasaDeCambioInvaders;
+                    updateInvadersBlocksPos(i, j);
+                }
             }
         }
-    }
     }
 
     //INCLUIR: updateblockinvader(); 
