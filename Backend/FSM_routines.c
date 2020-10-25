@@ -302,20 +302,13 @@ void show_game_score(){
 
 
 void show_global_score(void) {
-    printf("Entre al global score\n");       
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
-    printf ("estoy aca\n");
     int cant= lect_score(p_leadboard);                // Coloco en memoria los datos del score y guardo la cantidad en cant
-    printf ("estoy aca2\n");
     if (cant==LEADERBOARD_SIZE+1){
-        printf ("estoy aca3\n");
         cant=LEADERBOARD_SIZE;
     }
-    printf("Ordeno el leadscore \n");
-    put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se reordene la lista sí o sí. 
-    printf ("Llamo a la funcion show_score\n");    
+    put_score ("Pueba", 0, LEADERBOARD_SIZE, p_leadboard);  // Obligo a que se reordene la lista sí o sí.
     show_score (p_leadboard, cant);                   // Llamo a la funcion que se encragra de mostrarlo en pantalla
-    printf ("salgo de la funcion show_score\n");
 }
 
 void next_letter()
@@ -334,7 +327,6 @@ void next_letter()
         printf("Se confirmo la letra: %c. El arreglo quedó %s.\n", actual_name[letter_counter], actual_name);
     #endif
 
-    //REVISAR:
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.    
     
     }
@@ -375,7 +367,6 @@ void upper_letter()
     #endif
     actual_name[letter_counter]=letter;
 
-    //REVISAR:
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
 }
 
@@ -396,7 +387,6 @@ void lower_letter()
     #endif
     actual_name[letter_counter]=letter;
 
-    //REVISAR:
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
 }
 

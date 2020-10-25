@@ -1135,18 +1135,6 @@ static int is_invadersOnFloor(void)
     }    
     return onFloor;
 }
-
-static void shouldInvaderShot(void)
-{
-    for (int j = 0; j < COL_INVADERS; j++)
-    {
-        int i = FIL_INVADERS - 1;
-        while( i >= 0  &&   !invaders[i][j].invaderState )  //Busco los invaders (vivos) tales que abajo de ellos no tengan ningun invader vivo
-        {
-            i--;
-        }
-        if( i >= 0)          // entonces se encontro algun invader vivo
-        {
             if(  !(rand() % probDisparoInvaders) )
                 invaderShot(i, j);
         }

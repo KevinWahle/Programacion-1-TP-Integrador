@@ -84,7 +84,6 @@ void put_score (char* name, unsigned long int score, const int top, SCORE* my_pu
 
 int lect_score (SCORE* my_pun)
 {
-    printf ("entre a lect score\n");
     FILE* fp;
     char str[NAME_SIZE+1];       // Arreglo con el nombre
     SCORE score_data;           // Tipo de dato que almacena nombre y puntaje
@@ -92,7 +91,6 @@ int lect_score (SCORE* my_pun)
     unsigned long int num;      // Numero con el puntaje
     int cant =-1;               // Contador. Cuenta  la canitdad de puntajes que tiene el archivo
     fp=fopen ("score.txt","r"); // Abro el archivo
-    printf ("hago el fopen\n");
     do
     {
         num=0;
@@ -100,32 +98,24 @@ int lect_score (SCORE* my_pun)
         fgets(str, NAME_SIZE+1, fp);            //Leo el string con el nombre
    //   char temp=fgetc (fp);                   // Leo el espacio (basura)
         fgetc(fp);
-        printf ("leo el nombre\n");
 
         while ( (c = fgetc(fp) ) != EOF && c!= '\n'){ // Mientras que no Lea un enter, o el archivo se termine
             num = num*10 + (c - OFFSET);              // vamos conformando el numero con los caracteres
-            printf("C: %d\n",c); 
         }
-        printf("C: %d\n",c); 
 
-        printf ("leo hasta un enter\n");
         if (c!=EOF)
         {
             for (int j=0; j<=NAME_SIZE; j++){
                 score_data.name[j]=str[j];          // Cargamos el nombre a la memoria
             }
-            printf ("cargo el nombre en la memoria\n");
             score_data.pts=num;                     // Cargamos el puntaje a la memoria
             *my_pun=score_data;
-            printf ("cargo el puntaje en la memoria\n");
             my_pun++;                               // Apuntamos al siguiente nombre y puntaje
         }
         cant++; 
                                  
     } while (c!=EOF);                            // Repetimos lo anterior hasta que hayamos leido todo el archivo
-    printf ("salgo del while \n");
     fclose(fp);                                 // Cerramos el archivo
-    printf ("hago el fclose\n"); 
     return cant;
 }
 

@@ -263,7 +263,7 @@ int loadim_game ()
                 al_destroy_bitmap(squidPointer[0]);
             }
             else
-                fprintf(stderr, "ERROR: failed to load Squid1 !\n");
+            fprintf(stderr, "ERROR: failed to load Squid1 !\n");
             al_destroy_bitmap(UFO_invader.invadersPointer);
         } else
             fprintf(stderr, "ERROR: failed to load UFO !\n");
@@ -286,8 +286,8 @@ void splash_front()
     al_flip_display();
     al_rest(1.5);
     show_inst ();       // REVISAR: ACA DECIA shows_inst()
-    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 500, ALLEGRO_ALIGN_CENTER, "Presione la tecla espacio para continuar...");
-    al_flip_display();
+    //al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 500, ALLEGRO_ALIGN_CENTER, "Presione la tecla espacio para continuar...");
+    //al_flip_display();
 }
 
 
@@ -310,6 +310,8 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
     for(int i=0;i<size;i++) {
         al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), altin+(i*80), ALLEGRO_ALIGN_CENTER, menu_to_show[i].option);  //Imprime en pantalla todas las palabras
     }
+    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), altin+(item*80), ALLEGRO_ALIGN_CENTER, menu_to_show[item].option);
+    al_flip_display();
 }
 
 
@@ -378,10 +380,9 @@ void show_inst ()
                             0, 0, al_get_bitmap_width(instImage), al_get_bitmap_height(instImage),
                             0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
                             0);
-    al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), altin+(item*80), ALLEGRO_ALIGN_CENTER, menu_to_show[item].option);
+    al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), 500, ALLEGRO_ALIGN_CENTER, "Presione la tecla espacio para continuar...");
     al_flip_display();
 }
-
 
 /**
  * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".
