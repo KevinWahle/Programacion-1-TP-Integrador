@@ -306,7 +306,9 @@ void show_global_score(void) {
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
     printf ("estoy aca");
     int cant= lect_score(p_leadboard);                // Coloco en memoria los datos del score y guardo la cantidad en cant
+    printf ("estoy aca2");
     if (cant==LEADERBOARD_SIZE+1){
+        printf ("estoy aca3");
         cant=LEADERBOARD_SIZE;
     }
     printf("Ordeno el leadscore \n");
