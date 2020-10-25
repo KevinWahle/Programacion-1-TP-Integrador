@@ -212,8 +212,8 @@ void update_front_event (void)
     else if (press && (mySwitch == J_NOPRESS) && checkTimer(&clickTimer)){
         add_event(PAUSE_BTN);           // Me fijo si se solto en MAS del
         press = FALSE;                  //tiempo para considerarlo pausa.
-        
     }
+    
 }   
 
 
@@ -225,7 +225,7 @@ void show_level_screen (int level) {
     char ch[]="LVL";
     char chlevel[LENG_SC];
     
-    myPoint = (dcoord_t) {2,2};     //Imprime el las letras de Level ("LVL")
+    myPoint = (dcoord_t) {3,2};     //Imprime el las letras de Level ("LVL")
     for(int i=0; ch[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
         whatisit (ch[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)

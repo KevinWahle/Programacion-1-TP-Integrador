@@ -1090,12 +1090,6 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
             {
                 if( (invaders[i][j].x + INVADER_WIDTH) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 { 
-                    nextDirection = LEFT;
-                }
-                else
-                {
-                    nextDirection = RIGHT;   //Encontraste un vivo tal que todavia no paso la linea => me mantengo en el sentido
-                }
             }
         }
     }
