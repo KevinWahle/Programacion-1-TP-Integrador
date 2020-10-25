@@ -1135,12 +1135,30 @@ static int is_invadersOnFloor(void)
     }    
     return onFloor;
 }
-    shield->blocks[0].state = STATE_0;
 
-    shield->blocks[1].x = x_shield + 1;
-    shield->blocks[1].y = y_shield;
-    shield->blocks[1].height = 0;
-    shield->blocks[1].width = 0;
+static void shouldInvaderShot(void)
+{
+    for (int j = 0; j < COL_INVADERS; j++)
+    {
+        int i = FIL_INVADERS - 1;
+        while( i >= 0  &&   !invaders[i][j].invaderState )  //Busco los invaders (vivos) tales que abajo de ellos no tengan ningun invader vivo
+        {
+            i--;
+        }
+        if( i >= 0)          // entonces se encontro algun invader vivo
+        {
+            if(  !(rand() % probDisparoInvaders) )
+                invaderShot(i, j);
+        }
+    }       
+}
+
+static void createShield(int x_shield, int y_shield, shield_t *shield)
+{
+    shield->blocks[0].x = x_shield;
+    shield->blocks[0].y = y_shield;
+    shield->blocks[0].height = 0;
+    shield->blocks[0].width = 0;
     shield->blocks[1].state = STATE_0;
 
     shield->blocks[2].x = x_shield;
