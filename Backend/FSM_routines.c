@@ -304,11 +304,11 @@ void show_game_score(){
 void show_global_score(void) {
     printf("Entre al global score\n");       
     SCORE* p_leadboard=leadboard;                     // Coloco un puntero a su preimer elemento
-    printf ("estoy aca");
+    printf ("estoy aca\n");
     int cant= lect_score(p_leadboard);                // Coloco en memoria los datos del score y guardo la cantidad en cant
-    printf ("estoy aca2");
+    printf ("estoy aca2\n");
     if (cant==LEADERBOARD_SIZE+1){
-        printf ("estoy aca3");
+        printf ("estoy aca3\n");
         cant=LEADERBOARD_SIZE;
     }
     printf("Ordeno el leadscore \n");
