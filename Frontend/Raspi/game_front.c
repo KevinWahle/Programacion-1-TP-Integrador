@@ -1102,6 +1102,7 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
     }
     return nextDirection;
 }
+
 static int is_invadersOnFloor(void)
 {
     int i = FIL_INVADERS - 1;
