@@ -91,28 +91,33 @@ int lect_score (SCORE* my_pun)
     unsigned long int num;      // Numero con el puntaje
     int cant =-1;               // Contador. Cuenta  la canitdad de puntajes que tiene el archivo
     fp=fopen ("score.txt","r"); // Abro el archivo
+    printf ("hago el fopen");
     do
     {
         num=0;
 
         fgets(str, NAME_SIZE+1, fp);            //Leo el string con el nombre
-        char temp=fgetc (fp);                   // Leo el espacio (basura)
-     //   fgetc(fp);
+   //   char temp=fgetc (fp);                   // Leo el espacio (basura)
+        fgetc(fp);
+        printf ("leo el nombre");
 
         while ((c=fgetc (fp))!=EOF && c!='\n'){ // Mientras que no Lea un enter, o el archivo se termine
             num=num*10+(c-OFFSET);              // vamos conformando el numero con los caracteres
         }
+        printf ("leo hasta un enter");
 
         for (int j=0; j<=NAME_SIZE; j++){
             score_data.name[j]=str[j];          // Cargamos el nombre a la memoria
         }
-
+        printf ("cargo el nombre en la memoria");
         score_data.pts=num;                     // Cargamos el puntaje a la memoria
         *my_pun=score_data;
+        printf ("cargo el puntaje en la memoria");
         my_pun++;                               // Apuntamos al siguiente nombre y puntaje
         cant++;                               
     }while (c!=EOF);                            // Repetimos lo anterior hasta que hayamos leido todo el archivo
-    fclose(fp);                                 // Cerramos el archivo 
+    fclose(fp);                                 // Cerramos el archivo
+    printf ("hago el fclose"); 
     return cant;
 }
 

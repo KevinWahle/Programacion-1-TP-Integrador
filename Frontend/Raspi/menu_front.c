@@ -225,7 +225,7 @@ void show_level_screen (int level) {
     char ch[]="LVL";
     char chlevel[LENG_SC];
     
-    myPoint = (dcoord_t) {0,2};     //Imprime el las letras de NEW LEVEL "NL"
+    myPoint = (dcoord_t) {4,2};     //Imprime el las letras de Level ("LVL")
     for(int i=0; ch[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
         whatisit (ch[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
