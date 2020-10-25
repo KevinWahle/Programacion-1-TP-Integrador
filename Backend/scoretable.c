@@ -102,10 +102,12 @@ int lect_score (SCORE* my_pun)
         fgetc(fp);
         printf ("leo el nombre\n");
 
-        while ( (c = fgetc(fp) ) != EOF && c!= '\n' && c!= 255){ // Mientras que no Lea un enter, o el archivo se termine
+        while ( (c = fgetc(fp) ) != EOF && c!= '\n'){ // Mientras que no Lea un enter, o el archivo se termine
             num = num*10 + (c - OFFSET);              // vamos conformando el numero con los caracteres
             printf("C: %d\n",c); 
         }
+        printf("C: %d\n",c); 
+
         printf ("leo hasta un enter\n");
         if (c!=EOF)
         {
