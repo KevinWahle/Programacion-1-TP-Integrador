@@ -1135,18 +1135,6 @@ static int is_invadersOnFloor(void)
     }    
     return onFloor;
 }
-            if(  !(rand() % probDisparoInvaders) )
-                invaderShot(i, j);
-        }
-    }       
-}
-
-static void createShield(int x_shield, int y_shield, shield_t *shield)
-{
-    shield->blocks[0].x = x_shield;
-    shield->blocks[0].y = y_shield;
-    shield->blocks[0].height = 0;
-    shield->blocks[0].width = 0;
     shield->blocks[0].state = STATE_0;
 
     shield->blocks[1].x = x_shield + 1;
