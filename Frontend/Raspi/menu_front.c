@@ -120,7 +120,8 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
         whatisit (menu_to_show[item].option[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += 4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
-    } 
+    }
+
     /*/// PAUSA
     own_timer_t timer_splash;
     setTimer(&timer_splash, SCREEN_DELAY);
@@ -221,8 +222,8 @@ void update_front_event (void)
 */
 void show_level_screen (int level) {
     disp_clear();
-    char ch[]="NL";
-    char chscore[LENG_SC];
+    char ch[]="LVL";
+    char chlevel[LENG_SC];
     
     myPoint = (dcoord_t) {0,2};     //Imprime el las letras de NEW LEVEL "NL"
     for(int i=0; ch[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
@@ -231,10 +232,10 @@ void show_level_screen (int level) {
         myPoint.x += DIGIT_COL+1;   //muevo el puntero el grosor de la letra + el espacio.
     }
 
-    intochar(level,chscore);        
+    intochar(level,chlevel);        
     myPoint = (dcoord_t) {0,10};    //Imprime el numero del proximo nivel
-    for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
-        whatisit (chscore[i]);
+    for(int i=0; chlevel[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
+        whatisit (chlevel[i]);
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }

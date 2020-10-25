@@ -47,9 +47,9 @@
 
 #define PPS_NODRIZA         7         // Pixeles por segundo (velocidad) de la nave nodriza
 #define PPS_CANON           20         // Pixeles por segundo (velocidad) del canon   
-#define PPS_BALA            14         // Pixeles por segundo (velocidad) de la bala
+#define PPS_BALA            28         // Pixeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    14         // Máximos PPS (velocidad) de invaders
-#define MIN_PPS_INVADERS    7         // Mínimos PPS (velocidad) de invaders
+#define MIN_PPS_INVADERS    7        // Mínimos PPS (velocidad) de invaders
 #define FPS 60.0
 
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
@@ -1091,7 +1091,7 @@ static direction_t decideWhetherChangeDirectionOrNot(direction_t direction)
             }
             else   //Si no, hay al menos uno vivo
             {
-                if( (invaders[i][j].x + INVADER_WIDTH) > D_WIDTH - INVADERS_WALL )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
+                if( (invaders[i][j].x + INVADER_WIDTH) > D_WIDTH - INVADERS_WALL - 1 )     //Al menos seguro que el ultimo de todos esta vivo, el ultimo que quedo con el i j, porque si salto por exceso el if te lo asegura, si no, salto por el while
                 {
                     nextDirection = LEFT;
                 }
