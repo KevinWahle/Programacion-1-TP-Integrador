@@ -94,15 +94,12 @@
 #define MAX_SPEED_INVADER  (MAX_PPS_INVADERS/FPS)
 #define MIN_SPEED_INVADER  (MIN_PPS_INVADERS/FPS)
 
-#define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     // Seria 1 posibilidad entre 50
+#define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     
 #define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  150
 
 
 #define MAX_POSIBILIY_OF_APPEAR_UFO  50
-#define MIN_POSIBILIY_OF_APPEAR_UFO  70
-
-#define MAX_INVADERS_ANIM_PERIOD    1*FPS       // Máximos ticks necesearios hasta cambiar de imagen
-#define MIN_INVADERS_ANIM_PERIOD    0.1*FPS       // Mínimos ticks necesearios hasta cambiar de imagen
+#define MIN_POSIBILIY_OF_APPEAR_UFO  200  
 
 #define DEATH_STATE STATE_1
 

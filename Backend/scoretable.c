@@ -84,6 +84,7 @@ void put_score (char* name, unsigned long int score, const int top, SCORE* my_pu
 
 int lect_score (SCORE* my_pun)
 {
+    printf ("entre a lect score");
     FILE* fp;
     char str[NAME_SIZE+1];       // Arreglo con el nombre
     SCORE score_data;           // Tipo de dato que almacena nombre y puntaje
