@@ -107,16 +107,20 @@ int lect_score (SCORE* my_pun)
         }
         printf ("leo hasta un enter\n");
 
-        for (int j=0; j<=NAME_SIZE; j++){
-            score_data.name[j]=str[j];          // Cargamos el nombre a la memoria
+        if (c!=EOF)
+        {
+            for (int j=0; j<=NAME_SIZE; j++){
+                score_data.name[j]=str[j];          // Cargamos el nombre a la memoria
+            }
+            printf ("cargo el nombre en la memoria\n");
+            score_data.pts=num;                     // Cargamos el puntaje a la memoria
+            *my_pun=score_data;
+            printf ("cargo el puntaje en la memoria\n");
+            my_pun++;                               // Apuntamos al siguiente nombre y puntaje
+            cant++;                               
         }
-        printf ("cargo el nombre en la memoria\n");
-        score_data.pts=num;                     // Cargamos el puntaje a la memoria
-        *my_pun=score_data;
-        printf ("cargo el puntaje en la memoria\n");
-        my_pun++;                               // Apuntamos al siguiente nombre y puntaje
-        cant++;                               
-    }while (c!=EOF);                            // Repetimos lo anterior hasta que hayamos leido todo el archivo
+    } while (c!=EOF);                            // Repetimos lo anterior hasta que hayamos leido todo el archivo
+    printf ("salgo del while \n");
     fclose(fp);                                 // Cerramos el archivo
     printf ("hago el fclose\n"); 
     return cant;
