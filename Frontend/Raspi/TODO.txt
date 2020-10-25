@@ -19,4 +19,4 @@ struct {
     int 
 }
 
-REVISAR: intochar para raspi porque se ven mal los numeros.
+REVISAR: intochar para raspi porque se ven mal los numeros, el terminador hace que se muestren corridos.
