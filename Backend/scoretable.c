@@ -88,7 +88,7 @@ int lect_score (SCORE* my_pun)
     FILE* fp;
     char str[NAME_SIZE+1];       // Arreglo con el nombre
     SCORE score_data;           // Tipo de dato que almacena nombre y puntaje
-    char c;                     // Caracter a leer
+    int c;                     // Caracter a leer
     unsigned long int num;      // Numero con el puntaje
     int cant =-1;               // Contador. Cuenta  la canitdad de puntajes que tiene el archivo
     fp=fopen ("score.txt","r"); // Abro el archivo
@@ -102,8 +102,8 @@ int lect_score (SCORE* my_pun)
         fgetc(fp);
         printf ("leo el nombre\n");
 
-        while ( (c = fgetc(fp) ) != EOF && c!= '\n'){ // Mientras que no Lea un enter, o el archivo se termine
-            num=num*10+(c-OFFSET);              // vamos conformando el numero con los caracteres
+        while ( (c = fgetc(fp) ) != EOF && c!= '\n' && c!= 255){ // Mientras que no Lea un enter, o el archivo se termine
+            num = num*10 + (c - OFFSET);              // vamos conformando el numero con los caracteres
             printf("C: %d\n",c); 
         }
         printf ("leo hasta un enter\n");
