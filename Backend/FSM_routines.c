@@ -313,8 +313,6 @@ void show_global_score(void) {
 
 void next_letter()
 {
-    printf("NAME_SIZE: %d \n", NAME_SIZE);
-    printf("LEADBOARD_SIZE: %d \n", LEADERBOARD_SIZE);
     if (letter_counter < NAME_SIZE-1)                         // Si me quedan letras por guardar:
     {
     letter_counter++;                              // Paso a la siguiente letra.                                           

@@ -73,7 +73,7 @@
 //#define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
 
 #define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
-#define INVADERS_WALL (D_WIDTH*0.01)     // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
+#define INVADERS_WALL 0                    // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
 #define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
 #define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
 #define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
@@ -1022,6 +1022,7 @@ static direction_t moveInvaders(direction_t direction)
     {                                                                 // de invaders para abajo
         moveInvadersDown();
     }
+    else {
     for (int i = 0; i < FIL_INVADERS; i++)
     {
         for(int j = 0; j < COL_INVADERS; j++ )
@@ -1038,6 +1039,8 @@ static direction_t moveInvaders(direction_t direction)
             }
         }
     }
+    }
+
     //INCLUIR: updateblockinvader(); 
     return nextDirection;
 }
