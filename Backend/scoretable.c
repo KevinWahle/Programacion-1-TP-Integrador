@@ -106,7 +106,7 @@ int lect_score (SCORE* my_pun)
             num=num*10+(c-OFFSET);              // vamos conformando el numero con los caracteres
         }
         printf ("leo hasta un enter\n");
-
+        printf("C: %c",c); 
         if (c!=EOF)
         {
             for (int j=0; j<=NAME_SIZE; j++){
@@ -118,7 +118,8 @@ int lect_score (SCORE* my_pun)
             printf ("cargo el puntaje en la memoria\n");
             my_pun++;                               // Apuntamos al siguiente nombre y puntaje
         }
-        cant++;                               
+        cant++; 
+                                 
     } while (c!=EOF);                            // Repetimos lo anterior hasta que hayamos leido todo el archivo
     printf ("salgo del while \n");
     fclose(fp);                                 // Cerramos el archivo
