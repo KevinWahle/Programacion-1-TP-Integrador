@@ -99,7 +99,12 @@ void my_menu(){
 void up_menu(MENU_ITEM* menu, int menu_size){ 
     
     #ifdef ONLY_ESSENTIAL                                                    
+            #ifdef DEBUG
+                printf("Estoy en modo ONLY_ESSENTIAL \n");
+            #endif
+
             do{                                                                
+                
                 if(actual_option>0){                            // Si el front solo permite mostrar las opciones esenciales:
                     actual_option--;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
                 }                                                                           //y cuando haya una arriba.
@@ -125,7 +130,10 @@ void up_menu(MENU_ITEM* menu, int menu_size){
 
 void down_menu(MENU_ITEM* menu, int menu_size){
     
-    #ifdef ONLY_ESSENTIAL            
+    #ifdef ONLY_ESSENTIAL   
+        #ifdef DEBUG
+                printf("Estoy en modo ONLY_ESSENTIAL \n");
+        #endif         
         do{
            if(menu_size/sizeof(MENU_ITEM)-1 > actual_option) {                          // Si el front solo permite mostrar las opciones esenciales:
                 actual_option++;                                                        //bajamos en el menú hasta la siguiente opción esencial siempre
@@ -513,11 +521,8 @@ void stop_cannon()
 **********************************************************/
 
 void refresh(void){
-    printf("LLEGA A REFRESH\n");
     speed_update(SPEED_LAPSE);                                  // Actualizo la velocidad con la que se mueven los invaders.
-    printf("PASE EL UPDATE SPEED\n");
     redraw(get_points(),get_lives(),get_level());               // Redibujo la pantalla.
-    printf("PASA EL REDRAW\n");
     if(checkWin()){                                             // Verifico si se pasó de nivel o no.
         add_event(NEXT_LEVEL_EV);
     }

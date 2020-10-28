@@ -16,13 +16,13 @@
 #endif
 
 #if PLATFORM==ALLEGRO 
-    #undef	ONLY_ESSENTIAL 
+    #undef	ONLY_ESSENTIAL		//Borramos la definición de los 
 #elif PLATFORM==RASPI
     #define ONLY_ESSENTIAL
 #endif
 
-#include <stdint.h>
 
+#include <stdint.h>
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
