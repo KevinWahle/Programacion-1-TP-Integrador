@@ -33,16 +33,16 @@ win: ${OBJS}
 #
 
 Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
-	${CCR} ${OPTIONS} -c Backend/main.c -o Backend/main.o
+	${CCA} ${OPTIONS} -c Backend/main.c -o Backend/main.o
 
 Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
-	${CCR} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
+	${CCA} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
 
 Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
-	${CCR} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
+	${CCA} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
 
 Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_ALL} const.h
-	${CCR} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
+	${CCA} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
 
 Frontend/Allegro/menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
 	${CCA} ${OPTIONS} -c Frontend/Allegro/menu_front.c -o Frontend/Allegro/menu_front.o

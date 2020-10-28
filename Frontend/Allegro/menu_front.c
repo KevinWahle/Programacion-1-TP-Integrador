@@ -502,7 +502,7 @@ void destroy_front()
 void intochar(unsigned long int num, char chscore[LENG_SC])
 {
     unsigned long int a = 0;
-    
+
     if(num==0){
         for(int i=0;i<LENG_SC-1;i++){
             chscore[i]=' ';

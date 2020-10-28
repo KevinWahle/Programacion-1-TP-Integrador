@@ -1,22 +1,5 @@
-- void redraw(unsigned long int score, int lives, int level); //LISTO
-- void show_level_screen(int level) // 
-- update_speed_front()
-- pause_game_front()
-- resume_game_front()
+- NUMEROS MAL PUESTOS, PROBLEMA DE INTOCHAR? EL NUMERO APARECE CORRIDO
+- MUSIQUITA ALLEGRO
+- PAUSA RASPI
 
-check_clock(clockn, tiempo)
-
-if (clockn - clock() > tiempo )
-    return 1
-else 
-    return 0
-
-timer_t clock2;
-
-struct {
-    clock_t init;
-    float delta;
-    int 
-}
-
-REVISAR: intochar para raspi porque se ven mal los numeros, el terminador hace que se muestren corridos.
+- Nivel no aparece a partir de N.
