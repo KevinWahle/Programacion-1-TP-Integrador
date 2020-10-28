@@ -11,10 +11,6 @@
 #include "headall.h"
 #include "../../Backend/event_queue/event_queue.h"
 
-// #include "raspi_front_hder.h"
-// #include "disdrv.h"      // Ya estan en headall.h
-// #include "joydrv.h"
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
@@ -77,7 +73,6 @@
 #define INVADERS_FALL (D_HEIGHT*0.02)    // Espacio de caida de los invaders al llegar a cada tope 
 #define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
 #define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
-
 
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
@@ -368,13 +363,6 @@ static canon_t canon;    // Creo el canon
                           // Lo seteo en el piso
                           // Al principio arranca parado
 
-
-/////// MEMORIA DE RELLONO, PARA PREVENIR BUG
-
-static double dummyMem[100];
-
-///////////////////////////////////////////////////////////
-
 static shot_t canonShotList[MAX_CANON_SHOT];
 static direction_t proxDir = LEFT;
 // El UFO
@@ -424,22 +412,6 @@ void init_game(void) {
 
     disp_update();
 
-
-    //////// PRUEBA DE MOMORIA BASURA
-
-    for (int i = 0 ; i < 100; i++) {
-        dummyMem [i] = 1.0;
-    }
-
-    if (dummyMem[0] < 10.0) {
-        dummyMem[1] = 2.0;
-    }
-
-    /////////////////////////////////
-
-
-
-
     setTimer(&fpsTimer, 1/FPS);     // Aca declaro el timer y el tiempo
     
     startTimer(&fpsTimer);      // Recien aca empieza el timer
@@ -469,7 +441,6 @@ void redraw(unsigned long int score, int lives, int level)
         drawAliveInvaders();  
         drawCanon();
         disp_update();
-        // printf("La vida de la bala es: %d\n", canonShotList[0].shotState);
     }
     
 }
@@ -610,7 +581,7 @@ void clean_shoots(void)
 */
 void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo) {
 
-    //TODO: Imprimir estadisticas de final de partida?
+    // No se hace nada, el puntaje se muestra al cargar el nombre
 
 }
 
@@ -1324,5 +1295,4 @@ static void restartTasas(void)
     tasaDeCambioInvaders = MIN_SPEED_INVADER;
     probDisparoInvaders = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS;
     probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
-    //invadersAnimPeriod = MAX_INVADERS_ANIM_PERIOD;
 }

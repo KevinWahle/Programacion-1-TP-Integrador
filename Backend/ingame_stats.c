@@ -208,7 +208,7 @@ void speed_update(const float seg)
 unsigned long int get_points()    
 {
     #ifdef DEBUG
-    printf("Se tienen %ld puntos \n", points);
+    //printf("Se tienen %ld puntos \n", points);
     #endif 
     return points;      // Devuelvo la cant de puntos de la partida.
 }
@@ -216,7 +216,7 @@ unsigned long int get_points()
 int get_level()
 {
     #ifdef DEBUG
-    printf("Esta en el nivel %d \n", level);
+    //printf("Esta en el nivel %d \n", level);
     #endif 
     
     return level;       // Devuelve el nivel en el que se encuentra
@@ -234,7 +234,7 @@ unsigned int get_killed_aliens(const int tipo_alien)
 int get_lives()
 {
     #ifdef DEBUG
-    printf("Se tiene %d vidas\n", lives);
+    //printf("Se tiene %d vidas\n", lives);
     #endif
 
     return  lives;
