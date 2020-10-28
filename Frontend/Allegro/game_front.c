@@ -1370,7 +1370,8 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
                                     .width = AL_GET_UFO_WIDTH(UFO_invader.invadersPointer),
                                     .height = AL_GET_UFO_HEIGHT(UFO_invader.invadersPointer),
                                  };
-        if(colision = isCollision( &boxOfUFO, boxOfTheShot ) )
+        colision = isCollision( &boxOfUFO, boxOfTheShot );
+        if(colision)
         {
             UFO_invader.invaderState = 0;
         }

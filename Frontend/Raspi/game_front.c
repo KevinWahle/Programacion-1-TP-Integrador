@@ -596,6 +596,7 @@ void pause_game_front(void)
 void resume_game_front(void) 
 {
     startTimer(&fpsTimer);   // Para que vuelva a generar eventos
+    printf("Reanudamos gucci pa");
 }
 
 
