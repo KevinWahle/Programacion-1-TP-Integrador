@@ -16,9 +16,9 @@
 #endif
 
 #if PLATFORM==ALLEGRO 
-    #undef	ONLY_ESSENTIAL		//Borramos la definición de los 
+    #undef	ONLY_ESSENTIAL		//Borramos el identificador que oculta los menus secundarios.
 #elif PLATFORM==RASPI
-    #define ONLY_ESSENTIAL
+    #define ONLY_ESSENTIAL		//Definimos el identificador que oculta los menus secundarios.
 #endif
 
 
