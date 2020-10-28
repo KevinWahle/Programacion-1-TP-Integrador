@@ -513,8 +513,11 @@ void stop_cannon()
 **********************************************************/
 
 void refresh(void){
+    printf("LLEGA A REFRESH\n");
     speed_update(SPEED_LAPSE);                                  // Actualizo la velocidad con la que se mueven los invaders.
+    printf("PASE EL UPDATE SPEED\n");
     redraw(get_points(),get_lives(),get_level());               // Redibujo la pantalla.
+    printf("PASA EL REDRAW\n");
     if(checkWin()){                                             // Verifico si se pasó de nivel o no.
         add_event(NEXT_LEVEL_EV);
     }
