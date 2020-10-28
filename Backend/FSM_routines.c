@@ -14,13 +14,6 @@
 #include "../const.h"
 #include <stdio.h>
 
-/*
-#if PLATFORM==ALLEGRO 
-    #include "../Frontend/Allegro/headall.h"
-#elif  PLATFORM==RASPI
-    #include "../Frontend/Raspi/headall.h"
-#endif
-*/
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE

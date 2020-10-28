@@ -590,13 +590,11 @@ void pause_game_front(void)
 {
     stopTimer(&fpsTimer);   // Para que deje de generar eventos durante la pausa
     move_cannon(STOP);      // Dejo de mover wl canon
-    printf("todo ok la pausa del front");
 }
 
 void resume_game_front(void) 
 {
     startTimer(&fpsTimer);   // Para que vuelva a generar eventos
-    printf("Reanudamos gucci pa");
 }
 
 
