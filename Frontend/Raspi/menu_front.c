@@ -477,9 +477,8 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
         }
         chscore[LENG_SC/2]='0';           // Escribo el 0 en el medio de la pantalla.
     }
-
     else{
-        for(int i=LENG_SC-2;i>=0;i--) {
+        for(int i=LENG_SC-1;i>=0;i--) {
             a = num % 10;                   // Tomo un digito a mostrar.
             if(num>0) {
                 chscore[i]=a+NUMOFFSET;     // Si sigo teniendo parte del numero disponible para mostrar
@@ -487,7 +486,7 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
                 num = num / 10;             // Recorto el número para mostrar el nuevo digito.    
             }
             else {
-            chscore[i]=' ';              // Si el numero que queda es = a 0, muestro espacios.
+                chscore[i]=' ';              // Si el numero que queda es = a 0, muestro espacios.
             }
         }
     }
