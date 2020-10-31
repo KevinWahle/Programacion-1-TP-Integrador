@@ -146,7 +146,6 @@ void show_score (SCORE* score ,int size)
 
     num=score[0].pts;
     intochar(num,chscore);
-    printf("%s \n",chscore);
     myPoint = (dcoord_t) {0,10};
     for(int i=0; chscore[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
         whatisit (chscore[i]);

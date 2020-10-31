@@ -319,7 +319,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 */
 void show_score (SCORE* score ,int size) 
 {  
-    char chscore[LENG_SC]; //Variable temporal para convertir int a char
+    char chscore[LENG_SC+1]; //Variable temporal para convertir int a char
     unsigned long int num = 0; 
     char position[2] = "1";   //Variable que indica la posición
     al_draw_scaled_bitmap(scoreImage,    // Imagen de fondo de los puntajes
@@ -347,7 +347,7 @@ void show_score (SCORE* score ,int size)
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) 
 {
-    char chscore[LENG_SC];
+    char chscore[LENG_SC+1];
     al_draw_scaled_bitmap(endgmImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(endgmImage), al_get_bitmap_height(endgmImage),   
                             0, 0, D_WIDTH, D_HEIGHT,      // Con que tamaño queres que se dibuje la imagen
@@ -499,7 +499,7 @@ void destroy_front()
 /**
  * @brief Transforma un entero no signado a un string.
  */
-void intochar(unsigned long int num, char chscore[LENG_SC])
+void intochar(unsigned long int num, char chscore[LENG_SC+1])
 {
     unsigned long int a = 0;
 
@@ -511,7 +511,7 @@ void intochar(unsigned long int num, char chscore[LENG_SC])
     }
 
     else{
-        for(int i=LENG_SC-2;i>=0;i--) {
+        for(int i=LENG_SC-1;i>=0;i--) {
             a = num % 10;                   // Tomo un digito a mostrar.
             if(num>0) {
                 chscore[i]=a+NUMOFFSET;     // Si sigo teniendo parte del numero disponible para mostrar
