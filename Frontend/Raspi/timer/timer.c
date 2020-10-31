@@ -50,7 +50,9 @@ int checkTimer (own_timer_t *timer) {
     {
         timer->init_clock += timer->delta_clock*((clock_t)((clock()-timer->init_clock)/timer->delta_clock));  // Reseteo al ultimo fin de timer
     }
-    printf("Tiempo restante del timer: %lu \n", clock()-timer->init_clock );
+    if (timer->delta_time > 0.1) {
+        printf("Tiempo restante del timer : %lu \n", (timer->delta_clock-(clock()-timer->init_clock))/CLOCKS_PER_SEC );
+    }
     return prev_init != timer->init_clock;   // Solo si se modifico el init_clock, el timer paso su tiempo
 }
 

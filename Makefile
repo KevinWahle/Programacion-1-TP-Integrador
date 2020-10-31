@@ -28,7 +28,7 @@ game: ${OBJS}
 	${CCA} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
 
 # Para Windows, se compila con las librerias de otra manera
-win: ${OBJS} 
+win: ${OBJS}
 	${CCA} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
 #
 
@@ -53,7 +53,7 @@ Frontend/Allegro/game_front.o: Frontend/Allegro/game_front.c ${HFRONT_ALL} ${EVE
 
 
 ################### RASPI #######################
-gameraspi: ${OBJS2} 
+gameraspi: ${OBJS2}
 	${CCR} ${OPTIONS} ${OBJS2} -o gameraspi
 
 # Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
@@ -79,7 +79,7 @@ Frontend/Raspi/menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINU
 Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD}
 	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
 
-Frontend/Raspi/timer/timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD} 
+Frontend/Raspi/timer/timer.o: Frontend/Raspi/timer/timer.c ${TIMER_HEAD}
 	${CC} ${OPTIONS} -c Frontend/Raspi/timer/timer.c -o Frontend/Raspi/timer/timer.o
 #################################################
 
