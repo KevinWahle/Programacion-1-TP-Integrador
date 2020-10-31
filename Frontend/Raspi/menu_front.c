@@ -19,7 +19,7 @@
 #define LENG_SC         4  
 #define RANGE           50      //Rango mínimo de detección del joytick 
 #define SCREEN_DELAY    2       //Tiempo que se muestra el splash
-#define PAUSE_LAPSE     0.5       //Tiempo que se apreta el analógico para acceder al menu de pausa
+#define PAUSE_LAPSE     1       //Tiempo que se apreta el analógico para acceder al menu de pausa
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -78,6 +78,7 @@ int init_front()
 {
     disp_init();
     joy_init();
+    init_sound();
     return NO_ERROR;
 }
 
@@ -103,6 +104,7 @@ void splash_front()
         }
     }
     disp_update();
+    
 }
 
 
