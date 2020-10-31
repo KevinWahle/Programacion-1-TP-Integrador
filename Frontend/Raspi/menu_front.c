@@ -135,7 +135,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 void show_score (SCORE* score ,int size)  
 { 
     disp_clear();
-    char chscore[LENG_SC];
+    char chscore[LENG_SC+1];
     unsigned long int num = 0;
     myPoint = (dcoord_t) {0,2};
     for(int i=0; i<LENG_SC; i++) {
@@ -222,7 +222,7 @@ void update_front_event (void)
 void show_level_screen (int level) {
     disp_clear();
     char ch[]="LVL";
-    char chlevel[LENG_SC];
+    char chlevel[LENG_SC+1];
     
     myPoint = (dcoord_t) {3,2};     //Imprime el las letras de Level ("LVL")
     for(int i=0; ch[i]!='\0' && i<LENG_SC; i++) {   //Maximo 4 letras por palabra
@@ -247,7 +247,7 @@ void show_level_screen (int level) {
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
 {    
     disp_clear();
-    char chscore[LENG_SC];
+    char chscore[LENG_SC+1];
     myPoint = (dcoord_t) {0,1};
     
     for(int elemento=0; elemento<LENG_SC; elemento++){              // Imprime los caracteres del nombre.      
@@ -467,7 +467,7 @@ void whatisit (char caracter)
 /**
  * @brief Transforma un entero no signado a un string.
  */
-void intochar(unsigned long int num, char chscore[LENG_SC])
+void intochar(unsigned long int num, char chscore[LENG_SC+1])
 {
     unsigned long int a = 0;
     
@@ -489,7 +489,7 @@ void intochar(unsigned long int num, char chscore[LENG_SC])
             else {
             chscore[i]=' ';              // Si el numero que queda es = a 0, muestro espacios.
             }
-        }  
+        }
     }
     chscore[LENG_SC-1]='\0';          // Agrego el terminador
 }
