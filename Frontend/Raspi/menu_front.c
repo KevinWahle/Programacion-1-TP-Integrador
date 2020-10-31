@@ -60,7 +60,7 @@ void whatisit (char caracter);
  * @param chscore[] Recibe el string dode transformara el numero a char
  * @return Devulve el string ya transformado.
 */
-void intochar(unsigned long int num, char chscore[LENG_SC]);
+void intochar(unsigned long int num, char chscore[LENG_SC+1]);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -491,7 +491,7 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
             }
         }
     }
-    chscore[LENG_SC-1]='\0';          // Agrego el terminador
+    chscore[LENG_SC]='\0';          // Agrego el terminador
 }
 
 //TO COMPILE
