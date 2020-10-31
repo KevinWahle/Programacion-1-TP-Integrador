@@ -31,7 +31,7 @@ typedef struct {
  * @brief Agrega un timer a la lista de timers
  * @param timer: Timer a establecer.
  * @param delta_time: tiempo que debe transcurrir hasta que se active
- * el timer.
+ * el timer (en segundos).
  * @return 0 si no pasó el tiempo necesario, 1 si pasó el tiempo necesario.
  **/
 void setTimer(own_timer_t* timer, double delta_time);

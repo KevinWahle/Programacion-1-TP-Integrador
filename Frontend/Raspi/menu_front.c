@@ -33,7 +33,6 @@ enum {A=10,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z};
 dcoord_t myPoint;
 jcoord_t myCoords;
 jswitch_t mySwitch;
-own_timer_t clickTimer; // Timer para ver cuanto se apretó el joystick.  
 
 const int (*my_char)[DIGIT_COL];        // Puntero que apuntara a cada digito a mostrar
 
@@ -162,7 +161,9 @@ void update_front_event (void)
 {
     static BOOL was_moving_x = FALSE;   // Indica  si se estaba moviendo el cannon
     static BOOL was_moving_y = FALSE;
-    static BOOL press = FALSE;
+    static BOOL press = FALSE;          // Indica si estaba presionado
+    static own_timer_t clickTimer;      // Timer para ver cuanto se apretó el joystick.  
+
     joy_update();                   // Actualizo los valores de joystick
     myCoords = joy_get_coord();     // Tomo las coordenadas actuales
     mySwitch = joy_get_switch();    // Tomo el estado de pulsación del switch
@@ -204,10 +205,13 @@ void update_front_event (void)
         startTimer(&clickTimer);
     }
     if (press && (mySwitch == J_NOPRESS) && !checkTimer(&clickTimer)) {
+        printf("Se recibió disparo\n");
+        printf("checkTimer: %d \n", checkTimer(&clickTimer));
         add_event(CLICK_BTN);           // Me fijo si se solto en MENOS del 
         press = FALSE;                  //tiempo para considerarlo pausa.
     }
     else if (press && (mySwitch == J_NOPRESS) && checkTimer(&clickTimer)){
+        printf("Se recibió pausa\n");
         add_event(PAUSE_BTN);           // Me fijo si se solto en MAS del
         press = FALSE;                  //tiempo para considerarlo pausa.
     }

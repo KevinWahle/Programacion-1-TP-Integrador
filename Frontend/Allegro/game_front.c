@@ -632,10 +632,10 @@ void shoot_cannon(void)
                     .shotState = 1
                   };
     int k = 0;
-    printf("FIRST VALUE K = %d\n", k);
+    // printf("FIRST VALUE K = %d\n", k);
     while (canonShotList[k].shotState != 0 && k < MAX_CANON_SHOT) {
         k++;        // Busco un lugar en la lista (donde el disparo no este activo)
-        printf("ENTRO AL WHILE!! k =%d\n", k);
+        // printf("ENTRO AL WHILE!! k =%d\n", k);
     }
     if (k < MAX_CANON_SHOT) {
         canonShotList[k] = shot;
@@ -643,7 +643,7 @@ void shoot_cannon(void)
         al_draw_line(x_shot, y_shot, x_shot, y_shot - 15 , al_color_name("white"), 0);
                // TODO: Cambiar por codigo OK
     }
-        printf("AFTER TODO K = %d\n", k);
+        // printf("AFTER TODO K = %d\n", k);
     // ARRAY OVERFLOW
                   // TODO: Cambiar por codigo de error
 }
