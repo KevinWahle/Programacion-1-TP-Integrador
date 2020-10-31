@@ -21,7 +21,7 @@
 /**
  * @brief Agrega un timer a la lista de timers
  * @param timer: Timer a establecer.
- * @param delta_clock: tiempo que debe transcurrir hasta que se active
+ * @param delta_time: tiempo que debe transcurrir hasta que se active
  * el timer.
  * @return 0 si no pasó el tiempo necesario, 1 si pasó el tiempo necesario.
  **/
@@ -46,14 +46,25 @@ void startTimer(own_timer_t* timer) {
 */
 int checkTimer (own_timer_t *timer) {
     clock_t prev_init = timer->init_clock;
+    int timerup=0;    
+
     if(timer->running)
     {
-        timer->init_clock += timer->delta_clock*((clock_t)((clock()-timer->init_clock)/timer->delta_clock));  // Reseteo al ultimo fin de timer
+        if (timer->init_clock + timer->delta_clock < clock() ) {
+            printf("El timer se activo");
+            timerup=1;
+            timer->init_clock += timer->delta_clock*((clock_t)((clock()-timer->init_clock)/timer->delta_clock));  // Reseteo al último fin de timer
+        }
     }
+
+    //// DEBUG
     if (timer->delta_clock > 0.1*CLOCKS_PER_SEC) {
-        printf("Tiempo restante del timer : %lu \n", (timer->delta_clock-(clock()-timer->init_clock))/CLOCKS_PER_SEC );
+        printf("Tiempo restante del timer : %f \n", (float)(timer->delta_clock-(clock()-timer->init_clock))/CLOCKS_PER_SEC );
     }
-    return prev_init != timer->init_clock;   // Solo si se modifico el init_clock, el timer paso su tiempo
+    ////////////
+    
+    return timerup;
+    //return prev_init != timer->init_clock;   // Solo si se modifico el init_clock, el timer paso su tiempo
 }
 
 // /**
