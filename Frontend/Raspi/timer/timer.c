@@ -10,6 +10,8 @@
 
 #include "timer.h"
 
+#include <stdio.h>
+
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
@@ -48,6 +50,7 @@ int checkTimer (own_timer_t *timer) {
     {
         timer->init_clock += timer->delta_clock*((clock_t)((clock()-timer->init_clock)/timer->delta_clock));  // Reseteo al ultimo fin de timer
     }
+    printf("Tiempo restante del timer: %lu \n", clock()-timer->init_clock );
     return prev_init != timer->init_clock;   // Solo si se modifico el init_clock, el timer paso su tiempo
 }
 
