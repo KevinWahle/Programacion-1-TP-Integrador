@@ -78,7 +78,7 @@ int init_front()
 {
     disp_init();
     joy_init();
-    //init_sound();
+    init_sound();
     return NO_ERROR;
 }
 
@@ -104,11 +104,11 @@ void splash_front()
         }
     }
     disp_update();
-    /*
-    char mySong[] = "song.wav";
+    
+    char mySong[] = "../RPi_Files/audio/SDL1/TestBench/LiveItUp.wav";
     set_file_to_play(mySong);
     play_sound();
-*/
+
 } 
 
 
@@ -117,7 +117,7 @@ void splash_front()
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
-    //stop_sound();
+    stop_sound();
     
     disp_clear();
     myPoint = (dcoord_t) {0,6};
