@@ -1,4 +1,5 @@
 - PAUSA RASPI
 - MUSIQUITA ALLEGRO
-- Puntaje 
+- MUSIQUITA RASPI
+- Raspi: Puntaje de 4 digitos se recorta.
 - Nivel no aparece a partir de N.
