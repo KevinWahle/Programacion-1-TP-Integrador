@@ -1,5 +1,5 @@
 - PAUSA RASPI
 - MUSIQUITA ALLEGRO
 - MUSIQUITA RASPI
-- Raspi: Puntaje de 4 digitos se recorta.
 - Nivel no aparece a partir de N.
+- Revisar: intochar en Allegro

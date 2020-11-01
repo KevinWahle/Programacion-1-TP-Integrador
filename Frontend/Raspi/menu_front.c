@@ -225,15 +225,15 @@ void update_front_event (void)
     // }
 
     if (press && (mySwitch == J_NOPRESS)) {
-        printf("Transcurrió: %f \n", getElapsedTime(&clickTimer));
+        // printf("Transcurrió: %f \n", getElapsedTime(&clickTimer));
         BOOL timer = checkTimer(&clickTimer);
         if (!timer) {   // Solo disparo
-            printf("Se recibió disparo\n");
+            // printf("Se recibió disparo\n");
             add_event(CLICK_BTN);           // Me fijo si se solto en MENOS del 
             press = FALSE;   
         }
         else {          // Pulso prolongado, pausa
-            printf("Se recibió pausa\n");
+            // printf("Se recibió pausa\n");
             add_event(PAUSE_BTN);           // Me fijo si se solto en MAS del
             press = FALSE;                  //tiempo para considerarlo pausa.
         }
