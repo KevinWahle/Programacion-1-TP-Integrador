@@ -108,7 +108,7 @@ void splash_front()
     // char mySong[] = "LiveItUp.wav";
     // set_file_to_play(mySong);
     // play_sound();
-} 
+}
 
 
 /**
@@ -223,8 +223,7 @@ void update_front_event (void)
         add_event(PAUSE_BTN);           // Me fijo si se solto en MAS del
         press = FALSE;                  //tiempo para considerarlo pausa.
     }
-
-}   
+}
 
 
 /**
@@ -281,7 +280,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
-} 
+}
 
 
 /**
@@ -471,7 +470,6 @@ void whatisit (char caracter)
         my_char=NULL_CHAR;
         break;
     }
-   
 }
 
 
