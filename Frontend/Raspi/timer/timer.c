@@ -111,4 +111,4 @@ void stopTimer (own_timer_t *timer){
 */
 void resetTimer (own_timer_t *timer){
     timer->init_clock = clock();
-} 
+}

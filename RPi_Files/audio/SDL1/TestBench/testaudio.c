@@ -14,7 +14,7 @@
 
 //char AudioFile[]="./Sound/red.wav";
 char AudioFile[]="LiveItUp.wav";
-void do_something(void);
+//void do_something(void);
 
 int main(void) 
 {

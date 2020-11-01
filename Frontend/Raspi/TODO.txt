@@ -1,4 +1,4 @@
 - PAUSA RASPI
 - MUSIQUITA ALLEGRO
-
+- Puntaje 
 - Nivel no aparece a partir de N.

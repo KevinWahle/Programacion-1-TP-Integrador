@@ -170,11 +170,11 @@ void update_front_event (void)
     static BOOL was_moving_y = FALSE;
     static BOOL press = FALSE;          // Indica si estaba presionado
     static own_timer_t clickTimer;      // Timer para ver cuanto se apretó el joystick.  
+    BOOL timer = checkTimer(&clickTimer);
 
     joy_update();                   // Actualizo los valores de joystick
     myCoords = joy_get_coord();     // Tomo las coordenadas actuales
     mySwitch = joy_get_switch();    // Tomo el estado de pulsación del switch
-
 
     if (!was_moving_x) {
         if (myCoords.x>RANGE){           
@@ -212,13 +212,14 @@ void update_front_event (void)
         setTimer(&clickTimer, PAUSE_LAPSE);
         startTimer(&clickTimer);
     }
-    if (press && (mySwitch == J_NOPRESS) && !checkTimer(&clickTimer)) {
+    
+    if (press && (mySwitch == J_NOPRESS) && !timer) {
         printf("Se recibió disparo\n");
         printf("Transcurrió: %f \n", getElapsedTime(&clickTimer));
         add_event(CLICK_BTN);           // Me fijo si se solto en MENOS del 
         press = FALSE;                  //tiempo para considerarlo pausa.
     }
-    else if (press && (mySwitch == J_NOPRESS) && checkTimer(&clickTimer)){
+    else if (press && (mySwitch == J_NOPRESS) && timer){
         printf("Se recibió pausa\n");
         add_event(PAUSE_BTN);           // Me fijo si se solto en MAS del
         press = FALSE;                  //tiempo para considerarlo pausa.
