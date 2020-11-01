@@ -19,7 +19,7 @@
 #define LENG_SC         4  
 #define RANGE           50      //Rango mínimo de detección del joytick 
 #define SCREEN_DELAY    2       //Tiempo que se muestra el splash
-#define PAUSE_LAPSE     1       //Tiempo que se apreta el analógico para acceder al menu de pausa
+#define PAUSE_LAPSE     0.3     //Tiempo que se apreta el analógico para acceder al menu de pausa
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -105,7 +105,7 @@ void splash_front()
     }
     disp_update();
     
-    char mySong[] = "../RPi_Files/audio/SDL1/TestBench/LiveItUp.wav";
+    char mySong[] = "../../RPi_Files/audio/SDL1/TestBench/LiveItUp.wav";
     set_file_to_play(mySong);
     play_sound();
 
