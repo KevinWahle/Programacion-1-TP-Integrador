@@ -15,10 +15,5 @@ int main(void)
         while(!checkTimer(&myTimer));
         printf("%d\n", ++cont);
     }
-    while (1)
-    {
-        
-    }
-    
+    return 0;
 }
-

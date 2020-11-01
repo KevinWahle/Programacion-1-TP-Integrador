@@ -208,13 +208,14 @@ void update_front_event (void)
     }
 
     if (mySwitch == J_PRESS && press==FALSE) {
+        printf("Se presiono el boton\n");
         press = TRUE;                   // Me fijo si esta presionado
         setTimer(&clickTimer, PAUSE_LAPSE);
         startTimer(&clickTimer);
     }
     if (press && (mySwitch == J_NOPRESS) && !checkTimer(&clickTimer)) {
         printf("Se recibió disparo\n");
-        printf("checkTimer: %d \n", checkTimer(&clickTimer));
+        printf("Transcurrió: %f \n", getElapsedTime(&clickTimer));
         add_event(CLICK_BTN);           // Me fijo si se solto en MENOS del 
         press = FALSE;                  //tiempo para considerarlo pausa.
     }

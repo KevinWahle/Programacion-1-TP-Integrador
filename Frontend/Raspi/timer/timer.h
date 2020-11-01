@@ -55,6 +55,14 @@ int checkTimer (own_timer_t *timer);
 // */
 // void pauseTimer (own_timer_t *timer);
 
+/**
+ * @brief Devuelve el tiempo que paso desde el ultimo timer chequeado
+ * @param timer el timer a verificar
+ * @return el tiempo que transcurrio desde que se inicio el
+ * timer desde que se llamo a checkTimer();
+*/
+double getElapsedTime(own_timer_t* timer);
+
 // /**
 //  * @brief Retome el contador de un timer
 //  * @param timer el timer a pausar
