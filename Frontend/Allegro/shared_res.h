@@ -75,7 +75,10 @@ extern ALLEGRO_EVENT_QUEUE *timer_queue;
 extern ALLEGRO_TIMER *timer;
 extern ALLEGRO_FONT *fontsc;
 extern ALLEGRO_FONT *fontgm;
-extern ALLEGRO_SAMPLE *sample1 = NULL;
+
+extern ALLEGRO_SAMPLE *shootSound;
+extern ALLEGRO_SAMPLE *explosionSound;
+extern ALLEGRO_SAMPLE *shootSound;
 
 
 extern ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];

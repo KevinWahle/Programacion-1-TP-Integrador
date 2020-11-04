@@ -1,3 +1,4 @@
 - MUSIQUITA ALLEGRO
+   - Inicializar audios
 - MUSIQUITA RASPI
 - Nivel no aparece a partir de N.
