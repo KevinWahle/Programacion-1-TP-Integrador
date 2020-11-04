@@ -46,6 +46,7 @@
 #define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
 #define EXPLOSION_SOUND "Frontend/Sounds/explosion.wav"
 #define INV_KILL_SOUND "Frontend/Sounds/explosion.wav"
+#define UFO_SOUND "Frontend/Sounds/ufo_lowpitch.wav"
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -502,7 +503,12 @@ void destroy_front()
     al_destroy_bitmap(endgmImage);
     al_destroy_bitmap(endImage);
 
-    al_destroy_sample(sample1);
+    al_destroy_sample(splashsound);
+    al_destroy_sample(shootSound);
+    al_destroy_sample(explosionSound);
+    al_destroy_sample(invaderSound);
+    al_destroy_sample(invaderKilledSound);
+
     al_destroy_font(fontmu);
     al_destroy_font(fontsc);
     al_destroy_font(fontgm);

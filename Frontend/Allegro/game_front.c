@@ -197,6 +197,7 @@ ALLEGRO_SAMPLE *shootSound = NULL;
 ALLEGRO_SAMPLE *explosionSound = NULL;
 ALLEGRO_SAMPLE *invaderSound = NULL;
 ALLEGRO_SAMPLE *invaderKilledSound = NULL;
+ALLEGRO_SAMPLE *UFOSound = NULL;
 
 ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
@@ -1369,6 +1370,7 @@ static void shouldUFOappear(void)
         UFO_invader.invaderState = 1;
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
         UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) : D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer); // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
+        // Sonido UFO:
     }
 }
 
