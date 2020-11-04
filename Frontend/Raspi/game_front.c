@@ -544,16 +544,23 @@ void shoot_cannon(void)
             break;
         }
     }
+    
+// MIDO TIEMPO
+    own_timer_t temp;
+    setTimer(&temp, 10.0);
+    startTimer(&temp);
+//
+    end_play();
+    stop_sound();
+    if( !(player_status() == PLAYING ) )
+    {
+        char mySong[] = "Frontend/Sounds/shoot.wav";
+	    set_file_to_play(mySong);       				
+	    play_sound();
+    }
 
-//    end_play();
-//    stop_sound();
-//    if( !(player_status() == PLAYING ) )
-//    {
-//        char mySong[] = "Frontend/Sounds/shoot.wav";
-//	    set_file_to_play(mySong);       				
-//	    play_sound();
-//    }
- 					  
+    printf("EL TIEMPO PASADO ES DE: %f\n", getElapsedTime(&temp));
+
 
 }
 

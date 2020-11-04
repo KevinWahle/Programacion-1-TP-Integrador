@@ -495,7 +495,7 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
                 num = num / 10;             // Recorto el número para mostrar el nuevo digito.    
             }
             else {
-                chscore[i]=' ';              // Si el numero que queda es = a 0, muestro espacios.
+                chscore[i]='0';              // Si el numero que queda es = a 0, muestro espacios.
             }
         }
     }
