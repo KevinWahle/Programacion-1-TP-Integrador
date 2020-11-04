@@ -770,6 +770,7 @@ int checkWin(void)
 void pause_game_front(void) 
 {
     al_stop_timer(timer);   // Para que deje de generar eventos durante la pausa
+    al_stop_samples();     // Detiene todos los sonidos del juego
     move_cannon(STOP);      // Dejo de mover wl canon
 }
 
@@ -777,6 +778,9 @@ void pause_game_front(void)
 void resume_game_front(void) 
 {
     al_resume_timer(timer);   // Para que vuelva a generar eventos
+    if (UFO_invader.invaderState) {
+        
+    }
 }
 
 /*******************************************************************************
@@ -1002,6 +1006,8 @@ static void drawAliveInvaders(void)
         else
         {
             UFO_invader.invaderState = 0;
+            // Detener sonido UFO:
+            al_stop_sample(UFOSoundID);
         }
     }
 }
@@ -1395,6 +1401,9 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
         if(colision)
         {
             UFO_invader.invaderState = 0;
+            // Detener sonido UFO:
+            al_stop_sample(UFOSoundID);
+            
         }
     
     }

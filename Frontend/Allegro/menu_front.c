@@ -260,15 +260,15 @@ int loadim_game ()
                                                 }
                                                 else
                                                     fprintf(stderr, "ERROR: failed to load invaderKilledSound !\n");
-                                                al_destroy_bitmap(invaderSound);
+                                                al_destroy_sample(invaderSound);
                                             }
                                             else
                                                 fprintf(stderr, "ERROR: failed to load invaderSound !\n");
-                                            al_destroy_bitmap(explosionSound);
+                                            al_destroy_sample(explosionSound);
                                         }
                                         else
                                             fprintf(stderr, "ERROR: failed to load explosionSound !\n");
-                                        al_destroy_bitmap(shootSound);
+                                        al_destroy_sample(shootSound);
                                     }
                                     else                
                                         fprintf(stderr, "ERROR: failed to load shootSound !\n");
