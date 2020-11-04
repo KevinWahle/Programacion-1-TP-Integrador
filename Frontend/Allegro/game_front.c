@@ -360,6 +360,8 @@ static ALLEGRO_BITMAP *actualSquidPointer;
 static ALLEGRO_BITMAP *actualCrabPointer;
 static ALLEGRO_BITMAP *actualOctoPointer;
 
+// Sonido
+static ALLEGRO_SAMPLE_ID *UFOSoundID = NULL;
 
 // Invaders matrix
 static invader_t invaders[FIL_INVADERS][COL_INVADERS];
@@ -409,6 +411,7 @@ static int invadersAnimPeriod = MAX_INVADERS_ANIM_PERIOD;   // Cantidad de frame
 // TODO: Hacer que ^^^^^ dependa de la velocidad
 static int invaderDraw = HAND_DOWN;
 static int drawTicks;
+
 
 // #define PRUEBA
 #ifdef PRUEBA
@@ -1371,6 +1374,9 @@ static void shouldUFOappear(void)
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
         UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) : D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer); // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
         // Sonido UFO:
+        if (!al_play_sample(invaderSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_LOOP, UFOSoundID)) {
+            UFOSoundID = NULL;
+        }
     }
 }
 
