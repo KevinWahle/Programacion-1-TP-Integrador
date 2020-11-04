@@ -505,6 +505,14 @@ void reviveCanon(void)
 */
 void shoot_cannon(void)
 {   
+
+// MIDO TIEMPO
+    own_timer_t temp;
+    setTimer(&temp, 10.0);
+    startTimer(&temp);
+
+
+
     float x_shot = canon.blocks[0].x;      
     float y_shot = canon.blocks[0].y - 1; 
 
@@ -545,10 +553,7 @@ void shoot_cannon(void)
         }
     }
     
-// MIDO TIEMPO
-    own_timer_t temp;
-    setTimer(&temp, 10.0);
-    startTimer(&temp);
+
 //
     end_play();
     stop_sound();
