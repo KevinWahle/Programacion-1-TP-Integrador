@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <SDL2/SDL.h>
-#include "../RPi_Files/audio/SDL1/libaudio.h"
+#include "../../RPi_Files/audio/SDL1/libaudio.h"
 
 #include "timer/timer.h"
 //char AudioFile[]="./Sound/red.wav";

@@ -38,7 +38,12 @@
 #define FONTMU_FILE "Frontend/Allegro/Fonts/SP-font-menu.ttf"
 #define FONTSC_FILE "Frontend/Allegro/Fonts/SP-font-menu.ttf"
 
-#define SAMPLE_FILE "Frontend/Allegro/Songs/audio.wav"
+// MUSIC FILES:
+#define SAMPLE_FILE "Frontend/Allegro/Songs/audio.wav"   // Esto sirve de algo?
+
+#define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
+#define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
+#define EXPLOSION_SOUND "Frontend/Sounds/explosion.wav"
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
