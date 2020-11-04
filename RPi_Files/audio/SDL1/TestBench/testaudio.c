@@ -13,7 +13,9 @@
 #include "../libaudio.h"
 
 //char AudioFile[]="./Sound/red.wav";
-char AudioFile[]="LiveItUp.wav";
+//char AudioFile[]="LiveItUp.wav";
+char AudioFile[]="../SDL2/music/road.wav";
+
 //void do_something(void);
 
 int main(void) 

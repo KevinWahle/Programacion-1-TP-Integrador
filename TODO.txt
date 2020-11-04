@@ -1,3 +1,4 @@
+- (Prioridad) Revisar intochar
 - MUSIQUITA ALLEGRO
 - MUSIQUITA RASPI
 - Nivel no aparece a partir de N.
