@@ -652,7 +652,7 @@ void shoot_cannon(void)
         al_draw_line(x_shot, y_shot, x_shot, y_shot - 15 , al_color_name("white"), 0);    // Creo que aca no deberia dibujar
         
         // Sonido de disparo:
-        al_play_sample(shootSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
+        al_play_sample(shootSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
     }
         // printf("AFTER TODO K = %d\n", k);
     // ARRAY OVERFLOW
@@ -778,8 +778,10 @@ void pause_game_front(void)
 void resume_game_front(void) 
 {
     al_resume_timer(timer);   // Para que vuelva a generar eventos
-    if (UFO_invader.invaderState) {
-        
+    if (UFO_invader.invaderState) {     // Si el UFO estaba vivo, reproduzco el sonido
+        if (!al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, UFOSoundID)) {
+            UFOSoundID = NULL;
+        }
     }
 }
 
@@ -859,7 +861,7 @@ static void getInvaderShotCollison(void)
                     colisionDetected++;
                     add_event(CANNON_COLL_EV);        // Agrego evento de colision con cannon
                     // Sonido de explosion
-                    al_play_sample(explosionSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    al_play_sample(explosionSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     reviveCanon();
                 }
                 else if( getCollisionOnBlock( &collBoxShotFromInvader ) )   // Choque con bloque
@@ -920,7 +922,7 @@ static void getCanonShotCollision(void)
                     colisionDetected++;
                     add_event(UFO_COLL_EV);
                     // Sonido de muerte de invader
-                    al_play_sample(invaderKilledSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    al_play_sample(invaderKilledSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                 }
                 else
                 {
@@ -956,7 +958,7 @@ static void getCanonShotCollision(void)
                                         break;
                                     }
                                     // Sonido de muerte de invader
-                                    al_play_sample(invaderKilledSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                                    al_play_sample(invaderKilledSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                                 }
                             }
                         }
@@ -1380,7 +1382,7 @@ static void shouldUFOappear(void)
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
         UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) : D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer); // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
         // Sonido UFO:
-        if (!al_play_sample(invaderSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_LOOP, UFOSoundID)) {
+        if (!al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, UFOSoundID)) {
             UFOSoundID = NULL;
         }
     }
@@ -1471,7 +1473,7 @@ static void setInvadersDraw(void) {
         actualOctoPointer = octoPointer[invaderDraw];
 
         // Reproduzco sonido
-        al_play_sample(invaderSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
+        al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
     }
 }
