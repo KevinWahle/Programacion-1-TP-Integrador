@@ -40,7 +40,7 @@
 
 // MUSIC FILES:
 #define SAMPLES_NUMBER 100
-#define SPLASH_SOUND "Frontend/Sounds/IntroSound.wav"
+#define SPLASH_SOUND "Frontend/Sounds/ufo_lowpitch.wav"
 
 #define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
 #define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"

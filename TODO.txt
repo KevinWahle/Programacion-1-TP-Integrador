@@ -1,4 +1,4 @@
 - MUSIQUITA ALLEGRO
    - Inicializar audios
-- MUSIQUITA RASPI
+- MUSIQUITA RASPI F
 - Nivel no aparece a partir de N.
