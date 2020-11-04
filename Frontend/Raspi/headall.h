@@ -20,10 +20,6 @@
 #include "../../../libs/joydisp/joydrv.h"
 #include "../../../libs/audio/SDL1/libaudio.h"
 
-#include "../../RPi_Files/joydisp/disdrv.h"
-#include "../../RPi_Files/joydisp/joydrv.h"
-#include "../../RPi_Files/audio/SDL1/libaudio.h"
-
 #include <pthread.h>
 #include <unistd.h>
 #include <SDL2/SDL.h>

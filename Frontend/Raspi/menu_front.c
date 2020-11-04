@@ -105,7 +105,7 @@ void splash_front()
     }
     disp_update();
 
-    char mySong[] = "RPi_Files/audio/SDL1/TestBench/LiveItUp.wav";
+    char mySong[] = "Frontend/Sounds/IntroSound.wav";
     set_file_to_play(mySong);
     play_sound();
 }
