@@ -1,8 +1,11 @@
 ################################################
 CC = gcc
-CCD = gcc -D DEBUG
-CCA = gcc -D PLATFORM=ALLEGRO
-CCR = gcc -D PLATFORM=RASPI
+# CCD = gcc -D DEBUG
+# CCA = gcc -D PLATFORM=ALLEGRO
+# CCR = gcc -D PLATFORM=RASPI
+DEFINE_DEBUG = -D DEBUG
+DEFINE_ALL = -D PLATFORM=ALLEGRO
+DEFINE_RASPI = -D PLATFORM=RASPI
 OPTIONS = -g -Wall	# -g for debug, -O2 for optimise and -Wall additional messages
 ################################################
 ALLLINUXLIB =`pkg-config --libs allegro-5` `pkg-config --libs allegro_acodec-5` `pkg-config --libs allegro_audio-5` `pkg-config --libs allegro_color-5` `pkg-config --libs allegro_dialog-5` `pkg-config --libs allegro_font-5` `pkg-config --libs allegro_image-5` `pkg-config --libs allegro_main-5` `pkg-config --libs allegro_memfile-5` `pkg-config --libs allegro_physfs-5` `pkg-config --libs allegro_primitives-5` `pkg-config --libs allegro_ttf-5` `pkg-config --libs allegro_video-5`
@@ -25,37 +28,42 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 
 
 ################# ALLEGRO ######################
+game: OPTIONS += ${DEFINE_ALL}					# target variable: se define para todas las dependencias
 game: ${OBJS}
-	${CCA} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
+	${CC} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o game
+
+################# RASPI ######################
+gameraspi: OPTIONS += ${DEFINE_RASPI}			# target variable: se define para todas las dependencias
+gameraspi: ${OBJS2}
+	${CC} ${OPTIONS} ${OBJS2} ${RPILIBS} -o gameraspi
 
 # Para Windows, se compila con las librerias de otra manera
 win: ${OBJS}
-	${CCA} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
+	${CC} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
 #
 
+################# ALLEGRO ######################
 Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
-	${CCR} ${OPTIONS} -c Backend/main.c -o Backend/main.o
+	${CC} ${OPTIONS} -c Backend/main.c -o Backend/main.o
 
 Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
-	${CCR} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
+	${CC} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
 
 Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
-	${CCR} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
+	${CC} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
 
 Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_ALL} const.h
-	${CCR} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
+	${CC} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
 
 Frontend/Allegro/menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
-	${CCA} ${OPTIONS} -c Frontend/Allegro/menu_front.c -o Frontend/Allegro/menu_front.o
+	${CC} ${OPTIONS} -c Frontend/Allegro/menu_front.c -o Frontend/Allegro/menu_front.o
 
 Frontend/Allegro/game_front.o: Frontend/Allegro/game_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
-	${CCA} ${OPTIONS} -c Frontend/Allegro/game_front.c -o Frontend/Allegro/game_front.o
+	${CC} ${OPTIONS} -c Frontend/Allegro/game_front.c -o Frontend/Allegro/game_front.o
 #################################################
 
 
 ################### RASPI #######################
-gameraspi: ${OBJS2}
-	${CCR} ${OPTIONS} ${OBJS2} ${RPILIBS} -o gameraspi
 
 # Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
 # 	${CCR} ${OPTIONS} -c Backend/main.c -o Backend/main.o
@@ -70,10 +78,10 @@ gameraspi: ${OBJS2}
 # 	${CCR} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
 
 Frontend/Raspi/game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
-	${CCR} ${OPTIONS} -c Frontend/Raspi/game_front.c -o Frontend/Raspi/game_front.o
+	${CC} ${OPTIONS} -c Frontend/Raspi/game_front.c -o Frontend/Raspi/game_front.o
 
 Frontend/Raspi/menu_front.o: Frontend/Raspi/menu_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
-	${CCR} ${OPTIONS} -c Frontend/Raspi/menu_front.c -o Frontend/Raspi/menu_front.o
+	${CC} ${OPTIONS} -c Frontend/Raspi/menu_front.c -o Frontend/Raspi/menu_front.o
 #################################################
 
 ################## GENERIC ######################
