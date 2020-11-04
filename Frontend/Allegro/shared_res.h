@@ -75,6 +75,8 @@ extern ALLEGRO_EVENT_QUEUE *timer_queue;
 extern ALLEGRO_TIMER *timer;
 extern ALLEGRO_FONT *fontsc;
 extern ALLEGRO_FONT *fontgm;
+extern ALLEGRO_SAMPLE *sample1 = NULL;
+
 
 extern ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 extern ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];

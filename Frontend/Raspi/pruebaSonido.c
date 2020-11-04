@@ -16,12 +16,10 @@
 //char AudioFile[]="./Sound/red.wav";
 //char AudioFile[]="LiveItUp.wav";
 
-
 //void do_something(void);
 
 int main(void) 
 {
-	
     init_sound(); 
 
     own_timer_t temp;
@@ -36,7 +34,7 @@ int main(void)
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
         if( !(player_status() == PLAYING ) )
         {
-            char mySong[] = "Frontend/Sounds/shoot.wav";
+            char mySong[] = "../Sounds/shoot.wav";
 	        set_file_to_play(mySong);       				
 	        play_sound();
         }
