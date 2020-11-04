@@ -545,6 +545,8 @@ void shoot_cannon(void)
         }
     }
 
+    end_play();
+    stop_sound();
     if( !(player_status() == PLAYING ) )
     {
         char mySong[] = "Frontend/Sounds/shoot.wav";
