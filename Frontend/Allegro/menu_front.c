@@ -39,11 +39,13 @@
 #define FONTSC_FILE "Frontend/Allegro/Fonts/SP-font-menu.ttf"
 
 // MUSIC FILES:
-#define SAMPLE_FILE "Frontend/Allegro/Songs/audio.wav"   // Esto sirve de algo?
+#define SAMPLES_NUMBER 100
+#define SPLASH_SOUND "Frontend/Sounds/splash.wav"
 
 #define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
 #define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
 #define EXPLOSION_SOUND "Frontend/Sounds/explosion.wav"
+#define INV_KILL_SOUND "Frontend/Sounds/explosion.wav"
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -83,7 +85,7 @@ static ALLEGRO_BITMAP *endgmImage = NULL;
 
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 
-static ALLEGRO_SAMPLE *sample1 = NULL;
+static ALLEGRO_SAMPLE *splashsound = NULL;
 static ALLEGRO_FONT * fontmu = NULL;
 
 /*******************************************************************************
@@ -102,7 +104,7 @@ int init_front()       // Inicializo y verifico que no falle
                         if(al_init_ttf_addon()) { // initialize the ttf (True Type Font) addon    
                             if (al_install_audio()) {               //INICIALIZACIÓN
                                 if (al_init_acodec_addon()) {       //      DE
-                                    if (al_reserve_samples(1)) {    //     AUDIO
+                                    if (al_reserve_samples(SAMPLES_NUMBER)) {    //     AUDIO
                                         display = al_create_display(D_WIDTH, D_HEIGHT);
                                         if (display) {
                                             if (al_install_keyboard()) {
@@ -182,15 +184,15 @@ int loadim_menu()
                                     if(fontsc){
                                         fontgm = al_load_ttf_font(FONTSC_FILE, SIZE_FGM, 0);
                                         if(fontgm){
-                                            sample1 = al_load_sample(SAMPLE_FILE);
-                                            if(sample1) {
+                                            splashsound = al_load_sample(SPLASH_SOUND);
+                                            if(splashsound) {
                                                 if (loadim_game()==NO_ERROR){
                                                     return NO_ERROR;
                                                 } else 
                                                     fprintf(stderr, "ERROR: failed to add game images!\n");
-                                                al_destroy_sample(sample1);
+                                                al_destroy_sample(splashsound);
                                             } else
-                                                fprintf(stderr, "ERROR: Audio clip sample not loaded!\n");
+                                                fprintf(stderr, "ERROR: Audio clip splash sound not loaded!\n");
                                             al_destroy_font(fontgm);
                                         } else
                                             fprintf(stderr, "ERROR: Could not load game font!\n");
@@ -245,7 +247,31 @@ int loadim_game ()
                             if (octoPointer[0]) {
                                 octoPointer[1] = al_load_bitmap(OCTO2_FILE);
                                 if (octoPointer[1]) {
-                                    return NO_ERROR;
+                                    shootSound = al_load_sample(SHOOT_SOUND);
+                                    if(shootSound) {
+                                        explosionSound = al_load_sample(EXPLOSION_SOUND);
+                                        if(explosionSound) {            
+                                            invaderSound = al_load_sample(INVADER_SOUND);
+                                            if(invaderSound) { 
+                                                invaderKilledSound = al_load_sample(INV_KILL_SOUND);
+                                                if(invaderKilledSound) {    
+                                                    return NO_ERROR;
+                                                }
+                                                else
+                                                    fprintf(stderr, "ERROR: failed to load invaderKilledSound !\n");
+                                                al_destroy_bitmap(invaderSound);
+                                            }
+                                            else
+                                                fprintf(stderr, "ERROR: failed to load invaderSound !\n");
+                                            al_destroy_bitmap(explosionSound);
+                                        }
+                                        else
+                                            fprintf(stderr, "ERROR: failed to load explosionSound !\n");
+                                        al_destroy_bitmap(shootSound);
+                                    }
+                                    else                
+                                        fprintf(stderr, "ERROR: failed to load shootSound !\n");
+                                    al_destroy_bitmap(octoPointer[1]);            
                                 }
                                 else
                                     fprintf(stderr, "ERROR: failed to load Octo2 !\n");

@@ -193,6 +193,11 @@ ALLEGRO_TIMER *timer = NULL;
 ALLEGRO_FONT * fontsc = NULL;
 ALLEGRO_FONT *fontgm = NULL;
 
+ALLEGRO_SAMPLE *shootSound = NULL;
+ALLEGRO_SAMPLE *explosionSound = NULL;
+ALLEGRO_SAMPLE *invaderSound = NULL;
+ALLEGRO_SAMPLE *invaderKilledSound = NULL;
+
 ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *octoPointer[INVADERS_STATES];
@@ -640,8 +645,10 @@ void shoot_cannon(void)
     if (k < MAX_CANON_SHOT) {
         canonShotList[k] = shot;
         actualCanonShots++;
-        al_draw_line(x_shot, y_shot, x_shot, y_shot - 15 , al_color_name("white"), 0);
-               // TODO: Cambiar por codigo OK
+        al_draw_line(x_shot, y_shot, x_shot, y_shot - 15 , al_color_name("white"), 0);    // Creo que aca no deberia dibujar
+        
+        // Sonido de disparo:
+        al_play_sample(shootSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
     }
         // printf("AFTER TODO K = %d\n", k);
     // ARRAY OVERFLOW
@@ -843,6 +850,8 @@ static void getInvaderShotCollison(void)
                     invaderShotList[i].shotState = 0;
                     colisionDetected++;
                     add_event(CANNON_COLL_EV);        // Agrego evento de colision con cannon
+                    // Sonido de explosion
+                    al_play_sample(explosionSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     reviveCanon();
                 }
                 else if( getCollisionOnBlock( &collBoxShotFromInvader ) )   // Choque con bloque
@@ -902,6 +911,8 @@ static void getCanonShotCollision(void)
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
                     add_event(UFO_COLL_EV);
+                    // Sonido de muerte de invader
+                    al_play_sample(invaderKilledSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
                 }
                 else
                 {
@@ -936,6 +947,8 @@ static void getCanonShotCollision(void)
                                     default:
                                         break;
                                     }
+                                    // Sonido de muerte de invader
+                                    al_play_sample(invaderKilledSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
                                 }
                             }
                         }
@@ -1439,5 +1452,9 @@ static void setInvadersDraw(void) {
         actualSquidPointer = squidPointer[invaderDraw];
         actualCrabPointer = crabPointer[invaderDraw];
         actualOctoPointer = octoPointer[invaderDraw];
+
+        // Reproduzco sonido
+        al_play_sample(invaderSound, 1.0, 0.0, 1,0, ALLEGRO_PLAYMODE_ONCE, NULL);
+
     }
 }

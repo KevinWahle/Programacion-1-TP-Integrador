@@ -78,8 +78,8 @@ extern ALLEGRO_FONT *fontgm;
 
 extern ALLEGRO_SAMPLE *shootSound;
 extern ALLEGRO_SAMPLE *explosionSound;
-extern ALLEGRO_SAMPLE *shootSound;
-
+extern ALLEGRO_SAMPLE *invaderSound;
+extern ALLEGRO_SAMPLE *invaderKilledSound;
 
 extern ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 extern ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
