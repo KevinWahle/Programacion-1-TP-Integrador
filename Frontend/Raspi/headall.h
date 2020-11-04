@@ -20,9 +20,9 @@
 #include "../../RPi_Files/joydisp/joydrv.h"
 #include "../../RPi_Files/audio/SDL1/libaudio.h"
 
-//#include <pthread.h>
-//#include <unistd.h>
-//#include <SDL2/SDL.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <SDL2/SDL.h>
 
 #include "../../const.h"
 #include "timer/timer.h"    //Libreria de timer para delays

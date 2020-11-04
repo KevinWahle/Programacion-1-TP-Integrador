@@ -24,7 +24,7 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define LENG_SC     10
+#define LENG_SC     10  //Dígitos del score SIN terminador.
 
 #define D_WIDTH   800   //Ancho de pantalla
 #define D_HEIGHT  600   //Alto de pantalla

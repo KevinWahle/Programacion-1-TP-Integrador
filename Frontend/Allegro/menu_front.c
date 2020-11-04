@@ -504,14 +504,14 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
     unsigned long int a = 0;
 
     if(num==0){
-        for(int i=0;i<LENG_SC-1;i++){
+        for(int i=0;i<LENG_SC-1;i++){     // NOTA: Cambiar "-1" por "+1"
             chscore[i]=' ';
         }
         chscore[LENG_SC/2]='0';           // Escribo el 0 en el medio de la pantalla.
     }
 
     else{
-        for(int i=LENG_SC-1;i>=0;i--) {
+        for(int i=LENG_SC-1;i>=0;i--) {     // NOTA: Sacar "-1".
             a = num % 10;                   // Tomo un digito a mostrar.
             if(num>0) {
                 chscore[i]=a+NUMOFFSET;     // Si sigo teniendo parte del numero disponible para mostrar
@@ -524,5 +524,5 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
         }  
     }
 
-    chscore[LENG_SC-1]='\0';          // Agrego el terminador
+    chscore[LENG_SC]='\0';          // Agrego el terminador   //NOTA: 
 }
