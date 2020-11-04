@@ -544,6 +544,11 @@ void shoot_cannon(void)
             break;
         }
     }
+
+    char mySong[] = "Frontend/Sounds/shoot.wav";
+	set_file_to_play(mySong);       				
+	play_sound(); 					  
+
 }
 
 

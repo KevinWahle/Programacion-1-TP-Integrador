@@ -504,7 +504,7 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
     unsigned long int a = 0;
 
     if(num==0){
-        for(int i=0;i<LENG_SC;i++){     // NOTA: Sacar "-1"
+        for(int i=0;i<LENG_SC;i++){  
             chscore[i]=' ';
         }
         chscore[LENG_SC/2]='0';           // Escribo el 0 en el medio de la pantalla.
@@ -524,5 +524,5 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
         }  
     }
 
-    chscore[LENG_SC]='\0';                  // Agrego el terminador   //NOTA: sacar "-1"
+    chscore[LENG_SC]='\0';                
 }
