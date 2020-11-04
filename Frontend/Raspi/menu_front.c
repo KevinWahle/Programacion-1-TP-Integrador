@@ -105,7 +105,7 @@ void splash_front()
     }
     disp_update();
 
-    char mySong[] = "Frontend/Sounds/IntroSound.wav";
+    char mySong[] = "Frontend/Sounds/explosion.wav";
     set_file_to_play(mySong);
     play_sound();
 }
