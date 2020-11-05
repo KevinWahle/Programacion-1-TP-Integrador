@@ -18,7 +18,7 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 #define PPS_NODRIZA         120         // Pixeles por segundo (velocidad) de la nave nodriza
-#define PPS_CANON           180         // Pixeles por segundo (velocidad) del canon   
+#define PPS_CANON           275         // Pixeles por segundo (velocidad) del canon   
 #define PPS_BALA            240         // Pixeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    300         // Máximos PPS (velocidad) de invaders
 #define MIN_PPS_INVADERS    15         // Mínimos PPS (velocidad) de invaders
@@ -45,7 +45,7 @@
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 15                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
@@ -95,8 +95,8 @@
 #define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  500
 
 
-#define MAX_POSIBILIY_OF_APPEAR_UFO  500
-#define MIN_POSIBILIY_OF_APPEAR_UFO  1200
+#define MAX_POSIBILIY_OF_APPEAR_UFO  100
+#define MIN_POSIBILIY_OF_APPEAR_UFO  200
 
 #define MAX_INVADERS_ANIM_PERIOD    1*FPS       // Máximos ticks necesearios hasta cambiar de imagen
 #define MIN_INVADERS_ANIM_PERIOD    0.1*FPS       // Mínimos ticks necesearios hasta cambiar de imagen
@@ -190,7 +190,7 @@ typedef float cannonPosition_t;
 ALLEGRO_BITMAP *canonPointer = NULL;
 ALLEGRO_EVENT_QUEUE *timer_queue = NULL;
 ALLEGRO_TIMER *timer = NULL;
-ALLEGRO_FONT * fontsc = NULL;
+ALLEGRO_FONT *fontsc = NULL;
 ALLEGRO_FONT *fontgm = NULL;
 
 ALLEGRO_SAMPLE *shootSound = NULL;
@@ -361,7 +361,7 @@ static ALLEGRO_BITMAP *actualCrabPointer;
 static ALLEGRO_BITMAP *actualOctoPointer;
 
 // Sonido
-static ALLEGRO_SAMPLE_ID *UFOSoundID = NULL;
+static ALLEGRO_SAMPLE_ID UFOSoundID;
 
 // Invaders matrix
 static invader_t invaders[FIL_INVADERS][COL_INVADERS];
@@ -779,9 +779,7 @@ void resume_game_front(void)
 {
     al_resume_timer(timer);   // Para que vuelva a generar eventos
     if (UFO_invader.invaderState) {     // Si el UFO estaba vivo, reproduzco el sonido
-        if (!al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, UFOSoundID)) {
-            UFOSoundID = NULL;
-        }
+        al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &UFOSoundID);
     }
 }
 
@@ -1009,7 +1007,7 @@ static void drawAliveInvaders(void)
         {
             UFO_invader.invaderState = 0;
             // Detener sonido UFO:
-            al_stop_sample(UFOSoundID);
+            al_stop_sample(&UFOSoundID);
         }
     }
 }
@@ -1382,9 +1380,7 @@ static void shouldUFOappear(void)
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
         UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) : D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer); // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
         // Sonido UFO:
-        if (!al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, UFOSoundID)) {
-            UFOSoundID = NULL;
-        }
+        al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &UFOSoundID);
     }
 }
 
@@ -1404,8 +1400,7 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
         {
             UFO_invader.invaderState = 0;
             // Detener sonido UFO:
-            al_stop_sample(UFOSoundID);
-            
+            al_stop_sample(&UFOSoundID);
         }
     
     }

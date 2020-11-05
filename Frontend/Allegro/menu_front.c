@@ -256,7 +256,13 @@ int loadim_game ()
                                             if(invaderSound) { 
                                                 invaderKilledSound = al_load_sample(INV_KILL_SOUND);
                                                 if(invaderKilledSound) {    
-                                                    return NO_ERROR;
+                                                    UFOSound = al_load_sample(UFO_SOUND);
+                                                    if (UFOSound) {
+                                                        return NO_ERROR;
+                                                    }
+                                                    else
+                                                        fprintf(stderr, "ERROR: failed to load UFOSound !\n");
+                                                    al_destroy_sample(invaderKilledSound);
                                                 }
                                                 else
                                                     fprintf(stderr, "ERROR: failed to load invaderKilledSound !\n");
@@ -508,6 +514,7 @@ void destroy_front()
     al_destroy_sample(explosionSound);
     al_destroy_sample(invaderSound);
     al_destroy_sample(invaderKilledSound);
+    al_destroy_sample(UFOSound);
 
     al_destroy_font(fontmu);
     al_destroy_font(fontsc);
