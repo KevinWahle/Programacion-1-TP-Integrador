@@ -40,7 +40,7 @@
 
 // MUSIC FILES:
 #define SAMPLES_NUMBER 100
-#define SPLASH_SOUND "Frontend/Sounds/ufo_lowpitch.wav"
+#define SPLASH_SOUND "Frontend/Sounds/IntroSound.wav"
 
 #define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
 #define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
@@ -324,7 +324,7 @@ void splash_front()
     al_flip_display();
     al_rest(1.5);
     show_inst ();
-
+    //al_play_sample(splashsound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 }
 
 

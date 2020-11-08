@@ -1,4 +1,6 @@
+- Corregir Warnings que tira en allegro
 - MUSIQUITA ALLEGRO
-   - Inicializar audios
 - MUSIQUITA RASPI F
 - Nivel no aparece a partir de N.
+- Borrar Make secundarios
+- 

@@ -1,6 +1,4 @@
 BACK: 
-
-
     FUNCIONES DEFINIDAS EN EL BACK:
 
         Main basarse en Advanced Finite State machine!!! 
