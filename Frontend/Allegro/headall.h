@@ -19,12 +19,6 @@
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
 #include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event
 
-
-/*******************************************************************************
- * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
- ******************************************************************************/
-
-
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -32,12 +26,6 @@
 enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
 typedef uint8_t direction_t;  // Necesario para move_cannon()
-
-
-/*******************************************************************************
- * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
- ******************************************************************************/
-
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR MENU AND KEYBOARD

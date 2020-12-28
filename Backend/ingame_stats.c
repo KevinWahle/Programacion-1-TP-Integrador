@@ -11,18 +11,6 @@
 #include <time.h>
 
 /*******************************************************************************
- * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
- ******************************************************************************/
-
-/*******************************************************************************
- * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-
-/*******************************************************************************
- * VARIABLES WITH GLOBAL SCOPE
- ******************************************************************************/
-
-/*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
@@ -61,16 +49,10 @@ static void set_level(int new_level);
 static unsigned int get_speed (void);
 
 /*******************************************************************************
- * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
- ******************************************************************************/
-
-/*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 static int lives, level, speed=MIN_SPEED;   // Variables estaticas internas que permiten
 static unsigned long int points;            // el desarrollo de la partida.
-
-
 
 static clock_t start;                               // Referencia para medir tiempo.                         
 
@@ -299,6 +281,7 @@ void kill_alien(const int tipo_alien)
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+
 static void reset_timer(void)
 {
     start=clock();                  // Renuevo el tiempo de referecia.

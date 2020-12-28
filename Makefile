@@ -37,6 +37,7 @@ gameraspi: ${OBJS2}
 ################################################
 
 # Para Windows, se compila con las librerias de otra manera
+win: OPTIONS += ${DEFINE_ALL}					# target variable: se define para todas las dependencias
 win: ${OBJS}
 	${CC} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
 #
@@ -48,6 +49,8 @@ Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVEN
 Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
 	${CC} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
 
+#TODO: Faltan los headall como dependencia en algunos targets. Depende de la plataforma -> Crear target variable
+
 Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
 	${CC} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
 
@@ -56,13 +59,15 @@ Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_H
 
 Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD}
 	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
-##################
+
+################## ALLEGRO FRONT ########################
 Frontend/Allegro/menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
 	${CC} ${OPTIONS} -c Frontend/Allegro/menu_front.c -o Frontend/Allegro/menu_front.o
 
 Frontend/Allegro/game_front.o: Frontend/Allegro/game_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
 	${CC} ${OPTIONS} -c Frontend/Allegro/game_front.c -o Frontend/Allegro/game_front.o
-##################
+
+################## RASPI FRONT ########################
 Frontend/Raspi/game_front.o: Frontend/Raspi/game_front.c ${HFRONT_RAS} ${RPILINUXLIB} ${EVENTQ_HEAD} const.h
 	${CC} ${OPTIONS} -c Frontend/Raspi/game_front.c -o Frontend/Raspi/game_front.o
 

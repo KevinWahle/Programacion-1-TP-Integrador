@@ -14,19 +14,15 @@
 #include "../const.h"
 #include <stdio.h>
 
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 #define SPEED_LAPSE 5
 
 /*******************************************************************************
- * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-
-/*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
+
 BOOL running = 1;
 
 MENU_ITEM main_menu[] = {  
@@ -44,20 +40,15 @@ MENU_ITEM pause_menu[] = {
                         };
 
 /*******************************************************************************
- * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
- ******************************************************************************/
-/*******************************************************************************
- * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
- ******************************************************************************/
-
-/*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
+
 static int actual_option = 0;                            // Variable que marca la opcion del menú seleccionada.   
 static char actual_name[NAME_SIZE+1];
 static SCORE leadboard[LEADERBOARD_SIZE+1];                // Creo matriz con el leaderboard  
 static int letter_counter=0;                             // Variable que da el indice de la letra a cargar.
 static int letter;                                       // Variable que retiene la letra que se quiere cargar.   
+
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
@@ -65,8 +56,8 @@ static int letter;                                       // Variable que retiene
  ******************************************************************************/
 
 /**********************************************************
-***********************  SPLASH   *************************
-**********************************************************/
+ ***********************  SPLASH   *************************
+ **********************************************************/
 
 void show_splash(void){     
     splash_front(); 
@@ -243,8 +234,7 @@ void pause_game(void){
     #endif
 }
 
-void resume_game(void){                 
-    //INCLUIR: descomentar cuando existan
+void resume_game(void){
     resume_game_front();
     
     #ifdef DEBUG
@@ -272,6 +262,7 @@ void start_game(void){
         printf("Iniciando partida. \n");
     #endif
 }
+
 void quit_game(void) {
     destroy_front();
     running=0;                          // Bajo el flag para correr el programa.                                    
@@ -279,6 +270,7 @@ void quit_game(void) {
         printf("Salgo del juego. \n");
     #endif
 }
+
 /**********************************************************
 ***********************  SCORE   **************************
 **********************************************************/    
@@ -521,6 +513,6 @@ void refresh(void){
     }
 }
 
- void doNothing() {
+void doNothing() {
     return;
- }
+}

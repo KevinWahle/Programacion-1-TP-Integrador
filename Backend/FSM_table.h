@@ -7,14 +7,12 @@
 #ifndef FSM_TABLE_H
 #define FSM_TABLE_H
 
-
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "../const.h"
 #include "FSM_routines.h"
 #include "event_queue/event_queue.h"
-
 
 #if PLATFORM == ALLEGRO
 #include "../Frontend/Allegro/headall.h" 
@@ -23,16 +21,10 @@
 #include "../Frontend/Raspi/headall.h"
 #endif
 
-
-/*******************************************************************************
- * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
- ******************************************************************************/
-
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  *******************************************************************************/
 typedef struct state_diagram_edge STATE;
-
 struct state_diagram_edge{
     event_t evento;
 	//Evento que activa la rutina de acción

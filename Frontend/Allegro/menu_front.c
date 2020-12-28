@@ -49,11 +49,6 @@
 #define UFO_SOUND "Frontend/Sounds/ufo_lowpitch.wav"
 
 /*******************************************************************************
- * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-
-
-/*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
 
@@ -65,12 +60,12 @@ ALLEGRO_DISPLAY *display = NULL;
 /**
  * @brief Carga la imagenes, fuentes y sonidos para el menu.
 */
-int loadim_menu();
+static int loadim_menu();
 
 /**
  * @brief Carga la imagenes para el juego.
 */
-int loadim_game();
+static int loadim_game();
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -158,159 +153,6 @@ int init_front()       // Inicializo y verifico que no falle
         fprintf(stderr, "ERROR: failed to initialize allegro system\n");
     return ERROR;
 }
-
-
-/**
- * @brief Carga la imagenes, fuentes y sonidos.
-*/
-int loadim_menu()
-{
-    menuImage = al_load_bitmap(MENU_FILE);
-    if (menuImage) {
-        firstImage = al_load_bitmap(FIRST_FILE);
-        if (firstImage) {
-            scoreImage = al_load_bitmap(SCORE_FILE);
-            if (scoreImage) {   
-                instImage = al_load_bitmap(INST_FILE);
-                if (instImage) {
-                    endgmImage = al_load_bitmap(ENGAME_FILE);
-                    if (endgmImage) {
-                        arrowpng = al_load_bitmap(ARROW_FILE);
-                        if(arrowpng){
-                            endImage = al_load_bitmap(END_FILE);
-                            if (endImage) {
-                                fontmu = al_load_ttf_font(FONTMU_FILE, SIZE_FMU, 0);
-                                if(fontmu){
-                                    fontsc = al_load_ttf_font(FONTSC_FILE, SIZE_FSC, 0);
-                                    if(fontsc){
-                                        fontgm = al_load_ttf_font(FONTSC_FILE, SIZE_FGM, 0);
-                                        if(fontgm){
-                                            splashsound = al_load_sample(SPLASH_SOUND);
-                                            if(splashsound) {
-                                                if (loadim_game()==NO_ERROR){
-                                                    return NO_ERROR;
-                                                } else 
-                                                    fprintf(stderr, "ERROR: failed to add game images!\n");
-                                                al_destroy_sample(splashsound);
-                                            } else
-                                                fprintf(stderr, "ERROR: Audio clip splash sound not loaded!\n");
-                                            al_destroy_font(fontgm);
-                                        } else
-                                            fprintf(stderr, "ERROR: Could not load game font!\n");
-                                        al_destroy_font(fontsc);
-                                    } else 
-                                        fprintf(stderr, "ERROR: Could not load score font!\n");
-                                    al_destroy_font(fontmu);
-                                } else 
-                                    fprintf(stderr, "ERROR: Could not load menu font!\n");  
-                                al_destroy_bitmap(endImage);   
-                            } else 
-                                fprintf(stderr, "ERROR: failed to load endImage!\n");
-                            al_destroy_bitmap(arrowpng);
-                        } else
-                            fprintf(stderr, "ERROR: failed to load arrow png!\n");
-                        al_destroy_bitmap(endgmImage);
-                    } else
-                        fprintf(stderr, "ERROR: failed to load end game Image!\n");
-                    al_destroy_bitmap(instImage);
-                } else 
-                    fprintf(stderr, "ERROR: failed to load instImage!\n");
-                al_destroy_bitmap(scoreImage);
-            } else 
-                fprintf(stderr, "ERROR: failed to load scoreImage!\n"); 
-            al_destroy_bitmap(firstImage);
-        } else 
-            fprintf(stderr, "ERROR: failed to load firtsImage!\n");            
-        al_destroy_bitmap(menuImage);	
-    } else 
-        fprintf(stderr, "ERROR: failed to load menuImage!\n");
-    return ERROR;
-}
-
-/**
- * @brief Carga la imagenes para el juego.
-*/
-int loadim_game () 
-{
-    canonPointer = al_load_bitmap(CANON_FILE);
-    if(canonPointer){
-        UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
-        if (UFO_invader.invadersPointer) {
-            squidPointer[0] = al_load_bitmap(SQUID1_FILE);
-            if (squidPointer[0]) {
-                squidPointer[1] = al_load_bitmap(SQUID2_FILE);
-                if (squidPointer[1]) {
-                    crabPointer[0] = al_load_bitmap(CRAB1_FILE);
-                    if (crabPointer[0]) {
-                        crabPointer[1] = al_load_bitmap(CRAB2_FILE);
-                        if (crabPointer[1]) {
-                            octoPointer[0] = al_load_bitmap(OCTO1_FILE);
-                            if (octoPointer[0]) {
-                                octoPointer[1] = al_load_bitmap(OCTO2_FILE);
-                                if (octoPointer[1]) {
-                                    shootSound = al_load_sample(SHOOT_SOUND);
-                                    if(shootSound) {
-                                        explosionSound = al_load_sample(EXPLOSION_SOUND);
-                                        if(explosionSound) {            
-                                            invaderSound = al_load_sample(INVADER_SOUND);
-                                            if(invaderSound) { 
-                                                invaderKilledSound = al_load_sample(INV_KILL_SOUND);
-                                                if(invaderKilledSound) {    
-                                                    UFOSound = al_load_sample(UFO_SOUND);
-                                                    if (UFOSound) {
-                                                        return NO_ERROR;
-                                                    }
-                                                    else
-                                                        fprintf(stderr, "ERROR: failed to load UFOSound !\n");
-                                                    al_destroy_sample(invaderKilledSound);
-                                                }
-                                                else
-                                                    fprintf(stderr, "ERROR: failed to load invaderKilledSound !\n");
-                                                al_destroy_sample(invaderSound);
-                                            }
-                                            else
-                                                fprintf(stderr, "ERROR: failed to load invaderSound !\n");
-                                            al_destroy_sample(explosionSound);
-                                        }
-                                        else
-                                            fprintf(stderr, "ERROR: failed to load explosionSound !\n");
-                                        al_destroy_sample(shootSound);
-                                    }
-                                    else                
-                                        fprintf(stderr, "ERROR: failed to load shootSound !\n");
-                                    al_destroy_bitmap(octoPointer[1]);            
-                                }
-                                else
-                                    fprintf(stderr, "ERROR: failed to load Octo2 !\n");
-                                al_destroy_bitmap(octoPointer[0]);
-                            }
-                            else
-                                fprintf(stderr, "ERROR: failed to load Octo1 !\n");
-                            al_destroy_bitmap(crabPointer[1]);
-                        }
-                        else
-                            fprintf(stderr, "ERROR: failed to load Crab2 !\n");
-                        al_destroy_bitmap(crabPointer[0]);
-                    }
-                    else
-                        fprintf(stderr, "ERROR: failed to load Crab1 !\n");
-                    al_destroy_bitmap(squidPointer[1]);
-                }
-                else
-                    fprintf(stderr, "ERROR: failed to load Squid2 !\n");
-                al_destroy_bitmap(squidPointer[0]);
-            }
-            else
-            fprintf(stderr, "ERROR: failed to load Squid1 !\n");
-            al_destroy_bitmap(UFO_invader.invadersPointer);
-        } else
-            fprintf(stderr, "ERROR: failed to load UFO !\n");
-        al_destroy_bitmap(canonPointer);
-    } else
-        fprintf(stderr, "ERROR: failed to load canon !\n");
-    return ERROR;
-}
-
 
 /**
  * @brief Muestra el splash.
@@ -535,11 +377,6 @@ void destroy_front()
     fprintf(stderr, "See you next time...\n\n");
 }
 
-/*******************************************************************************
- *******************************************************************************
-                        LOCAL FUNCTION DEFINITIONS
- *******************************************************************************
- ******************************************************************************/
 /**
  * @brief Transforma un entero no signado a un string.
  */
@@ -569,4 +406,161 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
     }
 
     chscore[LENG_SC]='\0';                
+}
+
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+/**
+ * @brief Carga la imagenes, fuentes y sonidos.
+*/
+static int loadim_menu()
+{
+    menuImage = al_load_bitmap(MENU_FILE);
+    if (menuImage) {
+        firstImage = al_load_bitmap(FIRST_FILE);
+        if (firstImage) {
+            scoreImage = al_load_bitmap(SCORE_FILE);
+            if (scoreImage) {   
+                instImage = al_load_bitmap(INST_FILE);
+                if (instImage) {
+                    endgmImage = al_load_bitmap(ENGAME_FILE);
+                    if (endgmImage) {
+                        arrowpng = al_load_bitmap(ARROW_FILE);
+                        if(arrowpng){
+                            endImage = al_load_bitmap(END_FILE);
+                            if (endImage) {
+                                fontmu = al_load_ttf_font(FONTMU_FILE, SIZE_FMU, 0);
+                                if(fontmu){
+                                    fontsc = al_load_ttf_font(FONTSC_FILE, SIZE_FSC, 0);
+                                    if(fontsc){
+                                        fontgm = al_load_ttf_font(FONTSC_FILE, SIZE_FGM, 0);
+                                        if(fontgm){
+                                            splashsound = al_load_sample(SPLASH_SOUND);
+                                            if(splashsound) {
+                                                if (loadim_game()==NO_ERROR){
+                                                    return NO_ERROR;
+                                                } else 
+                                                    fprintf(stderr, "ERROR: failed to add game images!\n");
+                                                al_destroy_sample(splashsound);
+                                            } else
+                                                fprintf(stderr, "ERROR: Audio clip splash sound not loaded!\n");
+                                            al_destroy_font(fontgm);
+                                        } else
+                                            fprintf(stderr, "ERROR: Could not load game font!\n");
+                                        al_destroy_font(fontsc);
+                                    } else 
+                                        fprintf(stderr, "ERROR: Could not load score font!\n");
+                                    al_destroy_font(fontmu);
+                                } else 
+                                    fprintf(stderr, "ERROR: Could not load menu font!\n");  
+                                al_destroy_bitmap(endImage);   
+                            } else 
+                                fprintf(stderr, "ERROR: failed to load endImage!\n");
+                            al_destroy_bitmap(arrowpng);
+                        } else
+                            fprintf(stderr, "ERROR: failed to load arrow png!\n");
+                        al_destroy_bitmap(endgmImage);
+                    } else
+                        fprintf(stderr, "ERROR: failed to load end game Image!\n");
+                    al_destroy_bitmap(instImage);
+                } else 
+                    fprintf(stderr, "ERROR: failed to load instImage!\n");
+                al_destroy_bitmap(scoreImage);
+            } else 
+                fprintf(stderr, "ERROR: failed to load scoreImage!\n"); 
+            al_destroy_bitmap(firstImage);
+        } else 
+            fprintf(stderr, "ERROR: failed to load firtsImage!\n");            
+        al_destroy_bitmap(menuImage);	
+    } else 
+        fprintf(stderr, "ERROR: failed to load menuImage!\n");
+    return ERROR;
+}
+
+/**
+ * @brief Carga la imagenes para el juego.
+*/
+static int loadim_game () 
+{
+    canonPointer = al_load_bitmap(CANON_FILE);
+    if(canonPointer){
+        UFO_invader.invadersPointer = al_load_bitmap(UFO_FILE);
+        if (UFO_invader.invadersPointer) {
+            squidPointer[0] = al_load_bitmap(SQUID1_FILE);
+            if (squidPointer[0]) {
+                squidPointer[1] = al_load_bitmap(SQUID2_FILE);
+                if (squidPointer[1]) {
+                    crabPointer[0] = al_load_bitmap(CRAB1_FILE);
+                    if (crabPointer[0]) {
+                        crabPointer[1] = al_load_bitmap(CRAB2_FILE);
+                        if (crabPointer[1]) {
+                            octoPointer[0] = al_load_bitmap(OCTO1_FILE);
+                            if (octoPointer[0]) {
+                                octoPointer[1] = al_load_bitmap(OCTO2_FILE);
+                                if (octoPointer[1]) {
+                                    shootSound = al_load_sample(SHOOT_SOUND);
+                                    if(shootSound) {
+                                        explosionSound = al_load_sample(EXPLOSION_SOUND);
+                                        if(explosionSound) {            
+                                            invaderSound = al_load_sample(INVADER_SOUND);
+                                            if(invaderSound) { 
+                                                invaderKilledSound = al_load_sample(INV_KILL_SOUND);
+                                                if(invaderKilledSound) {    
+                                                    UFOSound = al_load_sample(UFO_SOUND);
+                                                    if (UFOSound) {
+                                                        return NO_ERROR;
+                                                    }
+                                                    else
+                                                        fprintf(stderr, "ERROR: failed to load UFOSound !\n");
+                                                    al_destroy_sample(invaderKilledSound);
+                                                }
+                                                else
+                                                    fprintf(stderr, "ERROR: failed to load invaderKilledSound !\n");
+                                                al_destroy_sample(invaderSound);
+                                            }
+                                            else
+                                                fprintf(stderr, "ERROR: failed to load invaderSound !\n");
+                                            al_destroy_sample(explosionSound);
+                                        }
+                                        else
+                                            fprintf(stderr, "ERROR: failed to load explosionSound !\n");
+                                        al_destroy_sample(shootSound);
+                                    }
+                                    else                
+                                        fprintf(stderr, "ERROR: failed to load shootSound !\n");
+                                    al_destroy_bitmap(octoPointer[1]);            
+                                }
+                                else
+                                    fprintf(stderr, "ERROR: failed to load Octo2 !\n");
+                                al_destroy_bitmap(octoPointer[0]);
+                            }
+                            else
+                                fprintf(stderr, "ERROR: failed to load Octo1 !\n");
+                            al_destroy_bitmap(crabPointer[1]);
+                        }
+                        else
+                            fprintf(stderr, "ERROR: failed to load Crab2 !\n");
+                        al_destroy_bitmap(crabPointer[0]);
+                    }
+                    else
+                        fprintf(stderr, "ERROR: failed to load Crab1 !\n");
+                    al_destroy_bitmap(squidPointer[1]);
+                }
+                else
+                    fprintf(stderr, "ERROR: failed to load Squid2 !\n");
+                al_destroy_bitmap(squidPointer[0]);
+            }
+            else
+            fprintf(stderr, "ERROR: failed to load Squid1 !\n");
+            al_destroy_bitmap(UFO_invader.invadersPointer);
+        } else
+            fprintf(stderr, "ERROR: failed to load UFO !\n");
+        al_destroy_bitmap(canonPointer);
+    } else
+        fprintf(stderr, "ERROR: failed to load canon !\n");
+    return ERROR;
 }

@@ -35,12 +35,6 @@ typedef struct     // Estructura que contiene al nombre del usuario con su corre
     unsigned long int pts;
 } SCORE;
 
-
-/*******************************************************************************
- * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
- ******************************************************************************/
-
-
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/

@@ -19,31 +19,15 @@
 #define OFFSET  '0'
 
 /*******************************************************************************
- * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-
-/*******************************************************************************
- * VARIABLES WITH GLOBAL SCOPE
- ******************************************************************************/
-
-/*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
+
 /**
  * @brief Ordena los elementos de mayor a menor
  * @param arr: arreglo  con los elementos a ordenar
  * @param cont: cantidad de elementos a ordenar
 */
-void BubbleSort(SCORE arr[], int cont); 
-
-/*******************************************************************************
- * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
- ******************************************************************************/
-
-/*******************************************************************************
- * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
- ******************************************************************************/
-
+static void BubbleSort(SCORE arr[], int cont); 
 
 /*******************************************************************************
  *******************************************************************************
@@ -126,8 +110,7 @@ int lect_score (SCORE* my_pun)
  *******************************************************************************
  ******************************************************************************/
 
-
-void BubbleSort (SCORE arr[], int cont){
+static void BubbleSort (SCORE arr[], int cont){
 	SCORE temp;
 	for (int j=0; j<cont-1; j++){               // Mientras que no supere la cantidad        
 		for (int i=0; i<cont-1; i++){	

@@ -44,16 +44,6 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-// // Objeto invader
-// typedef struct 
-// {
-//     float x;
-//     float y;
-//     int invaderState;    // Si esta vivo o muerto 
-//     int invaderType;    // Tipo de invader (SQUID, CRAB, OCTO)
-//     ALLEGRO_BITMAP **invadersPointer;   // Puntero a puntero, para poder cambiarlo dinámicamente
-// }invader_t;
-
 // Objeto UFO
 typedef struct 
 {

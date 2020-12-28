@@ -341,9 +341,9 @@ static void restartTasas(void);
 
 /**
  * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
- * @param1 score Puntaje a imptimir
- * @param2 lives Vidas a imprimir
- * @param3 level Nivel actual a imprimir
+ * @param score Puntaje a imptimir
+ * @param lives Vidas a imprimir
+ * @param level Nivel actual a imprimir
  **/
 static void inGameStats(unsigned long int score, int lives, int level);
 
@@ -384,7 +384,6 @@ static int actualInvadersShots;
 static int actualCanonShots;
 
 
-
 // El cañón
 static cannonPosition_t cannonXpos = 0;
 static direction_t cannonDir = STOP;
@@ -393,11 +392,7 @@ static shot_t canonShotList[MAX_CANON_SHOT];
 
 static direction_t proxDir = LEFT;
 
-//TASAS DE CAMBIO VARIABLES:
-
-static float dxInvader;
-static float shotFromInvaderFrec;
-
+// Escudos
 static shield_t shielders[TOTAL_SHIELDS];
 
 // Velocidades y probabilidades variables
@@ -408,7 +403,6 @@ static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 // Animaciones
 
 static int invadersAnimPeriod = MAX_INVADERS_ANIM_PERIOD;   // Cantidad de frames entre cambio de imagenes
-// TODO: Hacer que ^^^^^ dependa de la velocidad
 static int invaderDraw = HAND_DOWN;
 static int drawTicks;
 
@@ -626,7 +620,6 @@ void reviveCanon(void)
 
 /**
  * @brief Ejecuta un disparo del canon
- * @return TODO?: CODIGO DE ERROR?
 */
 void shoot_cannon(void)
 {   
@@ -673,9 +666,6 @@ void show_level_screen (int level)
     strcat (wlevel, chlevel );
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2), ALLEGRO_ALIGN_CENTER, wlevel);
     al_flip_display();
-
-    // REVISAR: No falta delay (al_rest())?
-
 }
 
 
@@ -779,7 +769,7 @@ void resume_game_front(void)
 {
     al_resume_timer(timer);   // Para que vuelva a generar eventos
     if (UFO_invader.invaderState) {     // Si el UFO estaba vivo, reproduzco el sonido
-        al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &UFOSoundID);
+        al_play_sample(UFOSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &UFOSoundID);
     }
 }
 
@@ -830,7 +820,7 @@ static void getInvaderShotCollison(void)
     {
 
         collBoxShot_t canonBox = {  .x = cannonXpos ,
-                                    .y = D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer),           // TODO: Hacer una estructura o constante
+                                    .y = D_HEIGHT - AL_GET_CANNON_HEIGHT(canonPointer),
                                     .height = AL_GET_CANNON_HEIGHT(canonPointer),
                                     .width = AL_GET_CANNON_WIDTH(canonPointer)
                                  };
@@ -1380,7 +1370,7 @@ static void shouldUFOappear(void)
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
         UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*AL_GET_UFO_WIDTH(UFO_invader.invadersPointer) : D_WIDTH + AL_GET_UFO_WIDTH(UFO_invader.invadersPointer); // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
         // Sonido UFO:
-        al_play_sample(invaderSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &UFOSoundID);
+        al_play_sample(UFOSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &UFOSoundID);
     }
 }
 
