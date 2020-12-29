@@ -661,7 +661,6 @@ void show_level_screen (int level)
     al_clear_to_color(al_map_rgb(0, 0, 0));
     char chlevel[LENG_SC];
     char wlevel[] = "Nivel ";
-    char stringOcto[30];
     intochar(level,chlevel);
     strcat (wlevel, chlevel );
     al_draw_text(fontsc, al_map_rgb(255, 255, 255), (D_WIDTH / 2), (D_HEIGHT / 2), ALLEGRO_ALIGN_CENTER, wlevel);

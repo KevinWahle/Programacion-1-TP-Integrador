@@ -45,7 +45,7 @@
 #define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
 #define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
 #define EXPLOSION_SOUND "Frontend/Sounds/explosion.wav"
-#define INV_KILL_SOUND "Frontend/Sounds/explosion.wav"
+#define INV_KILL_SOUND "Frontend/Sounds/invaderkilled.wav"
 #define UFO_SOUND "Frontend/Sounds/ufo_lowpitch.wav"
 
 /*******************************************************************************
