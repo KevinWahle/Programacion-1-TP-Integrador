@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
+// ------------ ME PARECE QUE ESTO SE PODRÍA MOVER AL .c
 #if PLATFORM == ALLEGRO
 #include "../Frontend/Allegro/headall.h" 
 

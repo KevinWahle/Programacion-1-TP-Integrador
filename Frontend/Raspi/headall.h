@@ -25,16 +25,11 @@
 #include <SDL2/SDL.h>
 
 #include "../../const.h"
-#include "timer/timer.h"    //Libreria de timer para delays
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
+
+// ------ ESTAS CREO QUE PODRÍAN IR AL .c
+#include "timer/timer.h"    //Libreria de timer para delays
 #include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event
-
-
-
-
-/*******************************************************************************
- * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
- ******************************************************************************/
 
 
 /*******************************************************************************
@@ -43,11 +38,6 @@
 enum DIRECTIONS {LEFT, RIGHT, STOP, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
 typedef uint8_t direction_t;  // Necesario para move_cannon()
-
-/*******************************************************************************
- * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
- ******************************************************************************/
-
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR MENU AND KEYBOARD

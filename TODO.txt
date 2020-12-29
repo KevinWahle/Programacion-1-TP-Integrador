@@ -1,6 +1,15 @@
-- Corregir Warnings que tira en allegro
+TODO:
 - MUSIQUITA ALLEGRO
+- Controles en allegro
 - MUSIQUITA RASPI F
 - Nivel no aparece a partir de N.
 - Borrar Make secundarios
-- 
+- Mejorar las dependencias de los .h
+
+EXTRAS:
+- Distinta velocidad de bala para canon
+- Música en el menú
+- Sonido de win/lose
+
+HECHO:
+- Corregir Warnings que tira en allegro

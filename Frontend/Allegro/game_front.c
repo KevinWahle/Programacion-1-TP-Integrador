@@ -26,8 +26,7 @@
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
 #define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
 #define TASA_DE_CAMBIO_NODRIZA (PPS_NODRIZA/FPS)         // Pixeles por refresco (velocidad) de la nave nodriza
-
-//#define TASA_DE_CAMBIO_INVADERS 0.5      // NO SIRVE, es fija, SACAR
+// La de los invaders es variable
 
 #define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
 #define SHOT_WIDTH 4                     // idem
@@ -45,7 +44,7 @@
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 15                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
@@ -91,15 +90,15 @@
 #define MAX_SPEED_INVADER  (MAX_PPS_INVADERS/FPS)
 #define MIN_SPEED_INVADER  (MIN_PPS_INVADERS/FPS)
 
-#define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  5     // Seria 1 posibilidad entre 50
-#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  500
+#define MAX_POSIBILIY_OF_SHOT_FROM_INVADERS  50     // Seria 1 posibilidad entre 50
+#define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  2000
 
 
-#define MAX_POSIBILIY_OF_APPEAR_UFO  100
-#define MIN_POSIBILIY_OF_APPEAR_UFO  200
+#define MAX_POSIBILIY_OF_APPEAR_UFO  200
+#define MIN_POSIBILIY_OF_APPEAR_UFO  2000
 
-#define MAX_INVADERS_ANIM_PERIOD    1*FPS       // Máximos ticks necesearios hasta cambiar de imagen
-#define MIN_INVADERS_ANIM_PERIOD    0.1*FPS       // Mínimos ticks necesearios hasta cambiar de imagen
+#define MAX_INVADERS_ANIM_PERIOD    (1*FPS)       // Máximos ticks necesearios hasta cambiar de imagen
+#define MIN_INVADERS_ANIM_PERIOD    1   //(0.1*FPS)       // Mínimos ticks necesearios hasta cambiar de imagen
 
 #define DEATH_STATE STATE_4
 

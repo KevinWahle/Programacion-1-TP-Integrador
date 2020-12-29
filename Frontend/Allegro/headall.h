@@ -7,6 +7,7 @@
 #ifndef HEADALL_H_
 #define HEADALL_H_
 
+
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
@@ -17,6 +18,8 @@
 
 #include "../../const.h"
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
+
+// ------------ESTA CREO QUE PODRÍA IR AL .c
 #include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event
 
 /*******************************************************************************
