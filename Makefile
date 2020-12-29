@@ -26,39 +26,40 @@ OBJS2 = Backend/main.o Backend/ingame_stats.o Backend/scoretable.o Backend/FSM_r
 
 ################# ALLEGRO ######################
 gameall: OPTIONS += ${DEFINE_ALL}					# target variable: se define para todas las dependencias
+gameall: HFRONT_PLAT = ${HFRONT_ALL}					# Define el header de la plataforma correspondiente (Esto en realidad no funciona)
 gameall: ${OBJS}
 	${CC} ${OPTIONS} ${OBJS} ${ALLLINUXLIB} -o gameall
 ################################################
 
 ################## RASPI #######################
 gameraspi: OPTIONS += ${DEFINE_RASPI}				# target variable: se define para todas las dependencias
+gameraspi: HFRONT_PLAT = ${HFRONT_RAS}					# Define el header de la plataforma correspondiente (Esto en realidad no funciona)
 gameraspi: ${OBJS2}
 	${CC} ${OPTIONS} ${OBJS2} ${RPILIBS} -o gameraspi
 ################################################
 
 # Para Windows, se compila con las librerias de otra manera
 win: OPTIONS += ${DEFINE_ALL}					# target variable: se define para todas las dependencias
+win: HFRONT_PLAT = ${HFRONT_ALL}					# Define el header de la plataforma correspondiente (Esto en realidad no funciona)
 win: ${OBJS}
 	${CC} ${OPTIONS} ${OBJS} ${ALLWINLIB} -o game
 #
 
 ################## MAIN ########################
-Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${EVENTQ_HEAD} const.h
+Backend/main.o: Backend/main.c Backend/FSM_table.h Backend/FSM_routines.h ${HFRONT_PLAT} ${EVENTQ_HEAD} Backend/scoretable.h const.h
 	${CC} ${OPTIONS} -c Backend/main.c -o Backend/main.o
 
-Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h const.h
+Backend/ingame_stats.o: Backend/ingame_stats.c Backend/ingame_stats.h ${HFRONT_PLAT} ${EVENTQ_HEAD} Backend/scoretable.h const.h
 	${CC} ${OPTIONS} -c Backend/ingame_stats.c -o Backend/ingame_stats.o
 
-#TODO: Faltan los headall como dependencia en algunos targets. Depende de la plataforma -> Crear target variable
-
-Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h
+Backend/scoretable.o: Backend/scoretable.c Backend/scoretable.h const.h
 	${CC} ${OPTIONS} -c Backend/scoretable.c -o Backend/scoretable.o
 
-Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h ${HFRONT_ALL} const.h
+Backend/FSM_routines.o: Backend/FSM_routines.c Backend/FSM_routines.h ${HFRONT_PLAT} ${EVENTQ_HEAD} Backend/scoretable.h Backend/ingame_stats.h const.h
 	${CC} ${OPTIONS} -c Backend/FSM_routines.c -o Backend/FSM_routines.o
 
 Backend/event_queue/event_queue.o: Backend/event_queue/event_queue.c ${EVENTQ_HEAD}
-	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c -o Backend/event_queue/event_queue.o
+	${CC} ${OPTIONS} -c Backend/event_queue/event_queue.c -o ${EVENTQ_OBJECT}
 
 ################## ALLEGRO FRONT ########################
 Frontend/Allegro/menu_front.o: Frontend/Allegro/menu_front.c ${HFRONT_ALL} ${EVENTQ_HEAD} Frontend/Allegro/shared_res.h const.h
