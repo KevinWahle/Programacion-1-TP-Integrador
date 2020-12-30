@@ -29,6 +29,7 @@
 #define CANON_WIDTH 2
 #define CANON_HEIGHT 1
 
+#define CANON_X_START   4
 #define CANON_Y_POS  D_HEIGHT-CANON_HEIGHT-1 // ESE 1 ES PORQUE 16-1-1 ES 14 QUE ES DONDE DEBERIA ESTAR YA QUE 0 <= Y <= 15
 
 #define UFO_WIDTH 2
@@ -51,11 +52,10 @@
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
 #define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
 #define TASA_DE_CAMBIO_NODRIZA (PPS_NODRIZA/FPS)         // Pixeles por refresco (velocidad) de la nave nodriza
+// La tasa de los invaders es variable
 
-//#define TASA_DE_CAMBIO_INCVADERS 0.5      // NO SIRVE, es fija, SACAR
-
-#define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
-#define SHOT_WIDTH 4                     // idem
+// #define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
+// #define SHOT_WIDTH 4                     // idem
 
 // INVADERS POSITION
 #define INVADERS_WIDTH  2           // Ancho de los invaders en pixeles
@@ -184,17 +184,15 @@ typedef struct
  * VARIABLES WITH GLOBAL SCOPE (SOLO PARA SHARED_RES)
  ******************************************************************************/
 
-/************ALLEGRO VARIABLES DEFINITION***************/
-
 // Invaders matrix
 invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
-const int invadersDistribution [FIL_INVADERS] = {
-                                                  OCTO,
-                                                  OCTO,
-                                                  OCTO,
-                                                  OCTO,
-                                                  };
+// const int invadersDistribution [FIL_INVADERS] = {
+//                                                   OCTO,
+//                                                   OCTO,
+//                                                   OCTO,
+//                                                   OCTO,
+//                                                   };
         /// VER SI TODOS VALEN LO MISMO O NO
 
 
@@ -204,8 +202,8 @@ const int invadersDistribution [FIL_INVADERS] = {
 
 /**
  * @brief Ejecuta unC disparo del invader
- * @param1 i fila de la matriz de invader
- * @param2 j columan de la matriza de invader
+ * @param i fila de la matriz de invader
+ * @param j columan de la matriza de invader
 */
 static void invaderShot(int i, int j);
 
@@ -241,9 +239,9 @@ static void shouldInvaderShot(void);
 
 /**
  * @brief Crea un shield direction la ultima direccion con la que se movio el conjunto invader
- * @param1 x_shield  la coord en x
- * @param2 y_shield  la coord en y
- * @param3 shield_t* shield: Puntero a shield_t
+ * @param x_shield  la coord en x
+ * @param y_shield  la coord en y
+ * @param shield_t* shield: Puntero a shield_t
 */
 static void createShield(int x_shield, int y_shield, shield_t *shield);
 
@@ -266,8 +264,8 @@ static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
 
 /**
  * @brief Ve si dos cajas estan chocando o no
- * @param1 collBox_t*  la direccion de la caja 1 
- * @param2 collBox_t* la direccion de la caja 2
+ * @param collBox_t*  la direccion de la caja 1 
+ * @param collBox_t* la direccion de la caja 2
  * @return 1 si chocan 0 si no
 */
 static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
@@ -329,9 +327,9 @@ static void restartTasas(void);
 
 /**
  * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
- * @param1 score Puntaje a imptimir
- * @param2 lives Vidas a imprimir
- * @param3 level Nivel actual a imprimir
+ * @param score Puntaje a imptimir
+ * @param lives Vidas a imprimir
+ * @param level Nivel actual a imprimir
  **/
 
 // CONTINUAR:
@@ -372,9 +370,8 @@ UFO_t UFO_invader = {   .y = UFO_Y_POS,
                         .invaderState = 0     //Arranca muerta
                     };
 
+
 //TASAS DE CAMBIO VARIABLES:
-
-
 
 static shield_t shielders[TOTAL_SHIELDS];
 
@@ -397,7 +394,7 @@ void init_game(void) {
     
     disp_clear();
 
-    canon.x = 4;  // MAGIC NUMBER
+    canon.x = CANON_X_START;
     canon.y = CANON_Y_POS;
 
     restartTasas();
@@ -501,7 +498,6 @@ void reviveCanon(void)
 
 /**
  * @brief Ejecuta un disparo del canon
- * @return TODO?: CODIGO DE ERROR?
 */
 void shoot_cannon(void)
 {   
@@ -545,24 +541,6 @@ void shoot_cannon(void)
             break;
         }
     }
-    
-
-//// MIDO TIEMPO
-//    own_timer_t temp;
-//    setTimer(&temp, 10.0);
-//    startTimer(&temp);
-//
-//    end_play();
-//    stop_sound();
-//    if( !(player_status() == PLAYING ) )
-//    {
-//        char mySong[] = "Frontend/Sounds/shoot.wav";
-//	    set_file_to_play(mySong);       				
-//	    play_sound();
-//    }
-//
-//    printf("EL TIEMPO PASADO ES DE: %f\n", getElapsedTime(&temp));
-
 
 }
 
@@ -604,7 +582,6 @@ void game_score_front(unsigned long int score, int level, int killed_crabs, int 
     // No se hace nada, el puntaje se muestra al cargar el nombre
 
 }
-
 
 void pause_game_front(void) 
 {
@@ -742,6 +719,7 @@ int checkWin(void)
     }
     return win;
 }
+
 /*******************************************************************************
  *******************************************************************************
                         LOCAL FUNCTION DEFINITIONS
@@ -751,8 +729,6 @@ int checkWin(void)
 /**
  * @brief Ejecuta un disparo del invader
  */
-
-
 static void invaderShot(int i, int j)
 {       
     float x_shot = invaders[i][j].blocks[0].x; 
@@ -847,7 +823,7 @@ static void getCanonShotCollision(void)
             {
                 foundShots++;
 
-                //Aca en allegro dibuja la bala:
+                //Aca se dibuja la bala:
 
                 dcoord_t coord = { .x = (int)canonShotList[iCont].x, .y = (int)canonShotList[iCont].y  };  // Castia bien pa
                 disp_write( coord, D_ON);
@@ -953,8 +929,6 @@ static void drawAliveInvaders(void)
     {    
         if( UFO_invader.x >= ( (-1)*(UFO_WIDTH + 1) )  && UFO_invader.x < D_WIDTH )  // MAGIC NUMBERS
         {
-            //dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };
-            //disp_write(coord, D_ON);     NO PENSE EL UFOOO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             for (int i = 0; i < UFO_BLOCKS; i++)
             {
                 dcoord_t coord = { .x = (int)UFO_invader.blocks[i].x, .y = (int)UFO_invader.blocks[i].y };
@@ -1283,8 +1257,8 @@ static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
     {
         collBoxShot_t boxOfUFO = {  .x = UFO_invader.x,
                                     .y = UFO_invader.y,
-                                    .width = UFO_WIDTH,           // MAGIC NUMBER, OMG SUENA MAL 1 
-                                    .height = UFO_HEIGHT,          // MAGIC NUMBER, OMG SUENA MAL 1  SHOULDNT IT BE 2?
+                                    .width = UFO_WIDTH,
+                                    .height = UFO_HEIGHT
                                  };
         if( (colision = isCollision( &boxOfUFO, boxOfTheShot )) )
         {

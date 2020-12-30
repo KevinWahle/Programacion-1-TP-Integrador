@@ -123,10 +123,9 @@ static char *blockColors[BLOCK_LIVES] = {   COLOR_STATE_0,
                                         };
 
 
-enum MYKEYS {
-    KEY_SPACE, KEY_DOWN, KEY_LEFT, KEY_RIGHT //arrow keys
-};
-
+// enum MYKEYS {
+//     KEY_SPACE, KEY_DOWN, KEY_LEFT, KEY_RIGHT //arrow keys
+// };
 
 
 // Objeto invader
@@ -212,8 +211,8 @@ UFO_t UFO_invader = {   .y = UFO_HEIGHT,
  ******************************************************************************/
 /**
  * @brief Ejecuta un disparo del invader
- * @param1 i fila de la matriz de invader
- * @param2 j columan de la matriza de invader
+ * @param i fila de la matriz de invader
+ * @param j columan de la matriza de invader
 **/
 static void invaderShot(int i, int j);
 
@@ -235,8 +234,8 @@ static void drawAliveInvaders(void);
 
 /**
  * @brief Ve si dos cajas estan chocando o no
- * @param1 collBox_t*  la direccion de la caja 1 
- * @param2 collBox_t* la direccion de la caja 2
+ * @param collBox_t*  la direccion de la caja 1 
+ * @param collBox_t* la direccion de la caja 2
  * @return 1 si chocan 0 si no
 **/
 static int isCollision( collBoxShot_t * box1, collBoxShot_t * box2);
@@ -266,9 +265,9 @@ static void shouldInvaderShot(void);
 
 /**
  * @brief Crea un shield direction la ultima direccion con la que se movio el conjunto invader
- * @param1 x_shield  la coord en x
- * @param2 y_shield  la coord en y
- * @param3 shield_t* shield: Puntero a shield_t
+ * @param x_shield  la coord en x
+ * @param y_shield  la coord en y
+ * @param shield_t* shield: Puntero a shield_t
 **/
 static void createShield(int x_shield, int y_shield, shield_t *shield);
 
@@ -318,20 +317,20 @@ static void shouldUFOappear(void);
 */
 static void drawCannon(void);
 
-/**
- * @brief Muestra en pantalla los puntos de la partida.
- **/
-void update_points(int score);
+// /**
+//  * @brief Muestra en pantalla los puntos de la partida.
+//  **/
+// void update_points(int score);
 
-/**
- * @brief Muestra en pantalla las vidas restantes de la partida.
- **/
-void update_lives(int lives);
+// /**
+//  * @brief Muestra en pantalla las vidas restantes de la partida.
+//  **/
+// void update_lives(int lives);
 
-/**
- * @brief Muestra en pantalla el nivel actual.
- **/
-void update_level (int level);
+// /**
+//  * @brief Muestra en pantalla el nivel actual.
+//  **/
+// void update_level (int level);
 
 /**
  * @brief Resetea tasas de velocidades y probabilidades de disparo
