@@ -1,0 +1,42 @@
+﻿* Intro:
+   *  Herramientas de desarrollo: (1:30 min)
+   *  Dinámicas de trabajo: (30seg)
+   * División Back-Front: (30 seg)
+      * Simultaneidad
+      * Independencia
+* Backend:
+   * Máquinas de Estado: Vasilly(1 min)
+      * Altamente Escalable.
+      * Muy legible y ordenada.
+      * Compacta y eficiente.
+
+
+   * Diagrama de Flujo: Kevin y Basili (5 min)
+      * Exhaustivo diseño del flujo ===> Facilidad de programación.
+      * Comenzó siendo más pequeño, con el tiempo se fueron añadiendo cosas en base a las necesidades.
+      * Diferentes opciones en el menú de inicio, dependiendo del tipo de front.
+      * Todo se maneja con 5 o 6 botones o tipos de movimientos diferentes, dependiendo de la plataforma.
+      * Explicar por arriba el flujo del programa (invente Román, invente)
+
+
+   * Gestor de estadísticas de partida: Kevin (30 seg)
+      * Conteo de nivel, vidas, puntaje.
+      * Puntaje UFO random 
+      * Fin del juego 
+ 
+   * Librerías: Serman (1 min)
+      * Faltaban librerías y hubo que crearlas.
+      * Breve descripción de qué hace cada una.
+
+
+   * Más librerías: Kevsho (1 min)
+      * Versatilidad: sirve para diferentes plataformas.
+      * Breve descripción de lectura, escritura y guardado
+
+
+   * Precompilador: Basili (30 seg)
+      * Compilar con dif plataformas.
+      * Debugger con prints.
+
+
+* Frontend:
