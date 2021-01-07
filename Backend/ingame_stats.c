@@ -227,12 +227,11 @@ int get_lives()
 **********************************************************/
 
 void kill_alien(const int tipo_alien)       
-//Sumo al puntaje actual, la cantidad propocional al
-//invader proporcional.   
+//Sumo al puntaje actual, la cantidad correspondiente al
+//invader asesinado.   
 {
     switch (tipo_alien)
     /*
-        Preferentemente:
     *   CRAB = 1
     *   OCTO = 2 
     *   SQUID = 3
@@ -240,7 +239,7 @@ void kill_alien(const int tipo_alien)
     */
     {
     case CRAB:
-        increase_points(CRAB_POINTS);       // Aumenta los puntos relacioados al "crab"
+        increase_points(CRAB_POINTS);       // Aumenta los puntos relacionados al "crab"
         
         break;
 

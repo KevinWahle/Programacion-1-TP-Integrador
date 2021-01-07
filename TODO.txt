@@ -1,8 +1,8 @@
 TODO:
-- MUSIQUITA ALLEGRO
-- Controles en allegro
-- MUSIQUITA RASPI F
-- Nivel no aparece a partir de N.
+- MUSIQUITA ALLEGRO                 Esto no estaba ya?
+- Controles en allegro              (arreglar lo de las flechitas)              
+- MUSIQUITA RASPI F                 La musiquita que se la ponga Pablo.
+- Nivel no aparece a partir de N.   
 - Borrar Make secundarios
 - Mejorar las dependencias de los .h
 
