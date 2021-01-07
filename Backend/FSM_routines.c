@@ -476,18 +476,11 @@ void cannon_coll()
     {                               // se considera que el jugador ya perdió
         add_event(END_GAME_EVENT);  // y se agrega el evento de que se acabó la partida.
 
-        //TODO: poner comando de musiquita de fin de juego.
 
         #ifdef DEBUG
             printf("El jugador se quedó sin vidas\n");
         #endif
     }
-    
-    //TODO: música de perder vida.
-    /* else {
-        poneme_la_musiquita_schembe,poneme_la_musiquita();
-    }
-    */
    
     reviveCanon();
 }

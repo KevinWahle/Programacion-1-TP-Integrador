@@ -17,14 +17,16 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define PPS_NODRIZA         120         // Pixeles por segundo (velocidad) de la nave nodriza
-#define PPS_CANON           275         // Pixeles por segundo (velocidad) del canon   
-#define PPS_BALA            240         // Pixeles por segundo (velocidad) de la bala
+#define PPS_NODRIZA         120         // Píxeles por segundo (velocidad) de la nave nodriza
+#define PPS_CANON           275         // Píxeles por segundo (velocidad) del canon   
+#define PPS_BALA_CANON      300         // Píxeles por segundo (velocidad) de la bala
+#define PPS_BALA_INVADER    150         // Píxeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    300         // Máximos PPS (velocidad) de invaders
 #define MIN_PPS_INVADERS    15         // Mínimos PPS (velocidad) de invaders
 
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
-#define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
+#define TASA_DE_CAMBIO_BALA_CANON (PPS_BALA_CANON/FPS)            // Pixeles por refresco (velocidad) de la bala
+#define TASA_DE_CAMBIO_BALA_INVADER (PPS_BALA_INVADER/FPS)            // Pixeles por refresco (velocidad) de la bala
 #define TASA_DE_CAMBIO_NODRIZA (PPS_NODRIZA/FPS)         // Pixeles por refresco (velocidad) de la nave nodriza
 // La de los invaders es variable
 
@@ -44,7 +46,7 @@
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 15                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
@@ -73,7 +75,7 @@
 #define Y1  (D_HEIGHT * Y_PERCENT)                // Posicion en y en la que van a estar alineados los shields
 #define BLOCK_LIVES 4                             //Vidas del bloque, se puede modificar, pero si se la modifica se debe modificar la cantidad de colores
                                                   // y todos los estados posibles de los bloques
-//##### Shields ####
+//##### Shields #####
 
 #define TOTAL_SHIELDS 4                  // Para todo n, en particular n = 4
 
@@ -831,7 +833,7 @@ static void getInvaderShotCollison(void)
                 foundShots++;
 
                 al_draw_line( invaderShotList[i].x, invaderShotList[i].y, invaderShotList[i].x , invaderShotList[i].y + 15, al_color_name("white"), 0 );
-                invaderShotList[i].y += TASA_DE_CAMBIO_BALA;
+                invaderShotList[i].y += TASA_DE_CAMBIO_BALA_INVADER;
 
 
                 collBoxShot_t collBoxShotFromInvader = {  .x = invaderShotList[i].x - SHOT_WIDTH/2 ,
@@ -884,7 +886,15 @@ static void getCanonShotCollision(void)
                 foundShots++;
 
                 al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
-                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA;
+                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
+                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
+                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
+                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
+                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
+                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
+                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
+                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
+                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
 
                 collBoxShot_t collBoxShotFromCanon =   {  .x = canonShotList[iCont].x - SHOT_WIDTH/2 ,
                                                           .y = canonShotList[iCont].y - SHOT_HEIGHT ,
@@ -1443,7 +1453,8 @@ static void restartTasas(void)
     invadersAnimPeriod = MAX_INVADERS_ANIM_PERIOD;
 }
 
-static void setInvadersDraw(void) {
+static void setInvadersDraw(void)
+{
     if (++drawTicks >= invadersAnimPeriod)        // Aumento ticks y me fijo si hay que cambiar
     {
         drawTicks = 0;      // Reseteo ticks

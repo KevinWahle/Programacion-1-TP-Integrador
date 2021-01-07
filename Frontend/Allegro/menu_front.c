@@ -40,7 +40,7 @@
 
 // MUSIC FILES:
 #define SAMPLES_NUMBER 100
-#define SPLASH_SOUND "Frontend/Sounds/IntroSound.wav"
+#define SPLASH_SOUND "Frontend/Sounds/mainsong.wav"
 
 #define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
 #define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
@@ -166,7 +166,7 @@ void splash_front()
     al_flip_display();
     al_rest(1.5);
     show_inst ();
-    //al_play_sample(splashsound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+    al_play_sample(splashsound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 }
 
 
@@ -511,7 +511,7 @@ static int loadim_game ()
                                                 invaderKilledSound = al_load_sample(INV_KILL_SOUND);
                                                 if(invaderKilledSound) {    
                                                     UFOSound = al_load_sample(UFO_SOUND);
-                                                    if (UFOSound) {
+                                                    if(UFOSound) {
                                                         return NO_ERROR;
                                                     }
                                                     else
