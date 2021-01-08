@@ -471,6 +471,8 @@ void init_game(void) {
 
     srand(time(0));
 
+    al_stop_samples();
+
     drawTicks = 0;
 
     cannonXpos = 0;
@@ -831,8 +833,8 @@ static void getInvaderShotCollison(void)
         {
             if (invaderShotList[i].shotState == 1) {
                 foundShots++;
-
-                al_draw_line( invaderShotList[i].x, invaderShotList[i].y, invaderShotList[i].x , invaderShotList[i].y + 15, al_color_name("white"), 0 );
+                //##################### PASE DE 15 A 7 ##########################
+                al_draw_line( invaderShotList[i].x, invaderShotList[i].y, invaderShotList[i].x , invaderShotList[i].y + 7, al_color_name("white"), 0 );
                 invaderShotList[i].y += TASA_DE_CAMBIO_BALA_INVADER;
 
 

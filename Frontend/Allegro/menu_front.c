@@ -40,7 +40,9 @@
 
 // MUSIC FILES:
 #define SAMPLES_NUMBER 100
-#define SPLASH_SOUND "Frontend/Sounds/mainsong.wav"
+#define SPLASH_SOUND "Frontend/Sounds/IntroCheta.wav"
+
+#define KEY_MOVED "Frontend/Sounds/Click.wav"
 
 #define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
 #define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
@@ -82,6 +84,7 @@ static ALLEGRO_BITMAP *endgmImage = NULL;
 static ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 
 static ALLEGRO_SAMPLE *splashsound = NULL;
+static ALLEGRO_SAMPLE *keyMoved = NULL;
 static ALLEGRO_FONT * fontmu = NULL;
 
 /*******************************************************************************
@@ -190,6 +193,7 @@ void show_menu (MENU_ITEM *menu_to_show, int size, int item)
         al_draw_text(fontmu, al_map_rgb(255, 255, 255), (D_WIDTH / 2), altin+(i*80), ALLEGRO_ALIGN_CENTER, menu_to_show[i].option);  //Imprime en pantalla todas las palabras
     }
     al_draw_text(fontmu, al_map_rgb(255, 165, 0), (D_WIDTH / 2), altin+(item*80), ALLEGRO_ALIGN_CENTER, menu_to_show[item].option);
+    al_play_sample(keyMoved, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
     al_flip_display();
 }
 
@@ -441,10 +445,15 @@ static int loadim_menu()
                                         if(fontgm){
                                             splashsound = al_load_sample(SPLASH_SOUND);
                                             if(splashsound) {
-                                                if (loadim_game()==NO_ERROR){
-                                                    return NO_ERROR;
-                                                } else 
-                                                    fprintf(stderr, "ERROR: failed to add game images!\n");
+                                                keyMoved = al_load_sample(KEY_MOVED);
+                                                if (keyMoved) {
+                                                    if (loadim_game()==NO_ERROR){
+                                                        return NO_ERROR;
+                                                    } else
+                                                        fprintf(stderr, "ERROR: failed to add game images!\n");
+                                                    al_destroy_sample(keyMoved);
+                                                } else
+                                                    fprintf(stderr, "ERROR: failed to add key sound!\n");
                                                 al_destroy_sample(splashsound);
                                             } else
                                                 fprintf(stderr, "ERROR: Audio clip splash sound not loaded!\n");
