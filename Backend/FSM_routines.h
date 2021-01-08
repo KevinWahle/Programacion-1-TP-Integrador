@@ -230,7 +230,12 @@ void move_cannon_left(void);
 /**
  * @brief  Llama a la función del front que detiene el movimiento del cañón.
 */
-void stop_cannon(void);
+void stop_cannon_left(void);
+
+/**
+ * @brief  Llama a la función del front que detiene el movimiento del cañón.
+*/
+void stop_cannon_right(void);
 
 
 /*******************************************************************************

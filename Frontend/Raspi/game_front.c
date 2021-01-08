@@ -551,7 +551,39 @@ void shoot_cannon(void)
 */
 void move_cannon(direction_t dir)
 {
-    canon.direction = dir;
+    static BOOL moving_left = FALSE;
+    static BOOL moving_right = FALSE;
+
+    switch (dir) {
+        case LEFT:
+            moving_left = TRUE;
+            break;
+        case RIGHT:
+            moving_right = TRUE;
+            break;
+        case STOP_LEFT:
+            moving_left = FALSE;
+            break;
+        case STOP_RIGHT:
+            moving_right = FALSE;
+            break;
+        default:
+            break;
+    }
+
+    if (moving_left && moving_right) {  // Si las dos apretadas
+        canon.direction = dir;                    // Mueve hacia el último (no es ningun STOP)
+    }
+    else if (moving_left) {             // Si no, me fijo cual esta activado
+        canon.direction = LEFT;
+    }
+    else if (moving_right) {
+        canon.direction = RIGHT;
+    }
+    else {
+        canon.direction = STOP;
+    }
+
 }
 
 

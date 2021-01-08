@@ -71,6 +71,8 @@ extern ALLEGRO_SAMPLE *explosionSound;
 extern ALLEGRO_SAMPLE *invaderSound;
 extern ALLEGRO_SAMPLE *invaderKilledSound;
 extern ALLEGRO_SAMPLE *UFOSound;
+extern ALLEGRO_SAMPLE *levelUpSound;
+extern ALLEGRO_SAMPLE *finalSong;
 
 extern ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 extern ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];

@@ -198,6 +198,9 @@ ALLEGRO_SAMPLE *explosionSound = NULL;
 ALLEGRO_SAMPLE *invaderSound = NULL;
 ALLEGRO_SAMPLE *invaderKilledSound = NULL;
 ALLEGRO_SAMPLE *UFOSound = NULL;
+ALLEGRO_SAMPLE *levelUpSound = NULL;
+ALLEGRO_SAMPLE *finalSong = NULL;
+
 
 ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
@@ -600,7 +603,39 @@ void placeInvaders(void)
 */
 void move_cannon(direction_t dir)
 {
-    cannonDir = dir;
+    static BOOL moving_left = FALSE;
+    static BOOL moving_right = FALSE;
+
+    switch (dir) {
+        case LEFT:
+            moving_left = TRUE;
+            break;
+        case RIGHT:
+            moving_right = TRUE;
+            break;
+        case STOP_LEFT:
+            moving_left = FALSE;
+            break;
+        case STOP_RIGHT:
+            moving_right = FALSE;
+            break;
+        default:
+            break;
+    }
+
+    if (moving_left && moving_right) {  // Si las dos apretadas
+        cannonDir = dir;                    // Mueve hacia el último (no es ningun STOP)
+    }
+    else if (moving_left) {             // Si no, me fijo cual esta activado
+            cannonDir = LEFT;
+    }
+    else if (moving_right) {
+        cannonDir = RIGHT;
+    }
+    else {
+        cannonDir = STOP;
+    }
+
 }
 
 
@@ -660,6 +695,8 @@ void shoot_cannon(void)
 */
 void show_level_screen (int level) 
 {
+    al_play_sample(levelUpSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+
     al_clear_to_color(al_map_rgb(0, 0, 0));
     char chlevel[LENG_SC];
     char wlevel[] = "Nivel ";
@@ -672,6 +709,8 @@ void show_level_screen (int level)
 
 void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo)
 {   
+    al_play_sample( finalSong , 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+
     al_clear_to_color(al_map_rgb(0, 0, 0));
     char scoreText[] = "Puntaje: ";
     char stringScore[10];
@@ -833,8 +872,8 @@ static void getInvaderShotCollison(void)
         {
             if (invaderShotList[i].shotState == 1) {
                 foundShots++;
-                //##################### PASE DE 15 A 7 ##########################
-                al_draw_line( invaderShotList[i].x, invaderShotList[i].y, invaderShotList[i].x , invaderShotList[i].y + 7, al_color_name("white"), 0 );
+
+                al_draw_line( invaderShotList[i].x, invaderShotList[i].y, invaderShotList[i].x , invaderShotList[i].y + 15, al_color_name("white"), 0 );
                 invaderShotList[i].y += TASA_DE_CAMBIO_BALA_INVADER;
 
 

@@ -100,7 +100,6 @@ int is_queue_empty(void) {
                 printf(" ");
             printf("^\n\n");
         }
-
         add_event(7);
         printArray(queue, 10);
         printf("%I64u", top_of_queue);

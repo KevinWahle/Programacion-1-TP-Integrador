@@ -86,8 +86,8 @@ STATE play_state[] = {
     {CLICK_BTN, play_state, shoot_cannon},
     {MOVE_LEFT, play_state, move_cannon_left},
     {MOVE_RIGHT, play_state, move_cannon_right},
-    {MOVE_RIGHT_REL, play_state, stop_cannon},
-    {MOVE_LEFT_REL, play_state, stop_cannon},
+    {MOVE_RIGHT_REL, play_state, stop_cannon_left},
+    {MOVE_LEFT_REL, play_state, stop_cannon_right},
     {END_GAME_EVENT, game_score_state, show_game_score},
     {NEXT_LEVEL_EV, next_level_state, increase_level},    
     {CRAB_COLL_EV, play_state, crab_coll},
@@ -126,7 +126,6 @@ STATE saving_score_state[] = {
     {MOVE_LEFT, saving_score_state, previous_letter}, 
     {MOVE_RIGHT, saving_score_state, next_letter},
     {EXIT_EVENT, NULL, quit_game}, 
-//    {PAUSE_BTN, menu_state, my_menu},             //REVISAR: Creemos innecesario. Basili approves.
     {NULL_EVENT, saving_score_state, doNothing}
 };
 

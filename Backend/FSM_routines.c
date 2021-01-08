@@ -434,11 +434,12 @@ void saving_init()
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());    
 }
 
-
+/* REVISAR: Esta funcion recien (8/1/21) la comenté. Parece que no sirve para nada. Verificar y, de ser así, borrar prototipo
 void show_name(void)
 {
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
 }
+*/
 
 /**********************************************************
 *********************  COLLISION   ************************
@@ -498,9 +499,13 @@ void move_cannon_right()
    move_cannon(RIGHT);
 }
 
-void stop_cannon()
+void stop_cannon_right()
 {
-   move_cannon(STOP);
+   move_cannon(STOP_LEFT);
+}
+void stop_cannon_left()
+{
+   move_cannon(STOP_RIGHT);
 }
 
 /**********************************************************

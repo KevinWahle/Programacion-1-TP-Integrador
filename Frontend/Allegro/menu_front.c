@@ -42,13 +42,17 @@
 #define SAMPLES_NUMBER 100
 #define SPLASH_SOUND "Frontend/Sounds/IntroCheta.wav"
 
-#define KEY_MOVED "Frontend/Sounds/Click.wav"
+#define KEY_MOVED "Frontend/Sounds/Menu_select.wav"
+#define LEVEL_UP "Frontend/Sounds/level-up-sound-effect (1).wav"
+#define FINAL_SONG "Frontend/Sounds/space-invaders-space-invaders (1).wav"
 
 #define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
 #define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
 #define EXPLOSION_SOUND "Frontend/Sounds/explosion.wav"
 #define INV_KILL_SOUND "Frontend/Sounds/invaderkilled.wav"
 #define UFO_SOUND "Frontend/Sounds/ufo_lowpitch.wav"
+
+
 
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
@@ -169,7 +173,7 @@ void splash_front()
     al_flip_display();
     al_rest(1.5);
     show_inst ();
-    al_play_sample(splashsound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+    al_play_sample(splashsound, .5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 }
 
 
@@ -178,6 +182,7 @@ void splash_front()
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
+    al_stop_samples();
     int altin;
     if (size==3) {
         altin = 240;
@@ -231,6 +236,8 @@ void show_score (SCORE* score ,int size)
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score) 
 {
+    al_play_sample(keyMoved, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+
     char chscore[LENG_SC+1];
     al_draw_scaled_bitmap(endgmImage,    // Imagen de fondo de los puntajes
                             0, 0, al_get_bitmap_width(endgmImage), al_get_bitmap_height(endgmImage),   
@@ -521,7 +528,20 @@ static int loadim_game ()
                                                 if(invaderKilledSound) {    
                                                     UFOSound = al_load_sample(UFO_SOUND);
                                                     if(UFOSound) {
-                                                        return NO_ERROR;
+                                                        levelUpSound = al_load_sample(LEVEL_UP);
+                                                        if(levelUpSound){
+                                                            finalSong = al_load_sample(FINAL_SONG);
+                                                            if(finalSong)
+                                                            {
+                                                                return NO_ERROR;
+                                                            }
+                                                            else
+                                                                fprintf(stderr, "ERROR: failed to load finalSong !\n");
+                                                            al_destroy_sample(finalSong);   
+                                                        }
+                                                        else
+                                                            fprintf(stderr, "ERROR: failed to load levelUpSound !\n");
+                                                        al_destroy_sample(levelUpSound);
                                                     }
                                                     else
                                                         fprintf(stderr, "ERROR: failed to load UFOSound !\n");
