@@ -48,8 +48,8 @@ enum EVENTS {
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
-    CLICK_BTN,  // Botón de click, shoot o aceptar
-    PAUSE_BTN,
+    CLICK_BTN,  // Botón de click: se usa tanto para shoot como para aceptar
+    PAUSE_BTN,	// Botón con el que se accede al menú de pausa
 	
 	// Eventos de soltado de tecla:
     MOVE_LEFT_REL,
@@ -67,7 +67,8 @@ enum EVENTS {
 	END_GAME_EVENT,
 };
 
-
+// Identificadores para diferenciar las distintas opciones 
+// seleccionadas en el menú.
 enum IDS{
 	PLAY_ID,
 	SCORE_ID,
@@ -94,12 +95,17 @@ enum ERRORES		// Distintos tipos de errores
 
 typedef uint8_t BOOL;
 
+// REVISAR: Me suena medio raro que vaya acá.
+
+// Estructura utilizada para cada una de las opciones clickeables 
+// en los diferentes menúes.
 typedef struct {
 	char* option;
 	BOOL essential;
 	int ID;
 } MENU_ITEM;
 
+// Identificadores para las diferentes especies de invaders.
 enum INVADERS{
     CRAB = 0,
     OCTO,
@@ -108,8 +114,8 @@ enum INVADERS{
 };
 // NOTA: Conviene definirlo así para funciones internas.
 
-#define TYPES_INVADERS	4
-#define INIT_LIFES 3
+#define TYPES_INVADERS	4	// Cantidad de especies de invaders.
+#define INIT_LIFES 3		// Cantidad inicial de vidas por partida.
 
 /*******************************************************************************
  ******************************************************************************/

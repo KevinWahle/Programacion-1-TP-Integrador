@@ -14,7 +14,7 @@
 #include "scoretable.h"
 #include "ingame_stats.h"
 
-
+//REVISAR: ME PARECE QUE ESTO SE PODRÍA MOVER AL .c (Piensa Basili)
 #if PLATFORM == ALLEGRO
 #include "../Frontend/Allegro/headall.h" 
 
@@ -218,12 +218,12 @@ void refresh (void);
 void show_name(void);
 
 /**
- * @brief // Llama a la función que se encarga de mover el cannon hacia la derecha.
+ * @brief Llama a la función que se encarga de mover el cannon hacia la derecha.
 */
 void move_cannon_right(void);
 
 /**
- * @brief  // Llama a la función que se encarga de mover el cannon hacia la izquierda.
+ * @brief Llama a la función que se encarga de mover el cannon hacia la izquierda.
 */
 void move_cannon_left(void);
 

@@ -14,6 +14,7 @@
 #include "FSM_routines.h"
 #include "event_queue/event_queue.h"
 
+
 #if PLATFORM == ALLEGRO
 #include "../Frontend/Allegro/headall.h" 
 
@@ -125,7 +126,7 @@ STATE saving_score_state[] = {
     {MOVE_LEFT, saving_score_state, previous_letter}, 
     {MOVE_RIGHT, saving_score_state, next_letter},
     {EXIT_EVENT, NULL, quit_game}, 
-//    {PAUSE_BTN, menu_state, my_menu},             //REVISAR: Creemos innecesario.
+//    {PAUSE_BTN, menu_state, my_menu},             //REVISAR: Creemos innecesario. Basili approves.
     {NULL_EVENT, saving_score_state, doNothing}
 };
 

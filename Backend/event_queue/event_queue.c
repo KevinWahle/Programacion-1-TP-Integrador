@@ -18,9 +18,9 @@
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-static event_t queue[MAX_EVENTS];
+static event_t queue[MAX_EVENTS];               // Arreglo con la lista de eventos.
 
-static unsigned long int top_of_queue = 0;
+static unsigned long int top_of_queue = 0;      // Indicador de la cantidad de eventos guardados.
 
 /*******************************************************************************
  *******************************************************************************
@@ -69,52 +69,55 @@ int is_queue_empty(void) {
  *******************************************************************************
  ******************************************************************************/
 
+// REVISAR: Dejamos esto como demostración que esta probada la librería o lo sacamos?
+// Si lo dejamos habría que comentar un toque, que puede hacerlo Basili sin problem. 
+
 #ifdef TEST     // Solo si se define TEST
 
-static void printArray (event_t array[], unsigned int size) {
-    printf("[ ");
-    for (int i = 0; i < size; i++) {
-        printf("%u ", array[i]);
+    static void printArray (event_t array[], unsigned int size) {
+        printf("[ ");
+        for (int i = 0; i < size; i++) {
+            printf("%u ", array[i]);
+        }
+        printf("]\n");
     }
-    printf("]\n");
-}
 
-int main() {
-    for (int i = 1 ; i < 10 ; i++) {
-        add_event(i);
+    int main() {
+        for (int i = 1 ; i < 10 ; i++) {
+            add_event(i);
+            printArray(queue, 10);
+            printf("%I64u", top_of_queue);
+            for (int j = 0; j < 2*top_of_queue+1; j++)
+                printf(" ");
+            printf("^\n");
+        }
+        printf("\n\n");
+        for (int i = 0 ; i < 10 ; i++) {
+            printf("%u\n", get_next_event());
+            printArray(queue, 10);
+            printf("%I64u", top_of_queue);
+            for (int j = 0; j < 2*top_of_queue+1; j++)
+                printf(" ");
+            printf("^\n\n");
+        }
+
+        add_event(7);
         printArray(queue, 10);
         printf("%I64u", top_of_queue);
         for (int j = 0; j < 2*top_of_queue+1; j++)
             printf(" ");
         printf("^\n");
-    }
-    printf("\n\n");
-    for (int i = 0 ; i < 10 ; i++) {
-        printf("%u\n", get_next_event());
+        printf("empty: %d\n\n", is_queue_empty());
+
+        empty_queue();
         printArray(queue, 10);
         printf("%I64u", top_of_queue);
         for (int j = 0; j < 2*top_of_queue+1; j++)
             printf(" ");
-        printf("^\n\n");
+        printf("^\n");
+        printf("empty: %d\n", is_queue_empty());
+
+        return 0;
     }
-
-    add_event(7);
-    printArray(queue, 10);
-    printf("%I64u", top_of_queue);
-    for (int j = 0; j < 2*top_of_queue+1; j++)
-        printf(" ");
-    printf("^\n");
-    printf("empty: %d\n\n", is_queue_empty());
-
-    empty_queue();
-    printArray(queue, 10);
-    printf("%I64u", top_of_queue);
-    for (int j = 0; j < 2*top_of_queue+1; j++)
-        printf(" ");
-    printf("^\n");
-    printf("empty: %d\n", is_queue_empty());
-
-    return 0;
-}
 
 #endif  //TEST

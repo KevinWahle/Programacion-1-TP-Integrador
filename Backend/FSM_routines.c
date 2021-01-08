@@ -17,7 +17,7 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define SPEED_LAPSE 5
+#define SPEED_LAPSE 5       // Intervalo de tiempo en el que se aumenta la velocidad. 
 
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
