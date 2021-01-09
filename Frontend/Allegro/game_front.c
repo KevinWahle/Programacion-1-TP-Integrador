@@ -709,7 +709,7 @@ void show_level_screen (int level)
 
 void game_score_front(unsigned long int score, int level, int killed_crabs, int killed_octo, int killed_squid, int killed_ufo)
 {   
-    al_play_sample( finalSong , 2.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+    al_play_sample( finalSong , 3.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
     char scoreText[] = "Puntaje: ";
