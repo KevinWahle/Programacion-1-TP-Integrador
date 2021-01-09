@@ -1,5 +1,4 @@
 TODO:
-- MUSIQUITA ALLEGRO                 Esto no estaba ya?
 - Controles en allegro              (arreglar lo de las flechitas)              
 - MUSIQUITA RASPI F                 La musiquita que se la ponga Pablo.
 - Nivel no aparece a partir de N.   
@@ -13,3 +12,4 @@ EXTRAS:
 
 HECHO:
 - Corregir Warnings que tira en allegro
+- MUSIQUITA ALLEGRO
