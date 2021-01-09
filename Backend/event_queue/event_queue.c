@@ -69,10 +69,8 @@ int is_queue_empty(void) {
  *******************************************************************************
  ******************************************************************************/
 
-// REVISAR: Dejamos esto como demostración que esta probada la librería o lo sacamos?
-// Si lo dejamos habría que comentar un toque, que puede hacerlo Basili sin problem. 
-
-#ifdef TEST     // Solo si se define TEST
+#ifdef TEST     // Sólo si se define TEST
+                // Es la prueba para verificar el funcionamiento de la librería.
 
     static void printArray (event_t array[], unsigned int size) {
         printf("[ ");
