@@ -36,7 +36,7 @@ int main(void)
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
 
             //playSoundFromMemory(sound, SDL_MIX_MAXVOLUME);
-        playMusic("../Sounds/explosion.wav", 128/2);
+        playMusic("../Sounds/space-invaders-space-invaders (1).wav", 128/2);
         
     }
     endAudio();
