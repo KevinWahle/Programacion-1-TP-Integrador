@@ -25,7 +25,7 @@
 //#include <unistd.h>   // NO USAMOS SDL1
 
 #include <SDL2/SDL.h>
-#include "some files/RPi_files/audio/SDL2/src/audio.h"   // VER RUTAAAAAAAAAAAA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#include "../../some files/RPi_Files/audio/SDL2/src/audio.h"   // VER RUTAAAAAAAAAAAA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 //******************************
