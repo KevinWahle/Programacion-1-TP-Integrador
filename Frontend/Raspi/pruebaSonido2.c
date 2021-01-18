@@ -15,7 +15,7 @@ int main(void)
 	    return -1;
     }
 
-//    Audio * sound = createAudio( "../Sounds/shoot.wav" , 0, SDL_MIX_MAXVOLUME);
+   // Audio * sound = createAudio( "../Sounds/shoot.wav" , 0, 127);
 
     own_timer_t temp;
     setTimer(&temp, 8.0);
@@ -32,7 +32,7 @@ int main(void)
     {
         i++;
         while( !checkTimer(&temp) );
-
+        endAudio();
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
 
             //playSoundFromMemory(sound, SDL_MIX_MAXVOLUME);
