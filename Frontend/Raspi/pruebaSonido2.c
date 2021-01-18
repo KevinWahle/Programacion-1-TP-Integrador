@@ -34,7 +34,7 @@ int main(void)
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
 
             //playSoundFromMemory(sound, SDL_MIX_MAXVOLUME);
-        playMusic("../Sounds/IntroCheta.wav", 128/2);
+        playMusic("../Sounds/shoot.wav", 128/2);
         
     }
 }
