@@ -7,6 +7,7 @@
 int main(void) 
 {
 
+
     if ( initAudio() == NO_INIT)
     {
         fprintf(stderr, "Audio not initilized.\n");
