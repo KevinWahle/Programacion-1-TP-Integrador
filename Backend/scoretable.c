@@ -44,14 +44,14 @@ void put_score (char* name, unsigned long int score, const int top, SCORE* my_pu
     FILE* fp;
     if (score!=0){
         fp = fopen (ARCHIVO,"a+");                   // Abro el archivo con los puntajes
-        fprintf (fp,"%s %lu\n", name, score);           // Le escribo el nombre y puntaje que fue provisto
+        fprintf (fp,"%s %lu\n", name, score);        // Le escribo el nombre y puntaje que fue provisto
         fclose(fp);   
     }                                               // Cierro el archivo
     int cant = lect_score (my_pun);                 // Cuento cuantos nombres hay y lo coloco en memoria
     
     if (cant<=top){                                 // Si la cantidad no supera el top   
         BubbleSort(my_pun, cant);                   // Lo agrego en el orden correspondiendte
-        fp = fopen (ARCHIVO,"w");                // Abro el archivo
+        fp = fopen (ARCHIVO,"w");                   // Abro el archivo
         for (int i=0; i<cant; i++){
             fprintf(fp, "%s %lu\n", my_pun[i].name, my_pun[i].pts); // Le coloco los nombres y puntajes
         }
@@ -59,7 +59,7 @@ void put_score (char* name, unsigned long int score, const int top, SCORE* my_pu
     }
     else {
         BubbleSort(my_pun, top+1);                  // Agrego el nuevo punteje con el nombre correspondiente y lo ordeno 
-        fp = fopen (ARCHIVO,"w");                // Abro el archivo
+        fp = fopen (ARCHIVO,"w");                  // Abro el archivo
         for (int i=0; i<top; i++){
             fprintf(fp, "%s %lu\n", my_pun[i].name, my_pun[i].pts); // Le coloco los nombres y puntajes
         }
@@ -73,12 +73,12 @@ void put_score (char* name, unsigned long int score, const int top, SCORE* my_pu
 int lect_score (SCORE* my_pun)
 {
     FILE* fp;
-    char str[NAME_SIZE+1];       // Arreglo con el nombre
+    char str[NAME_SIZE+1];      // Arreglo con el nombre
     SCORE score_data;           // Tipo de dato que almacena nombre y puntaje
-    int c;                     // Caracter a leer
+    int c;                      // Caracter a leer
     unsigned long int num;      // Numero con el puntaje
     int cant =-1;               // Contador. Cuenta  la canitdad de puntajes que tiene el archivo
-    fp=fopen (ARCHIVO,"r"); // Abro el archivo
+    fp=fopen (ARCHIVO,"r");     // Abro el archivo
     do
     {
         num=0;
