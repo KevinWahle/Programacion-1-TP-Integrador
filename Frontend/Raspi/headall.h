@@ -18,12 +18,17 @@
 
 #include "../../../libs/joydisp/disdrv.h"
 #include "../../../libs/joydisp/joydrv.h"
-#include "../../../libs/audio/SDL1/libaudio.h"
 
-#include <pthread.h>
-#include <unistd.h>
+//#include "../../../libs/audio/SDL1/libaudio.h"   // NO USAMOS SDL1
+
+//#include <pthread.h>  // NO USAMOS SDL1
+//#include <unistd.h>   // NO USAMOS SDL1
+
 #include <SDL2/SDL.h>
+#include "some files/RPi_files/audio/SDL2/src/audio.h"   // VER RUTAAAAAAAAAAAA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+
+//******************************
 #include "../../const.h"
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
 

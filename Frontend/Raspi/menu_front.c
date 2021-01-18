@@ -21,6 +21,22 @@
 #define SCREEN_DELAY    2       //Tiempo que se muestra el splash
 #define PAUSE_LAPSE     0.3     //Tiempo que se apreta el analógico para acceder al menu de pausa
 
+
+// MUSIC FILES:
+#define SAMPLES_NUMBER 100
+#define SPLASH_SOUND "Frontend/Sounds/IntroCheta.wav"
+
+#define KEY_MOVED "Frontend/Sounds/Menu_select.wav"
+#define LEVEL_UP "Frontend/Sounds/level-up-sound-effect (1).wav"
+#define FINAL_SONG "Frontend/Sounds/space-invaders-space-invaders (1).wav"
+
+#define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
+#define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
+#define EXPLOSION_SOUND "Frontend/Sounds/explosion.wav"
+#define INV_KILL_SOUND "Frontend/Sounds/invaderkilled.wav"
+#define UFO_SOUND "Frontend/Sounds/ufo_lowpitch.wav"
+
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -73,7 +89,6 @@ int init_front()
 {
     disp_init();
     joy_init();
-    init_sound();                  // CHAUDIO
     return NO_ERROR;
 }
 
@@ -100,9 +115,6 @@ void splash_front()
     }
     disp_update();
 
-    char mySong[] = "Frontend/Sounds/IntroSound.wav";
-    set_file_to_play(mySong);
-    play_sound();
 }
 
 
@@ -111,7 +123,6 @@ void splash_front()
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
-    stop_sound();
     
     disp_clear();
     myPoint = (dcoord_t) {0,6};
