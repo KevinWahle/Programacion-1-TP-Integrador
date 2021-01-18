@@ -23,6 +23,7 @@ int main(void)
 */
     playMusic("../Sounds/IntroCheta.wav", 128/2);
 
+    SDL_Delay(10000);
 
     endAudio();
     /*
