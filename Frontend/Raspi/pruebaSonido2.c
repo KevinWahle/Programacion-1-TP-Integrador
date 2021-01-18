@@ -27,8 +27,10 @@ int main(void)
 
     endAudio();*/
     
-    while(1)
+    int i = 0;
+    while( i < 5)
     {
+        i++;
         while( !checkTimer(&temp) );
 
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
@@ -37,4 +39,5 @@ int main(void)
         playMusic("../Sounds/explosion.wav", 128/2);
         
     }
+    endAudio();
 }
