@@ -32,7 +32,7 @@ int main(void)
     {
         i++;
         while( !checkTimer(&temp) );
-        endAudio();
+        pauseAudio();
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
 
             //playSoundFromMemory(sound, SDL_MIX_MAXVOLUME);
