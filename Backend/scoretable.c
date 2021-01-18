@@ -18,9 +18,9 @@
 
 #define OFFSET  '0'
 #if PLATFORM==ALLEGRO 
-    #define ARCHIVO "scroe_allegro"
+    #define ARCHIVO "scroe_all.txt"
 #elif PLATFORM==RASPI
-    #define ARCHIVO "score_raspi"
+    #define ARCHIVO "score_raspi.txt"
 #endif
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE

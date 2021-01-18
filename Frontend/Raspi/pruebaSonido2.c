@@ -27,7 +27,7 @@ int main(void)
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
         if( !(musicStatus() == PLAYING ) )
         {
-            printf("AHORA SI\n")
+            printf("AHORA SI\n");
             playSoundFromMemory(sound, SDL_MIX_MAXVOLUME);
         }
     }
