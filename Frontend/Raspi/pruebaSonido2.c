@@ -10,9 +10,11 @@ int main(void)
     if ( initAudio() == NO_INIT)
     {
         fprintf(stderr, "Audio not initilized.\n");
-	endAudio();
-	return -1;
+	    endAudio();
+	    return -1;
     }
+
+    Audio * sound = createAudio( "../Sounds/shoot.wav" , 0, SDL_MIX_MAXVOLUME / 2);
 
     own_timer_t temp;
     setTimer(&temp, 8.0);
@@ -23,11 +25,9 @@ int main(void)
         while( !checkTimer(&temp) );
 
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
-        if( !(player_status() == PLAYING ) )
+        if( !(musicStatus() == PLAYING ) )
         {
-            char mySong[] = "../Sounds/shoot.wav";
-	        set_file_to_play(mySong);       				
-	        play_sound();
+            playSoundFromMemory(sound, SDL_MIX_MAXVOLUME);
         }
     }
 }
