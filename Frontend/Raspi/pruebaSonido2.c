@@ -14,19 +14,19 @@ int main(void)
 	    endAudio();
 	    return -1;
     }
-/*
-    Audio * sound = createAudio( "../Sounds/shoot.wav" , 0, SDL_MIX_MAXVOLUME);
+
+//    Audio * sound = createAudio( "../Sounds/shoot.wav" , 0, SDL_MIX_MAXVOLUME);
 
     own_timer_t temp;
     setTimer(&temp, 8.0);
     startTimer(&temp);
-*/
-    playMusic("../Sounds/IntroCheta.wav", 128/2);
+
+  /*  playMusic("../Sounds/IntroCheta.wav", 128/2);
 
     SDL_Delay(10000);
 
-    endAudio();
-    /*
+    endAudio();*/
+    
     while(1)
     {
         while( !checkTimer(&temp) );
@@ -34,7 +34,7 @@ int main(void)
         printf("OSTRAS, SE DEBERIA DISPARAR YA\n");
 
             //playSoundFromMemory(sound, SDL_MIX_MAXVOLUME);
-            playMusic("../Sounds/shoot.wav", 128/2);
+        playMusic("../Sounds/IntroCheta.wav", 128/2);
         
-    }*/
+    }
 }
