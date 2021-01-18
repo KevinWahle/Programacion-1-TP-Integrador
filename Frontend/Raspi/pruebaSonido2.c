@@ -21,13 +21,7 @@ int main(void)
     setTimer(&temp, 8.0);
     startTimer(&temp);
 */
-    playMusic("../Sounds/shoot.wav", 128/2);
-    SDL_Delay(5000);
-    playMusic("../Sounds/shoot.wav", 128/2);
-    SDL_Delay(5000);
-    playMusic("../Sounds/shoot.wav", 128/2);
-    SDL_Delay(5000);
-    playMusic("../Sounds/shoot.wav", 128/2);
+    playMusic("../Sounds/IntroCheta.wav", 128/2);
 
 
     endAudio();
