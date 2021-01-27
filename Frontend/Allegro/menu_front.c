@@ -173,7 +173,7 @@ void splash_front()
     al_flip_display();
     al_rest(1.5);
     show_inst ();
-    al_play_sample(splashsound, .5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+    al_play_sample(splashsound, .5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 }
 
 

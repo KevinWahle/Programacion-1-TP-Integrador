@@ -479,6 +479,7 @@ void init_game(void) {
     drawTicks = 0;
 
     cannonXpos = 0;
+    move_cannon(STOP);
 
     restartTasas();
 
@@ -605,7 +606,7 @@ void move_cannon(direction_t dir)
 {
     static BOOL moving_left = FALSE;
     static BOOL moving_right = FALSE;
-
+    
     switch (dir) {
         case LEFT:
             moving_left = TRUE;
@@ -619,6 +620,10 @@ void move_cannon(direction_t dir)
         case STOP_RIGHT:
             moving_right = FALSE;
             break;
+        case STOP:
+            moving_left = FALSE;
+            moving_right = FALSE;
+            break;
         default:
             break;
     }
@@ -627,7 +632,7 @@ void move_cannon(direction_t dir)
         cannonDir = dir;                    // Mueve hacia el último (no es ningun STOP)
     }
     else if (moving_left) {             // Si no, me fijo cual esta activado
-            cannonDir = LEFT;
+        cannonDir = LEFT;
     }
     else if (moving_right) {
         cannonDir = RIGHT;
