@@ -42,7 +42,7 @@
 #define SAMPLES_NUMBER 100
 #define SPLASH_SOUND "Frontend/Sounds/IntroCheta.wav"
 
-#define KEY_MOVED "Frontend/Sounds/Menu_select.wav"
+#define KEY_MOVED "Frontend/Sounds/Menu_select_edit.wav"
 #define LEVEL_UP "Frontend/Sounds/level-up-sound-effect (1).wav"
 #define FINAL_SONG "Frontend/Sounds/space-invaders-space-invaders (1).wav"
 
