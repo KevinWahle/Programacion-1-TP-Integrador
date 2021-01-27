@@ -4,6 +4,7 @@ TODO:
 - Nivel no aparece a partir de N.   
 - Borrar Make secundarios
 - Mejorar las dependencias de los .h
+- Corregir: segmentation fault si se va a puntaje y archivo no creado
 
 EXTRAS:
 - Distinta velocidad de bala para canon

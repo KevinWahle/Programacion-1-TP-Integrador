@@ -18,7 +18,7 @@
 
 #define OFFSET  '0'
 #if PLATFORM==ALLEGRO 
-    #define ARCHIVO "scroe_all.txt"
+    #define ARCHIVO "score_all.txt"
 #elif PLATFORM==RASPI
     #define ARCHIVO "score_raspi.txt"
 #endif
