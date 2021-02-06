@@ -85,6 +85,7 @@
 
 #define TOTAL_SHIELDS 8                // Para todo n, en particular n = 8
 
+// Constantes de ayuda para la ubicacion de shields
 #define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)   // Offset se refiere a la distancia en x que queda entre los puntos (0, y) y el shield que esta mas a la izquierda
 #define SHIELD_WIDTH  (B_WIDTH * 3) // Ancho del shield. No es un parametro para cambiar, pues no se pueden agregar blockes al shield asi porque si, porque a cada bloque se le debe hardcodear su posicion relativa a los demas bloques del shield
