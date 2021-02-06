@@ -41,6 +41,7 @@ STATE *fsm_interprete(STATE * p_tabla_estado_actual, event_t evento_actual)
     #ifdef DEBUG
         printf("Evento: %d. \n", evento_actual); // Para debuggear
     #endif  //DEBUG
+    
     while ((p_tabla_estado_actual -> evento) != evento_actual && (p_tabla_estado_actual -> evento) !=NULL_EVENT){
         ++p_tabla_estado_actual;
     } 
