@@ -6,6 +6,6 @@ Instrucciones de compilación para el juego SpaceInvaders, desarrollado para tan
 
 -En la terminal de linux de la RPi dentro de la carpeta TP_FINAL-P1 compilar con el comando "make gameras"
 
--En caso de querer borrar todos los archivos utilizar el comando "make cleanall" para linux de ordenador y "make cleanras" para linux de RPi.
+-En caso de querer borrar todos los archivos utilizar el comando "make cleanall" para linux de ordenador y "make cleanraspi" para linux de RPi.
 
 -Para poder ejecutar el juego utilizar el comando "./gameall" para linux de ordenador y "./gameras" para linux de RPi.

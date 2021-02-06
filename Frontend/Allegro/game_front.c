@@ -10,7 +10,8 @@
 #include <stdio.h>  // SOLO PARA DEBUGEAR
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stdint.h>  
+#include <stdint.h>
+#include <time.h>  
 
 #include "headall.h"
 #include "shared_res.h"
@@ -203,7 +204,7 @@ ALLEGRO_BITMAP *octoPointer[INVADERS_STATES];
 
 UFO_t UFO_invader = {   .y = UFO_HEIGHT,         // Tambien utilizada por menu_front
                         .invaderType = UFO,
-                        .invaderState = 0     //Arranca muerta
+                        .invaderState = 0        //Arranca muerta
                     };
 
 /*******************************************************************************
@@ -349,7 +350,7 @@ static ALLEGRO_SAMPLE_ID UFOSoundID;
 // Invaders matrix
 static invader_t invaders[FIL_INVADERS][COL_INVADERS];      
 
-static const int invadersDistribution [FIL_INVADERS] = {
+static const int invadersDistribution [FIL_INVADERS] = {      // Aca ud podria agregar mas filas de invaders, siempre recordando que se debe modificar las filas
                                                   SQUID,
                                                   CRAB,
                                                   CRAB,
@@ -575,8 +576,6 @@ void placeInvaders(void)
     proxDir = LEFT;
     UFO_invader.invaderState = 0;
 }
-
-
 /**
  * @brief Solicita un movimiento continuo del cannon en la direccion indicada
  * @param dir la direccion a la que se desea mover. STOP si se desea parar

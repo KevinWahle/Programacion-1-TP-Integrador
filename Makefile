@@ -81,7 +81,7 @@ cleanall:
 	rm Backend/event_queue/*.o
 	rm Frontend/Allegro/*.o
 
-cleanrpi:
+cleanraspi:
 	rm Backend/*.o
 	rm Backend/event_queue/*.o
 	rm Frontend/Raspi/*.o

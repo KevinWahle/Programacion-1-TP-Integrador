@@ -64,19 +64,10 @@
 
 // La tasa de los invaders es variable
 
-// #define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
-// #define SHOT_WIDTH 4                     // idem
-
 // INVADERS POSITION
 #define INVADERS_WIDTH  2           // Ancho de los invaders en pixeles
 #define INVADERS_HEIGHT  1          // Alto de los invaders en pixeles
 #define INVADERS_START_HEIGHT 1      // Pixel inician los invaders (desde arriba)
-
-//#define INVADERS_FLOOR  9.5  // Espacio desde el techo hasta "piso" de los invasores
-//#define INVADERS_WALL 0.1                  // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
-//#define INVADERS_FALL 0.34           // Espacio de caida de los invaders al llegar a cada tope 
-//#define INVADERS_WIDTH_BETWEEN  1        // Cantiad de pixeles entre invaders (horizontal)
-//#define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
 
 #define INVADERS_FLOOR (D_HEIGHT*0.65)   // Espacio desde el techo hasta "piso" de los invasores
 #define INVADERS_WALL 0.2                    // Espacio entre el borde derecho e izquierdo en el que van a robotar los invaders
@@ -85,9 +76,9 @@
 #define INVADERS_HEIGHT_BETWEEN  1        // Cantiad de pixeles entre invaders (vertical)
 
 
-#define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
+#define MAX_INVADERS_SHOT 8             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 3                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
 //##### Shields #####
@@ -103,7 +94,7 @@
 #define MIN_POSIBILIY_OF_SHOT_FROM_INVADERS  150
 
 
-#define MAX_POSIBILIY_OF_APPEAR_UFO  50
+#define MAX_POSIBILIY_OF_APPEAR_UFO  130
 #define MIN_POSIBILIY_OF_APPEAR_UFO  500  
 
 #define DEATH_STATE STATE_1
@@ -193,14 +184,14 @@ typedef struct
 // Invaders matrix
 invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
-// const int invadersDistribution [FIL_INVADERS] = {
-//                                                   OCTO,
-//                                                   OCTO,
-//                                                   OCTO,
-//                                                   OCTO,
-//                                                   };
-        /// VER SI TODOS VALEN LO MISMO O NO
+Audio * keyMoved = NULL;
+Audio * levelUp = NULL;
 
+Audio * shootSound = NULL;
+Audio * invaderSound = NULL;
+Audio * explosionSound = NULL;
+Audio * invKillSound = NULL;
+Audio * ufoSound = NULL;
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -228,7 +219,6 @@ static void getCanonShotCollision(void);
 */
 static direction_t moveInvaders(direction_t direction);
 
-/* *B_WIDTH_PERCENTnvadersDown(void); */
 
 /**
  * @brief Dice si toco piso o no algun invader
@@ -309,21 +299,6 @@ static void shouldUFOappear(void);
 */
 static void drawCanon(void);
 
-// /**
-//  * @brief Muestra en pantalla los puntos de la partida.
-//  **/
-// void update_points(int score);
-
-// /**
-//  * @brief Muestra en pantalla las vidas restantes de la partida.
-//  **/
-// void update_lives(int lives);
-
-// /**
-//  * @brief Muestra en pantalla el nivel actual.
-//  **/
-// void update_level (int level);
-
 /**
  * @brief Resetea tasas de velocidades y probabilidades de disparo
  **/
@@ -337,16 +312,6 @@ static void restartTasas(void);
  **/
 
 
-Audio * keyMoved = NULL;
-Audio * levelUp = NULL;
-
-Audio * shootSound = NULL;
-Audio * invaderSound = NULL;
-Audio * explosionSound = NULL;
-Audio * invKillSound = NULL;
-Audio * ufoSound = NULL;
-
-// CONTINUAR:
 static void updateCanonPos(canon_t *canonPointer);
 
 //######################################################
