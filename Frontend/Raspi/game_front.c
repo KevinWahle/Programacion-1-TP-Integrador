@@ -24,8 +24,7 @@
 
 #define CANON_BLOCKS 4
 #define UFO_BLOCKS 3 //
-#define INVADER_BLOCK 2  // Es al pedo porque para evaluar la colision solo hay que ver si tienen la misma posicion, pero para no confundir 
-                         // Es al pedo que la estructura de invader tenga un bloque
+#define INVADER_BLOCK 2  
 #define SHIELDS_BLOCKS 4
 
 #define FIL_INVADERS 4                   // Cantidad de filas de invaders
