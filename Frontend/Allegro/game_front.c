@@ -80,7 +80,7 @@
                                                   // y todos los estados posibles de los bloques!
 //##### Shields #####
 
-#define TOTAL_SHIELDS 8                // Para todo n, en particular n = 8
+#define TOTAL_SHIELDS 4                // Para todo n, en particular n = 4
 
 // Constantes de ayuda para la ubicacion de shields
 #define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)

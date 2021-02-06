@@ -513,12 +513,6 @@ void shoot_cannon(void)
                     .shotState = 1
                   };
 
-/// //SOLUCION RANCIA Y POCO ESCALABLE QUE SOLO LA USAMOS PORQUE SE ROMPIO TODO /////////////////
-    //if (canonShotList[0].shotState == 0) {
-    //    canonShotList[0] = shot;
-    //}
-///////////////////////////////////////////////////////////
-
     unsigned int k = 0;
     while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
     {
@@ -530,20 +524,7 @@ void shoot_cannon(void)
         playSoundFromMemory(shootSound, SDL_MIX_MAXVOLUME);
     }
 
-    // OTRA FORMA DE RECORRER LA LISTA DE DISPAROS:
-
-    // AUDIO
-    //for (int i = 0; i < MAX_CANON_SHOT; i++) {
-    //    if (!canonShotList[i].shotState) {
-    //        canonShotList[i] = shot;
-    //        actualCanonShots++;
-    //        playSoundFromMemory(shootSound, 127);
-    //        break;
-    //    }
-    //}
-
 }
-
 
 /**
  * @brief Solicita un movimiento continuo del cannon en la direccion indicada
