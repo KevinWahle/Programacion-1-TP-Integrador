@@ -351,9 +351,6 @@ static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 static own_timer_t fpsTimer;
 static own_timer_t ufoSoundTimer;
 
-// SOLO PARA PROBAAR TIMER, DESPUES BORRAR
-static own_timer_t testTimer;
-
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
