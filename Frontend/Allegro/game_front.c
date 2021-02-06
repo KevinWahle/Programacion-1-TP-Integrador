@@ -9,7 +9,6 @@
  ******************************************************************************/
 #include <stdio.h>  // SOLO PARA DEBUGEAR
 #include <stdlib.h>
-// #include <time.h>
 #include <stdbool.h>
 #include <stdint.h>  
 
@@ -363,7 +362,6 @@ static const int invadersDistribution [FIL_INVADERS] = {
 static int actualInvadersShots; 
 // Contador de la cantidad de balas disparadas por el canon
 static int actualCanonShots;
-
 
 // Lista de los disparos de los invaders.
 static shot_t invaderShotList[MAX_INVADERS_SHOT];
