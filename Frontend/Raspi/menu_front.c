@@ -7,6 +7,11 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+
 #include "headall.h"
 #include "digits.h"
 #include "shared_res.h"

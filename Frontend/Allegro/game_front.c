@@ -7,9 +7,12 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-#include <stdint.h>
-#include <stdio.h>    // SOLO PARA DEBUGEAR
-#include <string.h>
+#include <stdio.h>  // SOLO PARA DEBUGEAR
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
+#include <stdint.h>  
+//#include <string.h>
 
 #include "headall.h"
 #include "shared_res.h"
@@ -19,10 +22,10 @@
  ******************************************************************************/
 #define PPS_NODRIZA         120         // Píxeles por segundo (velocidad) de la nave nodriza
 #define PPS_CANON           275         // Píxeles por segundo (velocidad) del canon   
-#define PPS_BALA_CANON      875         // Píxeles por segundo (velocidad) de la bala
+#define PPS_BALA_CANON      750         // Píxeles por segundo (velocidad) de la bala
 #define PPS_BALA_INVADER    150         // Píxeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    300         // Máximos PPS (velocidad) de invaders
-#define MIN_PPS_INVADERS    15         // Mínimos PPS (velocidad) de invaders
+#define MIN_PPS_INVADERS    15          // Mínimos PPS (velocidad) de invaders
 
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
 #define TASA_DE_CAMBIO_BALA_CANON (PPS_BALA_CANON/FPS)            // Pixeles por refresco (velocidad) de la bala
@@ -44,10 +47,12 @@
 
 #define BIG_INVADER_POINTER (octoPointer[0])    // El puntero al invader más grande
 
-#define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
+// Lists of shoots
 
-#define MAX_CANON_SHOT 2                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
+
+#define MAX_INVADERS_SHOT 8             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
+#define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
 #define UFO_RESIZE_PERCENT    0.3        // idem anterior pero para la nodriza
@@ -62,8 +67,9 @@
 #define AL_GET_INVADER_HEIGHT(x)  (al_get_bitmap_height(x)*INVADERS_RESIZE_PERCENT)
 // Recordar que al_get_bitmap_???(??) se basa en la imagen cargada con al_load_bitmap
 
+
 #define UFO_HEIGHT_PERCENT  0.08
-#define UFO_HEIGHT  (UFO_HEIGHT_PERCENT * D_HEIGHT)
+#define UFO_HEIGHT  (UFO_HEIGHT_PERCENT * D_HEIGHT)     // Altura en el eje y de donde va a estar UFO
 
 //##### Blocks #####                              // Cada block seria justamente cada bloque que compone a un shield.
 #define B_WIDTH_PERCENT  0.03                     // Porcentaje que ocupa el block por sobre el tamanio del display
@@ -74,10 +80,10 @@
 
 #define Y1  (D_HEIGHT * Y_PERCENT)                // Posicion en y en la que van a estar alineados los shields
 #define BLOCK_LIVES 4                             //Vidas del bloque, se puede modificar, pero si se la modifica se debe modificar la cantidad de colores
-                                                  // y todos los estados posibles de los bloques
+                                                  // y todos los estados posibles de los bloques!
 //##### Shields #####
 
-#define TOTAL_SHIELDS 4                  // Para todo n, en particular n = 4
+#define TOTAL_SHIELDS 8                // Para todo n, en particular n = 8
 
 #define SHIELDERS_WIDTH_PERCENT   0.8   // Porcentaje de los shielders a lo ancho de la pantalla (0-1)
 #define OFFSET_FROM_WALL_PERCENT  ((1 - SHIELDERS_WIDTH_PERCENT)/2)   // Offset se refiere a la distancia en x que queda entre los puntos (0, y) y el shield que esta mas a la izquierda
@@ -206,7 +212,7 @@ ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *octoPointer[INVADERS_STATES];
 
-UFO_t UFO_invader = {   .y = UFO_HEIGHT,
+UFO_t UFO_invader = {   .y = UFO_HEIGHT,    
                         .invaderType = UFO,
                         .invaderState = 0     //Arranca muerta
                     };

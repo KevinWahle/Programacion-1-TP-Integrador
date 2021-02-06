@@ -47,6 +47,7 @@ static void set_speed(int new_speed);
 */
 static void set_level(int new_level);
 
+
 /**
  * @brief toma cuanto vale la velocidad
  * @return devuelve la velocidad actual
