@@ -62,13 +62,13 @@ const int (*my_char)[DIGIT_COL];        // Puntero que apuntara a cada digito a 
  * @param row Cantidad de filas
  * @param cord ubicacion del display para colocar la matriz
 */
-void show_matrix (int col, int row, dcoord_t coord);
+static void show_matrix (int col, int row, dcoord_t coord);
 
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
  * @param caracter Caracter que se analiza
 */
-void whatisit (char caracter);
+static void whatisit (char caracter);
 
 /**
  * @brief Transforma un entero no signado a un string para luego imprimir.
@@ -76,7 +76,7 @@ void whatisit (char caracter);
  * @param chscore[] Recibe el string dode transformara el numero a char
  * @return Devulve el string ya transformado.
 */
-void intochar(unsigned long int num, char chscore[LENG_SC+1]);
+static void intochar(unsigned long int num, char chscore[LENG_SC+1]);
 
 /*******************************************************************************
  *******************************************************************************
@@ -351,15 +351,19 @@ void destroy_front(){
     fprintf(stderr, "See you next time...\n\n");
 }
 
+//TO COMPILE
+void show_inst () {}
+
 /*******************************************************************************
  *******************************************************************************
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+
 /**
  * @brief Muestra en pantalla la matriz seleccionada.
 */
-void show_matrix (int col, int row, dcoord_t cord)  
+static void show_matrix (int col, int row, dcoord_t cord)  
 {
     dcoord_t myPunto;
     for (int j=0; j<row; j++){  
@@ -379,7 +383,7 @@ void show_matrix (int col, int row, dcoord_t cord)
 /**
  * @brief Reconoce que letra recibe y la transforma a un formato para raspi.
 */
-void whatisit (char caracter) 
+static void whatisit (char caracter) 
 {     
     if (caracter-NUMOFFSET>=0  &&  caracter-NUMOFFSET<=9) {     //Los números van de 0 a 9
         caracter = caracter - NUMOFFSET;
@@ -513,7 +517,7 @@ void whatisit (char caracter)
 /**
  * @brief Transforma un entero no signado a un string.
  */
-void intochar(unsigned long int num, char chscore[LENG_SC+1])
+static void intochar(unsigned long int num, char chscore[LENG_SC+1])
 {
     unsigned long int a = 0;
     
@@ -538,6 +542,3 @@ void intochar(unsigned long int num, char chscore[LENG_SC+1])
     }
     chscore[LENG_SC]='\0';          // Agrego el terminador
 }
-
-//TO COMPILE
-void show_inst () {}

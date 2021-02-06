@@ -191,6 +191,7 @@ Audio * invaderSound = NULL;
 Audio * explosionSound = NULL;
 Audio * invKillSound = NULL;
 Audio * ufoSound = NULL;
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -296,6 +297,7 @@ static void shouldUFOappear(void);
 /**
  * @brief Actualiza la posicion y dibuja el cannon
 */
+static void updateCanonPos(canon_t *canonPointer);
 static void drawCanon(void);
 
 /**
@@ -303,15 +305,6 @@ static void drawCanon(void);
  **/
 static void restartTasas(void);
 
-/**
- * @brief Muestra en pantalla los puntos, las vidasd y el nivel de la partida.
- * @param score Puntaje a imptimir
- * @param lives Vidas a imprimir
- * @param level Nivel actual a imprimir
- **/
-
-
-static void updateCanonPos(canon_t *canonPointer);
 
 //######################################################
 //############## FUNCIONES ONLY RASPBERRY ##############
@@ -342,7 +335,7 @@ static direction_t proxDir = LEFT;
 // El UFO
 
 UFO_t UFO_invader = {   .y = UFO_Y_POS,
-                        .invaderType = 7,   // ACA IBA UN "UFO" EN LUGAR DEL 7, QUIEN CARAJO HIZO ESO NO ENTIENDO
+                        .invaderType = UFO,
                         .invaderState = 0     //Arranca muerta
                     };
 
@@ -391,10 +384,6 @@ void init_game(void) {
     setTimer(&ufoSoundTimer, UFO_SOUND_TIME);
     
     startTimer(&fpsTimer);      // Recien aca empieza el timer
-
-    //DEBUG:
-    setTimer(&testTimer, 1.0);     // Aca declaro el timer y el tiempo
-    startTimer(&testTimer);
 
 }
 
@@ -619,6 +608,28 @@ void initCanon(void)
     updateCanonBlocksPos(&canon);       //Siempre que se actualize la posicion, hay que actualizar la posicion de todos los bloques que forman el objeto
 }
 
+int checkWin(void)
+{
+    int win = 1;
+    int i = 0;
+    while( i < FIL_INVADERS && win)
+    {
+        int j = 0;
+        while(j < COL_INVADERS && win)
+        {
+            win = invaders[i][j].invaderState ? 0 : 1;   //Si hay un vivo no puede haber ganado => win = 0
+            j++;
+        }
+        i++;
+    }
+    return win;
+}
+
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 
 static void updateCanonBlocksPos(canon_t *canon)
 {
@@ -635,7 +646,6 @@ static void updateCanonBlocksPos(canon_t *canon)
     canon->blocks[3].y = canon->y + 1;
 }
 
-
 static void updateInvadersBlocksPos(int i, int j)
 {
     // Actualizo el primer bloque de la estructura.
@@ -646,7 +656,6 @@ static void updateInvadersBlocksPos(int i, int j)
     invaders[i][j].blocks[1].x = invaders[i][j].x + 1;
     invaders[i][j].blocks[1].y = invaders[i][j].y;
 }
-
 
 static void updateUfoBlocksPos(void)
 {   
@@ -659,7 +668,6 @@ static void updateUfoBlocksPos(void)
     UFO_invader.blocks[2].x = UFO_invader.x + 2;
     UFO_invader.blocks[2].y = UFO_invader.y;
 }
-
 
 static void updateCanonPos(canon_t *canonPointer)
 {
@@ -686,7 +694,6 @@ static void updateCanonPos(canon_t *canonPointer)
     updateCanonBlocksPos(canonPointer);
 }
 
-
 static void drawCanon(void)
 {
     updateCanonPos(&canon);
@@ -699,7 +706,6 @@ static void drawCanon(void)
       disp_write(coord , D_ON );
     }
 }
-
 
 static void cleanDisplay(void)
 {
@@ -714,30 +720,6 @@ static void cleanDisplay(void)
         }
     }
 }
-
-
-int checkWin(void)
-{
-    int win = 1;
-    int i = 0;
-    while( i < FIL_INVADERS && win)
-    {
-        int j = 0;
-        while(j < COL_INVADERS && win)
-        {
-            win = invaders[i][j].invaderState ? 0 : 1;   //Si hay un vivo no puede haber ganado => win = 0
-            j++;
-        }
-        i++;
-    }
-    return win;
-}
-
-/*******************************************************************************
- *******************************************************************************
-                        LOCAL FUNCTION DEFINITIONS
- *******************************************************************************
- ******************************************************************************/
 
 /**
  * @brief Ejecuta un disparo del invader
@@ -778,7 +760,7 @@ static void getInvaderShotCollison(void)
                 foundShots++;
                 //Aca en allegro dibujaba la bala:
                 dcoord_t coord = { .x = invaderShotList[i].x, .y = invaderShotList[i].y  };
-                disp_write( coord, D_ON);       // REVISAR: si hay que dibujarla aca
+                disp_write( coord, D_ON);       
 
                 invaderShotList[i].y += TASA_DE_CAMBIO_BALA_INVADER;
 
@@ -866,7 +848,7 @@ static void getCanonShotCollision(void)
                     playSoundFromMemory(invKillSound, SDL_MIX_MAXVOLUME);
                     add_event(UFO_COLL_EV);
                 }
-                else      // getColisonOnInvaders();
+                else     
                 {
                     for(int i = 0; i < FIL_INVADERS; i++)
                     {
@@ -930,13 +912,12 @@ static void drawAliveInvaders(void)
         {
             if( (invaders[i][j].invaderState) )
               {
-                    dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };     // Revisar por el tamaño de invaders
+                    dcoord_t coord = { .x = (int)invaders[i][j].blocks[0].x, .y = (int)invaders[i][j].blocks[0].y };    
                     if( coord.x >=0 && coord.x <= (D_WIDTH -1) )
                         disp_write(coord, D_ON);
                     coord.x++;
                     if( coord.x >=0 && coord.x <= (D_WIDTH -1) )  
                         disp_write(coord, D_ON);
-                   // TODO: Ver de hacer un for para dibujar rectangulos.   
               }
         }
     }
@@ -983,8 +964,6 @@ static void moveInvadersDown(void)
         for(int j = 0; j < COL_INVADERS; j++)
         {
             invaders[i][j].y += INVADERS_FALL;          
-            // TODO: Hacer un for por cada bloque de invader   updateblockinvader(); 
-            //invaders[i][j].block[0].y += INVADERS_FALL;    //Aca es el caso que peor queda lo de los blocks pero bue lo deje asi quedan todos los objetos iguales 
             updateInvadersBlocksPos(i, j);
         }
     }
@@ -1168,7 +1147,7 @@ static void placeShields(void)
     {
         int x_shield =  i * DIST_2 + PIXELS_MARGIN ;  // Calcula la posicion en x de los shields
 
-        int y_shield = SHIELDS_Y1;                     // OJO QUE POR LA CUENTA EL USUARIO LA PUEDE CAGAR Y DIBUJAR AFUERA DEL MAPA
+        int y_shield = SHIELDS_Y1;                     
 
         createShield(x_shield, y_shield, &shielders[i] );
     }
@@ -1181,29 +1160,29 @@ static void drawShields(void)
     {
         if( shielders[i].blocks[0].state != DEATH_STATE)   // Si el bloque no esta muerto, lo dibujo. Recordar que el color se lo asocia con el estado de la vida
         {
-            dcoord_t coord = { .x = shielders[i].blocks[0].x, .y = shielders[i].blocks[0].y };     // Revisar por el tamaño de invaders
+            dcoord_t coord = { .x = shielders[i].blocks[0].x, .y = shielders[i].blocks[0].y };     
             disp_write(coord, D_ON);
         }
         if( shielders[i].blocks[1].state != DEATH_STATE)
         {
-            dcoord_t coord = { .x = shielders[i].blocks[1].x, .y = shielders[i].blocks[1].y };     // Revisar por el tamaño de invaders
+            dcoord_t coord = { .x = shielders[i].blocks[1].x, .y = shielders[i].blocks[1].y };     
             disp_write(coord, D_ON);
         }
         if( shielders[i].blocks[2].state != DEATH_STATE)
         {
-            dcoord_t coord = { .x = shielders[i].blocks[2].x, .y = shielders[i].blocks[2].y };     // Revisar por el tamaño de invaders
+            dcoord_t coord = { .x = shielders[i].blocks[2].x, .y = shielders[i].blocks[2].y };     
             disp_write(coord, D_ON);
         }
         if( shielders[i].blocks[3].state != DEATH_STATE)
         {
-            dcoord_t coord = { .x = shielders[i].blocks[3].x, .y = shielders[i].blocks[3].y };     // Revisar por el tamaño de invaders
+            dcoord_t coord = { .x = shielders[i].blocks[3].x, .y = shielders[i].blocks[3].y };     
             disp_write(coord, D_ON);
         }
     }
 }
 
 
-static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)     // NO esta tocada, REVISAR
+static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)    
 {
     int colision = 0;
     int i = 0;
@@ -1263,7 +1242,7 @@ static void shouldUFOappear(void)
         UFO_invader.invaderState = 1;
         UFO_invader.direction = rand()%2 ? RIGHT : LEFT ;                          //Aparece, pero quiero saber si por derecha o izquierda
         UFO_invader.x = (UFO_invader.direction == RIGHT) ? (-1)*(UFO_WIDTH + 1) : D_WIDTH; // Se le calcula la posicion en X inicial, dependiendo de si viene por derecha o izq.
-    }                                                     // MAGIC NUMBER EN EL 2 IBA EL UFO WIDTH. MAY START WITH LEDS OUT OF THE DISP
+    }                                                     
 }
 
 static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
