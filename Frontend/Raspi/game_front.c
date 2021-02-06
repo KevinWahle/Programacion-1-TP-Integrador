@@ -54,8 +54,8 @@
 #define MIN_PPS_INVADERS    7        // Mínimos PPS (velocidad) de invaders
 #define FPS 60.0
 
+
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
-//#define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
 #define TASA_DE_CAMBIO_NODRIZA (PPS_NODRIZA/FPS)         // Pixeles por refresco (velocidad) de la nave nodriza
 
 #define TASA_DE_CAMBIO_BALA_INVADER (PPS_BALA_INVADER/FPS) 
