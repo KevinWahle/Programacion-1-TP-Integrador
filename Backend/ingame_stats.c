@@ -9,7 +9,12 @@
  ******************************************************************************/
 #include "ingame_stats.h"
 #include <time.h>
+#if PLATFORM == ALLEGRO
+#include "../Frontend/Allegro/headall.h" 
 
+#elif PLATFORM == RASPI
+#include "../Frontend/Raspi/headall.h"
+#endif
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/

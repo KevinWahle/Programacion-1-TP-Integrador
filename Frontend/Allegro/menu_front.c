@@ -274,6 +274,7 @@ void show_inst ()
     al_flip_display();
 }
 
+
 /**
  * @brief Lee el teclado y carga el evento segun la libreria "event_queue.h".
  **/

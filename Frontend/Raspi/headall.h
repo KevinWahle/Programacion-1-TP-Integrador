@@ -16,23 +16,9 @@
 #include <stdbool.h>
 #include <time.h>
 
-#include "../../../libs/joydisp/disdrv.h"
-#include "../../../libs/joydisp/joydrv.h"
-
-//#include "../../../libs/audio/SDL1/libaudio.h"   // NO USAMOS SDL1
-
-//#include <pthread.h>  // NO USAMOS SDL1
-//#include <unistd.h>   // NO USAMOS SDL1
-
-#include <SDL2/SDL.h>
-#include "../../some files/RPi_Files/audio/SDL2/src/audio.h"   // VER RUTAAAAAAAAAAAA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-//******************************
 #include "../../const.h"
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
 
-// ------ ESTAS CREO QUE PODRÍAN IR AL .c
 #include "timer/timer.h"    //Libreria de timer para delays
 #include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event
 
@@ -99,7 +85,6 @@ void update_front_event();
  * @brief Finaliza el programa y muestra la imagen de finalización
  **/
 void destroy_front();
-
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR IN-GAME

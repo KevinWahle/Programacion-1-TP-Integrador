@@ -3,10 +3,13 @@
 #include <SDL2/SDL.h>
 #include "../../some files/RPi_Files/audio/SDL2/src/audio.h"            // ATENCAO LA RUTA // ../../some files/RPi_Files/audio/SDL2/src/audio.h
 #include "timer/timer.h"
+// gcc pruebaSonido.c libaudio.c -I/usr/local/include -L/usr/local/lib -lSDL -lpthread -o testaudio
 
 int main(void) 
 {
 
+    // probamos:
+    SDL_Init(SDL_INIT_AUDIO);
 
     if ( initAudio() == NO_INIT)
     {
@@ -15,7 +18,7 @@ int main(void)
 	    return -1;
     }
 
-    Audio * sound = createAudio( "../Sounds/IntroCheta.wav" , 0, 127);
+    Audio * sound = createAudio( "../Sounds/level-up-sound-effect (1).wav" , 0, 127);
 
     own_timer_t temp;
     setTimer(&temp, 8.0);
@@ -37,5 +40,9 @@ int main(void)
 
         playSoundFromMemory(sound, 127);
     }
+    
     endAudio();
+    
+    SDL_Quit();
+
 }

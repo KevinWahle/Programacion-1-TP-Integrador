@@ -1,7 +1,6 @@
-
 /***************************************************************************//**
   @file     +shared_res.h+
-  @brief    +Recursos compartidos entre los archivos del frontend allegro+
+  @brief    +Recursos compartidos entre los archivos del frontend Raspi+
   @author   +Grupo 3+
  ******************************************************************************/
 
@@ -19,7 +18,6 @@
 #include <allegro5/allegro_ttf.h> //Manejo de ttfs
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
-//Extensiones con acodec .wav, .flac, .ogg, .it, .mod, .s3m, .xm.
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -30,8 +28,8 @@
 #define D_HEIGHT  600   //Alto de pantalla
 #define FPS       60.0
 
-#define FIL_INVADERS 5                   // Cantidad de filas de invaders
-#define COL_INVADERS 9                   // Cantidad de columnas de invaders
+#define FIL_INVADERS 5  // Cantidad de filas de invaders
+#define COL_INVADERS 9  // Cantidad de columnas de invaders
 
 #define SIZE_FMU    50
 #define SIZE_FSC    28
@@ -43,7 +41,6 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-
 // Objeto UFO
 typedef struct 
 {
@@ -58,7 +55,6 @@ typedef struct
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-
 extern ALLEGRO_DISPLAY *display;
 extern ALLEGRO_BITMAP *canonPointer;
 extern ALLEGRO_EVENT_QUEUE *timer_queue;
@@ -93,6 +89,5 @@ void intochar(unsigned long int num, char chscore[LENG_SC]);
 
 /*******************************************************************************
  ******************************************************************************/
-
 
 #endif // _SHARED_RES_H_

@@ -14,14 +14,6 @@
 #include "scoretable.h"
 #include "ingame_stats.h"
 
-//REVISAR: ME PARECE QUE ESTO SE PODRÍA MOVER AL .c (Piensa Basili)
-#if PLATFORM == ALLEGRO
-#include "../Frontend/Allegro/headall.h" 
-
-#elif PLATFORM == RASPI
-#include "../Frontend/Raspi/headall.h" 
-#endif
-
 /*******************************************************************************
  * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/

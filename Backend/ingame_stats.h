@@ -15,15 +15,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-//REVISAR: ME PARECE QUE ESTO SE PODRÍA MOVER AL .c (ordena sherman, Basili comparte la moción)
-#if PLATFORM == ALLEGRO
-#include "../Frontend/Allegro/headall.h" 
-
-#elif PLATFORM == RASPI
-#include "../Frontend/Raspi/headall.h"
-#endif
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/

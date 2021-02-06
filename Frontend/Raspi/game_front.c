@@ -1,7 +1,6 @@
-// https://www.tutorialspoint.com/c_standard_library/time_h.htm
 /***************************************************************************//**
   @file     +game_front+
-  @brief    +Todos los reCcursos para el funcionamiento del juego+
+  @brief    +Todos los recursos para el funcionamiento del juego+
   @author   +Grupo3+
  ******************************************************************************/
 
@@ -9,6 +8,7 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 #include "headall.h"
+#include "shared_res.h"
 #include "../../Backend/event_queue/event_queue.h"
 
 /*******************************************************************************
@@ -44,14 +44,19 @@
 
 #define PPS_NODRIZA         7         // Pixeles por segundo (velocidad) de la nave nodriza
 #define PPS_CANON           20         // Pixeles por segundo (velocidad) del canon   
-#define PPS_BALA            28         // Pixeles por segundo (velocidad) de la bala
+#define PPS_BALA_INVADER    28         // Pixeles por segundo (velocidad) de la bala
+#define PPS_BALA_CANON      40
 #define MAX_PPS_INVADERS    14         // Máximos PPS (velocidad) de invaders
 #define MIN_PPS_INVADERS    7        // Mínimos PPS (velocidad) de invaders
 #define FPS 60.0
 
 #define TASA_DE_CAMBIO_CANON (PPS_CANON/FPS)           // Pixeles por refresco (velocidad) del canon   
-#define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
+//#define TASA_DE_CAMBIO_BALA (PPS_BALA/FPS)            // Pixeles por refresco (velocidad) de la bala
 #define TASA_DE_CAMBIO_NODRIZA (PPS_NODRIZA/FPS)         // Pixeles por refresco (velocidad) de la nave nodriza
+
+#define TASA_DE_CAMBIO_BALA_INVADER (PPS_BALA_INVADER/FPS) 
+#define TASA_DE_CAMBIO_BALA_CANON (PPS_BALA_CANON/FPS) 
+
 // La tasa de los invaders es variable
 
 // #define SHOT_HEIGHT 15                   // Tamanio del disparo, sirve para hacer la caja de colision
@@ -80,7 +85,7 @@
 #define MAX_CANON_SHOT 3                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
-//##### Shields ####
+//##### Shields #####
 
 #define TOTAL_SHIELDS 4                  // Para todo n, en particular n = 4
 
@@ -94,7 +99,7 @@
 
 
 #define MAX_POSIBILIY_OF_APPEAR_UFO  50
-#define MIN_POSIBILIY_OF_APPEAR_UFO  70  
+#define MIN_POSIBILIY_OF_APPEAR_UFO  500  
 
 #define DEATH_STATE STATE_1
 
@@ -108,17 +113,14 @@
 
 #define DIST_2 (SHIELD_PIXELS_WIDTH + PIXELS_B2IN_SHIELDS)
 
-
 //***********************************FIN REVISAR CONSTANTES*****************************************/
-
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-
 enum blockStates {STATE_0, STATE_1};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
 
-// Objeto shot
+//Clase shot
 typedef struct
 {
     float x;              // su posicion
@@ -135,7 +137,7 @@ typedef struct
     int width;
 }collBoxShot_t;
 
-//Objeto bloque
+//Clase bloque
 typedef struct 
 {
     float x;
@@ -145,7 +147,7 @@ typedef struct
     int state;           // Ya vimos que puede tener varios estados
 }block_t;
 
-//Objeto shield
+//Clase shield
 typedef struct
 {
     block_t blocks[SHIELDS_BLOCKS];
@@ -159,7 +161,7 @@ typedef struct
     direction_t direction;
 } canon_t;
 
-// Objeto invader
+//Clase invader
 typedef struct 
 {
     float x;
@@ -169,6 +171,7 @@ typedef struct
     int invaderType;    // Tipo de invader (SQUID, CRAB, OCTO)
 }invader_t;
 
+//Clase UFO
 typedef struct 
 {
     float x;
@@ -179,11 +182,9 @@ typedef struct
     direction_t direction;      //  El UFO puede aparecer desde la izquierda o desde la derecha
 } UFO_t;
 
-
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE (SOLO PARA SHARED_RES)
  ******************************************************************************/
-
 // Invaders matrix
 invader_t invaders[FIL_INVADERS][COL_INVADERS];
 
@@ -195,11 +196,9 @@ invader_t invaders[FIL_INVADERS][COL_INVADERS];
 //                                                   };
         /// VER SI TODOS VALEN LO MISMO O NO
 
-
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
-
 /**
  * @brief Ejecuta unC disparo del invader
  * @param i fila de la matriz de invader
@@ -332,20 +331,28 @@ static void restartTasas(void);
  * @param level Nivel actual a imprimir
  **/
 
+
+Audio * keyMoved = NULL;
+Audio * levelUp = NULL;
+
+Audio * shootSound = NULL;
+Audio * invaderSound = NULL;
+Audio * explosionSound = NULL;
+Audio * invKillSound = NULL;
+Audio * ufoSound = NULL;
+
 // CONTINUAR:
 static void updateCanonPos(canon_t *canonPointer);
 
 //######################################################
 //############## FUNCIONES ONLY RASPBERRY ##############
 //######################################################
-
 static void updateCanonBlocksPos(canon_t *canonPointer);
 static void cleanDisplay(void);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
-
 // Lista de los disparos de los invaders.
 static shot_t invaderShotList[MAX_INVADERS_SHOT];
 
@@ -370,7 +377,6 @@ UFO_t UFO_invader = {   .y = UFO_Y_POS,
                         .invaderState = 0     //Arranca muerta
                     };
 
-
 //TASAS DE CAMBIO VARIABLES:
 
 static shield_t shielders[TOTAL_SHIELDS];
@@ -381,13 +387,16 @@ static int probDisparoInvaders = MIN_POSIBILIY_OF_SHOT_FROM_INVADERS;
 static int probUfo = MIN_POSIBILIY_OF_APPEAR_UFO;
 
 static own_timer_t fpsTimer;
+static own_timer_t ufoSoundTimer;
+
+// SOLO PARA PROBAAR TIMER, DESPUES BORRAR
+static own_timer_t testTimer;
 
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-
 void init_game(void) {
 
     srand(time(0));
@@ -410,19 +419,55 @@ void init_game(void) {
     disp_update();
 
     setTimer(&fpsTimer, 1/FPS);     // Aca declaro el timer y el tiempo
+    setTimer(&ufoSoundTimer, UFO_SOUND_TIME);
     
     startTimer(&fpsTimer);      // Recien aca empieza el timer
+
+    //DEBUG:
+    setTimer(&testTimer, 1.0);     // Aca declaro el timer y el tiempo
+    startTimer(&testTimer);
 
 }
 
 
 void redraw(unsigned long int score, int lives, int level)
 { 
+    static BOOL ufoFlag = TRUE;
+
+
+// DEBUG
+    static unsigned long int cont = 0;
+
+    if (checkTimer(&testTimer)) {
+        printf("cont: %lu\n", cont++);
+    }
+//
+
+
     if (checkTimer(&fpsTimer))   // NOMBRE EVENTOOOO
     {
         cleanDisplay();
         shouldUFOappear();
         moveUFO();
+
+        if (UFO_invader.invaderState) {
+
+            if (ufoFlag) {
+                startTimer(&ufoSoundTimer);
+                playSoundFromMemory(ufoSound, SDL_MIX_MAXVOLUME);
+                ufoFlag = FALSE;
+            }
+
+            if (checkTimer(&ufoSoundTimer)) {
+                playSoundFromMemory(ufoSound, SDL_MIX_MAXVOLUME);
+            }
+
+        }
+        else {
+            ufoFlag = TRUE;
+            stopTimer(&ufoSoundTimer);
+        }
+
         getCanonShotCollision();
         shouldInvaderShot();
         getInvaderShotCollison();
@@ -438,8 +483,7 @@ void redraw(unsigned long int score, int lives, int level)
         drawAliveInvaders();  
         drawCanon();
         disp_update();
-    }
-    
+    } 
 }
 
 
@@ -516,31 +560,28 @@ void shoot_cannon(void)
     //}
 ///////////////////////////////////////////////////////////
 
-    // unsigned int k = 0;
-    // //printf("WATAFAKK MAN ESTOY A PUNTO DE CHEQUIAR LA LISTA Y EL ESTADO DE LA BALA ES: %d  !!!\n", canonShotList[0].shotState );
-    // while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
-    // {
-    //     k++;        // Busco un lugar en la lista (donde el disparo no este activo)
-    //     //printf("ENTRO AL WHILE!! k =%d\n", k);
-    // }
-    // //printf("Between el while y el if, k=%d\n", k);
-    // if(k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
-    //     // //printf("Creo nuevo disparo en k=%d\n", k);
-    //     // printf("El estado antes de crear el disparo era %d:\n", canonShotList[k].shotState);
-    //     canonShotList[k] = shot;
-    //     actualCanonShots++;
-    //     //En allegro la dibuja, PERO NO VOY A PRENDER LEDS, ESTA MAL QUE EL BACK DRAWEE 
-    // }
+    unsigned int k = 0;
+    while( (canonShotList[k].shotState != 0) && (k < MAX_CANON_SHOT) ) 
+    {
+        k++;        // Busco un lugar en la lista (donde el disparo no este activo)
+    }
+    if(k < MAX_CANON_SHOT) {       // Si hay lugar, creo la bala
+        canonShotList[k] = shot;
+        actualCanonShots++;
+        playSoundFromMemory(shootSound, SDL_MIX_MAXVOLUME);
+    }
 
     // OTRA FORMA DE RECORRER LA LISTA DE DISPAROS:
 
-    for (int i = 0; i < MAX_CANON_SHOT; i++) {
-        if (!canonShotList[i].shotState) {
-            canonShotList[i] = shot;
-            actualCanonShots++;
-            break;
-        }
-    }
+    // AUDIO
+    //for (int i = 0; i < MAX_CANON_SHOT; i++) {
+    //    if (!canonShotList[i].shotState) {
+    //        canonShotList[i] = shot;
+    //        actualCanonShots++;
+    //        playSoundFromMemory(shootSound, 127);
+    //        break;
+    //    }
+    //}
 
 }
 
@@ -797,9 +838,9 @@ static void getInvaderShotCollison(void)
                 foundShots++;
                 //Aca en allegro dibujaba la bala:
                 dcoord_t coord = { .x = invaderShotList[i].x, .y = invaderShotList[i].y  };
-                disp_write( coord, D_ON);       // REVISAR si hay que dibujarla aca
+                disp_write( coord, D_ON);       // REVISAR: si hay que dibujarla aca
 
-                invaderShotList[i].y += TASA_DE_CAMBIO_BALA;
+                invaderShotList[i].y += TASA_DE_CAMBIO_BALA_INVADER;
 
 
                 collBoxShot_t collBoxShotFromInvader = {  .x = invaderShotList[i].x ,
@@ -819,6 +860,7 @@ static void getInvaderShotCollison(void)
                         invaderShotList[i].shotState = 0;
                         colisionDetected++;
                         add_event(CANNON_COLL_EV);        // Agrego evento de colision con cannon
+                        playSoundFromMemory(explosionSound, SDL_MIX_MAXVOLUME);
                         reviveCanon();
                     }
                 }
@@ -860,7 +902,7 @@ static void getCanonShotCollision(void)
                 dcoord_t coord = { .x = (int)canonShotList[iCont].x, .y = (int)canonShotList[iCont].y  };  // Castia bien pa
                 disp_write( coord, D_ON);
 
-                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA;
+                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
 
                 collBoxShot_t collBoxShotFromCanon =   {  .x = canonShotList[iCont].x ,
                                                           .y = canonShotList[iCont].y ,
@@ -881,6 +923,7 @@ static void getCanonShotCollision(void)
                 {
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
+                    playSoundFromMemory(invKillSound, SDL_MIX_MAXVOLUME);
                     add_event(UFO_COLL_EV);
                 }
                 else      // getColisonOnInvaders();
@@ -902,6 +945,7 @@ static void getCanonShotCollision(void)
                                     canonShotList[iCont].shotState = 0;
                                     invaders[i][j].invaderState = 0;
                                     colisionDetected++;
+                                    playSoundFromMemory(invKillSound, SDL_MIX_MAXVOLUME);
                                     switch (invaders[i][j].invaderType)
                                     {
                                     case SQUID:

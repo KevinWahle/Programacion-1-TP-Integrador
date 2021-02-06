@@ -1,16 +1,17 @@
-TODO:
-- Controles en allegro              (arreglar lo de las flechitas)              
-- MUSIQUITA RASPI F                 La musiquita que se la ponga Pablo.
-- Nivel no aparece a partir de N.   
-- Borrar Make secundarios
+TODO:              
 - Mejorar las dependencias de los .h
-- Corregir: segmentation fault si se va a puntaje y archivo no creado
+- Revisar las dependencias del Makefile
 
 EXTRAS:
-- Distinta velocidad de bala para canon
-- Música en el menú
-- Sonido de win/lose
 
 HECHO:
 - Corregir Warnings que tira en allegro
 - MUSIQUITA ALLEGRO
+- Controles en allegro              (arreglar lo de las flechitas)
+- Corregir: segmentation fault si se va a puntaje y archivo no creado
+- MUSIQUITA RASPI
+- Borrar Make secundarios
+- Nivel no aparece a partir de N.
+- Música en el menú
+- Sonido de win/lose
+- Distinta velocidad de bala para canon

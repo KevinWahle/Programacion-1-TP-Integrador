@@ -78,6 +78,10 @@ int lect_score (SCORE* my_pun)
     int c;                      // Caracter a leer
     unsigned long int num;      // Numero con el puntaje
     int cant =-1;               // Contador. Cuenta  la canitdad de puntajes que tiene el archivo
+    
+    fp = fopen (ARCHIVO,"a+");  // Creo el archivo si es queno estaba creado
+    fclose(fp); 
+    
     fp=fopen (ARCHIVO,"r");     // Abro el archivo
     do
     {

@@ -17,7 +17,15 @@
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define SPEED_LAPSE 5       // Intervalo de tiempo en el que se aumenta la velocidad. 
+#define SPEED_LAPSE 5       // Intervalo de tiempo en el que se aumenta la velocidad.
+
+
+#if PLATFORM == ALLEGRO
+#include "../Frontend/Allegro/headall.h" 
+
+#elif PLATFORM == RASPI
+#include "../Frontend/Raspi/headall.h" 
+#endif
 
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
@@ -92,7 +100,7 @@ void up_menu(MENU_ITEM* menu, int menu_size){
                 if(actual_option>0){                            // Si el front solo permite mostrar las opciones esenciales:
                     actual_option--;                                                        //subimos en el menú hasta la siguiente opcion esencial siempre
                 }                                                                           //y cuando haya una arriba.
-            } while ((menu[actual_option]).essential==FALSE && menu_size/sizeof(MENU_ITEM) > actual_option); //REVISAR: Lo cambiamos recien.
+            } while ((menu[actual_option]).essential==FALSE && menu_size/sizeof(MENU_ITEM) > actual_option); 
     
     #else                                                                   // Si el front permite mostrar las opciones no esenciales:
         if(actual_option > 0){        
@@ -221,6 +229,7 @@ void click_menu_pause()
     #endif 
 }
 
+
 /**********************************************************
 *************  PAUSE/RESUME/START/QUIT   ******************
 **********************************************************/
@@ -336,7 +345,7 @@ void previous_letter()
         
         letter=actual_name[letter_counter];             // Cargo la anterior letra de la nueva ubicación.
 
-    //REVISAR:
+    
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
 
     }   
@@ -434,12 +443,6 @@ void saving_init()
     score_name_front(actual_name, NAME_SIZE, letter_counter, get_points());    
 }
 
-/* REVISAR: Esta funcion recien (8/1/21) la comenté. Parece que no sirve para nada. Verificar y, de ser así, borrar prototipo
-void show_name(void)
-{
-    score_name_front(actual_name, NAME_SIZE, letter_counter, get_points()); // Muestra la pantalla de carga de puntaje.
-}
-*/
 
 /**********************************************************
 *********************  COLLISION   ************************
@@ -503,6 +506,7 @@ void stop_cannon_right()
 {
    move_cannon(STOP_LEFT);
 }
+
 void stop_cannon_left()
 {
    move_cannon(STOP_RIGHT);

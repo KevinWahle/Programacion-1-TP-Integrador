@@ -7,7 +7,6 @@
 #ifndef HEADALL_H_
 #define HEADALL_H_
 
-
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
@@ -19,15 +18,11 @@
 #include "../../const.h"
 #include "../../Backend/scoretable.h" //Se necesita libreria para reconocer la estructura SCORE
 
-// ------------ESTA CREO QUE PODRÍA IR AL .c
 #include "../../Backend/event_queue/event_queue.h" //Se necesita libreria para reconocer las funcion add_event
-
-
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-
 enum DIRECTIONS {LEFT, RIGHT, STOP, STOP_LEFT, STOP_RIGHT, ERROR_DIREC}; // SOLUCIONAR LO DE ERROR_DIREC!!!! RANCIO
 
 typedef uint8_t direction_t;  // Necesario para move_cannon()
@@ -84,7 +79,6 @@ void update_front_event();
  * @brief Destruye los recursos empleados.
  **/
 void destroy_front();
-
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR IN-GAME

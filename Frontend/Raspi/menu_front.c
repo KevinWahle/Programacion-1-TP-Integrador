@@ -9,33 +9,29 @@
  ******************************************************************************/
 #include "headall.h"
 #include "digits.h"
+#include "shared_res.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
-#define NUMOFFSET       '0'     //Offset de numero entero a char
-#define MAYUSOFFSET     'A'     //Offset de letra ascii  
-#define MINUSOFFSET     'a'     //Offset de letra ascii
+#define NUMOFFSET       '0'     // Offset de numero entero a char
+#define MAYUSOFFSET     'A'     // Offset de letra ascii  
+#define MINUSOFFSET     'a'     // Offset de letra ascii
 #define LENG_SC         4  
-#define RANGE           50      //Rango mínimo de detección del joytick 
-#define SCREEN_DELAY    2       //Tiempo que se muestra el splash
-#define PAUSE_LAPSE     0.3     //Tiempo que se apreta el analógico para acceder al menu de pausa
-
+#define RANGE           50      // Rango mínimo de detección del joytick 
+#define SCREEN_DELAY    2       // Tiempo que se muestra el splash
+#define PAUSE_LAPSE     0.3     // Tiempo que se apreta el analógico para acceder al menu de pausa
 
 // MUSIC FILES:
 #define SAMPLES_NUMBER 100
-#define SPLASH_SOUND "Frontend/Sounds/IntroCheta.wav"
 
 #define KEY_MOVED "Frontend/Sounds/Menu_select.wav"
 #define LEVEL_UP "Frontend/Sounds/level-up-sound-effect (1).wav"
-#define FINAL_SONG "Frontend/Sounds/space-invaders-space-invaders (1).wav"
-
-#define SHOOT_SOUND "Frontend/Sounds/shoot.wav"
-#define INVADER_SOUND "Frontend/Sounds/fastinvader1.wav"
-#define EXPLOSION_SOUND "Frontend/Sounds/explosion.wav"
-#define INV_KILL_SOUND "Frontend/Sounds/invaderkilled.wav"
-#define UFO_SOUND "Frontend/Sounds/ufo_lowpitch.wav"
-
+#define SHOOT_SOUND "Frontend/Sounds/shoot2.wav"
+#define INVADER_SOUND "Frontend/Sounds/fastinvader12.wav"
+#define EXPLOSION_SOUND "Frontend/Sounds/explosion2.wav"
+#define INV_KILL_SOUND "Frontend/Sounds/invaderkilled2.wav"
+#define UFO_SOUND "Frontend/Sounds/ufo_lowpitch2.wav"
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -89,6 +85,22 @@ int init_front()
 {
     disp_init();
     joy_init();
+
+    if ( initAudio() == NO_INIT)    // Inicializo audio aca
+    {
+        fprintf(stderr, "Audio not initilized.\n");
+	    endAudio();
+	    return -1;
+    }
+
+    keyMoved = createAudio(KEY_MOVED, 0, 127);
+    levelUp = createAudio(LEVEL_UP, 0, 127);
+    shootSound = createAudio(SHOOT_SOUND , 0, 127);
+    invaderSound = createAudio( INVADER_SOUND , 0, 127);
+    explosionSound = createAudio( EXPLOSION_SOUND , 0, 127);
+    invKillSound = createAudio( INV_KILL_SOUND , 0, 127);
+    ufoSound = createAudio( UFO_SOUND , 0, 127);
+    
     return NO_ERROR;
 }
 
@@ -114,7 +126,6 @@ void splash_front()
         }
     }
     disp_update();
-
 }
 
 
@@ -123,21 +134,16 @@ void splash_front()
 */
 void show_menu (MENU_ITEM *menu_to_show, int size, int item)
 {
-    
+    playSoundFromMemory(keyMoved, SDL_MIX_MAXVOLUME);
+
     disp_clear();
     myPoint = (dcoord_t) {0,6};
-    for(int i=0; menu_to_show[item].option[i]!='\0' && i<LENG_SC; i++){   //Maximo 4 letras por palabra
+    for(int i=0; menu_to_show[item].option[i]!='\0' && i<LENG_SC; i++){   // Maximo 4 letras por palabra
         whatisit (menu_to_show[item].option[i]);
-        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
+        show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); // Imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += 4; //muevo el puntero cuatro posiciones (2 de la letra acutal + el espacio + la nueva letra)
     }
-
-    /*/// PAUSA
-    own_timer_t timer_splash;
-    setTimer(&timer_splash, SCREEN_DELAY);
-    startTimer(&timer_splash);
-    while (!checkTimer(&timer_splash));
-    /// */
+    disp_update();
 }
 
 
@@ -155,6 +161,7 @@ void show_score (SCORE* score ,int size)
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
+    disp_update();                                    // Muestro en pantalla 
 
     num=score[0].pts;
     intochar(num,chscore);
@@ -164,6 +171,7 @@ void show_score (SCORE* score ,int size)
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
+    disp_update();
 }
 
 
@@ -254,6 +262,10 @@ void show_level_screen (int level) {
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
+    disp_update();
+
+    playSoundFromMemory(levelUp, SDL_MIX_MAXVOLUME);
+
 }
 
 
@@ -262,6 +274,9 @@ void show_level_screen (int level) {
 */
 void score_name_front(char* actual_name, int size, int letter_counter, unsigned long int score)
 {    
+
+    playSoundFromMemory(keyMoved, SDL_MIX_MAXVOLUME);
+
     disp_clear();
     char chscore[LENG_SC+1];
     myPoint = (dcoord_t) {0,1};
@@ -271,8 +286,9 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint);
         myPoint.x += DIGIT_COL+1;
     }
-    
-    for (int i=0; i<DIGIT_COL; i++){        //Imprime la barra que indica la letra   
+    disp_update();                                    // Muestro en pantalla 
+
+    for (int i=0; i<DIGIT_COL; i++){        // Imprime la barra que indica la letra   
         if (letter_counter*(DIGIT_COL+1)+i<DISP_CANT_X_DOTS){    
             myPoint = (dcoord_t) {letter_counter*(DIGIT_COL+1)+i, 2+ DIGIT_ROW}; // Columna 4*NUMERO DE LETRA, fila 7 (2 espacios+5 de letra)
             disp_write(myPoint, D_ON);             // Enciendo el led correspondiente    
@@ -286,6 +302,8 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
         show_matrix (DIGIT_COL, DIGIT_ROW, myPoint); //imprimo la letra (que siempre va a ser de 3*5)
         myPoint.x += DIGIT_COL+1; //muevo el puntero el grosor de la letra + el espacio.
     }
+    disp_update();
+
 }
 
 
@@ -293,7 +311,7 @@ void score_name_front(char* actual_name, int size, int letter_counter, unsigned 
  * @brief Finaliza el programa y muestra la imagen de finalización
  **/
 void destroy_front(){
-    int state;
+    int state; // Muestro imagen de finalización
     disp_clear();
     for(int i=0; i<8; i++) {
         myPoint.y = i+4;
@@ -315,6 +333,15 @@ void destroy_front(){
     startTimer(&timer_splash);
     while (!checkTimer(&timer_splash));
 
+    endAudio();     // DESTRUYO AUDIO   
+    freeAudio(keyMoved);
+    freeAudio(levelUp);
+    freeAudio(shootSound);
+    freeAudio(invaderSound);
+    freeAudio(explosionSound);
+    freeAudio(invKillSound);
+    freeAudio(ufoSound);
+
     disp_clear();
     fprintf(stderr, "See you next time...\n\n");
 }
@@ -327,21 +354,20 @@ void destroy_front(){
 /**
  * @brief Muestra en pantalla la matriz seleccionada.
 */
-void show_matrix (int col, int row, dcoord_t cord)  //NOTA: NO VERIFICA QUE NO TE PASES DE LOS  VALORES DE FILA Y COUMNA
+void show_matrix (int col, int row, dcoord_t cord)  
 {
     dcoord_t myPunto;
     for (int j=0; j<row; j++){  
         for (int i=0; i<col; i++){
-            myPunto = (dcoord_t) {i+cord.x,j+cord.y};               //Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
+            myPunto = (dcoord_t) {i+cord.x,j+cord.y}; // Cargo la matriz que me pasan desde la cordanada indicada y voy incrementando su puntero
             if (my_char[j][i]==1) {
-                disp_write(myPunto, D_ON);             // Enciendo el led correspondiente
+                disp_write(myPunto, D_ON);      // Enciendo el led correspondiente
             }
             else {
-                disp_write(myPunto, D_OFF);           // Enciendo el led correspondiente
+                disp_write(myPunto, D_OFF);     // Apaga el led correspondiente
             }
         }
     }
-    disp_update();                                    // Muestro en pantalla   
 }
 
 

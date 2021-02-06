@@ -22,11 +22,9 @@ typedef struct {
   clock_t elapsed;
 } own_timer_t;
 
-
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
-
 /**
  * @brief Agrega un timer a la lista de timers
  * @param timer: Timer a establecer.

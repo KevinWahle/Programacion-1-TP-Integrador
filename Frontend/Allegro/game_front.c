@@ -19,7 +19,7 @@
  ******************************************************************************/
 #define PPS_NODRIZA         120         // Píxeles por segundo (velocidad) de la nave nodriza
 #define PPS_CANON           275         // Píxeles por segundo (velocidad) del canon   
-#define PPS_BALA_CANON      300         // Píxeles por segundo (velocidad) de la bala
+#define PPS_BALA_CANON      875         // Píxeles por segundo (velocidad) de la bala
 #define PPS_BALA_INVADER    150         // Píxeles por segundo (velocidad) de la bala
 #define MAX_PPS_INVADERS    300         // Máximos PPS (velocidad) de invaders
 #define MIN_PPS_INVADERS    15         // Mínimos PPS (velocidad) de invaders
@@ -46,7 +46,7 @@
 
 #define MAX_INVADERS_SHOT 20             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 
-#define MAX_CANON_SHOT 15                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
+#define MAX_CANON_SHOT 2                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
 
 
 #define CANNON_RESIZE_PERCENT    1.5     // Factor de ajuste de tamanio del bitmap, > 1 => se agranda el bitmap
@@ -130,7 +130,7 @@ static char *blockColors[BLOCK_LIVES] = {   COLOR_STATE_0,
 // };
 
 
-// Objeto invader
+// Clase invader
 typedef struct 
 {
     float x;
@@ -140,7 +140,7 @@ typedef struct
     ALLEGRO_BITMAP **invadersPointer;   // Puntero a puntero, para poder cambiarlo dinámicamente
 }invader_t;
 
-// Objeto shot
+// Clase shot
 typedef struct  
 {
     float x;              // su posicion
@@ -148,16 +148,16 @@ typedef struct
     int shotState;       // si "existe" o no
 }shot_t;
 
-// Objeto caja de disparo. A todos los objetos capaces de colisionar, para la dteccion de colision se le arma una caja de colision que sirve para el algoritmo de deteccion de colision
+// Clase caja de disparo. A todos los objetos capaces de colisionar, para la dteccion de colision se le arma una caja de colision que sirve para el algoritmo de deteccion de colision
 typedef struct 
 {
     int x;         // Alcanza con la posicion del punto de arriba a la izquierda de la caja y el ancho y largo
     int y;
-    int height;
+    int height;    
     int width;
 }collBoxShot_t;
 
-//Objeto bloque
+//Clase bloque
 typedef struct 
 {
     int x;
@@ -168,7 +168,7 @@ typedef struct
     char *color;         // Apunta al string del color que deberia tener dependiendo el estado en que este
 }block_t;
 
-//Objeto shield
+//Clase shield
 typedef struct
 {
     block_t block_1;     //Aclaracion: El shield tiene 5 blocks. Por eso no se puede hacer un shields con mas o menos blocks
@@ -378,14 +378,16 @@ static const int invadersDistribution [FIL_INVADERS] = {
                                                   };
 
 
-// Lista de los disparos de los invaders.
-static shot_t invaderShotList[MAX_INVADERS_SHOT];
+
 
 // Contador de la cantidad de balas disparadas por los invaders
 static int actualInvadersShots; 
 // Contador de la cantidad de balas disparadas por el canon
 static int actualCanonShots;
 
+
+// Lista de los disparos de los invaders.
+static shot_t invaderShotList[MAX_INVADERS_SHOT];
 
 // El cañón
 static cannonPosition_t cannonXpos = 0;
@@ -933,14 +935,6 @@ static void getCanonShotCollision(void)
 
                 al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
                 canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
-                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
-                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
-                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
-                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
-                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
-                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
-                al_draw_line( canonShotList[iCont].x, canonShotList[iCont].y, canonShotList[iCont].x , canonShotList[iCont].y - SHOT_HEIGHT, al_color_name("white"), 0 );
-                canonShotList[iCont].y -= TASA_DE_CAMBIO_BALA_CANON;
 
                 collBoxShot_t collBoxShotFromCanon =   {  .x = canonShotList[iCont].x - SHOT_WIDTH/2 ,
                                                           .y = canonShotList[iCont].y - SHOT_HEIGHT ,
@@ -1061,7 +1055,7 @@ static void drawAliveInvaders(void)
  */
 static int isCollision(collBoxShot_t* box1, collBoxShot_t* box2)
 {
-    if(box1->x < box2->x + box2->width &&                          // Algoritmo para ver si dos cajas estan chocando
+    if(box1->x < box2->x + box2->width &&                          // Para ver si dos cajas estan chocando
        box2->x < box1->x + box1->width &&
        box1->y < box2->y + box2->height &&
        box2->y < box1->y + box1->height)
@@ -1111,7 +1105,9 @@ static direction_t moveInvaders(direction_t direction)
     }
     return nextDirection;
 }
-
+/**
+ * @brief Mueve el conjunto invader
+ */
 static void updateCannonPos(void)
 {
     switch(cannonDir)
@@ -1258,7 +1254,7 @@ static void shouldInvaderShot(void)
 static void createShield(int x_shield, int y_shield, shield_t *shield)
 {
     shield->block_1.x = x_shield;
-    shield->block_1.y = y_shield;     // Algunos pensaran que esta hardcodeado, pues si, cada bloque se debe decidir, no hay patron generico
+    shield->block_1.y = y_shield;    
     shield->block_1.state = STATE_0;
     shield->block_1.color = blockColors[STATE_0];
     shield->block_1.width = B_WIDTH;

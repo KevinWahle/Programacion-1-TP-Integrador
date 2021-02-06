@@ -95,8 +95,6 @@ enum ERRORES		// Distintos tipos de errores
 
 typedef uint8_t BOOL;
 
-// REVISAR: Me suena medio raro que vaya acá.
-
 // Estructura utilizada para cada una de las opciones clickeables 
 // en los diferentes menúes.
 typedef struct {
@@ -106,13 +104,13 @@ typedef struct {
 } MENU_ITEM;
 
 // Identificadores para las diferentes especies de invaders.
+// NOTA: Conviene definirlo así para funciones internas.
 enum INVADERS{
     CRAB = 0,
     OCTO,
     SQUID,
     UFO,
 };
-// NOTA: Conviene definirlo así para funciones internas.
 
 #define TYPES_INVADERS	4	// Cantidad de especies de invaders.
 #define INIT_LIFES 3		// Cantidad inicial de vidas por partida.
