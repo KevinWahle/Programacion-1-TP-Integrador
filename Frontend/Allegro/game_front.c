@@ -581,7 +581,6 @@ void placeInvaders(void)
  * @param dir la direccion a la que se desea mover. STOP si se desea parar
 */
 void move_cannon(direction_t dir)
-{
     static BOOL moving_left = FALSE;
     static BOOL moving_right = FALSE;
     
