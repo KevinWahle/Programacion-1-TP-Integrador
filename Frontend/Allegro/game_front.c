@@ -9,10 +9,9 @@
  ******************************************************************************/
 #include <stdio.h>  // SOLO PARA DEBUGEAR
 #include <stdlib.h>
-#include <time.h>
+// #include <time.h>
 #include <stdbool.h>
 #include <stdint.h>  
-//#include <string.h>
 
 #include "headall.h"
 #include "shared_res.h"
@@ -48,8 +47,6 @@
 #define BIG_INVADER_POINTER (octoPointer[0])    // El puntero al invader más grande
 
 // Lists of shoots
-
-
 
 #define MAX_INVADERS_SHOT 8             // Es la mayor cantidad de disparos de los invaders que puede llegar a haber en el juego
 #define MAX_CANON_SHOT 1                 // Es la mayor cantidad de disparos del canon que puede haber en el juego. Es decir la max cant. de balas visibles
@@ -131,12 +128,6 @@ static char *blockColors[BLOCK_LIVES] = {   COLOR_STATE_0,
                                             COLOR_STATE_3,          // Despues, agregar aca, en el arreglo
                                         };
 
-
-// enum MYKEYS {
-//     KEY_SPACE, KEY_DOWN, KEY_LEFT, KEY_RIGHT //arrow keys
-// };
-
-
 // Clase invader
 typedef struct 
 {
@@ -188,19 +179,18 @@ typedef struct
 
 typedef float cannonPosition_t;
 
-
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE (SOLO PARA SHARED_RES)
  ******************************************************************************/
 
 /************ALLEGRO VARIABLES DEFINITION***************/
-ALLEGRO_BITMAP *canonPointer = NULL;
-ALLEGRO_EVENT_QUEUE *timer_queue = NULL;
+ALLEGRO_BITMAP *canonPointer = NULL;             // Tambien utilizada por menu_front
+ALLEGRO_EVENT_QUEUE *timer_queue = NULL;        // Cola de eventos para el timer
 ALLEGRO_TIMER *timer = NULL;
 ALLEGRO_FONT *fontsc = NULL;
 ALLEGRO_FONT *fontgm = NULL;
 
-ALLEGRO_SAMPLE *shootSound = NULL;
+ALLEGRO_SAMPLE *shootSound = NULL;          // Todo esto se inicializa en menu_front
 ALLEGRO_SAMPLE *explosionSound = NULL;
 ALLEGRO_SAMPLE *invaderSound = NULL;
 ALLEGRO_SAMPLE *invaderKilledSound = NULL;
@@ -208,12 +198,11 @@ ALLEGRO_SAMPLE *UFOSound = NULL;
 ALLEGRO_SAMPLE *levelUpSound = NULL;
 ALLEGRO_SAMPLE *finalSong = NULL;
 
-
 ALLEGRO_BITMAP *squidPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *crabPointer[INVADERS_STATES];
 ALLEGRO_BITMAP *octoPointer[INVADERS_STATES];
 
-UFO_t UFO_invader = {   .y = UFO_HEIGHT,    
+UFO_t UFO_invader = {   .y = UFO_HEIGHT,         // Tambien utilizada por menu_front
                         .invaderType = UFO,
                         .invaderState = 0     //Arranca muerta
                     };
@@ -301,7 +290,7 @@ static void drawShields(void);
 static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
 
 /**
- * @brief chequea si cambiar la direccion o no
+ * @brief chequea si hay que cambiar la direccion o no
  * @param direction la direccion con la que se venia moviendo 
  * @return la direccion a la que haya que ir
 **/
@@ -328,21 +317,6 @@ static void shouldUFOappear(void);
  * @brief Actualiza la posicion y dibuja el cannon
 */
 static void drawCannon(void);
-
-// /**
-//  * @brief Muestra en pantalla los puntos de la partida.
-//  **/
-// void update_points(int score);
-
-// /**
-//  * @brief Muestra en pantalla las vidas restantes de la partida.
-//  **/
-// void update_lives(int lives);
-
-// /**
-//  * @brief Muestra en pantalla el nivel actual.
-//  **/
-// void update_level (int level);
 
 /**
  * @brief Resetea tasas de velocidades y probabilidades de disparo
@@ -374,7 +348,7 @@ static ALLEGRO_BITMAP *actualOctoPointer;
 static ALLEGRO_SAMPLE_ID UFOSoundID;
 
 // Invaders matrix
-static invader_t invaders[FIL_INVADERS][COL_INVADERS];
+static invader_t invaders[FIL_INVADERS][COL_INVADERS];      
 
 static const int invadersDistribution [FIL_INVADERS] = {
                                                   SQUID,
@@ -383,8 +357,6 @@ static const int invadersDistribution [FIL_INVADERS] = {
                                                   OCTO,
                                                   OCTO,
                                                   };
-
-
 
 
 // Contador de la cantidad de balas disparadas por los invaders
@@ -685,22 +657,17 @@ void shoot_cannon(void)
                     .shotState = 1
                   };
     int k = 0;
-    // printf("FIRST VALUE K = %d\n", k);
     while (canonShotList[k].shotState != 0 && k < MAX_CANON_SHOT) {
         k++;        // Busco un lugar en la lista (donde el disparo no este activo)
-        // printf("ENTRO AL WHILE!! k =%d\n", k);
     }
     if (k < MAX_CANON_SHOT) {
         canonShotList[k] = shot;
         actualCanonShots++;
-        al_draw_line(x_shot, y_shot, x_shot, y_shot - 15 , al_color_name("white"), 0);    // Creo que aca no deberia dibujar
+        al_draw_line(x_shot, y_shot, x_shot, y_shot - 15 , al_color_name("white"), 0);
         
         // Sonido de disparo:
         al_play_sample(shootSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
     }
-        // printf("AFTER TODO K = %d\n", k);
-    // ARRAY OVERFLOW
-                  // TODO: Cambiar por codigo de error
 }
 
 
@@ -785,7 +752,7 @@ void clean_shoots(void)
 
 void update_speed_front(int newSpeed, int maxSpeed) 
 {
-    //Si MIN speed es 0
+    //MIN speed es 0
     tasaDeCambioInvaders = (MAX_SPEED_INVADER - MIN_SPEED_INVADER)*newSpeed/maxSpeed + MIN_SPEED_INVADER;
     probDisparoInvaders =  ((MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS) - (MIN_POSIBILIY_OF_SHOT_FROM_INVADERS - MAX_POSIBILIY_OF_SHOT_FROM_INVADERS)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_SHOT_FROM_INVADERS;
     probUfo = ((MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO) - (MIN_POSIBILIY_OF_APPEAR_UFO - MAX_POSIBILIY_OF_APPEAR_UFO)*newSpeed/maxSpeed ) + MAX_POSIBILIY_OF_APPEAR_UFO;
@@ -858,10 +825,7 @@ static void invaderShot(int i, int j)
         invaderShotList[k] = shot;
         actualInvadersShots++;
         al_draw_line(x_shot, y_shot, x_shot, y_shot + 15 , al_color_name("white"), 0);
-               // TODO: Cambiar por codigo OK
     }
-    // ARRAY OVERFLOW
-               // TODO: Cambiar por codigo de error
 }
 
 
