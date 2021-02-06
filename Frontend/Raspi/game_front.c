@@ -404,16 +404,6 @@ void redraw(unsigned long int score, int lives, int level)
 { 
     static BOOL ufoFlag = TRUE;
 
-
-// DEBUG
-    static unsigned long int cont = 0;
-
-    if (checkTimer(&testTimer)) {
-        printf("cont: %lu\n", cont++);
-    }
-//
-
-
     if (checkTimer(&fpsTimer))   // NOMBRE EVENTOOOO
     {
         cleanDisplay();
