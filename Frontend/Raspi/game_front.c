@@ -120,7 +120,7 @@
  ******************************************************************************/
 enum blockStates {STATE_0, STATE_1};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
 
-//Clase shot
+// Objeto shot
 typedef struct
 {
     float x;              // su posicion
@@ -137,7 +137,7 @@ typedef struct
     int width;
 }collBoxShot_t;
 
-//Clase bloque
+//Objeto bloque
 typedef struct 
 {
     float x;
@@ -147,7 +147,7 @@ typedef struct
     int state;           // Ya vimos que puede tener varios estados
 }block_t;
 
-//Clase shield
+//Objeto shield
 typedef struct
 {
     block_t blocks[SHIELDS_BLOCKS];
@@ -161,7 +161,7 @@ typedef struct
     direction_t direction;
 } canon_t;
 
-//Clase invader
+// Objeto invader
 typedef struct 
 {
     float x;
@@ -171,7 +171,6 @@ typedef struct
     int invaderType;    // Tipo de invader (SQUID, CRAB, OCTO)
 }invader_t;
 
-//Clase UFO
 typedef struct 
 {
     float x;
