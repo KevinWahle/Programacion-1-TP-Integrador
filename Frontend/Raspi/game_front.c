@@ -82,7 +82,7 @@
 
 //##### Shields #####
 
-#define TOTAL_SHIELDS 4                  // Para todo n, en particular n = 4
+#define TOTAL_SHIELDS 4                  // Para todo n razonable, en particular n = 4
 
 
 //TOPES MAXIMOS Y MINIMOS DE VELOCIDAD DE INVADERS Y PROBABILIDADES
@@ -95,7 +95,7 @@
 #define MAX_POSIBILIY_OF_APPEAR_UFO  130
 #define MIN_POSIBILIY_OF_APPEAR_UFO  200  
 
-#define DEATH_STATE STATE_2           
+#define DEATH_STATE STATE_2      // DEATH_STATE para los bloques     
 
 //********************CONSTANTES DE RASPI, EN PARTICULAR LA DE BLOQUES****************************/
 
@@ -112,7 +112,8 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-enum blockStates {STATE_0, STATE_1, STATE_2};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
+enum blockStates {STATE_0, STATE_1, STATE_2};   // STATE_0 seria el estado del bloque sin danios. STATE_2 en este caso es el ultimo estado
+                                                // Sirve para N casos, ACORDARSE de cambiar el define de DEATH_STATE si se agregan o se sacan estados. Death state seria el ultimo estado tipiado
 
 //Clase shot
 typedef struct
@@ -122,7 +123,7 @@ typedef struct
     int shotState;       // si "existe" o no
 }shot_t;
 
-// Objeto caja de disparo. A todos los objetos capaces de colisionar, para la dteccion de colision se le arma una caja de colision que sirve para el algoritmo de deteccion de colision
+// Clase caja de disparo. A todos los objetos capaces de colisionar, para la dteccion de colision se le arma una caja de colision que sirve para el algoritmo de deteccion de colision
 typedef struct 
 {
     int x;         // Alcanza con la posicion del punto de arriba a la izquierda de la caja y el ancho y largo
@@ -180,9 +181,9 @@ typedef struct
  * VARIABLES WITH GLOBAL SCOPE (SOLO PARA SHARED_RES)
  ******************************************************************************/
 // Invaders matrix
-invader_t invaders[FIL_INVADERS][COL_INVADERS];
+invader_t invaders[FIL_INVADERS][COL_INVADERS];             // Tambien utilizada en menu_front
 
-Audio * keyMoved = NULL;
+Audio * keyMoved = NULL;                                    // variables inicializadas en menu_front
 Audio * levelUp = NULL;
 
 Audio * shootSound = NULL;
@@ -249,11 +250,11 @@ static void placeShields(void);
 static void drawShields(void);
 
 /**
- * @brief Se fija si una CAJA choco con algun bloque
+ * @brief Se fija si una CAJA choco con algun Shield
  * @param collBoxShot_t* Puntero a la caja de lo que quiere chequear si colisiono o no 
  * @return 1 si choco 0 si no
 */
-static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
+static int getCollisionOnShielders(collBoxShot_t *boxOfTheShot);
 
 /**
  * @brief Ve si dos cajas estan chocando o no
@@ -308,7 +309,13 @@ static void restartTasas(void);
 //######################################################
 //############## FUNCIONES ONLY RASPBERRY ##############
 //######################################################
+/**
+ * @brief Actualiza la posicion de todos los bloques ligados al objeto canon
+ **/
 static void updateCanonBlocksPos(canon_t *canonPointer);
+/**
+ * @brief Apaga todos los LED's del display
+ **/
 static void cleanDisplay(void);
 
 /*******************************************************************************
@@ -388,16 +395,16 @@ void redraw(unsigned long int score, int lives, int level)
 { 
     static BOOL ufoFlag = TRUE;
 
-    if (checkTimer(&fpsTimer))   // NOMBRE EVENTOOOO
+    if (checkTimer(&fpsTimer))   // timer
     {
         cleanDisplay();
         shouldUFOappear();
         moveUFO();
 
-        if (UFO_invader.invaderState) {
+        if (UFO_invader.invaderState) {                            // El codigo dentro del bloque de este if fue una solucion enroscada para lidiar con
 
-            if (ufoFlag) {
-                startTimer(&ufoSoundTimer);
+            if (ufoFlag) {                                         // las pocas herramientas que ofrece la libreria de audio.
+                startTimer(&ufoSoundTimer);                        // Audio de UFO
                 playSoundFromMemory(ufoSound, SDL_MIX_MAXVOLUME);
                 ufoFlag = FALSE;
             }
@@ -412,7 +419,7 @@ void redraw(unsigned long int score, int lives, int level)
             stopTimer(&ufoSoundTimer);
         }
 
-        getCanonShotCollision();
+        getCanonShotCollision();                      
         shouldInvaderShot();
         getInvaderShotCollison();
         if( !is_invadersOnFloor()  )
@@ -629,9 +636,9 @@ int checkWin(void)
 
 static void updateCanonBlocksPos(canon_t *canon)
 {
-    canon->blocks[0].x = canon->x + 1;
-    canon->blocks[0].y = canon->y;
-
+    canon->blocks[0].x = canon->x + 1;            // Si si quisiera cambiar la forma de distribucion de los bloques que conforman el canon
+    canon->blocks[0].y = canon->y;                // habria que escribir en este segmento de codigo se posicion relativa a los demas
+                                                  // Por lo que no esta pensado para que sea trivial el cambio de bloques del canon
     canon->blocks[1].x = canon->x;
     canon->blocks[1].y = canon->y + 1;
 
@@ -644,9 +651,9 @@ static void updateCanonBlocksPos(canon_t *canon)
 
 static void updateInvadersBlocksPos(int i, int j)
 {
-    // Actualizo el primer bloque de la estructura.
-    invaders[i][j].blocks[0].x = invaders[i][j].x;
-    invaders[i][j].blocks[0].y = invaders[i][j].y;
+    // Actualizo el primer bloque de la estructura.          // Los invaders, que estan conformados por dos bloques, ocurre algo similiar al canon
+    invaders[i][j].blocks[0].x = invaders[i][j].x;           // No resulta trivial la agregacion de nuevas formas aunque se puede
+    invaders[i][j].blocks[0].y = invaders[i][j].y;           
 
     // Actualizo el segundo bloque de la estructura.
     invaders[i][j].blocks[1].x = invaders[i][j].x + 1;
@@ -655,7 +662,7 @@ static void updateInvadersBlocksPos(int i, int j)
 
 static void updateUfoBlocksPos(void)
 {   
-    UFO_invader.blocks[0].x = UFO_invader.x;
+    UFO_invader.blocks[0].x = UFO_invader.x;                        // Idem que con canon e invaders
     UFO_invader.blocks[0].y = UFO_invader.y;
 
     UFO_invader.blocks[1].x = UFO_invader.x + 1;
@@ -694,13 +701,13 @@ static void drawCanon(void)
 {
     updateCanonPos(&canon);
     canon_t canonAux = canon;
-    canonAux.x = (int)canon.x;      // Para castear a int
+    canonAux.x = (int)canon.x;     
     updateCanonBlocksPos(&canonAux);
     for (int i = 0; i < CANON_BLOCKS; i++)
     {
-      dcoord_t coord = { .x = canonAux.blocks[i].x, .y = canonAux.blocks[i].y};   // Casteo a int, en realidad a uint8_t deberia ser
-      disp_write(coord , D_ON );
-    }
+      dcoord_t coord = { .x = canonAux.blocks[i].x, .y = canonAux.blocks[i].y};   // Casteo a de float a uint8_t
+      disp_write(coord , D_ON );                                                  // Recordar que la posicion en x esta dada por un float pero el display es discreto
+    }                             
 }
 
 static void cleanDisplay(void)
@@ -782,7 +789,7 @@ static void getInvaderShotCollison(void)
                         reviveCanon();
                     }
                 }
-                if( getCollisionOnBlock( &collBoxShotFromInvader )  && !colisionDetected )   // Choque con algun shield ?
+                if( getCollisionOnShielders( &collBoxShotFromInvader )  && !colisionDetected )   // Choque con algun shield ?
                 {
                     invaderShotList[i].shotState = 0;
                     colisionDetected++;
@@ -832,7 +839,7 @@ static void getCanonShotCollision(void)
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
                 }
-                else if( getCollisionOnBlock( &collBoxShotFromCanon ) )
+                else if( getCollisionOnShielders( &collBoxShotFromCanon ) )
                 {
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
@@ -1178,7 +1185,7 @@ static void drawShields(void)
 }
 
 
-static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)    
+static int getCollisionOnShielders(collBoxShot_t *boxOfTheShot)    
 {
     int colision = 0;
     int i = 0;
@@ -1244,7 +1251,7 @@ static void shouldUFOappear(void)
 static int getColisionOnUFO(collBoxShot_t *boxOfTheShot)
 {
     int colision = 0;
-    if(UFO_invader.invaderState)                            // Si hay un ufo entonces puede llegar a haber una colsion, entonces chequeo
+    if(UFO_invader.invaderState)                            // Si hay un ufo entonces puede llegar a haber una colIsion, entonces chequeo
     {
         collBoxShot_t boxOfUFO = {  .x = UFO_invader.x,
                                     .y = UFO_invader.y,

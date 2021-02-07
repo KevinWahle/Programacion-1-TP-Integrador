@@ -283,11 +283,11 @@ static void placeShields(void);
 static void drawShields(void);
 
 /**
- * @brief Se fija si una CAJA choco con algun bloque
+ * @brief Se fija si una CAJA choco con algun Shielder
  * @param collBoxShot_t* Puntero a la caja de lo que quiere chequear si colisiono o no 
  * @return 1 si choco 0 si no
 **/
-static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot);
+static int getCollisionOnShielders(collBoxShot_t *boxOfTheShot);
 
 /**
  * @brief chequea si hay que cambiar la direccion o no
@@ -867,7 +867,7 @@ static void getInvaderShotCollison(void)
                     al_play_sample(explosionSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     reviveCanon();
                 }
-                else if( getCollisionOnBlock( &collBoxShotFromInvader ) )   // Choque con bloque
+                else if( getCollisionOnShielders( &collBoxShotFromInvader ) )   // Choque con bloque
                 {
                     invaderShotList[i].shotState = 0;
                     colisionDetected++;
@@ -914,7 +914,7 @@ static void getCanonShotCollision(void)
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
                 }
-                else if( getCollisionOnBlock( &collBoxShotFromCanon ) )
+                else if( getCollisionOnShielders( &collBoxShotFromCanon ) )
                 {
                     canonShotList[iCont].shotState = 0;
                     colisionDetected++;
@@ -1306,7 +1306,7 @@ static void drawShields(void)
 }
 
 
-static int getCollisionOnBlock(collBoxShot_t *boxOfTheShot)
+static int getCollisionOnShielders(collBoxShot_t *boxOfTheShot)
 {
     int colision = 0;
     int i = 0;
