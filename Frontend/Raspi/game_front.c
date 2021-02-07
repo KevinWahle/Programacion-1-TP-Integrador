@@ -95,7 +95,7 @@
 #define MAX_POSIBILIY_OF_APPEAR_UFO  130
 #define MIN_POSIBILIY_OF_APPEAR_UFO  200  
 
-#define DEATH_STATE STATE_1
+#define DEATH_STATE STATE_2           
 
 //********************CONSTANTES DE RASPI, EN PARTICULAR LA DE BLOQUES****************************/
 
@@ -112,7 +112,7 @@
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
-enum blockStates {STATE_0, STATE_1};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
+enum blockStates {STATE_0, STATE_1, STATE_2};   // STATE_0 seria el estado del bloque sin danios. STATE_4 en este caso es el ultimo estado
 
 //Clase shot
 typedef struct
