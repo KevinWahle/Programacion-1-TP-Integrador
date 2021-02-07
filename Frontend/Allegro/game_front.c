@@ -936,7 +936,7 @@ static void getCanonShotCollision(void)
                             if( invaders[i][j].invaderState  )
                             {
                                 collBoxShot_t invaderBox = {  .x = invaders[i][j].x ,
-                                                              .y = invaders[i][j].y ,           // TODO: Hacer una estructura o constante
+                                                              .y = invaders[i][j].y ,           
                                                               .height = AL_GET_INVADER_HEIGHT(*invaders[i][j].invadersPointer),
                                                               .width = AL_GET_INVADER_WIDTH(*invaders[i][j].invadersPointer)
                                                            };

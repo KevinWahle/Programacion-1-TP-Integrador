@@ -15,6 +15,11 @@
 #elif PLATFORM == RASPI
 #include "../Frontend/Raspi/headall.h"
 #endif
+
+#include "../const.h"
+#include <time.h> 
+#include <stdlib.h>
+#include <stdio.h>
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/

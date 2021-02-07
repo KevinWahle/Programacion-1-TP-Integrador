@@ -8,14 +8,6 @@
 #define _INGAME_STATS_H_
 
 /*******************************************************************************
- * INCLUDE HEADER FILES
- ******************************************************************************/
-#include "../const.h"
-#include <time.h> 
-#include <stdlib.h>
-#include <stdio.h>
-
-/*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 #define MIN_SPEED        1    // Velocidad mínima de los aliens.

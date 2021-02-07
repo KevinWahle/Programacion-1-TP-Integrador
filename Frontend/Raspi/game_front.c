@@ -43,8 +43,7 @@
 #define UFO_Y_POS 0
 
 #define TOTAL_SHIELDS 4
-
-//*********************************REVISAR CONSTANTES************************  
+  
 
 #define PPS_NODRIZA         7         // Pixeles por segundo (velocidad) de la nave nodriza
 #define PPS_CANON           20         // Pixeles por segundo (velocidad) del canon   
@@ -107,7 +106,7 @@
 
 #define DIST_2 (SHIELD_PIXELS_WIDTH + PIXELS_B2IN_SHIELDS)
 
-//***********************************FIN REVISAR CONSTANTES*****************************************/
+//***********************************FIN CONSTANTES*****************************************/
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
@@ -860,8 +859,8 @@ static void getCanonShotCollision(void)
                             if( invaders[i][j].invaderState  )
                             {
                                 collBoxShot_t invaderBox = {  .x = invaders[i][j].blocks[0].x ,
-                                                              .y = invaders[i][j].blocks[0].y ,           // TODO: Hacer una estructura o constante
-                                                              .height = 0,                                // TODO: Cambiar por tamaño invader
+                                                              .y = invaders[i][j].blocks[0].y ,           
+                                                              .height = 0,                                
                                                               .width = 1
                                                            };
                                                            

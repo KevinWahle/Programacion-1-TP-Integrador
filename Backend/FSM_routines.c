@@ -20,8 +20,8 @@
 #define SPEED_LAPSE 5       // Intervalo de tiempo en el que se aumenta la velocidad.
 
 
-#if PLATFORM == ALLEGRO
-#include "../Frontend/Allegro/headall.h" 
+#if PLATFORM == ALLEGRO                          // Se incluyen las funciones del front
+#include "../Frontend/Allegro/headall.h"          
 
 #elif PLATFORM == RASPI
 #include "../Frontend/Raspi/headall.h" 

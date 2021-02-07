@@ -118,7 +118,6 @@ void reviveCanon(void);
 
 /**
  * @brief Ejecuta un disparo del canon
- * @return TODO?: CODIGO DE ERROR?
 */
 void shoot_cannon(void);
 
