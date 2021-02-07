@@ -265,7 +265,7 @@ static int is_invadersOnFloor(void);
 static void shouldInvaderShot(void);
 
 /**
- * @brief Crea un shield direction la ultima direccion con la que se movio el conjunto invader
+ * @brief Crea un shield
  * @param x_shield  la coord en x
  * @param y_shield  la coord en y
  * @param shield_t* shield: Puntero a shield_t
