@@ -1,0 +1,27 @@
+Se conecta la RPi 
+La primera vez uno se conecta al hotspot de la RPi ya sea en una compu o el cel
+En putty o el cel mediante una app tinen que acceder a:
+HostName: pi@raspberrypi.local
+Port: 22 
+Una vez "dentro de la RPi la contraseña es: gedageda
+Luego se configura el wifi con "setwifi" (para configurar el wifi por primera vez cuando estamos en modo hotspot)
+El diodo D4 (verde de abajo) de la placa con el bitmap tiene que estar prendida una vez finalizado el proceso de encendido
+Si estan D4 y D3 encendidos es que está buscando red y si solo esta D3 es que no encontro red
+
+Comandos útiles:
+sudo shutdown now
+sudo reboot
+
+rm
+ls
+cd
+cd..
+tree (en una carpeta, en root te hace el tree de todo la RPi)
+./
+
+Transferir carpetas de PC a Raspi, ese comando se ejecuta en CMD de Windows
+scp -r E:\Coding\Github_Repos\TP_FINAL-P1 pi@raspberrypi:~/test
+Idem pero para archivos!
+scp E:\Coding\Github_Repos\TP_FINAL-P1\const.h pi@raspberrypi:~/test 
+
+ALT+126 = ~
